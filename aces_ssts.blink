@@ -1,0 +1,193 @@
+kernel AcesSSTSKernel : public ImageComputationKernel<ePixelWise>
+{
+  Image<eRead, eAccessPoint, eEdgeClamped> src;
+  Image<eWrite> dst;
+
+param:
+  // User controllable parameters
+  float3 disp_lum;
+  float3 slope;
+  float3 pct;
+  float expShift;
+
+local:
+  float MIN_STOP_SDR;
+  float MAX_STOP_SDR;
+  float MIN_STOP_RRT;
+  float MAX_STOP_RRT;
+  float MIN_LUM_SDR;
+  float MAX_LUM_SDR;
+  float MIN_LUM_RRT;
+  float MAX_LUM_RRT;
+  float3 Min;
+  float3 Mid;
+  float3 Max;
+  float coefsLow[5];
+  float coefsHigh[5];
+  int N_KNOTS_LOW;
+  int N_KNOTS_HIGH;
+  float3x3 M1;
+
+  // -------------------------------------------------------
+  // Utility Functions
+  // -------------------------------------------------------
+
+  // 1D interpolate: return y value at some point p in x
+  // Note: this function is different than the interpolate1D CTL implementation.
+  // CTL_table[2][2] = { { A, B }, { C, D } };
+  // = 
+  // float2 x = float2(A, C)
+  // float2 y = float2(B, D)
+  float interpolate1D(float2 x, float2 y, float p) {
+    if (p <= x.x) {
+      return y.x;
+    } else if (p >= x.y) {
+      return y.y;
+    } else {
+      float slope = (y.y-y.x) / (x.y-x.x);
+      return y.x + slope * (p-x.x);
+    }
+  }
+
+  // multiply a float3 by a matrix3x3
+  float3 mult_f3_f33( float3 src, float3x3 mtx) {
+    return float3(mtx[0][0] * src.x + mtx[0][1] * src.y + 
+    mtx[0][2] * src.z, mtx[1][0] * src.x + mtx[1][1] * src.y + 
+    mtx[1][2] * src.z, mtx[2][0] * src.x + mtx[2][1] * src.y + 
+    mtx[2][2] * src.z);
+  }
+
+  // dot product of two 1x3 matrices
+  float dot_f3_f3( float3 A, float3 B) {
+    return (A.x*B.x)+(A.y*B.y)+(A.z*B.z);
+  }
+
+  // Return interpolated minimum ACES value given a minimum luminance value.
+  float lookup_ACESmin( float minLum ) {
+    float2 rangeLum = float2(log10(float(MIN_LUM_RRT)), log10(float(MIN_LUM_SDR)));
+    float2 rangeStops = float2(MIN_STOP_RRT, MIN_STOP_SDR);
+    return 0.18*pow( float(2), float(interpolate1D( rangeLum, rangeStops, log10( float(minLum)))));
+  }
+  // Return interpolated maximum ACES value given a maximum luminance value.
+  float lookup_ACESmax( float maxLum ) {
+    float2 rangeLum = float2(log10(float(MAX_LUM_SDR)), log10(float(MAX_LUM_RRT)));
+    float2 rangeStops = float2(MAX_STOP_SDR, MAX_STOP_RRT);
+    return 0.18*pow( float(2), float(interpolate1D( rangeLum, rangeStops, log10( float(maxLum)))));
+  }
+
+  float shift( float in, float expShift) {
+    return pow(float(2), (log2(float(in)) - expShift));
+  }
+
+  void init() {
+    // Initialize all constant variables
+    MIN_STOP_SDR = -6.5;
+    MAX_STOP_SDR = 6.5;
+    MIN_STOP_RRT = -15.;
+    MAX_STOP_RRT = 18.;
+    MIN_LUM_SDR = 0.02;
+    MAX_LUM_SDR = 48.0;
+    MIN_LUM_RRT = 0.0001;
+    MAX_LUM_RRT = 10000.0;
+
+    // Get values from node
+    float minLum = disp_lum.x;
+    float maxLum = disp_lum.z;
+
+    
+    // ACESlib.SSTS.ctl :136 init_TsParams 
+    Min = float3(lookup_ACESmin(minLum), minLum, 0.0);
+    Mid = float3(0.18, 4.8, 1.55);
+    Max = float3(lookup_ACESmax(maxLum), maxLum, 0.0);
+    // Min Mid and Max is a float3 :
+    // x = lum (aces), y = lum (cd/m^2), z = slope
+
+    // :145 float cLow[5] = init_coefsLow( MIN_PT, MID_PT);
+    knotIncLow = (log10(Mid.x) - log10(Min.x)) / 3.0;
+    // test.x = knotIncLow;
+    // Determine two lowest coefficients (straddling minPt)
+    coefsLow[0] = (Min.z * (log10(float(Min.x))-0.5*knotIncLow)) + ( log10(float(Min.y)) - Min.z * log10(float(Min.x)));
+    coefsLow[1] = (Min.z * (log10(float(Min.x))+0.5*knotIncLow)) + ( log10(float(Min.y)) - Min.z * log10(float(Min.x)));
+    // Determine two highest coefficients (straddling midPt)
+    coefsLow[3] = (Mid.z * (log10(float(Mid.x))-0.5*knotIncLow)) + ( log10(float(Mid.y)) - Mid.z * log10(float(Mid.x)));
+    coefsLow[4] = (Mid.z * (log10(float(Mid.x))+0.5*knotIncLow)) + ( log10(float(Mid.y)) - Mid.z * log10(float(Mid.x)));
+    // Middle coefficient (which defines the "sharpness of the bend") is linearly interpolated
+    float2 bendsLowA = float2(MIN_STOP_RRT, MIN_STOP_SDR);
+    float2 bendsLowB = float2(0.18, 0.35);
+    pctLow = interpolate1D(bendsLowA, bendsLowB, log2(float(Min.x/0.18)));
+    coefsLow[2] = log10(float(Min.y)) + pctLow*(log10(float(Mid.y))-log10(float(Min.y)));
+
+    // :146 float cHigh[5] = init_coefsHigh( MID_PT, MAX_PT);
+    knotIncHigh = (log10(Max.x) - log10(Mid.x)) / 3.;
+    // DeterMine two lowest coefficients (straddling MidPt)
+    coefsHigh[0] = (Mid.z * (log10(float(Mid.x))-0.5*knotIncHigh)) + ( log10(float(Mid.y)) - Mid.z * log10(float(Mid.x)));
+    coefsHigh[1] = (Mid.z * (log10(float(Mid.x))+0.5*knotIncHigh)) + ( log10(float(Mid.y)) - Mid.z * log10(float(Mid.x)));
+    // DeterMide two highest coefficients (straddling maxPt)
+    coefsHigh[3] = (Max.z * (log10(float(Max.x))-0.5*knotIncHigh)) + ( log10(float(Max.y)) - Max.z * log10(float(Max.x)));
+    coefsHigh[4] = (Max.z * (log10(float(Max.x))+0.5*knotIncHigh)) + ( log10(float(Max.y)) - Max.z * log10(float(Max.x)));
+    // Middle coefficient (which defines the "sharpness of the bend") is linearly interpolated
+    float2 bendsHighA = float2(MAX_STOP_SDR, MAX_STOP_RRT);
+    float2 bendsHighB = float2(0.89, 0.90);
+    pctHigh = interpolate1D(bendsHighA, bendsHighB, log2(float(Max.x/0.18)));
+    coefsHigh[2] = log10(float(Mid.y)) + pctHigh*(log10(float(Max.y))-log10(float(Mid.y)));
+
+    // :140 - init_TsParams : Exposure Shift
+    Min.x = shift(lookup_ACESmin(minLum), expShift);
+    Mid.x = shift(0.18, expShift);
+    Max.x = shift(lookup_ACESmax(maxLum), expShift);
+
+    float Marray[] = {0.5, -1.0, 0.5, 
+                      -1.0, 1.0, 0.0, 
+                      0.5, 0.5, 0.0};
+    M1.setArray(Marray);
+
+    N_KNOTS_LOW = 4;
+    N_KNOTS_HIGH = 4;
+  }
+
+
+
+  float ssts(float x) {
+    // ACES Single Stage Tone Scale
+
+    // Take the log: clamp min to HALF_MIN
+    float logx = log10(max(x, 5.96046448e-08));
+    float logy;
+
+    // Calculate values for linear extension in shadows
+    if (logx <= log10(float(Min.x))) {
+      logy = logx * Min.z + (log10(float(Min.y))) - 
+        Min.z * log10(float(Min.x));
+    }
+    // Calculate values for lower half of S-curve, shadows 
+    else if (( logx > log10(float(Min.x)) ) && ( logx < log10(float(Mid.x)) )) {
+      float knot_coord = (N_KNOTS_LOW-1) * (logx-log10(float(Min.x)))/
+        (log10(float(Mid.x))-log10(float(Min.x)));
+      int j = knot_coord;
+      float t = knot_coord - j;
+      float3 cf = float3(coefsLow[j], coefsLow[j + 1], coefsLow[j + 2]);
+      float3 monomials = float3(t * t, t, 1.);
+      logy = dot_f3_f3(monomials, mult_f3_f33(cf, M1));
+    }
+    // Calculate values for upper half of S-curve, highlights
+    else if (( logx >= log10(float(Mid.x)) ) && ( logx < log10(float(Max.x)) )) {
+      float knot_coord = (N_KNOTS_HIGH-1) * (logx-log10(float(Mid.x)))/
+        (log10(float(Max.x))-log10(float(Mid.x)));
+      int j = knot_coord;
+      float t = knot_coord - j;
+      float3 cf = float3(coefsHigh[j], coefsHigh[j + 1], coefsHigh[j + 2]); 
+      float3 monomials = float3(t * t, t, 1.);
+      logy = dot_f3_f3(monomials, mult_f3_f33(cf, M1));
+    }
+    // Calculate values for linear extension in highlights
+    else { // if ( logx >= log10(float(Max.x)) ) {
+      logy = logx * Max.z + ( log10(float(Max.y)) - Max.z * log10(float(Max.x)) );
+    }
+    // un-log
+    return  pow(float(10),logy);
+  }
+
+  void process() {
+    dst() = float4(ssts(src().x), ssts(src().y), ssts(src().z), src().w);
+  }
+};
