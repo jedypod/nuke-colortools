@@ -6,8 +6,10 @@ kernel AcesSSTSKernel : public ImageComputationKernel<ePixelWise>
 param:
   // User controllable parameters
   float3 disp_lum;
+  bool override_curve_params;
+  float knee;
+  float shoulder;
   float3 slope;
-  float3 pct;
   float expShift;
 
 local:
@@ -75,12 +77,88 @@ local:
     return 0.18*pow( float(2), float(interpolate1D( rangeLum, rangeStops, log10( float(maxLum)))));
   }
 
+  void init_coefsLow( float3 TsPointLow, float3 TsPointMid ) {
+    // :145 float cLow[5] = init_coefsLow( MIN_PT, MID_PT);
+    float knotIncLow = (log10(TsPointMid.x) - log10(TsPointLow.x)) / 3.0;
+    // DeterTsPointLowe two lowest coefficients (straddling TsPointLowPt)
+    coefsLow[0] = (TsPointLow.z * (log10(float(TsPointLow.x))-0.5*knotIncLow)) + ( log10(float(TsPointLow.y)) - TsPointLow.z * log10(float(TsPointLow.x)));
+    coefsLow[1] = (TsPointLow.z * (log10(float(TsPointLow.x))+0.5*knotIncLow)) + ( log10(float(TsPointLow.y)) - TsPointLow.z * log10(float(TsPointLow.x)));
+    // DeterTsPointLowe two highest coefficients (straddling TsPointMidPt)
+    coefsLow[3] = (TsPointMid.z * (log10(float(TsPointMid.x))-0.5*knotIncLow)) + ( log10(float(TsPointMid.y)) - TsPointMid.z * log10(float(TsPointMid.x)));
+    coefsLow[4] = (TsPointMid.z * (log10(float(TsPointMid.x))+0.5*knotIncLow)) + ( log10(float(TsPointMid.y)) - TsPointMid.z * log10(float(TsPointMid.x)));
+    // TsPointMiddle coefficient (which defines the "sharpness of the bend") is linearly interpolated
+    float2 bendsLowA = float2(MIN_STOP_RRT, MIN_STOP_SDR);
+    float2 bendsLowB = float2(0.18, 0.35);
+    float pctLow;
+    if (override_curve_params == 1) {
+      pctLow = knee;
+    }
+    else {
+      pctLow = interpolate1D(bendsLowA, bendsLowB, log2(float(TsPointLow.x/0.18)));
+    }
+    coefsLow[2] = log10(float(TsPointLow.y)) + pctLow*(log10(float(TsPointMid.y))-log10(float(TsPointLow.y)));
+  }
+
+  void init_coefsHigh( float3 TsPointMid, float3 TsPointMax ) {
+    // :146 float cHigh[5] = init_coefsHigh( MID_PT, MAX_PT);
+    float knotIncHigh = (log10(TsPointMax.x) - log10(TsPointMid.x)) / 3.;
+    // DeterMine two lowest coefficients (straddling MidPt)
+    coefsHigh[0] = (TsPointMid.z * (log10(float(TsPointMid.x))-0.5*knotIncHigh)) + ( log10(float(TsPointMid.y)) - TsPointMid.z * log10(float(TsPointMid.x)));
+    coefsHigh[1] = (TsPointMid.z * (log10(float(TsPointMid.x))+0.5*knotIncHigh)) + ( log10(float(TsPointMid.y)) - TsPointMid.z * log10(float(TsPointMid.x)));
+    // DeterMide two highest coefficients (straddling TsPointMaxPt)
+    coefsHigh[3] = (TsPointMax.z * (log10(float(TsPointMax.x))-0.5*knotIncHigh)) + ( log10(float(TsPointMax.y)) - TsPointMax.z * log10(float(TsPointMax.x)));
+    coefsHigh[4] = (TsPointMax.z * (log10(float(TsPointMax.x))+0.5*knotIncHigh)) + ( log10(float(TsPointMax.y)) - TsPointMax.z * log10(float(TsPointMax.x)));
+    // Middle coefficient (which defines the "sharpness of the bend") is linearly interpolated
+    float2 bendsHighA = float2(MAX_STOP_SDR, MAX_STOP_RRT);
+    float2 bendsHighB = float2(0.89, 0.90);
+    float pctHigh;
+    if (override_curve_params == 1) {
+      pctHigh = shoulder;
+    }
+    else {
+      pctHigh = interpolate1D(bendsHighA, bendsHighB, log2(float(TsPointMax.x/0.18)));
+    }
+    coefsHigh[2] = log10(float(TsPointMid.y)) + pctHigh*(log10(float(TsPointMax.y))-log10(float(TsPointMid.y)));
+  }
+
   float shift( float in, float expShift) {
     return pow(float(2), (log2(float(in)) - expShift));
   }
 
+  void init_TsParams( float minLum, float maxLum, float exp_shift ) {
+    // ACESlib.SSTS.ctl :136 init_TsParams 
+    // Min Mid and Max is a float3 :
+    // x = lum (aces), y = lum (cd/m^2), z = slope
+
+    // override slope with default values used in AMPAS CTL
+    if (override_curve_params == 1) {
+      Min = float3(lookup_ACESmin(minLum), minLum, float(slope.x));
+      Mid = float3(0.18, 4.8, float(slope.y));
+      Max = float3(lookup_ACESmax(maxLum), maxLum, float(slope.z));   
+    }
+    else {
+      Min = float3(lookup_ACESmin(minLum), minLum, float(0.0));
+      Mid = float3(0.18, 4.8, float(1.55));
+      Max = float3(lookup_ACESmax(maxLum), maxLum, float(0.0));
+    }
+
+    // init coefsLow and coefsHigh (directly sets local variables).
+    init_coefsLow( Min, Mid );
+    init_coefsHigh( Mid, Max );
+
+    // :140 - init_TsParams : Exposure Shift
+    Min.x = shift(lookup_ACESmin(minLum), exp_shift);
+    Mid.x = shift(0.18, exp_shift);
+    Max.x = shift(lookup_ACESmax(maxLum), exp_shift);
+
+    // PARAMS = 
+    // float3 Min / float3 Mid / float3 Max 
+    // coefsLow[5]
+    // coefsHigh[5]
+  }
+
   void init() {
-    // Initialize all constant variables
+    // Textbook monomial to basis-function conversion matrix. (Used in tonescale)
     MIN_STOP_SDR = -6.5;
     MAX_STOP_SDR = 6.5;
     MIN_STOP_RRT = -15.;
@@ -89,53 +167,7 @@ local:
     MAX_LUM_SDR = 48.0;
     MIN_LUM_RRT = 0.0001;
     MAX_LUM_RRT = 10000.0;
-
-    // Get values from node
-    float minLum = disp_lum.x;
-    float maxLum = disp_lum.z;
-
-    
-    // ACESlib.SSTS.ctl :136 init_TsParams 
-    Min = float3(lookup_ACESmin(minLum), minLum, 0.0);
-    Mid = float3(0.18, 4.8, 1.55);
-    Max = float3(lookup_ACESmax(maxLum), maxLum, 0.0);
-    // Min Mid and Max is a float3 :
-    // x = lum (aces), y = lum (cd/m^2), z = slope
-
-    // :145 float cLow[5] = init_coefsLow( MIN_PT, MID_PT);
-    knotIncLow = (log10(Mid.x) - log10(Min.x)) / 3.0;
-    // test.x = knotIncLow;
-    // Determine two lowest coefficients (straddling minPt)
-    coefsLow[0] = (Min.z * (log10(float(Min.x))-0.5*knotIncLow)) + ( log10(float(Min.y)) - Min.z * log10(float(Min.x)));
-    coefsLow[1] = (Min.z * (log10(float(Min.x))+0.5*knotIncLow)) + ( log10(float(Min.y)) - Min.z * log10(float(Min.x)));
-    // Determine two highest coefficients (straddling midPt)
-    coefsLow[3] = (Mid.z * (log10(float(Mid.x))-0.5*knotIncLow)) + ( log10(float(Mid.y)) - Mid.z * log10(float(Mid.x)));
-    coefsLow[4] = (Mid.z * (log10(float(Mid.x))+0.5*knotIncLow)) + ( log10(float(Mid.y)) - Mid.z * log10(float(Mid.x)));
-    // Middle coefficient (which defines the "sharpness of the bend") is linearly interpolated
-    float2 bendsLowA = float2(MIN_STOP_RRT, MIN_STOP_SDR);
-    float2 bendsLowB = float2(0.18, 0.35);
-    pctLow = interpolate1D(bendsLowA, bendsLowB, log2(float(Min.x/0.18)));
-    coefsLow[2] = log10(float(Min.y)) + pctLow*(log10(float(Mid.y))-log10(float(Min.y)));
-
-    // :146 float cHigh[5] = init_coefsHigh( MID_PT, MAX_PT);
-    knotIncHigh = (log10(Max.x) - log10(Mid.x)) / 3.;
-    // DeterMine two lowest coefficients (straddling MidPt)
-    coefsHigh[0] = (Mid.z * (log10(float(Mid.x))-0.5*knotIncHigh)) + ( log10(float(Mid.y)) - Mid.z * log10(float(Mid.x)));
-    coefsHigh[1] = (Mid.z * (log10(float(Mid.x))+0.5*knotIncHigh)) + ( log10(float(Mid.y)) - Mid.z * log10(float(Mid.x)));
-    // DeterMide two highest coefficients (straddling maxPt)
-    coefsHigh[3] = (Max.z * (log10(float(Max.x))-0.5*knotIncHigh)) + ( log10(float(Max.y)) - Max.z * log10(float(Max.x)));
-    coefsHigh[4] = (Max.z * (log10(float(Max.x))+0.5*knotIncHigh)) + ( log10(float(Max.y)) - Max.z * log10(float(Max.x)));
-    // Middle coefficient (which defines the "sharpness of the bend") is linearly interpolated
-    float2 bendsHighA = float2(MAX_STOP_SDR, MAX_STOP_RRT);
-    float2 bendsHighB = float2(0.89, 0.90);
-    pctHigh = interpolate1D(bendsHighA, bendsHighB, log2(float(Max.x/0.18)));
-    coefsHigh[2] = log10(float(Mid.y)) + pctHigh*(log10(float(Max.y))-log10(float(Mid.y)));
-
-    // :140 - init_TsParams : Exposure Shift
-    Min.x = shift(lookup_ACESmin(minLum), expShift);
-    Mid.x = shift(0.18, expShift);
-    Max.x = shift(lookup_ACESmax(maxLum), expShift);
-
+    // Monomial to basis function
     float Marray[] = {0.5, -1.0, 0.5, 
                       -1.0, 1.0, 0.0, 
                       0.5, 0.5, 0.0};
@@ -143,8 +175,21 @@ local:
 
     N_KNOTS_LOW = 4;
     N_KNOTS_HIGH = 4;
-  }
 
+    // Get min / max lum from user
+    float Y_MIN = disp_lum.x;
+    float Y_MID = disp_lum.y;
+    float Y_MAX = disp_lum.z;
+
+
+    init_TsParams( Y_MIN, Y_MAX, 0.0 );
+
+    // Define expShift from inv_ssts
+    // expShift = log2(inv_ssts(Y_MID, PARAMS_DEFAULT))-log2(float(0.18));
+
+    init_TsParams( Y_MIN, Y_MAX, expShift );
+
+  }
 
 
   float ssts(float x) {
@@ -188,6 +233,8 @@ local:
   }
 
   void process() {
+
+    // dst() = float4(Min.z, Mid.z, Max.z, src().w);
     dst() = float4(ssts(src().x), ssts(src().y), ssts(src().z), src().w);
   }
 };
