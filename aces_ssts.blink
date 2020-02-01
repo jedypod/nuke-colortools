@@ -10,7 +10,8 @@ param:
   float knee;
   float shoulder;
   float3 slope;
-  float expShift;
+  float exposure;
+  bool invert;
 
 local:
   float MIN_STOP_SDR;
@@ -24,6 +25,7 @@ local:
   float3 Min;
   float3 Mid;
   float3 Max;
+  float expShift;
   float coefsLow[5];
   float coefsHigh[5];
   int N_KNOTS_LOW;
@@ -185,15 +187,14 @@ local:
     init_TsParams( Y_MIN, Y_MAX, 0.0 );
 
     // Define expShift from inv_ssts
-    // expShift = log2(inv_ssts(Y_MID, PARAMS_DEFAULT))-log2(float(0.18));
+    expShift = log2(float(inv_ssts(Y_MID))-log2(float(0.18))) + exposure;
 
     init_TsParams( Y_MIN, Y_MAX, expShift );
-
   }
 
 
-  float ssts(float x) {
-    // ACES Single Stage Tone Scale
+  // ACES Single Stage Tone Scale
+  float ssts( float x ) {
 
     // Take the log: clamp min to HALF_MIN
     float logx = log10(max(x, 5.96046448e-08));
@@ -232,9 +233,98 @@ local:
     return  pow(float(10),logy);
   }
 
+
+  // ACES Inverse Single Stage Tone Scale
+  float inv_ssts( float y ) {
+
+    float KNOT_INC_LOW = (log10(float(Mid.x)) - log10(float(Min.x))) / (N_KNOTS_LOW - 1.);
+    float KNOT_INC_HIGH = (log10(float(Max.x)) - log10(float(Mid.x))) / (N_KNOTS_HIGH - 1.);
+
+    // KNOT_Y is luminance of the spline at each knot
+    // Error 1: variable length arrays are not supported in OpenCL
+    // float __KNOT_Y_LOW_38[N_KNOTS_LOW];
+    // Setting array length to 4 manually as a workaround... :(
+    float KNOT_Y_LOW[ 4];
+    for (int i = 0; i < N_KNOTS_LOW; i = i+1) {
+      KNOT_Y_LOW[ i] = ( coefsLow[i] + coefsLow[i+1]) / 2.;
+    }
+    // Setting array length to 4 manually as a workaround...
+    float KNOT_Y_HIGH[ 4];
+    for (int i = 0; i < N_KNOTS_HIGH; i = i+1) {
+      KNOT_Y_HIGH[ i] = ( coefsHigh[i] + coefsHigh[i+1]) / 2.;
+    };
+
+    float logy = log10( max(y, 1e-10));
+    float logx;
+
+    if (logy <= log10(float(Min.y))) {
+        logx = log10(float(Min.x));
+
+    } else if ( (logy > log10(float(Min.y))) && (logy <= log10(float(Mid.y))) ) {
+        int j;
+        float3 cf;
+        if ( logy > KNOT_Y_LOW[ 0] && logy <= KNOT_Y_LOW[ 1]) {
+            cf.x = coefsLow[0];  cf.y = coefsLow[1];  cf.z = coefsLow[2];  j = 0;
+        } else if ( logy > KNOT_Y_LOW[ 1] && logy <= KNOT_Y_LOW[ 2]) {
+            cf.x = coefsLow[1];  cf.y = coefsLow[2];  cf.z = coefsLow[3];  j = 1;
+        } else if ( logy > KNOT_Y_LOW[ 2] && logy <= KNOT_Y_LOW[ 3]) {
+            cf.x = coefsLow[2];  cf.y = coefsLow[3];  cf.z = coefsLow[4];  j = 2;
+        } 
+
+        float3 tmp = mult_f3_f33( cf, M1);
+        float a = tmp.x;
+        float b = tmp.y;
+        float c = tmp.z;
+        c = c - logy;
+
+        const float d = sqrt(float(b * b - 4. * a * c));
+
+        const float t = ( 2. * c) / ( -d - b);
+
+        logx = log10(float(Min.x)) + ( t + j) * KNOT_INC_LOW;
+
+    } else if ( (logy > log10(float(Mid.y))) && (logy < log10(float(Max.y))) ) {
+        int j;
+        float3 cf;
+        if ( logy >= KNOT_Y_HIGH[ 0] && logy <= KNOT_Y_HIGH[ 1]) {
+            cf.x = coefsHigh[0];  cf.y = coefsHigh[1];  cf.z = coefsHigh[2];  j = 0;
+        } else if ( logy > KNOT_Y_HIGH[ 1] && logy <= KNOT_Y_HIGH[ 2]) {
+            cf.x = coefsHigh[1];  cf.y = coefsHigh[2];  cf.z = coefsHigh[3];  j = 1;
+        } else if ( logy > KNOT_Y_HIGH[ 2] && logy <= KNOT_Y_HIGH[ 3]) {
+            cf.x = coefsHigh[2];  cf.y = coefsHigh[3];  cf.z = coefsHigh[4];  j = 2;
+        } 
+
+        float3 tmp = mult_f3_f33( cf, M1);
+
+        float a = tmp.x;
+        float b = tmp.y;
+        float c = tmp.z;
+        c = c - logy;
+
+        const float d = sqrt( float(b * b - 4. * a * c));
+
+        const float t = ( 2. * c) / ( -d - b);
+
+        logx = log10(float(Mid.x)) + ( t + j) * KNOT_INC_HIGH;
+
+    } else { //if ( logy >= log10(float(Max.y)) ) {
+
+        logx = log10(float(Max.x));
+
+    }
+
+    return pow(10, logx);
+
+  }
+
   void process() {
 
     // dst() = float4(Min.z, Mid.z, Max.z, src().w);
-    dst() = float4(ssts(src().x), ssts(src().y), ssts(src().z), src().w);
+    if (invert == 1 ) {
+      dst() = float4(inv_ssts(src().x), inv_ssts(src().y), inv_ssts(src().z), src().w);
+    }
+    else {
+      dst() = float4(ssts(src().x), ssts(src().y), ssts(src().z), src().w);
+    }
   }
 };
