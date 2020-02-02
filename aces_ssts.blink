@@ -1,4 +1,4 @@
-kernel AcesSSTSKernel : public ImageComputationKernel<ePixelWise>
+kernel AcesSSTSKernel : public ImageComputationKernel<eComponentWise>
 {
   Image<eRead, eAccessPoint, eEdgeClamped> src;
   Image<eWrite> dst;
@@ -325,10 +325,10 @@ local:
   void process() {
 
     if (invert == 1 ) {
-      dst() = float4(inv_ssts(src().x), inv_ssts(src().y), inv_ssts(src().z), src().w);
+      dst() = inv_ssts(src());
     }
     else {
-      dst() = float4(ssts(src().x), ssts(src().y), ssts(src().z), src().w);
+      dst() = ssts(src());
     }
   }
 };
