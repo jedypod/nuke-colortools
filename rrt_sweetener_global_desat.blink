@@ -1,0 +1,61 @@
+kernel ACES_rrt_sweeteners : public ImageComputationKernel<ePixelWise>
+{
+  Image<eRead, eAccessPoint, eEdgeClamped> src;
+  Image<eWrite> dst;
+
+param:
+  // User controllable parameters
+  float RRT_SAT_FACTOR;
+  // // Desaturation constants
+  // RRT_SAT_FACTOR = 0.96;
+
+local:
+  float3 AP1_RGB2Y;
+  float3x3 RRT_SAT_MAT;
+
+  float3 mult_f3_f33( float3 src, float3x3 mtx) {
+    return float3(mtx[0][0] * src.x + mtx[0][1] * src.y + 
+    mtx[0][2] * src.z, mtx[1][0] * src.x + mtx[1][1] * src.y + 
+    mtx[1][2] * src.z, mtx[2][0] * src.x + mtx[2][1] * src.y + 
+    mtx[2][2] * src.z);
+  }
+
+  float3x3 calc_sat_adjust_matrix( float sat, float3 rgb2Y) {
+    // This function determines the terms for a 3x3 saturation matrix
+    // based on the luminance of the input.
+    float3x3 M;
+    M[0][0] = (1.0 - sat) * rgb2Y.x + sat;
+    M[1][0] = (1.0 - sat) * rgb2Y.x;
+    M[2][0] = (1.0 - sat) * rgb2Y.x;
+    
+    M[0][1] = (1.0 - sat) * rgb2Y.y;
+    M[1][1] = (1.0 - sat) * rgb2Y.y + sat;
+    M[2][1] = (1.0 - sat) * rgb2Y.y;
+    
+    M[0][2] = (1.0 - sat) * rgb2Y.z;
+    M[1][2] = (1.0 - sat) * rgb2Y.z;
+    M[2][2] = (1.0 - sat) * rgb2Y.z + sat;
+
+    M = M.transpose();
+    return M;
+  } 
+
+
+  void init() {
+    // center line from AP1_2_XYZ_MAT is as follows: see 
+    // https://github.com/ampas/aces-dev/blob/master/transforms/ctl/README-MATRIX.md
+    AP1_RGB2Y = float3(0.2722287168, 0.6740817658, 0.0536895174);
+    RRT_SAT_MAT = calc_sat_adjust_matrix( RRT_SAT_FACTOR, AP1_RGB2Y);
+  }
+
+
+  void process() {
+    float3 aces = float3(src().x, src().y, src().z);
+
+    // --- Global desaturation --- //
+    aces = mult_f3_f33( aces, RRT_SAT_MAT);
+
+    dst() = float4(aces.x, aces.y, aces.z, src().w);
+
+  }
+};

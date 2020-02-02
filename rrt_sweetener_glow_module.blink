@@ -1,0 +1,71 @@
+kernel ACES_rrt_sweetener_glow_module : public ImageComputationKernel<ePixelWise>
+{
+  Image<eRead, eAccessPoint, eEdgeClamped> src;
+  Image<eWrite> dst;
+
+param:
+  // User controllable parameters
+  float RRT_GLOW_GAIN;
+  float RRT_GLOW_MID;
+  bool invert;
+  // "Glow" module constants
+  // RRT_GLOW_GAIN = 0.05;
+  // RRT_GLOW_MID = 0.08;
+
+
+  float3 mult_f_f3( float x, float3 rgb) {
+    return float3(rgb.x*x, rgb.y*x, rgb.z*x);
+  }
+
+  float min_f3(float3 a) {
+    return min( a.x, min( a.y, a.z));
+  }
+
+  float max_f3(float3 a) {
+    return max( a.x, max( a.y, a.z));
+  }
+
+  float rgb_2_saturation( float3 rgb ) {
+    return ( max( max_f3(rgb), 1e-10) - max( min_f3(rgb), 1e-10)) / max( max_f3(rgb), 1e-2);
+  }
+
+  float sigmoid_shaper( float x) {
+    float t = max( float(1. - fabs( float(x / 2.))), float(0));
+    float y = 1. + sign(float(x)) * (1. - t * t);
+    return y / 2.;
+  }
+
+  float rgb_2_yc( float3 rgb, float ycRadiusWeight) {
+    // keyword arguments don't work with blink.. ycRadiusWeight default if not specified was 1.75
+    float r = rgb.x; 
+    float g = rgb.y; 
+    float b = rgb.z;
+    float chroma = sqrt(float(b*(b-g)+g*(g-r)+r*(r-b)));
+    return ( b + g + r + ycRadiusWeight * chroma) / 3.;
+  }
+
+  // ------- Glow module functions
+  float glow_fwd( float ycIn, float glowGainIn, float glowMid) {
+     float glowGainOut;
+     if (ycIn <= 2./3. * glowMid) {
+       glowGainOut = glowGainIn;
+     } else if ( ycIn >= 2. * glowMid) {
+       glowGainOut = 0.;
+     } else {
+       glowGainOut = glowGainIn * (glowMid / ycIn - 1./2.);
+     }
+     return glowGainOut;
+  }
+
+  void process() {
+    float3 aces = float3(src().x, src().y, src().z);
+
+    // --- Glow module --- //
+    float saturation = rgb_2_saturation(aces);
+    float s = sigmoid_shaper( (saturation - 0.4) / 0.2);
+    float ycIn = rgb_2_yc( aces, 1.75);
+    float addedGlow = 1. + glow_fwd( saturation, RRT_GLOW_GAIN * s, RRT_GLOW_MID);
+    aces = mult_f_f3( addedGlow, aces);
+    dst() = float4(aces.x, aces.y, aces.z, src().w);
+  }
+};
