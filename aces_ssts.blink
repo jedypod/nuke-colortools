@@ -37,7 +37,10 @@ local:
   // -------------------------------------------------------
 
   // 1D interpolate: return y value at some point p in x
-  // Note: this function is different than the interpolate1D CTL implementation.
+  // This function differs from the interpolate1D CTL implementation.
+  // It is limited to 2 float2 vectors, x and y
+  // given a position p between x.x and x.y, it returns an interpolated
+  // value between y.x and y.y
   // CTL_table[2][2] = { { A, B }, { C, D } };
   // = 
   // float2 x = float2(A, C)
@@ -187,7 +190,9 @@ local:
     init_TsParams( Y_MIN, Y_MAX, 0.0 );
 
     // Define expShift from inv_ssts
-    expShift = log2(float(inv_ssts(Y_MID))-log2(float(0.18))) + exposure;
+    expShift = (log2(inv_ssts(Y_MID)) - log2(0.18)) + exposure;
+
+    // expShift = log2(inv_ssts(Y_MID)) - log2(0.18);
 
     init_TsParams( Y_MIN, Y_MAX, expShift );
   }
@@ -319,7 +324,6 @@ local:
 
   void process() {
 
-    // dst() = float4(Min.z, Mid.z, Max.z, src().w);
     if (invert == 1 ) {
       dst() = float4(inv_ssts(src().x), inv_ssts(src().y), inv_ssts(src().z), src().w);
     }
