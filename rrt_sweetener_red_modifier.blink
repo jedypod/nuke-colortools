@@ -120,13 +120,29 @@ param:
 
   void process() {
     float3 aces = float3(src().x, src().y, src().z);
+
     float saturation = rgb_2_saturation(aces);
 
     // --- Red modifier --- //
     float hue = rgb_2_hue( aces);
     float centeredHue = center_hue( hue, RRT_RED_HUE);
     float hueWeight = cubic_basis_shaper( centeredHue, RRT_RED_WIDTH);
-    aces.x = aces.x + hueWeight * saturation * (RRT_RED_PIVOT - aces.x) * (1. - RRT_RED_SCALE);
+
+    if ( invert == 0 ) {
+      aces.x = aces.x + hueWeight * saturation * (RRT_RED_PIVOT - aces.x) * (1. - RRT_RED_SCALE);
+    } 
+    else { // invert red modifier: note that this is not mathematically perfect
+      float minChan;
+      if (centeredHue < 0) { // min_f3(aces) = aces[1] (i.e. magenta-red)
+        minChan = aces.x;
+      } else { // min_f3(aces) = aces[2] (i.e. yellow-red)
+        minChan = aces.y;
+      }
+      float a = hueWeight * (1. - RRT_RED_SCALE) - 1.;
+      float b = aces.x - hueWeight * (RRT_RED_PIVOT + minChan) * (1. - RRT_RED_SCALE);
+      float c = hueWeight * RRT_RED_PIVOT * minChan * (1. - RRT_RED_SCALE);
+      aces.x = ( -b - sqrt( float(b * b - 4. * a * c )) ) / ( 2. * a);
+    }
 
     dst() = float4(aces.x, aces.y, aces.z, src().w);
   }

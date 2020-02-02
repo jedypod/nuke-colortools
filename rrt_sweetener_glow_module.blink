@@ -57,6 +57,18 @@ param:
      return glowGainOut;
   }
 
+  float glow_inv( float ycOut, float glowGainIn, float glowMid) {
+      float glowGainOut;
+      if (ycOut <= ((1 + glowGainIn) * 2./3. * glowMid)) {
+        glowGainOut = -glowGainIn / (1 + glowGainIn);
+      } else if ( ycOut >= (2. * glowMid)) {
+        glowGainOut = 0.;
+      } else {
+        glowGainOut = glowGainIn * (glowMid / ycOut - 1./2.) / (glowGainIn / 2. - 1.);
+      }
+      return glowGainOut;
+  }
+
   void process() {
     float3 aces = float3(src().x, src().y, src().z);
 
@@ -64,8 +76,15 @@ param:
     float saturation = rgb_2_saturation(aces);
     float s = sigmoid_shaper( (saturation - 0.4) / 0.2);
     float ycIn = rgb_2_yc( aces, 1.75);
-    float addedGlow = 1. + glow_fwd( saturation, RRT_GLOW_GAIN * s, RRT_GLOW_MID);
-    aces = mult_f_f3( addedGlow, aces);
+    if ( invert == 0 ) {
+      float addedGlow = 1. + glow_fwd( saturation, RRT_GLOW_GAIN * s, RRT_GLOW_MID);
+      aces = mult_f_f3( addedGlow, aces);
+    }
+    else {
+      float reducedGlow = 1. + glow_inv( ycIn, RRT_GLOW_GAIN * s, RRT_GLOW_MID);
+      aces = mult_f_f3( ( reducedGlow), aces);
+    }
+    
     dst() = float4(aces.x, aces.y, aces.z, src().w);
   }
 };
