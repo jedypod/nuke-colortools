@@ -1,4 +1,4 @@
-kernel ACES_rrt_sweeteners : public ImageComputationKernel<ePixelWise>
+kernel ACES_rrt_sweetener_global_desat : public ImageComputationKernel<ePixelWise>
 {
   Image<eRead, eAccessPoint, eEdgeClamped> src;
   Image<eWrite> dst;
@@ -10,7 +10,6 @@ param:
   // RRT_SAT_FACTOR = 0.96;
 
 local:
-  float3 AP1_RGB2Y;
   float3x3 RRT_SAT_MAT;
 
   float3 mult_f3_f33( float3 src, float3x3 mtx) {
@@ -18,6 +17,54 @@ local:
     mtx[0][2] * src.z, mtx[1][0] * src.x + mtx[1][1] * src.y + 
     mtx[1][2] * src.z, mtx[2][0] * src.x + mtx[2][1] * src.y + 
     mtx[2][2] * src.z);
+  }
+
+  // Calculate RGB to XYZ 3x3 matrix given colorspace chromaticities and whitepoint
+  // and Y the luminance level of "white"
+  // Copying implementation from CTL source: CtlColorSpace.cpp : 77
+  float3x3 RGBtoXYZ(float2(r), float2(g), float2(b), float2(w), float Y) {
+    // X and Z values of RGB value (1, 1, 1), or "white"
+    float X = w.x * Y / w.y;
+    float Z = (1 - w.x - w.y) * Y / w.y;
+    
+    // Scale factors for matrix rows
+    float d = r.x * (b.y - g.y) + b.x * (g.y - r.y) + g.x * (r.y - b.y);
+
+    float Sr = (X * (b.y - g.y) -
+      g.x * (Y * (b.y - 1) +
+      b.y  * (X + Z)) +
+      b.x  * (Y * (g.y - 1) +
+      g.y * (X + Z))) / d;
+
+    float Sg = (X * (r.y - b.y) +
+      r.x   * (Y * (b.y - 1) +
+      b.y  * (X + Z)) -
+      b.x  * (Y * (r.y - 1) +
+      r.y   * (X + Z))) / d;
+    
+    float Sb = (X * (g.y - r.y) -
+      r.x   * (Y * (g.y - 1) +
+      g.y * (X + Z)) +
+      g.x * (Y * (r.y - 1) +
+      r.y   * (X + Z))) / d;
+    
+    // Assemble the matrix
+    float3x3 M;
+    M[0][0] = Sr * r.x;
+    M[0][1] = Sr * r.y;
+    M[0][2] = Sr * (1 - r.x - r.y);
+    M[1][0] = Sg * g.x;
+    M[1][1] = Sg * g.y;
+    M[1][2] = Sg * (1 - g.x - g.y);
+    M[2][0] = Sb * b.x;
+    M[2][1] = Sb * b.y;
+    M[2][2] = Sb * (1 - b.x - b.y);
+
+    return M;
+  }
+
+  float3x3 XYZtoRGB(float2(r), float2(g), float2(b), float2(w), float Y) {
+    return RGBtoXYZ (r, g, b, w, Y).invert();
   }
 
   float3x3 calc_sat_adjust_matrix( float sat, float3 rgb2Y) {
@@ -36,26 +83,27 @@ local:
     M[1][2] = (1.0 - sat) * rgb2Y.z;
     M[2][2] = (1.0 - sat) * rgb2Y.z + sat;
 
-    M = M.transpose();
+    M.transpose();
     return M;
   } 
 
-
-  void init() {
-    // center line from AP1_2_XYZ_MAT is as follows: see 
-    // https://github.com/ampas/aces-dev/blob/master/transforms/ctl/README-MATRIX.md
-    AP1_RGB2Y = float3(0.2722287168, 0.6740817658, 0.0536895174);
-    RRT_SAT_MAT = calc_sat_adjust_matrix( RRT_SAT_FACTOR, AP1_RGB2Y);
+  float3x3 calc_RRT_SAT_MAT() {
+    float2 ap1_r = float2(0.713,    0.293);
+    float2 ap1_g = float2(0.165,    0.830);
+    float2 ap1_b = float2(0.128,    0.044);
+    float2 ap1_w = float2(0.32168,  0.3376);
+    float3x3 AP1_2_XYZ_MAT = RGBtoXYZ(ap1_r, ap1_g, ap1_b, ap1_w, 1.0);
+    float3 AP1_RGB2Y = float3(AP1_2_XYZ_MAT[0][1], AP1_2_XYZ_MAT[1][1], AP1_2_XYZ_MAT[2][1]);
+    return calc_sat_adjust_matrix( RRT_SAT_FACTOR, AP1_RGB2Y);
   }
 
+  void init() {
+    RRT_SAT_MAT = calc_RRT_SAT_MAT();
+  }
 
   void process() {
     float3 aces = float3(src().x, src().y, src().z);
-
-    // --- Global desaturation --- //
     aces = mult_f3_f33( aces, RRT_SAT_MAT);
-
     dst() = float4(aces.x, aces.y, aces.z, src().w);
-
   }
 };
