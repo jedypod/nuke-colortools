@@ -5,12 +5,14 @@ kernel ACES_rrt_sweetener_global_desat : public ImageComputationKernel<ePixelWis
 
 param:
   // User controllable parameters
-  float RRT_SAT_FACTOR;
+  float SAT_FACTOR;
+  bool invert;
   // // Desaturation constants
   // RRT_SAT_FACTOR = 0.96;
+  // ODT_SAT_FACTOR = 0.93;
 
 local:
-  float3x3 RRT_SAT_MAT;
+  float3x3 SAT_MAT;
 
   float3 mult_f3_f33( float3 src, float3x3 mtx) {
     return float3(mtx[0][0] * src.x + mtx[0][1] * src.y + 
@@ -87,23 +89,28 @@ local:
     return M;
   } 
 
-  float3x3 calc_RRT_SAT_MAT() {
+  float3x3 calc_SAT_MAT() {
     float2 ap1_r = float2(0.713,    0.293);
     float2 ap1_g = float2(0.165,    0.830);
     float2 ap1_b = float2(0.128,    0.044);
     float2 ap1_w = float2(0.32168,  0.3376);
     float3x3 AP1_2_XYZ_MAT = RGBtoXYZ(ap1_r, ap1_g, ap1_b, ap1_w, 1.0);
     float3 AP1_RGB2Y = float3(AP1_2_XYZ_MAT[0][1], AP1_2_XYZ_MAT[1][1], AP1_2_XYZ_MAT[2][1]);
-    return calc_sat_adjust_matrix( RRT_SAT_FACTOR, AP1_RGB2Y);
+    return calc_sat_adjust_matrix( SAT_FACTOR, AP1_RGB2Y);
   }
 
   void init() {
-    RRT_SAT_MAT = calc_RRT_SAT_MAT();
+    if (invert == 0) {
+      SAT_MAT = calc_SAT_MAT();
+    } else {
+      SAT_MAT = calc_SAT_MAT();
+      SAT_MAT = SAT_MAT.invert();
+    }
   }
 
   void process() {
     float3 aces = float3(src().x, src().y, src().z);
-    aces = mult_f3_f33( aces, RRT_SAT_MAT);
+    aces = mult_f3_f33( aces, SAT_MAT);
     dst() = float4(aces.x, aces.y, aces.z, src().w);
   }
 };

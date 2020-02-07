@@ -1,0 +1,40 @@
+kernel ACES_XYZ_2_xyY : public ImageComputationKernel<ePixelWise>
+{
+  Image<eRead, eAccessPoint, eEdgeClamped> src;
+  Image<eWrite> dst;
+
+param:
+  bool invert;
+
+  float3 XYZ_2_xyY( float3 XYZ) {
+    float3 xyY;
+    float divisor = (XYZ.x + XYZ.y + XYZ.z);
+    if (divisor == 0.) divisor = 1e-10;
+    xyY.x = XYZ.x / divisor;
+    xyY.y = XYZ.y / divisor;  
+    xyY.z = XYZ.y;
+    
+    return xyY;
+  }
+
+  float3 xyY_2_XYZ( float3 xyY)
+  {
+    float3 XYZ;
+    XYZ.x = xyY.x * xyY.z / max( xyY.y, 1e-10);
+    XYZ.y = xyY.z;  
+    XYZ.z = (1.0 - xyY.x - xyY.y) * xyY.z / max( xyY.y, 1e-10);
+
+    return XYZ;
+  }
+
+  void process() {
+    float3 in = float3(src().x, src().y, src().z);
+    float3 out;
+    if (invert == 0.0) {
+      out = XYZ_2_xyY(in);
+    } else {
+      out = xyY_2_XYZ(in);
+    }
+    dst() = float4(out.x, out.y, out.z, src().w);
+  }
+};

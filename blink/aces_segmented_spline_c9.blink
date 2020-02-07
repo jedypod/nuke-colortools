@@ -1,0 +1,321 @@
+kernel ACES_segmented_spline_c9 : public ImageComputationKernel<ePixelWise>
+{
+  Image<eRead, eAccessPoint, eEdgeClamped> src;
+  Image<eWrite> dst;
+
+param:
+  // User controllable parameters
+  bool invert;
+  int odt_type;
+
+local:
+  float2 Min;
+  float2 Mid;
+  float2 Max;
+  float slopeLow;
+  float slopeHigh;
+  float coefsLow[10];
+  float coefsHigh[10];
+  int N_KNOTS_LOW;
+  int N_KNOTS_HIGH;
+
+  float3x3 M;
+
+
+  // multiply a float3 by a matrix3x3
+  float3 mult_f3_f33( float3 src, float3x3 mtx) {
+    return float3(mtx[0][0] * src.x + mtx[0][1] * src.y + 
+    mtx[0][2] * src.z, mtx[1][0] * src.x + mtx[1][1] * src.y + 
+    mtx[1][2] * src.z, mtx[2][0] * src.x + mtx[2][1] * src.y + 
+    mtx[2][2] * src.z);
+  }
+
+  // dot product of two 1x3 matrices
+  float dot_f3_f3( float3 A, float3 B) {
+    return (A.x*B.x)+(A.y*B.y)+(A.z*B.z);
+  }
+
+  void init() {
+
+    // Set up ODT prameters : switch with int odt_type
+    // Assigning arrays the normal way with <type> name[] = {val, val, val}; doesn't work in blinkscript :(
+    // odt_type = 0 : ODT_48nits
+    if (odt_type == 0) {
+      // coefsLow[10]
+      coefsLow[0] = -1.6989700043;
+      coefsLow[1] = -1.6989700043;
+      coefsLow[2] = -1.4779000000;
+      coefsLow[3] = -1.2291000000;
+      coefsLow[4] = -0.8648000000;
+      coefsLow[5] = -0.4480000000;
+      coefsLow[6] = 0.0051800000;
+      coefsLow[7] = 0.4511080334;
+      coefsLow[8] = 0.9113744414;
+      coefsLow[9] = 0.9113744414;
+      // coefsHigh[10]
+      coefsHigh[0] = 0.5154386965;
+      coefsHigh[1] = 0.8470437783;
+      coefsHigh[2] = 1.1358000000;
+      coefsHigh[3] = 1.3802000000;
+      coefsHigh[4] = 1.5197000000;
+      coefsHigh[5] = 1.5985000000;
+      coefsHigh[6] = 1.6467000000;
+      coefsHigh[7] = 1.6746091357;
+      coefsHigh[8] = 1.6878733390;
+      coefsHigh[9] = 1.6878733390;
+
+      // Explicit casts to float are necessary for log10 calls in function to work :/
+      // Explicitly calculating calls to segmented_spline_c5_fwd() to avoid having to implement this 
+      // here as well.
+      Min = float2(float(0.00288), float(0.02));
+      Mid = float2(float(4.8), float(4.8));
+      Max = float2(float(1005.71936), float(48.0));
+      slopeLow = 0.0;
+      slopeHigh = 0.04;
+    }
+    // odt_type = 1 : ODT_1000nits
+    else if (odt_type == 1) {
+      // coefsLow[10]
+      coefsLow[0] = -4.9706219331;
+      coefsLow[1] = -3.0293780669;
+      coefsLow[2] = -2.1262;
+      coefsLow[3] = -1.5105;
+      coefsLow[4] = -1.0578;
+      coefsLow[5] = -0.4668;
+      coefsLow[6] = 0.11938;
+      coefsLow[7] = 0.7088134201;
+      coefsLow[8] = 1.2911865799;
+      coefsLow[9] = 1.2911865799;
+      // coefsHigh[10]
+      coefsHigh[0] = 0.8089132070;
+      coefsHigh[1] = 1.1910867930;
+      coefsHigh[2] = 1.5683;
+      coefsHigh[3] = 1.9483;
+      coefsHigh[4] = 2.3083;
+      coefsHigh[5] = 2.6384;
+      coefsHigh[6] = 2.8595;
+      coefsHigh[7] = 2.9872608805;
+      coefsHigh[8] = 3.0127391195;
+      coefsHigh[9] = 3.0127391195;
+
+      Min = float2(float(0.00014), float(0.0001));
+      Mid = float2(float(4.8), float(10));
+      Max = float2(float(4505.08447), float(1000));
+      slopeLow = 3.0;
+      slopeHigh = 0.06;
+    }
+    // odt_type = 2 : ODT_2000nits
+    else if (odt_type == 2) {
+      // coefsLow[10]
+      coefsLow[0] = -4.9706219331;
+      coefsLow[1] = -3.0293780669;
+      coefsLow[2] = -2.1262;
+      coefsLow[3] = -1.5105;
+      coefsLow[4] = -1.0578;
+      coefsLow[5] = -0.4668;
+      coefsLow[6] = 0.11938;
+      coefsLow[7] = 0.7088134201;
+      coefsLow[8] = 1.2911865799;
+      coefsLow[9] = 1.2911865799;
+      // coefsHigh[10]
+      coefsHigh[0] = 0.8019952042;
+      coefsHigh[1] = 1.1980047958;
+      coefsHigh[2] = 1.5943000000;
+      coefsHigh[3] = 1.9973000000;
+      coefsHigh[4] = 2.3783000000;
+      coefsHigh[5] = 2.7684000000;
+      coefsHigh[6] = 3.0515000000;
+      coefsHigh[7] = 3.2746293562;
+      coefsHigh[8] = 3.3274306351;
+      coefsHigh[9] = 3.3274306351;
+
+      Min = float2(float(0.00014), float(0.0001));
+      Mid = float2(float(4.8), float(10));
+      Max = float2(float(5771.86426), float(2000));
+      slopeLow = 3.0;
+      slopeHigh = 0.12;
+    }
+    // odt_type = 3 : ODT_4000nits
+    else if (odt_type == 3) {
+      // coefsLow[10]
+      coefsLow[0] = -4.9706219331;
+      coefsLow[1] = -3.0293780669;
+      coefsLow[2] = -2.1262;
+      coefsLow[3] = -1.5105;
+      coefsLow[4] = -1.0578;
+      coefsLow[5] = -0.4668;
+      coefsLow[6] = 0.11938;
+      coefsLow[7] = 0.7088134201;
+      coefsLow[8] = 1.2911865799;
+      coefsLow[9] = 1.2911865799;
+      // coefsHigh[10]
+      coefsHigh[0] = 0.7973186613;
+      coefsHigh[1] = 1.2026813387;
+      coefsHigh[2] = 1.6093000000;
+      coefsHigh[3] = 2.0108000000;
+      coefsHigh[4] = 2.4148000000;
+      coefsHigh[5] = 2.8179000000;
+      coefsHigh[6] = 3.1725000000;
+      coefsHigh[7] = 3.5344995451;
+      coefsHigh[8] = 3.6696204376;
+      coefsHigh[9] = 3.6696204376;
+
+      Min = float2(float(0.00014), float(0.0001));
+      Mid = float2(float(4.8), float(10));
+      Max = float2(float(6824.36572), float(2000));
+      slopeLow = 3.0;
+      slopeHigh = 0.3;
+    }
+
+    // Monomial to basis function (Note: this is transposed compared to the AMPAS CTL)
+    float Marray[] = {0.5, -1.0, 0.5, 
+                      -1.0, 1.0, 0.0, 
+                      0.5, 0.5, 0.0};
+    M.setArray(Marray);
+
+    // It seems as though if you define an int before an array, the int
+    // could randomly get set to a really really high value :(
+    N_KNOTS_LOW = 8;
+    N_KNOTS_HIGH = 8;
+  }
+
+
+  float segmented_spline_c9_fwd( float x ) {
+    // Take the log: clamp min to HALF_MIN
+    float logx = log10(max(x, 5.96046448e-08));
+    float logy;
+
+    if ( logx <= log10(Min.x) ) { 
+      logy = logx * slopeLow + ( log10(Min.y) - slopeLow * log10(Min.x) );
+    } 
+    else if (( logx > log10(Min.x) ) && ( logx < log10(Mid.x) )) {
+      float knot_coord = (N_KNOTS_LOW-1) * (logx-log10(Min.x))/(log10(Mid.x)-log10(Min.x));
+      int j = knot_coord;
+      float t = knot_coord - j;
+      float3 cf = float3(coefsLow[ j], coefsLow[ j + 1], coefsLow[ j + 2]);
+      float3 monomials = float3(t * t, t, 1. );
+      logy = dot_f3_f3( monomials, mult_f3_f33( cf, M));
+    } 
+    else if (( logx >= log10(Mid.x) ) && ( logx < log10(Max.x) )) {
+      float knot_coord = (N_KNOTS_HIGH-1) * (logx-log10(Mid.x))/(log10(Max.x)-log10(Mid.x));
+      int j = knot_coord;
+      float t = knot_coord - j;
+      float3 cf = float3(coefsHigh[ j], coefsHigh[ j + 1], coefsHigh[ j + 2]);
+      float3 monomials = float3(t * t, t, 1.);
+      logy = dot_f3_f3( monomials, mult_f3_f33( cf, M));
+    } 
+    else { //if ( logIn >= log10(Max.x) ) { 
+      logy = logx * slopeHigh + ( log10(Max.y) - slopeHigh * log10(Max.x) );
+    }
+
+    return pow(10, logy);
+  }
+
+
+
+  float segmented_spline_c9_rev( float y ) {  
+
+    const float KNOT_INC_LOW = (log10(Mid.x) - log10(Min.x)) / (N_KNOTS_LOW - 1.);
+    const float KNOT_INC_HIGH = (log10(Max.x) - log10(Mid.x)) / (N_KNOTS_HIGH - 1.);
+    
+    // KNOT_Y is luminance of the spline at each knot
+    // Setting array length to 4 manually to work around 
+    // Error 1: variable length arrays are not supported in OpenCL
+
+    float KNOT_Y_LOW[ 8];
+    for (int i = 0; i < N_KNOTS_LOW; i = i+1) {
+      KNOT_Y_LOW[ i] = ( coefsLow[i] + coefsLow[i+1]) / 2.;
+    };
+
+    float KNOT_Y_HIGH[ 8];
+    for (int i = 0; i < N_KNOTS_HIGH; i = i+1) {
+      KNOT_Y_HIGH[ i] = ( coefsHigh[i] + coefsHigh[i+1]) / 2.;
+    };
+
+    float logy = log10( max( y, 1e-10));
+    float logx;
+
+    if (logy <= log10(Min.y)) {
+      logx = log10(Min.x);
+    } 
+    else if ( (logy > log10(Min.y)) && (logy <= log10(Mid.y)) ) {
+      int j;
+      float3 cf;
+      if ( logy > KNOT_Y_LOW[ 0] && logy <= KNOT_Y_LOW[ 1]) {
+          cf[ 0] = coefsLow[0];  cf[ 1] = coefsLow[1];  cf[ 2] = coefsLow[2];  j = 0;
+      } else if ( logy > KNOT_Y_LOW[ 1] && logy <= KNOT_Y_LOW[ 2]) {
+          cf[ 0] = coefsLow[1];  cf[ 1] = coefsLow[2];  cf[ 2] = coefsLow[3];  j = 1;
+      } else if ( logy > KNOT_Y_LOW[ 2] && logy <= KNOT_Y_LOW[ 3]) {
+          cf[ 0] = coefsLow[2];  cf[ 1] = coefsLow[3];  cf[ 2] = coefsLow[4];  j = 2;
+      } else if ( logy > KNOT_Y_LOW[ 3] && logy <= KNOT_Y_LOW[ 4]) {
+          cf[ 0] = coefsLow[3];  cf[ 1] = coefsLow[4];  cf[ 2] = coefsLow[5];  j = 3;
+      } else if ( logy > KNOT_Y_LOW[ 4] && logy <= KNOT_Y_LOW[ 5]) {
+          cf[ 0] = coefsLow[4];  cf[ 1] = coefsLow[5];  cf[ 2] = coefsLow[6];  j = 4;
+      } else if ( logy > KNOT_Y_LOW[ 5] && logy <= KNOT_Y_LOW[ 6]) {
+          cf[ 0] = coefsLow[5];  cf[ 1] = coefsLow[6];  cf[ 2] = coefsLow[7];  j = 5;
+      } else if ( logy > KNOT_Y_LOW[ 6] && logy <= KNOT_Y_LOW[ 7]) {
+          cf[ 0] = coefsLow[6];  cf[ 1] = coefsLow[7];  cf[ 2] = coefsLow[8];  j = 6;
+      }
+      
+      const float3 tmp = mult_f3_f33( cf, M);
+      float a = tmp[ 0];
+      float b = tmp[ 1];
+      float c = tmp[ 2];
+      c = c - logy;
+      const float d = sqrt(float(b * b - 4. * a * c));
+      const float t = ( 2. * c) / ( -d - b);
+      logx = log10(Min.x) + ( t + j) * KNOT_INC_LOW;
+    } 
+    else if ( (logy > log10(Mid.y)) && (logy < log10(Max.y)) ) {
+      int j;
+      float3 cf;
+      if ( logy > KNOT_Y_HIGH[ 0] && logy <= KNOT_Y_HIGH[ 1]) {
+          cf[ 0] = coefsHigh[0];  cf[ 1] = coefsHigh[1];  cf[ 2] = coefsHigh[2];  j = 0;
+      } else if ( logy > KNOT_Y_HIGH[ 1] && logy <= KNOT_Y_HIGH[ 2]) {
+          cf[ 0] = coefsHigh[1];  cf[ 1] = coefsHigh[2];  cf[ 2] = coefsHigh[3];  j = 1;
+      } else if ( logy > KNOT_Y_HIGH[ 2] && logy <= KNOT_Y_HIGH[ 3]) {
+          cf[ 0] = coefsHigh[2];  cf[ 1] = coefsHigh[3];  cf[ 2] = coefsHigh[4];  j = 2;
+      } else if ( logy > KNOT_Y_HIGH[ 3] && logy <= KNOT_Y_HIGH[ 4]) {
+          cf[ 0] = coefsHigh[3];  cf[ 1] = coefsHigh[4];  cf[ 2] = coefsHigh[5];  j = 3;
+      } else if ( logy > KNOT_Y_HIGH[ 4] && logy <= KNOT_Y_HIGH[ 5]) {
+          cf[ 0] = coefsHigh[4];  cf[ 1] = coefsHigh[5];  cf[ 2] = coefsHigh[6];  j = 4;
+      } else if ( logy > KNOT_Y_HIGH[ 5] && logy <= KNOT_Y_HIGH[ 6]) {
+          cf[ 0] = coefsHigh[5];  cf[ 1] = coefsHigh[6];  cf[ 2] = coefsHigh[7];  j = 5;
+      } else if ( logy > KNOT_Y_HIGH[ 6] && logy <= KNOT_Y_HIGH[ 7]) {
+          cf[ 0] = coefsHigh[6];  cf[ 1] = coefsHigh[7];  cf[ 2] = coefsHigh[8];  j = 6;
+      }
+      
+      const float3 tmp = mult_f3_f33( cf, M);
+      float a = tmp[ 0];
+      float b = tmp[ 1];
+      float c = tmp[ 2];
+      c = c - logy;
+      const float d = sqrt( float(b * b - 4. * a * c));
+      const float t = ( 2. * c) / ( -d - b);
+      logx = log10(Mid.x) + ( t + j) * KNOT_INC_HIGH;
+    } 
+    else { //if ( logy >= log10(Max.y) ) {
+      logx = log10(Max.x);
+    }
+    
+    return pow(10, logx);
+
+  }
+
+
+
+  void process() {
+    float3 aces = float3(src().x, src().y, src().z);
+
+    if (invert == 0) {
+      aces = float3(segmented_spline_c9_fwd(aces.x), segmented_spline_c9_fwd(aces.y), segmented_spline_c9_fwd(aces.z));
+    } else {
+      aces = float3(segmented_spline_c9_rev(aces.x), segmented_spline_c9_rev(aces.y), segmented_spline_c9_rev(aces.z));
+    }
+
+    dst() = float4(aces.x, aces.y, aces.z, src().w);
+ 
+    // dst() = float4(log10(Min.x), log10(Mid.x), N_KNOTS_LOW, N_KNOTS_HIGH);
+
+    }
+};
