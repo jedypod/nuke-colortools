@@ -134,9 +134,9 @@ param:
     else { // invert red modifier: note that this is not mathematically perfect
       float minChan;
       if (centeredHue < 0) { // min_f3(aces) = aces[1] (i.e. magenta-red)
-        minChan = aces.x;
-      } else { // min_f3(aces) = aces[2] (i.e. yellow-red)
         minChan = aces.y;
+      } else { // min_f3(aces) = aces[2] (i.e. yellow-red)
+        minChan = aces.z;
       }
       float a = hueWeight * (1. - RRT_RED_SCALE) - 1.;
       float b = aces.x - hueWeight * (RRT_RED_PIVOT + minChan) * (1. - RRT_RED_SCALE);
