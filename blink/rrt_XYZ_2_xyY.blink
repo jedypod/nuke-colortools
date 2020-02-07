@@ -3,26 +3,65 @@ kernel ACES_XYZ_2_xyY : public ImageComputationKernel<ePixelWise>
   Image<eRead, eAccessPoint, eEdgeClamped> src;
   Image<eWrite> dst;
 
+// Note: This is not used as I couldn't figure out how to handle negative values correctly.
+// Using the Nuke Colorspace node instead.
+
 param:
   bool invert;
+
+local:
+  float2 whitepoint;
+
+  void init() {
+    // Set whitepoint to D60
+    whitepoint = float2(0.32168, 0.33767);
+  }
 
   float3 XYZ_2_xyY( float3 XYZ) {
     float3 xyY;
     float divisor = (XYZ.x + XYZ.y + XYZ.z);
-    if (divisor == 0.) divisor = 1e-10;
-    xyY.x = XYZ.x / divisor;
-    xyY.y = XYZ.y / divisor;  
-    xyY.z = XYZ.y;
-    
+    if (divisor == 0.) {
+      // divisor = 1e-10;
+      // Set xy to whitepoint, Y to zero
+      xyY.x = whitepoint.x;
+      xyY.y = whitepoint.y;
+      // xyY.z = 0.0;
+    } 
+    else if (XYZ.x < 0.0 || XYZ.y < 0.0 || XYZ.z < 0.0) {
+      divisor = (fabs(XYZ.x) + fabs(XYZ.y) + fabs(XYZ.z));
+      xyY.x = fabs(XYZ.x / divisor);
+      xyY.y = fabs(XYZ.y / divisor);
+      xyY.z = XYZ.y;
+    }
+    else {
+      xyY.x = XYZ.x / divisor;
+      xyY.y = XYZ.y / divisor;  
+      xyY.z = XYZ.y;
+    }
+
     return xyY;
   }
 
   float3 xyY_2_XYZ( float3 xyY)
   {
     float3 XYZ;
-    XYZ.x = xyY.x * xyY.z / max( xyY.y, 1e-10);
-    XYZ.y = xyY.z;  
-    XYZ.z = (1.0 - xyY.x - xyY.y) * xyY.z / max( xyY.y, 1e-10);
+    // if (xyY.z == 0.0) {
+    //   XYZ.x = xyY.x * xyY.z / max( xyY.y, 1e-10);
+    //   XYZ.y = xyY.z;  
+    //   XYZ.z = (1.0 - xyY.x - xyY.y) * xyY.z / max( xyY.y, 1e-10);
+    // }
+    // else 
+    if (xyY.z > 0.0) {
+      XYZ.x = xyY.x * xyY.z / xyY.y;
+      XYZ.y = xyY.z;  
+      XYZ.z = (1.0 - xyY.x - xyY.y) * xyY.z / xyY.y;
+    }
+    else if (xyY.z < 0.0) {
+      xyY.z = -xyY.z;
+      XYZ.x = xyY.x * xyY.z / xyY.y;
+      XYZ.y = xyY.z;  
+      XYZ.z = -((1.0 - xyY.x - xyY.y) * xyY.z / xyY.y);
+    }
 
     return XYZ;
   }
