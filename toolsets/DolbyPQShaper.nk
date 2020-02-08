@@ -1,0 +1,134 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name DolbyPQShaper
+ label "48nits shaper"
+ addUserKnob {20 DolbyPQShaper_tab l DolbyPQShaper}
+ addUserKnob {35 presets l preset t "Presets for the exposure domain." M {"curve/48nits shaper" "knobs this \{mid_grey 0.18 min_exp -6.5 max_exp 6.5 label \"48nits shaper\"\}" "curve/108nits shaper" "knobs this \{mid_grey 0.18 min_exp -12 max_exp 8 label \"108nits shaper\"\}" "curve/1000nits shaper" "knobs this \{mid_grey 0.18 min_exp -12 max_exp 10 label \"1000nits shaper\"\}" "curve/2000nits shaper" "knobs this \{mid_grey 0.18 min_exp -12 max_exp 11 label \"2000nits shaper\"\}" "curve/4000nits shaper" "knobs this \{mid_grey 0.18 min_exp -12 max_exp 12 label \"4000nits shaper\"\}" ""}}
+ addUserKnob {26 ""}
+ addUserKnob {4 direction M {forward inverse}}
+ direction inverse
+ addUserKnob {7 mid_grey l "mid grey" R 0.1 0.2}
+ mid_grey 0.18
+ addUserKnob {7 min_exp l "min exp" R -12 0}
+ min_exp -6.5
+ addUserKnob {7 max_exp l "max exp" R 0 12}
+ max_exp 6.5
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+ Dot {
+  name Dot1
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -6
+  ypos 42
+ }
+set N9c668980 [stack 0]
+ Expression {
+  temp_name0 PQ_max
+  temp_expr0 10000
+  temp_name1 min_lin
+  temp_expr1 "pow(2, min_exp) * mid_grey"
+  temp_name2 max_lin
+  temp_expr2 "pow(2, max_exp) * mid_grey"
+  temp_name3 scale
+  temp_expr3 "(max_lin - min_lin) / PQ_max"
+  expr0 "( r - min_lin) / scale "
+  expr1 "( g - min_lin) / scale "
+  expr2 "( b - min_lin) / scale "
+  name Y_scale1
+  xpos 70
+  ypos 86
+ }
+ Expression {
+  temp_name0 Lm_r
+  temp_expr0 "pow((r / pq_C), pq_m1)"
+  temp_name1 Lm_g
+  temp_expr1 "pow((g / pq_C), pq_m1)"
+  temp_name2 Lm_b
+  temp_expr2 "pow((b / pq_C), pq_m1)"
+  expr0 "pow(( pq_c1 + pq_c2 * Lm_r ) / ( 1.0 + pq_c3 * Lm_r ), pq_m2)"
+  expr1 "pow(( pq_c1 + pq_c2 * Lm_g ) / ( 1.0 + pq_c3 * Lm_g ), pq_m2)"
+  expr2 "pow(( pq_c1 + pq_c2 * Lm_b ) / ( 1.0 + pq_c3 * Lm_b ), pq_m2)"
+  name Y_2_ST2084_
+  xpos 70
+  ypos 134
+  addUserKnob {20 SMPTE_ST2084-2014_Constants_tab l "Constants from SMPTE ST 2084-2014"}
+  addUserKnob {7 pq_m1 t " ( 2610.0 / 4096.0 ) / 4.0;" +DISABLED R 0 100}
+  pq_m1 0.1593017578
+  addUserKnob {7 pq_m2 t " ( 2523.0 / 4096.0 ) * 128.0;" +DISABLED R 0 100}
+  pq_m2 78.84375
+  addUserKnob {7 pq_c1 t " 3424.0 / 4096.0 or pq_c3 - pq_c2 + 1.0;" +DISABLED R 0 100}
+  pq_c1 0.8359375
+  addUserKnob {7 pq_c2 t " ( 2413.0 / 4096.0 ) * 32.0;" +DISABLED R 0 100}
+  pq_c2 18.8515625
+  addUserKnob {7 pq_c3 t " ( 2392.0 / 4096.0 ) * 32.0;" +DISABLED R 0 100}
+  pq_c3 18.6875
+  addUserKnob {7 pq_C +DISABLED R 0 100}
+  pq_C 10000
+ }
+push $N9c668980
+ Expression {
+  temp_name0 Np_r
+  temp_expr0 "pow( r, 1.0 / pq_m2 )"
+  temp_name1 Np_g
+  temp_expr1 "pow( g, 1.0 / pq_m2 )"
+  temp_name2 Np_b
+  temp_expr2 "pow( b, 1.0 / pq_m2 )"
+  expr0 "r < 0 ? 0 : pow((Np_r - pq_c1) / ( pq_c2 - pq_c3 * Np_r ), 1.0/pq_m1) * pq_C"
+  expr1 "g < 0 ? 0 : pow((Np_g - pq_c1) / ( pq_c2 - pq_c3 * Np_g ), 1.0/pq_m1) * pq_C"
+  expr2 "b < 0 ? 0 : pow((Np_b - pq_c1) / ( pq_c2 - pq_c3 * Np_b ), 1.0/pq_m1) * pq_C"
+  name ST2084_2_Y_f3_
+  xpos -150
+  ypos 86
+  addUserKnob {20 SMPTE_ST2084-2014_Constants_tab l "Constants from SMPTE ST 2084-2014"}
+  addUserKnob {7 pq_m1 t " ( 2610.0 / 4096.0 ) / 4.0;" +DISABLED R 0 100}
+  pq_m1 0.1593017578
+  addUserKnob {7 pq_m2 t " ( 2523.0 / 4096.0 ) * 128.0;" +DISABLED R 0 100}
+  pq_m2 78.84375
+  addUserKnob {7 pq_c1 t " 3424.0 / 4096.0 or pq_c3 - pq_c2 + 1.0;" +DISABLED R 0 100}
+  pq_c1 0.8359375
+  addUserKnob {7 pq_c2 t " ( 2413.0 / 4096.0 ) * 32.0;" +DISABLED R 0 100}
+  pq_c2 18.8515625
+  addUserKnob {7 pq_c3 t " ( 2392.0 / 4096.0 ) * 32.0;" +DISABLED R 0 100}
+  pq_c3 18.6875
+  addUserKnob {7 pq_C +DISABLED R 0 100}
+  pq_C 10000
+ }
+ Expression {
+  temp_name0 PQ_max
+  temp_expr0 10000
+  temp_name1 min_lin
+  temp_expr1 "pow(2.0, min_exp) * mid_grey"
+  temp_name2 max_lin
+  temp_expr2 "pow(2.0, max_exp) * mid_grey"
+  temp_name3 scale
+  temp_expr3 "(max_lin - min_lin) / PQ_max"
+  expr0 "r * scale + min_lin"
+  expr1 "g * scale + min_lin"
+  expr2 "b * scale + min_lin"
+  name Y_scale
+  selected true
+  xpos -150
+  ypos 134
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name switch_direction
+  xpos -40
+  ypos 206
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 278
+ }
+end_group

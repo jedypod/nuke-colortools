@@ -1,0 +1,64 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name Log2Shaper
+ label "48nits shaper"
+ addUserKnob {20 log2_to_lin_tab l "log2 to lin"}
+ addUserKnob {35 presets l preset t "Presets for the exposure domain. \n\n48nits shaper small domain matches the log2 shaper used in the ACES 1.0.3 config. \n\nThe new 48nits shaper was expanded to match the acescc curve to reduce artifacts." M {"curve/48nits shaper" "knobs this \{mid_grey 0.18 min_exp -6.5 max_exp 6.5 label \"48nits shaper\"\}" "curve/48nits shaper acescc" "knobs this \{mid_grey 0.18 min_exp -7.246068811667588 max_exp 10.273931188332412 label \"48nits shaper acescc\"\}" "curve/LMT shaper" "knobs this \{mid_grey 0.18 min_exp -10 max_exp 6.5 label \"LMT shaper\"\}" "curve/108nits shaper" "knobs this \{mid_grey 0.18 min_exp -12 max_exp 8 label \"108nits shaper\"\}" "curve/1000nits shaper" "knobs this \{mid_grey 0.18 min_exp -12 max_exp 10 label \"1000nits shaper\"\}" "curve/2000nits shaper" "knobs this \{mid_grey 0.18 min_exp -12 max_exp 11 label \"2000nits shaper\"\}" "curve/4000nits shaper" "knobs this \{mid_grey 0.18 min_exp -12 max_exp 12 label \"4000nits shaper\"\}"}}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {4 direction M {forward inverse}}
+ direction inverse
+ addUserKnob {7 mid_grey l "mid grey" R 0.1 0.2}
+ mid_grey 0.18
+ addUserKnob {7 min_exp l "min exp" R -12 0}
+ min_exp -6.5
+ addUserKnob {7 max_exp l "max exp" R 0 12}
+ max_exp 6.5
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+ Dot {
+  name Dot1
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -6
+  ypos 42
+ }
+set N9c6a7070 [stack 0]
+ Expression {
+  expr0 "(log( r / mid_grey)/log(2) - min_exp) / (max_exp - min_exp)"
+  expr1 "(log( g / mid_grey)/log(2) - min_exp) / (max_exp - min_exp)"
+  expr2 "(log( b / mid_grey)/log(2) - min_exp) / (max_exp - min_exp)"
+  name lin_to_log2
+  selected true
+  xpos 70
+  ypos 86
+ }
+push $N9c6a7070
+ Expression {
+  expr0 "pow(2, ( r * (max_exp - min_exp) + min_exp)) * mid_grey"
+  expr1 "pow(2, ( g * (max_exp - min_exp) + min_exp)) * mid_grey"
+  expr2 "pow(2, ( b * (max_exp - min_exp) + min_exp)) * mid_grey"
+  name log2_to_lin
+  xpos -150
+  ypos 86
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name switch_direction
+  xpos -40
+  ypos 182
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 278
+ }
+end_group

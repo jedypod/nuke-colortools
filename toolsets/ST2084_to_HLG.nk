@@ -1,0 +1,166 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name ST2084_to_HLG
+ addUserKnob {20 ST2084_to_HLG_tab l ST2084_to_HLG}
+ addUserKnob {4 direction M {forward inverse}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -82
+ }
+ Dot {
+  name Dot1
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -6
+  ypos -6
+ }
+set N655a8c10 [stack 0]
+ Expression {
+  temp_name0 e
+  temp_expr0 2.718281828
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 "r >= 0.0 && r <= 0.5 ? pow(r, 2)/3 : (pow(e, (r - c_c)/c_a)+c_b)/12"
+  expr1 "g >= 0.0 && g <= 0.5 ? pow(g, 2)/3 : (pow(e, (g - c_c)/c_a)+c_b)/12"
+  expr2 "b >= 0.0 && b <= 0.5 ? pow(b, 2)/3 : (pow(e, (b - c_c)/c_a)+c_b)/12"
+  expr3 1
+  name ST2084_2_HLG_1000nits_f3_HLG_EOTF
+  xpos 70
+  ypos 14
+  addUserKnob {20 Constants_tab l Constants}
+  addUserKnob {7 c_a +DISABLED}
+  c_a 0.17883277
+  addUserKnob {7 c_b t 1.-4.*a +DISABLED}
+  c_b 0.28466892
+  addUserKnob {7 c_c t 0.5-a*log(4.*a) +DISABLED}
+  c_c 0.55991073
+ }
+ Expression {
+  temp_name0 Y_s
+  temp_expr0 "0.2627*r + 0.6780*g + 0.0593*b"
+  expr0 "c_alpha * pow( Y_s, c_gamma-1.) * r + c_beta"
+  expr1 "c_alpha * pow( Y_s, c_gamma-1.) * g + c_beta"
+  expr2 "c_alpha * pow( Y_s, c_gamma-1.) * b + c_beta"
+  name ST2084_2_HLG_1000nits_f3_SceneLinear_to_DisplayLinear
+  xpos 70
+  ypos 62
+  addUserKnob {20 Constants_tab l Constants}
+  addUserKnob {7 L_w +DISABLED}
+  L_w 1000
+  addUserKnob {7 L_b +DISABLED}
+  addUserKnob {7 c_alpha +DISABLED}
+  c_alpha {{L_w-L_b}}
+  addUserKnob {7 c_beta +DISABLED}
+  c_beta {{L_b}}
+  addUserKnob {7 c_gamma +DISABLED}
+  c_gamma 1.2
+ }
+ Expression {
+  temp_name0 Lm_r
+  temp_expr0 "pow((r / pq_C), pq_m1)"
+  temp_name1 Lm_g
+  temp_expr1 "pow((g / pq_C), pq_m1)"
+  temp_name2 Lm_b
+  temp_expr2 "pow((b / pq_C), pq_m1)"
+  expr0 "pow(( pq_c1 + pq_c2 * Lm_r ) / ( 1.0 + pq_c3 * Lm_r ), pq_m2)"
+  expr1 "pow(( pq_c1 + pq_c2 * Lm_g ) / ( 1.0 + pq_c3 * Lm_g ), pq_m2)"
+  expr2 "pow(( pq_c1 + pq_c2 * Lm_b ) / ( 1.0 + pq_c3 * Lm_b ), pq_m2)"
+  name Y_2_ST2084_f3_
+  xpos 70
+  ypos 110
+  addUserKnob {20 SMPTE_ST2084-2014_Constants_tab l "Constants from SMPTE ST 2084-2014"}
+  addUserKnob {7 pq_m1 t " ( 2610.0 / 4096.0 ) / 4.0;" +DISABLED R 0 100}
+  pq_m1 0.1593017578
+  addUserKnob {7 pq_m2 t " ( 2523.0 / 4096.0 ) * 128.0;" +DISABLED R 0 100}
+  pq_m2 78.84375
+  addUserKnob {7 pq_c1 t " 3424.0 / 4096.0 or pq_c3 - pq_c2 + 1.0;" +DISABLED R 0 100}
+  pq_c1 0.8359375
+  addUserKnob {7 pq_c2 t " ( 2413.0 / 4096.0 ) * 32.0;" +DISABLED R 0 100}
+  pq_c2 18.8515625
+  addUserKnob {7 pq_c3 t " ( 2392.0 / 4096.0 ) * 32.0;" +DISABLED R 0 100}
+  pq_c3 18.6875
+  addUserKnob {7 pq_C +DISABLED R 0 100}
+  pq_C 10000
+ }
+push $N655a8c10
+ Expression {
+  temp_name0 Np_r
+  temp_expr0 "pow( r, 1.0 / pq_m2 )"
+  temp_name1 Np_g
+  temp_expr1 "pow( g, 1.0 / pq_m2 )"
+  temp_name2 Np_b
+  temp_expr2 "pow( b, 1.0 / pq_m2 )"
+  expr0 "r < 0 ? 0 : pow((Np_r - pq_c1) / ( pq_c2 - pq_c3 * Np_r ), 1.0/pq_m1) * pq_C"
+  expr1 "g < 0 ? 0 : pow((Np_g - pq_c1) / ( pq_c2 - pq_c3 * Np_g ), 1.0/pq_m1) * pq_C"
+  expr2 "b < 0 ? 0 : pow((Np_b - pq_c1) / ( pq_c2 - pq_c3 * Np_b ), 1.0/pq_m1) * pq_C"
+  name ST2084_2_Y_f3_
+  xpos -150
+  ypos 14
+  addUserKnob {20 SMPTE_ST2084-2014_Constants_tab l "Constants from SMPTE ST 2084-2014"}
+  addUserKnob {7 pq_m1 t " ( 2610.0 / 4096.0 ) / 4.0;" +DISABLED R 0 100}
+  pq_m1 0.1593017578
+  addUserKnob {7 pq_m2 t " ( 2523.0 / 4096.0 ) * 128.0;" +DISABLED R 0 100}
+  pq_m2 78.84375
+  addUserKnob {7 pq_c1 t " 3424.0 / 4096.0 or pq_c3 - pq_c2 + 1.0;" +DISABLED R 0 100}
+  pq_c1 0.8359375
+  addUserKnob {7 pq_c2 t " ( 2413.0 / 4096.0 ) * 32.0;" +DISABLED R 0 100}
+  pq_c2 18.8515625
+  addUserKnob {7 pq_c3 t " ( 2392.0 / 4096.0 ) * 32.0;" +DISABLED R 0 100}
+  pq_c3 18.6875
+  addUserKnob {7 pq_C +DISABLED R 0 100}
+  pq_C 10000
+ }
+ Expression {
+  temp_name0 Y_d
+  temp_expr0 "0.2627*r + 0.6780*g + 0.0593*b"
+  expr0 "Y_d == 0 ? 0 : pow( (Y_d-c_beta)/c_alpha, (1-c_gamma)/c_gamma) * ((r-c_beta)/c_alpha)"
+  expr1 "Y_d == 0 ? 0 : pow( (Y_d-c_beta)/c_alpha, (1-c_gamma)/c_gamma) * ((g-c_beta)/c_alpha)"
+  expr2 "Y_d == 0 ? 0 : pow( (Y_d-c_beta)/c_alpha, (1-c_gamma)/c_gamma) * ((b-c_beta)/c_alpha)"
+  name ST2084_2_HLG_1000nits_f3_DisplayLinear_to_SceneLinear
+  xpos -150
+  ypos 62
+  addUserKnob {20 Constants_tab l Constants}
+  addUserKnob {7 L_w +DISABLED}
+  L_w 1000
+  addUserKnob {7 L_b +DISABLED}
+  addUserKnob {7 c_alpha +DISABLED}
+  c_alpha {{L_w-L_b}}
+  addUserKnob {7 c_beta +DISABLED}
+  c_beta {{L_b}}
+  addUserKnob {7 c_gamma +DISABLED}
+  c_gamma 1.2
+ }
+ Expression {
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 "r <= 1.0/12 ? sqrt(3.0*r) : c_a * log(12.0 * r - c_b) + c_c"
+  expr1 "g <= 1.0/12 ? sqrt(3.0*g) : c_a * log(12.0 * g- c_b) + c_c"
+  expr2 "b <= 1.0/12 ? sqrt(3.0*b) : c_a * log(12.0 * b - c_b) + c_c"
+  name ST2084_2_HLG_1000nits_f3_HLG_OETF
+  xpos -150
+  ypos 110
+  addUserKnob {20 Constants_tab l Constants}
+  addUserKnob {7 c_a +DISABLED}
+  c_a 0.17883277
+  addUserKnob {7 c_b t 1.-4.*a +DISABLED}
+  c_b 0.28466892
+  addUserKnob {7 c_c t 0.5-a*log(4.*a) +DISABLED}
+  c_c 0.55991073
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name switch_direction
+  xpos -40
+  ypos 182
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 254
+ }
+end_group
