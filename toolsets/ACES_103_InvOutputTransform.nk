@@ -62,7 +62,7 @@ Group {
   xpos 2964
   ypos -918
  }
-set N11a52a40 [stack 0]
+set N31605260 [stack 0]
  Dot {
   name Dot1
   label " "
@@ -81,7 +81,7 @@ set N11a52a40 [stack 0]
   xpos 2744
   ypos 1626
  }
-push $N11a52a40
+push $N31605260
  Expression {
   temp_name0 REFBLACK
   temp_expr0 "64 / 1023"
@@ -114,7 +114,7 @@ push $N11a52a40
   xpos 3074
   ypos -582
  }
-set N11a74f00 [stack 0]
+set N1719b5e0 [stack 0]
  Dot {
   name Dot14
   label " "
@@ -124,7 +124,7 @@ set N11a74f00 [stack 0]
   xpos 3184
   ypos -582
  }
-set N11a79e60 [stack 0]
+set N1718d9b0 [stack 0]
  Dot {
   name Dot16
   label " "
@@ -134,7 +134,7 @@ set N11a79e60 [stack 0]
   xpos 3294
   ypos -582
  }
-set N11a7ed80 [stack 0]
+set N171928e0 [stack 0]
  Dot {
   name Dot17
   label " "
@@ -144,7 +144,7 @@ set N11a7ed80 [stack 0]
   xpos 3404
   ypos -582
  }
-set N11a83ce0 [stack 0]
+set N315fea20 [stack 0]
  Dot {
   name Dot28
   label " "
@@ -154,7 +154,7 @@ set N11a83ce0 [stack 0]
   xpos 3514
   ypos -582
  }
-set N11a88c00 [stack 0]
+set N31603910 [stack 0]
  Dot {
   name Dot29
   label " "
@@ -164,7 +164,7 @@ set N11a88c00 [stack 0]
   xpos 3624
   ypos -582
  }
-set N11a8db20 [stack 0]
+set N3159ba30 [stack 0]
  Dot {
   name Dot40
   label " "
@@ -202,7 +202,7 @@ set N11a8db20 [stack 0]
   addUserKnob {7 pq_C +DISABLED R 0 100}
   pq_C 10000
  }
-push $N11a8db20
+push $N3159ba30
  Expression {
   expr0 "(52.37/48.0) * pow( r, 2.6)"
   expr1 "(52.37/48.0) * pow( g, 2.6)"
@@ -212,7 +212,7 @@ push $N11a8db20
   xpos 3590
   ypos -466
  }
-push $N11a88c00
+push $N31603910
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -225,7 +225,7 @@ push $N11a88c00
   addUserKnob {7 gamma R 0 4}
   gamma 0.3846153846
  }
-push $N11a83ce0
+push $N315fea20
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -238,7 +238,7 @@ push $N11a83ce0
   addUserKnob {7 gamma R 0 4}
   gamma 0.4166666667
  }
-push $N11a7ed80
+push $N171928e0
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -251,7 +251,7 @@ push $N11a7ed80
   addUserKnob {7 gamma R 0 4}
   gamma 0.4545454545
  }
-push $N11a79e60
+push $N1718d9b0
  Expression {
   temp_name0 c_a
   temp_expr0 "pow( pow( Lw, 1./gamma) - pow( Lb, 1./gamma), gamma)"
@@ -271,7 +271,7 @@ push $N11a79e60
   addUserKnob {7 gamma R 1 4}
   gamma 2.4
  }
-push $N11a74f00
+push $N1719b5e0
  Expression {
   temp_name0 fs
   temp_expr0 "(( gamma - 1.0) / offs) * pow( offs * gamma / ( ( gamma - 1.0) * ( 1.0 + offs)), gamma)"
@@ -321,8 +321,8 @@ push $N11a74f00
    xpos -6
    ypos -198
   }
-set N11b16d40 [stack 0]
-push $N11b16d40
+set N315e71b0 [stack 0]
+push $N315e71b0
   ColorMatrix {
    matrix {
        {1.049811006 0 -9.748453158e-05}
@@ -335,7 +335,7 @@ push $N11b16d40
    xpos 730
    ypos -136
   }
-push $N11b16d40
+push $N315e71b0
   ColorMatrix {
    matrix {
        {1.641023397 -0.3248033226 -0.2364246994}
@@ -348,7 +348,7 @@ push $N11b16d40
    xpos 620
    ypos -136
   }
-push $N11b16d40
+push $N315e71b0
   ColorMatrix {
    matrix {
        {2.402741432 -0.8974840641 -0.3880533576}
@@ -361,7 +361,7 @@ push $N11b16d40
    xpos 510
    ypos -136
   }
-push $N11b16d40
+push $N315e71b0
   ColorMatrix {
    matrix {
        {2.725393534 -1.018002748 -0.4401631057}
@@ -374,7 +374,7 @@ push $N11b16d40
    xpos 400
    ypos -136
   }
-push $N11b16d40
+push $N315e71b0
   ColorMatrix {
    matrix {
        {2.493496418 -0.9313833117 -0.4027107358}
@@ -387,7 +387,7 @@ push $N11b16d40
    xpos 290
    ypos -136
   }
-push $N11b16d40
+push $N315e71b0
   ColorMatrix {
    matrix {
        {1.71665132 -0.3556708097 -0.2533662617}
@@ -400,7 +400,7 @@ push $N11b16d40
    xpos 180
    ypos -136
   }
-push $N11b16d40
+push $N315e71b0
   ColorMatrix {
    matrix {
        {3.240970135 -1.537383318 -0.4986107945}
@@ -436,7 +436,7 @@ push $N11b16d40
   xpos 2964
   ypos 114
  }
-set N11b7dbe0 [stack 0]
+set N574141f0 [stack 0]
  ColorMatrix {
   matrix {
       {0.9872254133 -0.006114810705 0.01592640579}
@@ -449,13 +449,12 @@ set N11b7dbe0 [stack 0]
   xpos 3040
   ypos 146
  }
-push $N11b7dbe0
+push $N574141f0
  Switch {
   inputs 2
   which {{"d60_sim ? 0 : parent.display_pri < 3"}}
   name switch_wp_is_d65_
   label "Enable CAT if wp=d65 and not d60_sim"
-  selected true
   xpos 2930
   ypos 176
  }
@@ -479,21 +478,25 @@ push $N11b7dbe0
   xpos 2964
   ypos 402
  }
-set N11ba3020 [stack 0]
- BlinkScript {
-  recompileCount 15
-  ProgramGroup 1
-  KernelDescription "2 \"ACES_rrt_sweetener_global_desat\" iterate pixelWise c37c12c68dbaa22d98fe1eecec6f980d4704c6b9e99b3c4a0a764e65f0dc9e34 2 \"src\" Read Point \"dst\" Write Point 2 \"SAT_FACTOR\" Float 1 AAAAAA== \"invert\" Bool 1 AA== 2 \"SAT_FACTOR\" 1 1 \"invert\" 1 1 1 \"SAT_MAT\" Float 9 1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-  kernelSource "kernel ACES_rrt_sweetener_global_desat : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessPoint, eEdgeClamped> src;\n  Image<eWrite> dst;\n\nparam:\n  // User controllable parameters\n  float SAT_FACTOR;\n  bool invert;\n  // // Desaturation constants\n  // RRT_SAT_FACTOR = 0.96;\n  // ODT_SAT_FACTOR = 0.93;\n\nlocal:\n  float3x3 SAT_MAT;\n\n  float3 mult_f3_f33( float3 src, float3x3 mtx) \{\n    return float3(mtx\[0]\[0] * src.x + mtx\[0]\[1] * src.y + \n    mtx\[0]\[2] * src.z, mtx\[1]\[0] * src.x + mtx\[1]\[1] * src.y + \n    mtx\[1]\[2] * src.z, mtx\[2]\[0] * src.x + mtx\[2]\[1] * src.y + \n    mtx\[2]\[2] * src.z);\n  \}\n\n  // Calculate RGB to XYZ 3x3 matrix given colorspace chromaticities and whitepoint\n  // and Y the luminance level of \"white\"\n  // Copying implementation from CTL source: CtlColorSpace.cpp : 77\n  float3x3 RGBtoXYZ(float2(r), float2(g), float2(b), float2(w), float Y) \{\n    // X and Z values of RGB value (1, 1, 1), or \"white\"\n    float X = w.x * Y / w.y;\n    float Z = (1 - w.x - w.y) * Y / w.y;\n    \n    // Scale factors for matrix rows\n    float d = r.x * (b.y - g.y) + b.x * (g.y - r.y) + g.x * (r.y - b.y);\n\n    float Sr = (X * (b.y - g.y) -\n      g.x * (Y * (b.y - 1) +\n      b.y  * (X + Z)) +\n      b.x  * (Y * (g.y - 1) +\n      g.y * (X + Z))) / d;\n\n    float Sg = (X * (r.y - b.y) +\n      r.x   * (Y * (b.y - 1) +\n      b.y  * (X + Z)) -\n      b.x  * (Y * (r.y - 1) +\n      r.y   * (X + Z))) / d;\n    \n    float Sb = (X * (g.y - r.y) -\n      r.x   * (Y * (g.y - 1) +\n      g.y * (X + Z)) +\n      g.x * (Y * (r.y - 1) +\n      r.y   * (X + Z))) / d;\n    \n    // Assemble the matrix\n    float3x3 M;\n    M\[0]\[0] = Sr * r.x;\n    M\[0]\[1] = Sr * r.y;\n    M\[0]\[2] = Sr * (1 - r.x - r.y);\n    M\[1]\[0] = Sg * g.x;\n    M\[1]\[1] = Sg * g.y;\n    M\[1]\[2] = Sg * (1 - g.x - g.y);\n    M\[2]\[0] = Sb * b.x;\n    M\[2]\[1] = Sb * b.y;\n    M\[2]\[2] = Sb * (1 - b.x - b.y);\n\n    return M;\n  \}\n\n  float3x3 XYZtoRGB(float2(r), float2(g), float2(b), float2(w), float Y) \{\n    return RGBtoXYZ (r, g, b, w, Y).invert();\n  \}\n\n  float3x3 calc_sat_adjust_matrix( float sat, float3 rgb2Y) \{\n    // This function determines the terms for a 3x3 saturation matrix\n    // based on the luminance of the input.\n    float3x3 M;\n    M\[0]\[0] = (1.0 - sat) * rgb2Y.x + sat;\n    M\[1]\[0] = (1.0 - sat) * rgb2Y.x;\n    M\[2]\[0] = (1.0 - sat) * rgb2Y.x;\n    \n    M\[0]\[1] = (1.0 - sat) * rgb2Y.y;\n    M\[1]\[1] = (1.0 - sat) * rgb2Y.y + sat;\n    M\[2]\[1] = (1.0 - sat) * rgb2Y.y;\n    \n    M\[0]\[2] = (1.0 - sat) * rgb2Y.z;\n    M\[1]\[2] = (1.0 - sat) * rgb2Y.z;\n    M\[2]\[2] = (1.0 - sat) * rgb2Y.z + sat;\n\n    M.transpose();\n    return M;\n  \} \n\n  float3x3 calc_SAT_MAT() \{\n    float2 ap1_r = float2(0.713,    0.293);\n    float2 ap1_g = float2(0.165,    0.830);\n    float2 ap1_b = float2(0.128,    0.044);\n    float2 ap1_w = float2(0.32168,  0.3376);\n    float3x3 AP1_2_XYZ_MAT = RGBtoXYZ(ap1_r, ap1_g, ap1_b, ap1_w, 1.0);\n    float3 AP1_RGB2Y = float3(AP1_2_XYZ_MAT\[0]\[1], AP1_2_XYZ_MAT\[1]\[1], AP1_2_XYZ_MAT\[2]\[1]);\n    return calc_sat_adjust_matrix( SAT_FACTOR, AP1_RGB2Y);\n  \}\n\n  void init() \{\n    if (invert == 0) \{\n      SAT_MAT = calc_SAT_MAT();\n    \} else \{\n      SAT_MAT = calc_SAT_MAT();\n      SAT_MAT = SAT_MAT.invert();\n    \}\n  \}\n\n  void process() \{\n    float3 aces = float3(src().x, src().y, src().z);\n    aces = mult_f3_f33( aces, SAT_MAT);\n    dst() = float4(aces.x, aces.y, aces.z, src().w);\n  \}\n\};"
-  rebuild ""
-  ACES_rrt_sweetener_global_desat_SAT_FACTOR 0.93
-  ACES_rrt_sweetener_global_desat_invert true
-  rebuild_finalise ""
-  name ACES_rrt_sweetener_global_desat3
+set N57339780 [stack 0]
+ ColorMatrix {
+  matrix {
+      {{"(1.0 - sat) * rgb2Y.x + sat"} {"(1.0 - sat) * rgb2Y.y"} {"(1.0 - sat) * rgb2Y.z"}}
+      {{"(1.0 - sat) * rgb2Y.x"} {"(1.0 - sat) * rgb2Y.y + sat"} {"(1.0 - sat) * rgb2Y.z"}}
+      {{"(1.0 - sat) * rgb2Y.x"} {"(1.0 - sat) * rgb2Y.y"} {"(1.0 - sat) * rgb2Y.z + sat"}}
+    }
+  invert true
+  name ColorMatrix4
+  label "// Remove desaturation to compensate \nfor luminance difference"
   xpos 3040
-  ypos 416
+  ypos 386
+  addUserKnob {20 params}
+  addUserKnob {13 rgb2Y}
+  rgb2Y {0.27222875 0.67408174 0.05368952}
+  addUserKnob {7 sat}
+  sat 0.93
  }
-push $N11ba3020
+push $N57339780
  Switch {
   inputs 2
   which {{"parent.eotf < 5 && display_pri < 2"}}
@@ -510,7 +513,7 @@ push $N11ba3020
   xpos 2964
   ypos 570
  }
-set Ne1488a30 [stack 0]
+set N5735c460 [stack 0]
  Colorspace {
   colorspace_in CIE-XYZ
   colorspace_out CIE-Yxy
@@ -524,7 +527,7 @@ set Ne1488a30 [stack 0]
   maximum_enable false
   name ClampMin1
   xpos 3040
-  ypos 614
+  ypos 598
  }
  Expression {
   expr0 "pow(r, 1/DIM_SURROUND_GAMMA)"
@@ -533,7 +536,7 @@ set Ne1488a30 [stack 0]
   channel3 none
   name dim_to_dark
   xpos 3040
-  ypos 638
+  ypos 640
   addUserKnob {20 Params}
   addUserKnob {7 DIM_SURROUND_GAMMA}
   DIM_SURROUND_GAMMA 0.9811
@@ -546,7 +549,7 @@ set Ne1488a30 [stack 0]
   xpos 3040
   ypos 680
  }
-push $Ne1488a30
+push $N5735c460
  Switch {
   inputs 2
   which {{"(parent.eotf <= 4) ? parent.dark_to_dim : 0"}}
@@ -564,7 +567,7 @@ push $Ne1488a30
   xpos 2964
   ypos 810
  }
-set N11c139c0 [stack 0]
+set N31676c90 [stack 0]
  Dot {
   name Dot36
   label " "
@@ -622,7 +625,7 @@ set N11c139c0 [stack 0]
   addUserKnob {7 c_c +DISABLED}
   c_c {{c_y0}}
  }
-push $N11c139c0
+push $N31676c90
  Switch {
   inputs 2
   which {{"parent.display_pri == 3"}}
@@ -639,7 +642,7 @@ push $N11c139c0
   xpos 2964
   ypos 1064
  }
-set N11c474e0 [stack 0]
+set N316a9830 [stack 0]
  Expression {
   temp_name0 SCALE
   temp_expr0 0.955
@@ -651,7 +654,7 @@ set N11c474e0 [stack 0]
   xpos 3040
   ypos 1078
  }
-push $N11c474e0
+push $N316a9830
  Switch {
   inputs 2
   which {{parent.d60_sim}}
@@ -668,7 +671,7 @@ push $N11c474e0
   xpos 2964
   ypos 1218
  }
-set N11c625e0 [stack 0]
+set N316c49c0 [stack 0]
  Add {
   channels rgb
   value {{pow(10,-4.4550166483)}}
@@ -677,7 +680,7 @@ set N11c625e0 [stack 0]
   xpos 3040
   ypos 1256
  }
-push $N11c625e0
+push $N316c49c0
  Expression {
   expr0 "r * (Ymax - Ymin) + Ymin"
   expr1 "g * (Ymax - Ymin) + Ymin"
@@ -752,18 +755,22 @@ push $N11c625e0
   xpos 2930
   ypos 1760
  }
- BlinkScript {
-  recompileCount 15
-  ProgramGroup 1
-  KernelDescription "2 \"ACES_rrt_sweetener_global_desat\" iterate pixelWise c37c12c68dbaa22d98fe1eecec6f980d4704c6b9e99b3c4a0a764e65f0dc9e34 2 \"src\" Read Point \"dst\" Write Point 2 \"SAT_FACTOR\" Float 1 AAAAAA== \"invert\" Bool 1 AA== 2 \"SAT_FACTOR\" 1 1 \"invert\" 1 1 1 \"SAT_MAT\" Float 9 1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-  kernelSource "kernel ACES_rrt_sweetener_global_desat : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessPoint, eEdgeClamped> src;\n  Image<eWrite> dst;\n\nparam:\n  // User controllable parameters\n  float SAT_FACTOR;\n  bool invert;\n  // // Desaturation constants\n  // RRT_SAT_FACTOR = 0.96;\n  // ODT_SAT_FACTOR = 0.93;\n\nlocal:\n  float3x3 SAT_MAT;\n\n  float3 mult_f3_f33( float3 src, float3x3 mtx) \{\n    return float3(mtx\[0]\[0] * src.x + mtx\[0]\[1] * src.y + \n    mtx\[0]\[2] * src.z, mtx\[1]\[0] * src.x + mtx\[1]\[1] * src.y + \n    mtx\[1]\[2] * src.z, mtx\[2]\[0] * src.x + mtx\[2]\[1] * src.y + \n    mtx\[2]\[2] * src.z);\n  \}\n\n  // Calculate RGB to XYZ 3x3 matrix given colorspace chromaticities and whitepoint\n  // and Y the luminance level of \"white\"\n  // Copying implementation from CTL source: CtlColorSpace.cpp : 77\n  float3x3 RGBtoXYZ(float2(r), float2(g), float2(b), float2(w), float Y) \{\n    // X and Z values of RGB value (1, 1, 1), or \"white\"\n    float X = w.x * Y / w.y;\n    float Z = (1 - w.x - w.y) * Y / w.y;\n    \n    // Scale factors for matrix rows\n    float d = r.x * (b.y - g.y) + b.x * (g.y - r.y) + g.x * (r.y - b.y);\n\n    float Sr = (X * (b.y - g.y) -\n      g.x * (Y * (b.y - 1) +\n      b.y  * (X + Z)) +\n      b.x  * (Y * (g.y - 1) +\n      g.y * (X + Z))) / d;\n\n    float Sg = (X * (r.y - b.y) +\n      r.x   * (Y * (b.y - 1) +\n      b.y  * (X + Z)) -\n      b.x  * (Y * (r.y - 1) +\n      r.y   * (X + Z))) / d;\n    \n    float Sb = (X * (g.y - r.y) -\n      r.x   * (Y * (g.y - 1) +\n      g.y * (X + Z)) +\n      g.x * (Y * (r.y - 1) +\n      r.y   * (X + Z))) / d;\n    \n    // Assemble the matrix\n    float3x3 M;\n    M\[0]\[0] = Sr * r.x;\n    M\[0]\[1] = Sr * r.y;\n    M\[0]\[2] = Sr * (1 - r.x - r.y);\n    M\[1]\[0] = Sg * g.x;\n    M\[1]\[1] = Sg * g.y;\n    M\[1]\[2] = Sg * (1 - g.x - g.y);\n    M\[2]\[0] = Sb * b.x;\n    M\[2]\[1] = Sb * b.y;\n    M\[2]\[2] = Sb * (1 - b.x - b.y);\n\n    return M;\n  \}\n\n  float3x3 XYZtoRGB(float2(r), float2(g), float2(b), float2(w), float Y) \{\n    return RGBtoXYZ (r, g, b, w, Y).invert();\n  \}\n\n  float3x3 calc_sat_adjust_matrix( float sat, float3 rgb2Y) \{\n    // This function determines the terms for a 3x3 saturation matrix\n    // based on the luminance of the input.\n    float3x3 M;\n    M\[0]\[0] = (1.0 - sat) * rgb2Y.x + sat;\n    M\[1]\[0] = (1.0 - sat) * rgb2Y.x;\n    M\[2]\[0] = (1.0 - sat) * rgb2Y.x;\n    \n    M\[0]\[1] = (1.0 - sat) * rgb2Y.y;\n    M\[1]\[1] = (1.0 - sat) * rgb2Y.y + sat;\n    M\[2]\[1] = (1.0 - sat) * rgb2Y.y;\n    \n    M\[0]\[2] = (1.0 - sat) * rgb2Y.z;\n    M\[1]\[2] = (1.0 - sat) * rgb2Y.z;\n    M\[2]\[2] = (1.0 - sat) * rgb2Y.z + sat;\n\n    M.transpose();\n    return M;\n  \} \n\n  float3x3 calc_SAT_MAT() \{\n    float2 ap1_r = float2(0.713,    0.293);\n    float2 ap1_g = float2(0.165,    0.830);\n    float2 ap1_b = float2(0.128,    0.044);\n    float2 ap1_w = float2(0.32168,  0.3376);\n    float3x3 AP1_2_XYZ_MAT = RGBtoXYZ(ap1_r, ap1_g, ap1_b, ap1_w, 1.0);\n    float3 AP1_RGB2Y = float3(AP1_2_XYZ_MAT\[0]\[1], AP1_2_XYZ_MAT\[1]\[1], AP1_2_XYZ_MAT\[2]\[1]);\n    return calc_sat_adjust_matrix( SAT_FACTOR, AP1_RGB2Y);\n  \}\n\n  void init() \{\n    if (invert == 0) \{\n      SAT_MAT = calc_SAT_MAT();\n    \} else \{\n      SAT_MAT = calc_SAT_MAT();\n      SAT_MAT = SAT_MAT.invert();\n    \}\n  \}\n\n  void process() \{\n    float3 aces = float3(src().x, src().y, src().z);\n    aces = mult_f3_f33( aces, SAT_MAT);\n    dst() = float4(aces.x, aces.y, aces.z, src().w);\n  \}\n\};"
-  rebuild ""
-  ACES_rrt_sweetener_global_desat_SAT_FACTOR 0.96
-  ACES_rrt_sweetener_global_desat_invert true
-  rebuild_finalise ""
-  name ACES_rrt_sweetener_global_desat
+ ColorMatrix {
+  matrix {
+      {{"(1.0 - sat) * rgb2Y.x + sat"} {"(1.0 - sat) * rgb2Y.y"} {"(1.0 - sat) * rgb2Y.z"}}
+      {{"(1.0 - sat) * rgb2Y.x"} {"(1.0 - sat) * rgb2Y.y + sat"} {"(1.0 - sat) * rgb2Y.z"}}
+      {{"(1.0 - sat) * rgb2Y.x"} {"(1.0 - sat) * rgb2Y.y"} {"(1.0 - sat) * rgb2Y.z + sat"}}
+    }
+  invert true
+  name ColorMatrix6
+  label "// --- Global desaturation --- //\nrgbPost = mult_f3_f33( rgbPost, invert_f33(RRT_SAT_MAT));"
   xpos 2930
-  ypos 1832
+  ypos 1826
+  addUserKnob {20 params}
+  addUserKnob {13 rgb2Y}
+  rgb2Y {0.27222875 0.67408174 0.05368952}
+  addUserKnob {7 sat}
+  sat 0.96
  }
  Clamp {
   channels rgba
