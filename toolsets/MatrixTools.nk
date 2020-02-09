@@ -1,0 +1,41 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name MatrixTools
+ addUserKnob {20 MatrixTools_tab l MatrixTools}
+ addUserKnob {22 calculate_matrix l Calculate t "Select 2 or more matrix nodes with or without invert knobs checked.\n\nEach matrix will be multiplied and this node will have the result set.\n\nIf 1 node is selected, that matrix value will be copied to this node (inverted if the invert knob is checked)." T "import nuke\nfloat3x3 = nuke.math.Matrix3\n\ndef matrix_from_node(node):\n    # return 3x3 matrix object from node\n    if not 'matrix' in node.knobs():\n        print('Error: node \{0\} does not contain a matrix knob.'.format(\n            node.fullName()))\n        return None\n    mtx_list = node\['matrix'].getValue()\n    M = float3x3()\n    for i in xrange(9):\n        M\[i] = mtx_list\[i]\n    if node\['invert'].getValue():\n        M = M.inverse()\n    return M\n    \ndef start():\n    node = nuke.thisNode()\n    selected_nodes = nuke.root().selectedNodes()\n    matrices = \[matrix_from_node(n) for n in selected_nodes if 'matrix' in n.knobs()]\n    if len(matrices) > 1:\n        M = float3x3()\n        num = len(matrices)\n        for i in xrange(num-1):\n            A = matrices\[i]\n            if i == 0:\n                M = A\n            B = matrices\[i+1]\n            M = B * M\n        node\['matrix'].setValue(M)\n    elif len(matrices) == 1:\n        # Set the matrix \n        node\['matrix'].setValue(matrices\[0])\n        node\['invert'].setValue(0)\n    \n    \nif __name__=='__main__':\n    start()" +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {41 matrix T ColorMatrix.matrix}
+ addUserKnob {41 invert -STARTLINE T ColorMatrix.invert}
+ addUserKnob {26 ""}
+ addUserKnob {22 save_spimtx l "Save spimtx" T "# inspired by ColorMatrixPlus by hpd\ndef write_spimtx(mtx_node, spimtx_file):\n    mtx_vals = mtx_node\['matrix'].getValue()\n    with open(spimtx_file, \"w\") as f:\n        f.write( \"%3.6f %3.6f %3.6f 0.0\\n\" % (\n            mtx_vals\[0], mtx_vals\[1], mtx_vals\[2]) )\n        f.write( \"%3.6f %3.6f %3.6f 0.0\\n\" % (\n            mtx_vals\[3], mtx_vals\[4], mtx_vals\[5]) )\n        f.write( \"%3.6f %3.6f %3.6f 0.0\\n\" % (\n            mtx_vals\[6], mtx_vals\[7], mtx_vals\[8]) )\n\nnode = nuke.thisNode()\nfilepath = nuke.getFilename('Save Matrix', '*.spimtx')\n\nif filepath:\n    if not filepath.endswith('.spimtx'):\n        filepath = filepath + '.spimtx'\n    write_spimtx(node, filepath)" +STARTLINE}
+ addUserKnob {22 load_spimtx l "Load spimtx" -STARTLINE T "# Inspired by ColorMatrixPlus by hpd\ndef load_spimtx(spimtx, mtx_node):\n    with open( spimtx, 'r') as file:\n        lines = file.readlines()\n    matrix_values = list()\n    for line in lines:\n        matrix_values.extend( map(float, line.strip().split(' ')\[0:3]) )\n    mtx_node\['matrix'].setValue(matrix_values)\n\nspimtx = nuke.getFilename('Load SPIMTX', '*.spimtx')\nif spimtx:\n    load_spimtx( spimtx, nuke.thisNode() )\n"}
+ addUserKnob {22 create_matrix_node l "Create Matrix" t "Create ColorMatrix node with the current values." T "node = nuke.thisNode()\n\nnuke.root().begin()\n_ = \[n.setSelected(False) for n in nuke.allNodes(recurseGroups=True)]\nm = nuke.createNode('ColorMatrix')\nm\['matrix'].setValue(node\['matrix'].getValue())\nm.setXYpos(node.xpos()-120, node.ypos())\nm\['label'].setValue(node\['label'].getValue())" +STARTLINE}
+ addUserKnob {22 clear l Clear -STARTLINE T "n = nuke.thisNode()\nn\['matrix'].setValue(\[1,0,0,0,1,0,0,0,1])\nn\['label'].setValue('')"}
+ addUserKnob {22 show_matrix l Show t "Show matrix values in a popup window for copying." T "node = nuke.thisNode()\nshow_4x4 = node\['show_matrix_4x4'].getValue()\nshow_commas = node\['show_matrix_commas'].getValue()\n\nif show_commas:\n    sep = ', '\nelse:\n    sep = ' '\n\nmtx = \[str(i) for i in node\['matrix'].getValue()]\n\nif show_4x4:\n    z = \['0']\n    mtx = mtx\[0:3] + z + mtx\[3:6] + z + mtx\[6:9] + z*4 + \['1']\n\nnuke.message(sep.join(mtx))" +STARTLINE}
+ addUserKnob {6 show_matrix_4x4 l "show 4x4" t "present values in a 4x4 matrix (useful for ocio)" -STARTLINE}
+ show_matrix_4x4 true
+ addUserKnob {6 show_matrix_commas l "show comma sep" t "show matrix comma separated." -STARTLINE}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos 206
+ }
+ ColorMatrix {
+  matrix {
+      {1 0 0}
+      {0 1 0}
+      {0 0 1}
+    }
+  name ColorMatrix
+  xpos -40
+  ypos 254
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 302
+ }
+end_group
