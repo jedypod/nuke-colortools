@@ -177,7 +177,7 @@ Group {
   label "ACESlib.OutputTransforms.ctl : 130\n// Gamut limit to limiting primaries\n"
   note_font_size 12
   xpos -1408
-  ypos 1343
+  ypos 1655
   bdwidth 396
   bdheight 194
  }
@@ -199,7 +199,7 @@ Group {
   label "ACESlib.OutputTransforms.ctl : 130\n    // Apply CAT from ACES white point to assumed observer adapted white point\n    // TODO: Needs to expand from just supporting D60 sim to allow for any\n    // observer adapted white point.\n"
   note_font_size 12
   xpos -1407
-  ypos 1553
+  ypos 1337
   bdwidth 467
   bdheight 301
  }
@@ -331,7 +331,7 @@ Group {
   xpos -1216
   ypos -462
  }
-set N8de87c50 [stack 0]
+set N14ad1a30 [stack 0]
  Dot {
   name Dot22
   label " "
@@ -361,7 +361,7 @@ set N8de87c50 [stack 0]
   xpos -1656
   ypos 2658
  }
-push $N8de87c50
+push $N14ad1a30
  Dot {
   name Dot28
   label " "
@@ -371,7 +371,7 @@ push $N8de87c50
   xpos -1216
   ypos -342
  }
-set N42532500 [stack 0]
+set N232c6a40 [stack 0]
  BlinkScript {
   recompileCount 3
   ProgramGroup 1
@@ -383,7 +383,7 @@ set N42532500 [stack 0]
   xpos -1140
   ypos -352
  }
-push $N42532500
+push $N232c6a40
  Switch {
   inputs 2
   which {{parent.use_c9}}
@@ -414,7 +414,7 @@ push $N42532500
   xpos -1216
   ypos 282
  }
-set N8e987e60 [stack 0]
+set N18c30990 [stack 0]
  Dot {
   name Dot15
   label " "
@@ -424,7 +424,7 @@ set N8e987e60 [stack 0]
   xpos -1106
   ypos 282
  }
-set N9bc392e0 [stack 0]
+set N23448bf0 [stack 0]
  Dot {
   name Dot13
   label " "
@@ -443,7 +443,7 @@ set N9bc392e0 [stack 0]
   xpos -886
   ypos 354
  }
-set N8b90fa00 [stack 0]
+set N188f7790 [stack 0]
  Expression {
   temp_name0 tr
   temp_expr0 "(-r - c_x_0) / (c_x_1 - c_x_0)"
@@ -501,7 +501,7 @@ set N8b90fa00 [stack 0]
   xpos -886
   ypos 498
  }
-push $N8b90fa00
+push $N188f7790
  Expression {
   temp_name0 SCALE
   temp_expr0 0.96362
@@ -513,7 +513,7 @@ push $N8b90fa00
   xpos -1030
   ypos 344
  }
-push $N9bc392e0
+push $N23448bf0
  Switch {
   inputs 2
   which {{"parent.display_pri < 3"}}
@@ -530,7 +530,7 @@ push $N9bc392e0
   xpos -1106
   ypos 426
  }
-push $N8e987e60
+push $N18c30990
  Switch {
   inputs 2
   which {{parent.d60_sim}}
@@ -554,7 +554,7 @@ push $N8e987e60
   xpos -1216
   ypos 762
  }
-set N58db8be0 [stack 0]
+set N187240c0 [stack 0]
  ColorMatrix {
   matrix {
       {{"(1.0 - sat) * rgb2Y.x + sat"} {"(1.0 - sat) * rgb2Y.y"} {"(1.0 - sat) * rgb2Y.z"}}
@@ -571,7 +571,7 @@ set N58db8be0 [stack 0]
   addUserKnob {7 sat}
   sat 0.93
  }
-push $N58db8be0
+push $N187240c0
  Switch {
   inputs 2
   which {{"parent.eotf < 5 && display_pri < 2"}}
@@ -600,7 +600,7 @@ push $N58db8be0
   xpos -1216
   ypos 1146
  }
-set N43a0e0e0 [stack 0]
+set N220168b0 [stack 0]
  Colorspace {
   colorspace_in CIE-XYZ
   colorspace_out CIE-Yxy
@@ -636,7 +636,7 @@ set N43a0e0e0 [stack 0]
   xpos -1140
   ypos 1256
  }
-push $N43a0e0e0
+push $N220168b0
  Switch {
   inputs 2
   which {{"(parent.eotf <= 4) ? parent.dark_to_dim : 0"}}
@@ -645,11 +645,76 @@ push $N43a0e0e0
   xpos -1250
   ypos 1250
  }
+ Dot {
+  name Dot19
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -1216
+  ypos 1434
+ }
+set N2347d300 [stack 0]
+ Dot {
+  name Dot9
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -1106
+  ypos 1434
+ }
+set N23481f00 [stack 0]
+ ColorMatrix {
+  matrix {
+      {0.9872254133 -0.006114810705 0.01592640579}
+      {-0.007603884675 1.001874804 0.005322027951}
+      {0.003066040576 -0.005084238946 1.081519246}
+    }
+  name ColorMatrix2
+  label "CAT: Bradford\n D60 to D65"
+  xpos -1140
+  ypos 1466
+ }
+set N23486e30 [stack 0]
+push $N23481f00
+ Dot {
+  name Dot10
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -996
+  ypos 1434
+ }
+push $N23486e30
+ Switch {
+  inputs 2
+  which {{parent.d60_sim}}
+  name d60_sim_switch
+  xpos -1140
+  ypos 1550
+ }
+push $N2347d300
+ Switch {
+  inputs 2
+  which {{"parent.display_pri < 3"}}
+  name switch_wp_is_d65_1
+  xpos -1250
+  ypos 1550
+ }
+ Switch {
+  inputs 2
+  which {{parent.force_d65_cat}}
+  name switch_force_d65_cat
+  xpos -1250
+  ypos 1598
+ }
  Group {
   name limit_to_primaries
   label "Only enabled when display_pri != limiting_pri"
   xpos -1250
-  ypos 1448
+  ypos 1760
   disable {{"!(parent.display_pri != parent.limiting_pri)"}}
   addUserKnob {20 limit_to_primaries}
   addUserKnob {4 limiting_pri l "limiting pri" M {Rec709 Rec2020 P3D65 P3DCI P3D60 ACEScg ACES XYZ}}
@@ -670,8 +735,8 @@ push $N43a0e0e0
    xpos -6
    ypos -198
   }
-set N84e618c0 [stack 0]
-push $N84e618c0
+set N23273740 [stack 0]
+push $N23273740
   ColorMatrix {
    matrix {
        {1.049811006 0 -9.748453158e-05}
@@ -683,7 +748,7 @@ push $N84e618c0
    xpos 730
    ypos -136
   }
-push $N84e618c0
+push $N23273740
   ColorMatrix {
    matrix {
        {1.641023397 -0.3248033226 -0.2364246994}
@@ -695,7 +760,7 @@ push $N84e618c0
    xpos 620
    ypos -136
   }
-push $N84e618c0
+push $N23273740
   ColorMatrix {
    matrix {
        {2.402741432 -0.8974840641 -0.3880533576}
@@ -707,7 +772,7 @@ push $N84e618c0
    xpos 510
    ypos -136
   }
-push $N84e618c0
+push $N23273740
   ColorMatrix {
    matrix {
        {2.725393534 -1.018002748 -0.4401631057}
@@ -719,7 +784,7 @@ push $N84e618c0
    xpos 400
    ypos -136
   }
-push $N84e618c0
+push $N23273740
   ColorMatrix {
    matrix {
        {2.493496418 -0.9313833117 -0.4027107358}
@@ -731,7 +796,7 @@ push $N84e618c0
    xpos 290
    ypos -136
   }
-push $N84e618c0
+push $N23273740
   ColorMatrix {
    matrix {
        {1.71665132 -0.3556708097 -0.2533662617}
@@ -743,7 +808,7 @@ push $N84e618c0
    xpos 180
    ypos -136
   }
-push $N84e618c0
+push $N23273740
   ColorMatrix {
    matrix {
        {3.240970135 -1.537383318 -0.4986107945}
@@ -779,8 +844,8 @@ push $N84e618c0
    xpos -6
    ypos 162
   }
-set N97a15c00 [stack 0]
-push $N97a15c00
+set N23372f30 [stack 0]
+push $N23372f30
   ColorMatrix {
    matrix {
        {0.9525524378 0 9.367863095e-05}
@@ -792,7 +857,7 @@ push $N97a15c00
    xpos 730
    ypos 224
   }
-push $N97a15c00
+push $N23372f30
   ColorMatrix {
    matrix {
        {0.6624541879 0.1340042055 0.1561876982}
@@ -804,7 +869,7 @@ push $N97a15c00
    xpos 620
    ypos 224
   }
-push $N97a15c00
+push $N23372f30
   ColorMatrix {
    matrix {
        {0.5049495697 0.2646814585 0.1830150485}
@@ -816,7 +881,7 @@ push $N97a15c00
    xpos 510
    ypos 224
   }
-push $N97a15c00
+push $N23372f30
   ColorMatrix {
    matrix {
        {0.4451698363 0.2771343887 0.1722826511}
@@ -828,7 +893,7 @@ push $N97a15c00
    xpos 400
    ypos 224
   }
-push $N97a15c00
+push $N23372f30
   ColorMatrix {
    matrix {
        {0.4865709841 0.2656676769 0.1982172877}
@@ -840,7 +905,7 @@ push $N97a15c00
    xpos 290
    ypos 224
   }
-push $N97a15c00
+push $N23372f30
   ColorMatrix {
    matrix {
        {0.6369580626 0.1446169019 0.1688809693}
@@ -852,7 +917,7 @@ push $N97a15c00
    xpos 180
    ypos 224
   }
-push $N97a15c00
+push $N23372f30
   ColorMatrix {
    matrix {
        {0.4123907983 0.3575843275 0.180480808}
@@ -877,71 +942,6 @@ push $N97a15c00
    ypos 446
   }
  end_group
- Dot {
-  name Dot19
-  label " "
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xa5a5a501
-  xpos -1216
-  ypos 1650
- }
-set N3599ea10 [stack 0]
- Dot {
-  name Dot9
-  label " "
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xa5a5a501
-  xpos -1106
-  ypos 1650
- }
-set N30fd8f10 [stack 0]
- ColorMatrix {
-  matrix {
-      {0.9872254133 -0.006114810705 0.01592640579}
-      {-0.007603884675 1.001874804 0.005322027951}
-      {0.003066040576 -0.005084238946 1.081519246}
-    }
-  name ColorMatrix2
-  label "CAT: Bradford\n D60 to D65"
-  xpos -1140
-  ypos 1682
- }
-set N30fdde30 [stack 0]
-push $N30fd8f10
- Dot {
-  name Dot10
-  label " "
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xa5a5a501
-  xpos -996
-  ypos 1650
- }
-push $N30fdde30
- Switch {
-  inputs 2
-  which {{parent.d60_sim}}
-  name d60_sim_switch
-  xpos -1140
-  ypos 1766
- }
-push $N3599ea10
- Switch {
-  inputs 2
-  which {{"parent.display_pri < 3"}}
-  name switch_wp_is_d65_1
-  xpos -1250
-  ypos 1766
- }
- Switch {
-  inputs 2
-  which {{parent.force_d65_cat}}
-  name switch_force_d65_cat
-  xpos -1250
-  ypos 1814
- }
  Group {
   name XYZ_2_DISPLAY_PRI
   label "CIE XYZ to display encoding primaries"
@@ -967,8 +967,8 @@ push $N3599ea10
    xpos -6
    ypos -198
   }
-set N324cdcb0 [stack 0]
-push $N324cdcb0
+set N234bee40 [stack 0]
+push $N234bee40
   ColorMatrix {
    matrix {
        {1.049811006 0 -9.748453158e-05}
@@ -980,7 +980,7 @@ push $N324cdcb0
    xpos 730
    ypos -136
   }
-push $N324cdcb0
+push $N234bee40
   ColorMatrix {
    matrix {
        {1.641023397 -0.3248033226 -0.2364246994}
@@ -992,7 +992,7 @@ push $N324cdcb0
    xpos 620
    ypos -136
   }
-push $N324cdcb0
+push $N234bee40
   ColorMatrix {
    matrix {
        {2.402741432 -0.8974840641 -0.3880533576}
@@ -1004,7 +1004,7 @@ push $N324cdcb0
    xpos 510
    ypos -136
   }
-push $N324cdcb0
+push $N234bee40
   ColorMatrix {
    matrix {
        {2.725393534 -1.018002748 -0.4401631057}
@@ -1016,7 +1016,7 @@ push $N324cdcb0
    xpos 400
    ypos -136
   }
-push $N324cdcb0
+push $N234bee40
   ColorMatrix {
    matrix {
        {2.493496418 -0.9313833117 -0.4027107358}
@@ -1028,7 +1028,7 @@ push $N324cdcb0
    xpos 290
    ypos -136
   }
-push $N324cdcb0
+push $N234bee40
   ColorMatrix {
    matrix {
        {1.71665132 -0.3556708097 -0.2533662617}
@@ -1040,7 +1040,7 @@ push $N324cdcb0
    xpos 180
    ypos -136
   }
-push $N324cdcb0
+push $N234bee40
   ColorMatrix {
    matrix {
        {3.240970135 -1.537383318 -0.4986107945}
@@ -1081,8 +1081,8 @@ push $N324cdcb0
   xpos -1216
   ypos 2514
  }
-set N3c5a79a0 [stack 0]
-push $N3c5a79a0
+set N23534400 [stack 0]
+push $N23534400
  Dot {
   name Dot3
   label " "
@@ -1092,7 +1092,7 @@ push $N3c5a79a0
   xpos -886
   ypos 2514
  }
-set N3ca9cfe0 [stack 0]
+set N23539980 [stack 0]
  Dot {
   name Dot4
   label " "
@@ -1102,7 +1102,7 @@ set N3ca9cfe0 [stack 0]
   xpos -666
   ypos 2514
  }
-set N3caa1e60 [stack 0]
+set N2353e850 [stack 0]
  Dot {
   name Dot6
   label " "
@@ -1112,7 +1112,7 @@ set N3caa1e60 [stack 0]
   xpos -446
   ypos 2514
  }
-set N3caa6d90 [stack 0]
+set N23543780 [stack 0]
  Dot {
   name Dot18
   label " "
@@ -1122,7 +1122,7 @@ set N3caa6d90 [stack 0]
   xpos -226
   ypos 2514
  }
-set N3c69bea0 [stack 0]
+set N235486b0 [stack 0]
  Dot {
   name Dot20
   label " "
@@ -1132,7 +1132,7 @@ set N3c69bea0 [stack 0]
   xpos -6
   ypos 2514
  }
-set N3c6a0d00 [stack 0]
+set N2354d5e0 [stack 0]
  Dot {
   name Dot25
   label " "
@@ -1142,7 +1142,7 @@ set N3c6a0d00 [stack 0]
   xpos 214
   ypos 2514
  }
-set N3c6a5c30 [stack 0]
+set N23552510 [stack 0]
  Dot {
   name Dot24
   label " "
@@ -1161,7 +1161,7 @@ set N3c6a5c30 [stack 0]
   xpos 654
   ypos 2610
  }
-set N385c4ba0 [stack 0]
+set N2355c370 [stack 0]
  Expression {
   expr0 "r * (Ymax - Ymin) + Ymin"
   expr1 "g * (Ymax - Ymin) + Ymin"
@@ -1175,7 +1175,7 @@ set N385c4ba0 [stack 0]
   addUserKnob {7 Ymax R 48 10000}
   Ymax {{parent.lum.2}}
  }
-push $N385c4ba0
+push $N2355c370
  Expression {
   expr0 "r * (Ymax - Ymin) + Ymin"
   expr1 "g * (Ymax - Ymin) + Ymin"
@@ -1232,7 +1232,7 @@ push $N385c4ba0
   addUserKnob {7 pq_C +DISABLED R 0 100}
   pq_C 10000
  }
-set N383ce8f0 [stack 0]
+set N235963b0 [stack 0]
  Dot {
   name Dot5
   label " "
@@ -1317,7 +1317,7 @@ set N383ce8f0 [stack 0]
   xpos 984
   ypos 2970
  }
-push $N383ce8f0
+push $N235963b0
  Dot {
   name Dot27
   label " PQ"
@@ -1327,7 +1327,7 @@ push $N383ce8f0
   xpos 654
   ypos 2970
  }
-push $N3c6a5c30
+push $N23552510
  Expression {
   expr0 "pow( (48./52.37) * r, 1./2.6)"
   expr1 "pow( (48./52.37) * g, 1./2.6)"
@@ -1337,7 +1337,7 @@ push $N3c6a5c30
   xpos 180
   ypos 2702
  }
-push $N3c6a0d00
+push $N2354d5e0
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -1350,7 +1350,7 @@ push $N3c6a0d00
   addUserKnob {7 gamma R 0 4}
   gamma 2.6
  }
-push $N3c69bea0
+push $N235486b0
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -1363,7 +1363,7 @@ push $N3c69bea0
   addUserKnob {7 gamma R 0 4}
   gamma 2.4
  }
-push $N3caa6d90
+push $N23543780
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -1376,7 +1376,7 @@ push $N3caa6d90
   addUserKnob {7 gamma R 0 4}
   gamma 2.2
  }
-push $N3caa1e60
+push $N2353e850
  Expression {
   temp_name0 c_a
   temp_expr0 "pow( pow( Lw, 1./gamma) - pow( Lb, 1./gamma), gamma)"
@@ -1396,7 +1396,7 @@ push $N3caa1e60
   addUserKnob {7 gamma R 1 4}
   gamma 2.4
  }
-push $N3ca9cfe0
+push $N23539980
  Expression {
   temp_name0 yb
   temp_expr0 "pow( offs * gamma / ( ( gamma - 1.0) * ( 1.0 + offs)), gamma)"
