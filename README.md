@@ -11,7 +11,6 @@ For more specific information on each tool go to the [toolsets folder](https://g
 
 
 ## Resources
-I couldn't have made this withouth the following resources:
 - Alex Fry's [PureNukeAces](https://github.com/alexfry/PureNukeACES) nodes
 - The [AcesCentral Forums](https://acescentral.com)
 - The [excellent information](https://colour.readthedocs.io/en/v0.3.10/colour.models.rgb.html) that comes with the [Colour python package](https://colour.readthedocs.io/en/v0.3.15/index.html).
