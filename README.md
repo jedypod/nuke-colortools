@@ -7,7 +7,7 @@ A collection of tools for Nuke related to color science and the Academy Color En
 - **ChromaticityConverter** - Calculate a matrix to convert from one colorspace to another, given the chromaticity coordinates of the source and destination colorspaces, and a chromatic adapaptation method if the whitepoints are different.
 - **segmented_spline_c5_c9** - a Nuke node implementation of the segmented_spline_c5 and segmented_spline_c9 algorithms. 
 
-For more specific information on each tool go to the [toolsets folder](https://github.com/jedypod/nuke-colortools/tree/master/toolsets) and check out the README.
+For more specific information on each tool go to the [toolsets folder](/toolsets) and check out the README.
 
 
 ## Resources
@@ -16,3 +16,7 @@ For more specific information on each tool go to the [toolsets folder](https://g
 - The [excellent information](https://colour.readthedocs.io/en/v0.3.10/colour.models.rgb.html) that comes with the [Colour python package](https://colour.readthedocs.io/en/v0.3.15/index.html).
 - [Cinematic Color 2: Color for Motion Pictures and Games](https://nick-shaw.github.io/cinematiccolor/cinematic-color.html#color-science.html)
 - Zach Lewis' [ACES Output Transform](https://gist.github.com/zachlewis/786c0be941868644c993fde1c3515c2c)
+
+
+# OCIO Configs
+I also made some [OCIO Configs](https://github.com/jedypod/color-config) which might be of interest.
