@@ -1,0 +1,22 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Expression {
+ temp_name0 divisor
+ temp_expr0 "(r+g+b) == 0 ? 1e-10 : (r+g+b)"
+ expr0 r/divisor
+ expr1 g/divisor
+ expr2 g
+ name XYZ_to_xyY
+ selected true
+ xpos -2620
+ ypos 1946
+}
+Expression {
+ expr0 "r * b / max(g, 1e-10)"
+ expr1 b
+ expr2 "(1.0 - r- g) * b / max(g, 1e-10)"
+ name xyY_to_XYZ
+ selected true
+ xpos -2620
+ ypos 2004
+}
