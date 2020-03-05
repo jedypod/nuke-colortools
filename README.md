@@ -19,4 +19,4 @@ For more specific information on each tool go to the [toolsets folder](/toolsets
 
 
 # OCIO Configs
-I also made some [OCIO Configs](https://github.com/jedypod/colortools) which might be of interest.
+I also made some [OCIO Configs](https://github.com/jedypod/colortools) and other color pipeline tools which might be of interest.
