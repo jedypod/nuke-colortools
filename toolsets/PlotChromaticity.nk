@@ -9,12 +9,11 @@ Group {
  addUserKnob {7 r_margin l "right margin" R 1 1.5}
  r_margin 1
  addUserKnob {7 l_margin l "L margin" R 0 0.25}
- l_margin 0.05
+ l_margin 0.08
  addUserKnob {7 b_margin l "B margin" R 0 0.25}
- b_margin 0.1
+ b_margin 0.08
  addUserKnob {41 output_format l format T Plot_Input.format}
  addUserKnob {6 resample_input l "resample input" t "scale down input - can help speed up plotting for high resolution inputs." +STARTLINE}
- resample_input true
  addUserKnob {3 input_width l " " t "width to resample input to" -STARTLINE}
  input_width 2048
  addUserKnob {26 ""}
@@ -137,8 +136,8 @@ Group {
    xpos -260
    ypos 110
   }
-set Ne3e5e70 [stack 0]
-push $Ne3e5e70
+set N145a85c0 [stack 0]
+push $N145a85c0
   ContactSheet {
    inputs 2
    width {{width*columns}}
@@ -212,7 +211,7 @@ push $Ne3e5e70
    xpos -40
    ypos -341
   }
-set Nf753e70 [stack 0]
+set N3a448040 [stack 0]
   Dot {
    name Dot2
    label " "
@@ -245,7 +244,7 @@ set Nf753e70 [stack 0]
    addUserKnob {12 white}
    white {{"parent.distribution ? 4*parent.wxy.x / ( -2 * parent.wxy.x + 12 * parent.wxy.y + 3) : parent.wxy"} {"parent.distribution ? 9*parent.wxy.y / ( -2*parent.wxy.x + 12*parent.wxy.y + 3) : parent.wxy"}}
   }
-set Ne1c5e70 [stack 0]
+set N688240 [stack 0]
   Posterize {
    channels rgb
    Colors {{rint(parent.density/3*2)}}
@@ -254,8 +253,8 @@ set Ne1c5e70 [stack 0]
    xpos -590
    ypos -194
   }
-set Ne379e70 [stack 0]
-push $Ne1c5e70
+set Necb4a40 [stack 0]
+push $N688240
   Dot {
    name Dot15
    note_font "Bitstream Vera Sans"
@@ -270,8 +269,8 @@ push $Ne1c5e70
    xpos -480
    ypos -154
   }
-push $Ne379e70
-push $Ne1c5e70
+push $Necb4a40
+push $N688240
   Dot {
    name Dot16
    note_font "Bitstream Vera Sans"
@@ -387,8 +386,8 @@ push $Ne1c5e70
    xpos -556
    ypos 378
   }
-push $Ne3e5e70
-push $Nf753e70
+push $N145a85c0
+push $N3a448040
   Expression {
    expr0 r
    expr1 "4*g / ( -2*g + 12*b + 3)"
@@ -597,7 +596,7 @@ push $Nf753e70
   xpos -1546
   ypos 450
  }
-set Ne0674a0 [stack 0]
+set N326a79c0 [stack 0]
  Colorspace {
   colorspace_in CIE-XYZ
   primary_in "Adobe (1998)"
@@ -626,7 +625,7 @@ set Ne0674a0 [stack 0]
   xpos -1436
   ypos 570
  }
-push $Ne0674a0
+push $N326a79c0
  Fill {
   color {1 0.5 0.1 1}
   name Fill1
@@ -865,7 +864,7 @@ push $Ne0674a0
   xpos -446
   ypos 402
  }
-set Nfa444a0 [stack 0]
+set Nd2cae100 [stack 0]
  Constant {
   inputs 0
   format "256 256 0 0 256 256 1 square_256"
@@ -894,7 +893,7 @@ set Nfa444a0 [stack 0]
   xpos -370
   ypos 14
  }
-set Nf1a3e70 [stack 0]
+set N2eae15f0 [stack 0]
  Dot {
   name Dot9
   note_font "Bitstream Vera Sans"
@@ -931,7 +930,7 @@ set Nf1a3e70 [stack 0]
   xpos -226
   ypos 234
  }
-push $Nf1a3e70
+push $N2eae15f0
  Expression {
   temp_name0 start
   temp_expr0 360
@@ -1014,7 +1013,7 @@ push $Nf1a3e70
   xpos -336
   ypos 378
  }
-set N13450740 [stack 0]
+set N8ce7f340 [stack 0]
  Dot {
   name Dot5
   label " "
@@ -1050,7 +1049,7 @@ set N13450740 [stack 0]
   xpos -226
   ypos 594
  }
-push $Nfa444a0
+push $Nd2cae100
  Colorspace {
   colorspace_in CIE-Yxy
   primary_in "Adobe (1998)"
@@ -1081,7 +1080,7 @@ push $Nfa444a0
   ypos 536
   disable {{!parent.colorize_pointers_gamut x1 1}}
  }
-push $N13450740
+push $N8ce7f340
  Colorspace {
   colorspace_in CIE-Yxy
   primary_in "Adobe (1998)"
@@ -1175,7 +1174,7 @@ push $N13450740
   xpos 214
   ypos 378
  }
-set Nf71b1d0 [stack 0]
+set Ne87fae30 [stack 0]
  Dot {
   name Dot1
   label " "
@@ -1192,7 +1191,7 @@ set Nf71b1d0 [stack 0]
   ypos 416
   addUserKnob {20 GamutToXYZ_tab l GamutToXYZ}
   addUserKnob {4 gamut t "Choose gamut" M {XYZ ACES ACEScg "Filmlight E-Gamut" Rec709 Rec2020 P3D60 P3D65 P3DCI ArriAlexaWideGamut "AdobeRGB\t" AdobeWideGamutRGB ROMM RIMM ERIMM ProPhotoRGB REDDRAGONcolor REDDRAGONcolor2 REDcolor REDcolor2 REDcolor3 REDcolor4 REDWideGamutRGB GoProProtune CanonCinemaGamut SonySGamut SonySGamut3Cine PanasonicVGamut ""}}
-  gamut ACEScg
+  gamut ACES
   addUserKnob {6 invert +STARTLINE}
   addUserKnob {26 ""}
   addUserKnob {26 chromaticity_coordinates_label l " " T "<b>Chromaticity Coordinates</b>"}
@@ -1265,7 +1264,7 @@ set Nf71b1d0 [stack 0]
   xpos 324
   ypos 618
  }
-push $Nf71b1d0
+push $Ne87fae30
  Dot {
   name Dot16
   label " Col"
@@ -1283,7 +1282,7 @@ push $Nf71b1d0
   useGPUIfAvailable false
   vectorize false
   rebuild ""
-  plot_cie_xy_padding {{parent.r_margin}}
+  plot_cie_xy_padding {{"parent.diagram? parent.r_margin * 0.72 : parent.r_margin"}}
   plot_cie_xy_left_pad {{parent.l_margin} {parent.b_margin}}
   plot_cie_xy_process_input true
   format "2048 2048 0 0 2048 2048 1 square_2K"
