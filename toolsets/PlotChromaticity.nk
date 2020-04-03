@@ -1,0 +1,1324 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name PlotChromaticity
+ addUserKnob {20 PlotGamut_tab l PlotGamut}
+ addUserKnob {41 input_gamut t "Set the gamut that the input colors are encoded in" T GamutToXYZ3.gamut}
+ addUserKnob {4 diagram t "Choose the type of chromaticity diagram" M {"CIE 1931 xy Chromaticity Diagram" "CIE 1976 u' v' Uniform Chrimaticity Scale Diagram"}}
+ addUserKnob {26 plot_dimensions_label l " " T "<b>Plot Dimensions"}
+ addUserKnob {7 r_margin l "right margin" R 1 1.5}
+ r_margin 1
+ addUserKnob {7 l_margin l "L margin" R 0 0.25}
+ l_margin 0.05
+ addUserKnob {7 b_margin l "B margin" R 0 0.25}
+ b_margin 0.1
+ addUserKnob {41 output_format l format T Plot_Input.format}
+ addUserKnob {6 resample_input l "resample input" t "scale down input - can help speed up plotting for high resolution inputs." +STARTLINE}
+ resample_input true
+ addUserKnob {3 input_width l " " t "width to resample input to" -STARTLINE}
+ input_width 2048
+ addUserKnob {26 ""}
+ addUserKnob {6 draw_axis l "&nbsp;&nbsp; <b> Coordinate System" t "Draw axis" +STARTLINE}
+ draw_axis true
+ addUserKnob {41 plot_cie_xy_axis_color l axis_color T Plot_SpectralLocus_and_Axis.plot_cie_xy_axis_color}
+ addUserKnob {26 ""}
+ addUserKnob {6 draw_spectral_locus l " &nbsp;&nbsp; <b> Spectral Locus" t "draw the spectrum locus: the boundary of color the human eye can see." +STARTLINE}
+ draw_spectral_locus true
+ addUserKnob {6 colorize_spectral_locus l "colorize spectral locus" +STARTLINE}
+ addUserKnob {41 spectral_locus_color l color T Fill2.color}
+ addUserKnob {26 ""}
+ addUserKnob {6 draw_gamut_overlay l " &nbsp;&nbsp; <b> Gamut Overlay" t "draw an overlay of a color gamut (choose gamut below)" +STARTLINE}
+ draw_gamut_overlay true
+ addUserKnob {41 gamut_overlay l gamut t "choose gamut to overlay" T GamutToXYZ_OVERLAY.gamut}
+ addUserKnob {4 style t "Choose the style to display the gamut plot" M {boundary dots grid}}
+ addUserKnob {4 distribution t "Which chromaticity space should the overlays be constructed in? \n\nYxy is familiar, but not very perceptually uniform.\n\nLu'v' is designed to be more perceptually uniform." -STARTLINE M {"CIE Yxy" "CIE Lu'v'"}}
+ distribution "CIE Lu'v'"
+ addUserKnob {7 density t "Density of the grid or points if style is not boundary" R 10 100}
+ density 55
+ addUserKnob {7 opacity_gamut_overlay l opacity R 0.1 1}
+ opacity_gamut_overlay 0.5
+ addUserKnob {6 colorize_gamut_boundary l "colorize gamut boundary" t "use a constant color for the gamut overlay instead of the spectral boundary colors." +STARTLINE}
+ colorize_gamut_boundary true
+ addUserKnob {41 overlay_gamut_color l color t "gamut boundary fill color, if enabled." T Fill1.color}
+ addUserKnob {26 ""}
+ addUserKnob {6 enable_pointers_gamut l "&nbsp; <b>Pointers Gamut" t "Enable Pointer's gamut overlay" +STARTLINE}
+ addUserKnob {6 enable_pointer_samples l "enable samples" t "show the individual pointer gamut samples" +STARTLINE}
+ enable_pointer_samples true
+ addUserKnob {6 colorize_pointers_gamut l "colorize pointers gamut" t "set the pointer's gamut colors to a constant" +STARTLINE}
+ addUserKnob {41 color T ColorizePointers.color}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x222222ff
+  label "Draw Gamut"
+  note_font_size 42
+  xpos -1835
+  ypos -325
+  bdwidth 585
+  bdheight 1462
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode2
+  tile_color 0x222222ff
+  label "Draw Spectral Locus"
+  note_font_size 42
+  xpos -627
+  ypos -321
+  bdwidth 582
+  bdheight 1458
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode3
+  tile_color 0x222222ff
+  label "Plot Input Pixels"
+  note_font_size 42
+  xpos -13
+  ypos -604
+  bdwidth 514
+  bdheight 1904
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode4
+  tile_color 0x202020ff
+  label "Pointer's Gamut"
+  note_font_size 48
+  xpos -1205
+  ypos -321
+  bdwidth 554
+  bdheight 1458
+ }
+ Group {
+  inputs 0
+  name GamutGrid
+  xpos -1690
+  ypos 398
+  addUserKnob {20 GamutGrid}
+  addUserKnob {3 style}
+  style {{max(0,parent.style-1)}}
+  addUserKnob {3 distribution -STARTLINE}
+  distribution {{parent.distribution}}
+  addUserKnob {7 density R 10 150}
+  density {{parent.density}}
+  addUserKnob {26 ""}
+  addUserKnob {41 matrix T ColorMatrix.matrix}
+  addUserKnob {12 wxy}
+  wxy {{parent.GamutToXYZ_OVERLAY.wxy} {parent.GamutToXYZ_OVERLAY.wxy}}
+ }
+  ColorWheel {
+   inputs 0
+   format "512 512 0 0 512 512 1 square_512"
+   centerSaturation 1
+   fillFormat false
+   area {-170 -158 682 670}
+   name ColorWheel4
+   xpos -260
+   ypos 3
+   postage_stamp false
+  }
+  Crop {
+   box {0 0 512 512}
+   crop false
+   name Crop2
+   xpos -260
+   ypos 29
+  }
+  Reformat {
+   type scale
+   scale {{max(parent.density/50,0.25)}}
+   resize distort
+   filter Impulse
+   pbb true
+   name Reformat3
+   note_font "Bitstream Vera Sans"
+   xpos -260
+   ypos 110
+  }
+set Ne3e5e70 [stack 0]
+push $Ne3e5e70
+  ContactSheet {
+   inputs 2
+   width {{width*columns}}
+   height {{height/pixel_aspect*rows}}
+   rows 1
+   columns 2
+   roworder TopBottom
+   name ContactSheet2
+   xpos -260
+   ypos 169
+  }
+  Dot {
+   name Dot1
+   label " "
+   note_font "Helvetica Bold"
+   note_font_size 24
+   note_font_color 0xa5a5a501
+   xpos -226
+   ypos 246
+  }
+  ColorWheel {
+   inputs 0
+   format "512 512 0 0 512 512 1 square_512"
+   fillFormat false
+   area {40 40 472 472}
+   name ColorWheel1
+   xpos -40
+   ypos -664
+   postage_stamp false
+  }
+  Reformat {
+   type scale
+   scale {{max(parent.density/50,0.25)}}
+   resize distort
+   filter Impulse
+   pbb true
+   name Reformat1
+   note_font "Bitstream Vera Sans"
+   xpos -40
+   ypos -628
+  }
+  Crop {
+   box {0 0 {width} {height}}
+   reformat true
+   name Crop1
+   note_font "Bitstream Vera Sans"
+   xpos -40
+   ypos -602
+  }
+  Unpremult {
+   name Unpremult1
+   xpos -40
+   ypos -526
+  }
+  ColorMatrix {
+   matrix {
+       {{parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix}}
+       {{parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix}}
+       {{parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix}}
+     }
+   name ColorMatrix
+   label "RGB to XYZ"
+   xpos -40
+   ypos -415
+  }
+  Colorspace {
+   colorspace_in CIE-XYZ
+   colorspace_out CIE-Yxy
+   name Colorspace1
+   label "\[value colorspace_in] -> \[value colorspace_out]"
+   xpos -40
+   ypos -341
+  }
+set Nf753e70 [stack 0]
+  Dot {
+   name Dot2
+   label " "
+   note_font "Helvetica Bold"
+   note_font_size 24
+   note_font_color 0xa5a5a501
+   xpos -556
+   ypos -331
+  }
+  Expression {
+   expr0 r
+   expr1 "4*g / ( -2*g + 12*b + 3)"
+   expr2 "9*b / ( -2*g + 12*b + 3)"
+   name Expression5
+   label "CIE Yxy to CIELuv"
+   xpos -590
+   ypos -304
+   disable {{!parent.distribution}}
+  }
+  Expression {
+   expr0 r
+   expr1 "(-(degrees(atan2(g-white.x, b-white.y))-180)+270)%360/360"
+   expr2 "hypot(g-white.x, b-white.y)"
+   expr3 a
+   name Expression3
+   xpos -590
+   ypos -261
+   cached true
+   addUserKnob {20 User}
+   addUserKnob {12 white}
+   white {{"parent.distribution ? 4*parent.wxy.x / ( -2 * parent.wxy.x + 12 * parent.wxy.y + 3) : parent.wxy"} {"parent.distribution ? 9*parent.wxy.y / ( -2*parent.wxy.x + 12*parent.wxy.y + 3) : parent.wxy"}}
+  }
+set Ne1c5e70 [stack 0]
+  Posterize {
+   channels rgb
+   Colors {{rint(parent.density/3*2)}}
+   name Posterize1
+   note_font "Bitstream Vera Sans"
+   xpos -590
+   ypos -194
+  }
+set Ne379e70 [stack 0]
+push $Ne1c5e70
+  Dot {
+   name Dot15
+   note_font "Bitstream Vera Sans"
+   xpos -446
+   ypos -257
+  }
+  Copy {
+   inputs 2
+   from0 rgba.blue
+   to0 rgba.blue
+   name Copy1
+   xpos -480
+   ypos -154
+  }
+push $Ne379e70
+push $Ne1c5e70
+  Dot {
+   name Dot16
+   note_font "Bitstream Vera Sans"
+   xpos -666
+   ypos -257
+  }
+  Copy {
+   inputs 2
+   from0 rgba.green
+   to0 rgba.green
+   name Copy2
+   xpos -700
+   ypos -153
+  }
+  ContactSheet {
+   inputs 2
+   width {{width*columns}}
+   height {{height/pixel_aspect*rows}}
+   rows 1
+   columns 2
+   center true
+   roworder TopBottom
+   name ContactSheet3
+   xpos -590
+   ypos -102
+  }
+  Expression {
+   expr0 r
+   expr1 cos(radians(g*360))*b+white.x
+   expr2 sin(radians(g*360))*b+white.y
+   expr3 a
+   name Expression19
+   xpos -590
+   ypos -57
+   cached true
+   addUserKnob {20 User}
+   addUserKnob {12 white}
+   white {{parent.Expression3.white} {parent.Expression3.white}}
+  }
+  Expression {
+   expr0 r
+   expr1 "9*g / ( 6*g - 16*b + 12)"
+   expr2 "4*b/ ( 6*g - 16*b + 12)"
+   name Expression2
+   label "CIELuv to CIE Yxy"
+   xpos -590
+   ypos -16
+   disable {{!parent.distribution}}
+  }
+  Colorspace {
+   colorspace_in CIE-Yxy
+   colorspace_out CIE-XYZ
+   name Colorspace2
+   label "\[value colorspace_in] -> \[value colorspace_out]"
+   xpos -590
+   ypos 31
+  }
+  ColorMatrix {
+   matrix {
+       {{parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix}}
+       {{parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix}}
+       {{parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix}}
+     }
+   invert true
+   name ColorMatrix1
+   label "XYZ to RGB"
+   xpos -590
+   ypos 81
+  }
+  Clamp {
+   channels rgba
+   maximum_enable false
+   name ClampMin2
+   xpos -590
+   ypos 119
+  }
+  Clamp {
+   channels {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+   minimum 1
+   MinClampTo_enable true
+   MaxClampTo_enable true
+   name Clamp1
+   note_font "Bitstream Vera Sans"
+   xpos -590
+   ypos 156
+  }
+  Premult {
+   name Premult1
+   xpos -590
+   ypos 194
+  }
+  Merge2 {
+   inputs 2
+   operation under
+   bbox B
+   name Merge2
+   xpos -590
+   ypos 242
+  }
+  Shuffle {
+   alpha white
+   name Shuffle1
+   label "\[value in] -> \[value out]"
+   xpos -590
+   ypos 314
+  }
+  Dot {
+   name Dot3
+   label " GRID"
+   note_font "Helvetica Bold"
+   note_font_size 24
+   note_font_color 0xa5a5a501
+   xpos -556
+   ypos 378
+  }
+push $Ne3e5e70
+push $Nf753e70
+  Expression {
+   expr0 r
+   expr1 "4*g / ( -2*g + 12*b + 3)"
+   expr2 "9*b / ( -2*g + 12*b + 3)"
+   name Expression4
+   label "CIE Yxy to CIELuv"
+   xpos -40
+   ypos -304
+   disable {{!parent.distribution}}
+  }
+  Expression {
+   expr0 r
+   expr1 rint(g*Colors)/Colors
+   expr2 rint(b*Colors)/Colors
+   expr3 a
+   name Expression1
+   label rint
+   note_font "Bitstream Vera Sans"
+   xpos -40
+   ypos -233
+   addUserKnob {20 User}
+   addUserKnob {7 Colors R 1 256}
+   Colors {{parent.density}}
+  }
+  Expression {
+   expr0 r
+   expr1 "9*g / ( 6*g - 16*b + 12)"
+   expr2 "4*b/ ( 6*g - 16*b + 12)"
+   name Expression6
+   label "CIELuv to CIE Yxy"
+   xpos -40
+   ypos -184
+   disable {{!parent.distribution}}
+  }
+  Colorspace {
+   colorspace_in CIE-Yxy
+   colorspace_out CIE-XYZ
+   name Colorspace3
+   label "\[value colorspace_in] -> \[value colorspace_out]"
+   xpos -40
+   ypos -133
+  }
+  ColorMatrix {
+   matrix {
+       {{parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix}}
+       {{parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix}}
+       {{parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix}}
+     }
+   invert true
+   name ColorMatrix3
+   label "XYZ to RGB"
+   xpos -40
+   ypos -57
+  }
+  Clamp {
+   channels {-rgba.red -rgba.green -rgba.blue rgba.alpha}
+   minimum 1
+   MinClampTo_enable true
+   MaxClampTo_enable true
+   name Clamp4
+   note_font "Bitstream Vera Sans"
+   xpos -40
+   ypos -13
+  }
+  Premult {
+   name Premult2
+   xpos -40
+   ypos 34
+  }
+  Merge2 {
+   inputs 2
+   operation under
+   bbox B
+   name Merge1
+   xpos -40
+   ypos 110
+  }
+  Clamp {
+   channels rgba
+   maximum_enable false
+   name ClampMin1
+   xpos -40
+   ypos 175
+  }
+  Dot {
+   name Dot4
+   label " DOTS"
+   note_font "Helvetica Bold"
+   note_font_size 24
+   note_font_color 0xa5a5a501
+   xpos -6
+   ypos 378
+  }
+  Switch {
+   inputs 2
+   which {{parent.style}}
+   name Switch1
+   xpos -257
+   ypos 483
+  }
+  ColorMatrix {
+   matrix {
+       {{parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix}}
+       {{parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix}}
+       {{parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix} {parent.parent.GamutToXYZ_OVERLAY.ColorMatrix.matrix}}
+     }
+   name ColorMatrix2
+   label "RGB to XYZ"
+   xpos -257
+   ypos 560
+  }
+  Output {
+   name Output
+   xpos -257
+   ypos 740
+  }
+  ColorWheel {
+   inputs 0
+   format "256 256 0 0 256 256 1 square_256"
+   area {40 40 472 472}
+   name ColorWheel2
+   xpos -37
+   ypos -705
+   postage_stamp false
+  }
+ end_group
+ ColorWheel {
+  inputs 0
+  format "256 256 0 0 256 256 1 square_256"
+  centerSaturation 1
+  name ColorWheel4
+  xpos -1580
+  ypos 254
+  postage_stamp false
+ }
+ Unpremult {
+  name Unpremult1
+  xpos -1580
+  ypos 302
+ }
+ Group {
+  name GamutToXYZ_OVERLAY
+  label "\[value gamut] to XYZ\n"
+  xpos -1580
+  ypos 344
+  addUserKnob {20 GamutToXYZ_tab l GamutToXYZ}
+  addUserKnob {4 gamut t "Choose gamut" M {XYZ ACES ACEScg "Filmlight E-Gamut" Rec709 Rec2020 P3D60 P3D65 P3DCI ArriAlexaWideGamut "AdobeRGB\t" AdobeWideGamutRGB ROMM RIMM ERIMM ProPhotoRGB REDDRAGONcolor REDDRAGONcolor2 REDcolor REDcolor2 REDcolor3 REDcolor4 REDWideGamutRGB GoProProtune CanonCinemaGamut SonySGamut SonySGamut3Cine PanasonicVGamut ""}}
+  gamut ACEScg
+  addUserKnob {6 invert +STARTLINE}
+  addUserKnob {26 ""}
+  addUserKnob {26 chromaticity_coordinates_label l " " T "<b>Chromaticity Coordinates</b>"}
+  addUserKnob {41 rxy T ColorMatrix.rxy}
+  addUserKnob {41 gxy T ColorMatrix.gxy}
+  addUserKnob {41 bxy T ColorMatrix.bxy}
+  addUserKnob {41 wxy T ColorMatrix.wxy}
+  addUserKnob {41 matrix T ColorMatrix.matrix}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -40
+   ypos -10
+  }
+  ColorMatrix {
+   matrix {
+       {{curve(which) 1 0.9525524378 0.6624541879 0.7053968906 0.4123907983 0.6369580626 0.5049495697 0.4865709841 0.4451698363 0.6380076408 0.5766690373 0.7165006995 0.797760427 0.797760427 0.797760427 0.7976718545 0.5070186853 0.4462202489 0.4300414324 0.4581649601 0.4878340662 0.4517004192 0.7352752686 0.5022571683 0.7160496712 0.7064827085 0.5990839601 0.6796444654} {curve(which) 0 0 0.1340042055 0.1640413404 0.3575843275 0.1446169019 0.2646814585 0.2656676769 0.2771343887 0.2147038579 0.1855582297 0.1010205746 0.1351858526 0.1351858526 0.1351858526 0.1351878047 0.3587769568 0.3157556653 0.3700728714 0.3832037449 0.3432727158 0.3178463876 0.06860940903 0.2929667532 0.1296834797 0.1288010478 0.2489254922 0.1522114277} {curve(which) 0 9.367863095e-05 0.1561876982 0.08101774752 0.180480808 0.1688809693 0.1830150485 0.1982172877 0.1722826511 0.09774444997 0.1882286519 0.1467743814 0.03134934977 0.03134934977 0.03134934977 0.03133957833 0.0868505761 0.190669477 0.152531758 0.1112773567 0.1215386018 0.1830992699 0.1465712637 0.1552320272 0.1047228053 0.1151721701 0.1024464965 0.1186000481}}
+       {{curve(which) 0 0.3439664543 0.2722287476 0.2801307142 0.2126390189 0.2627002299 0.237623319 0.2289745659 0.209491685 0.2919537723 0.2973450124 0.258728236 0.2880711257 0.2880711257 0.2880711257 0.2880405784 0.2207257152 0.1942579001 0.2022213936 0.1694435924 0.2289056629 0.2119505703 0.2866941094 0.1387997568 0.2612613738 0.2709796727 0.2150758505 0.2606855333} {curve(which) 1 0.7281661034 0.6740817428 0.8202066422 0.7151686549 0.6779980659 0.6891706586 0.6917385459 0.7215952873 0.8238410354 0.6273635626 0.7246823311 0.7118432522 0.7118432522 0.7118432522 0.7118694782 0.839184761 0.7385566831 0.7585275769 0.8648257852 0.7808576822 0.7230190039 0.8429791331 0.910841465 0.8696421385 0.786606431 0.8850684762 0.7748944759} {curve(which) 0 -0.07213255018 0.05368951708 -0.1003373638 0.07219231874 0.05930171534 0.07320601493 0.07928691059 0.06891305745 -0.1157948226 0.07529145479 0.01658944227 8.565396274e-05 8.565396274e-05 8.565396274e-05 8.991353388e-05 -0.05991046131 0.06718540192 0.03925102949 -0.03426937759 -0.009763340466 0.06503042579 -0.1296732277 -0.04964122549 -0.1309035122 -0.05758608505 -0.1001443192 -0.03558001295}}
+       {{curve(which) 0 -3.863927134e-08 -0.005574660841 -0.1037815213 0.01933082007 0 0 0 0 0.0027982709 0.02703136392 -2.906408625e-08 -3.236030111e-08 -3.236030111e-08 -3.236030111e-08 0 -0.0544523783 -0.04792318866 -0.0176958181 -0.1061859056 -0.02100777067 -0.01945115253 -0.07968087494 0.07801423222 -0.009676366113 -0.009677864611 -0.03206583485 -0.009310216643} {curve(which) 0 0 0.004060741514 -0.07290724665 0.1191947311 0.0280726999 0.0449459292 0.04511339962 0.04706057906 -0.06703422964 0.07068887353 0.05121183768 1.2621717e-08 1.2621717e-08 1.2621717e-08 -1.262213711e-08 -0.0003228379355 -0.0002844714036 0.08768811822 0.02554347552 0.01782695204 0.01650637016 -0.3473432064 -0.3148325086 -0.2364816219 0.004600019194 -0.02765839547 -0.004612449091} {curve(which) 1 1.008825183 1.010339141 1.265746474 0.950532198 1.060985088 0.9638792276 1.043944359 0.9073553085 1.153293729 0.9913375378 0.7738927603 0.8251045942 0.8251045942 0.8251045942 0.8248898983 1.063571215 1.057001948 0.9388025999 1.089437366 1.01197505 1.011739731 1.51608181 1.325875998 1.335215807 1.094135642 1.148782015 1.102980375}}
+     }
+   invert {{parent.invert}}
+   name ColorMatrix
+   label "RGB to XYZ"
+   xpos -40
+   ypos 29
+   addUserKnob {20 Gamut}
+   addUserKnob {3 which}
+   which {{parent.gamut}}
+   addUserKnob {12 rxy +DISABLED}
+   rxy {{curve(which) 0 0.7347 0.713 0.8 0.64 0.708 0.68 0.68 0.68 0.684 0.64 0.7347 0.7347 0.7347 0.7347 0.734699 0.7530442228 0.7530444911 0.6997470013 0.8786825105 0.7011810359 0.7011805919 0.780308 0.69848046 0.74 0.73 0.766 0.73} {curve(which) 0 0.2653 0.293 0.3177 0.33 0.292 0.32 0.32 0.32 0.313 0.33 0.2653 0.2653 0.2653 0.2653 0.265301 0.3278305767 0.3278310295 0.3290469303 0.3249640074 0.3290141556 0.3290136991 0.304253 0.19302645 0.27 0.28 0.275 0.28}}
+   addUserKnob {12 gxy +DISABLED}
+   gxy {{curve(which) 0 0 0.165 0.18 0.3 0.17 0.265 0.265 0.265 0.221 0.21 0.1152 0.1596 0.1596 0.1596 0.159597 0.2995702285 0.2995704905 0.304264039 0.3008887144 0.3006003047 0.3006003955 0.121595 0.32955538 0.17 0.14 0.225 0.165} {curve(which) 0 1 0.83 0.9 0.6 0.797 0.69 0.69 0.69 0.848 0.71 0.8264 0.8404 0.8404 0.8404 0.840403 0.700699322 0.7006994156 0.6236411451 0.6790547558 0.6837888343 0.6837888243 1.493994 1.02459662 1.14 0.855 0.8 0.84}}
+   addUserKnob {12 bxy +DISABLED}
+   bxy {{curve(which) 0 0.0001 0.128 0.065 0.15 0.131 0.15 0.15 0.15 0.0861 0.15 0.1566 0.0366 0.0366 0.0366 0.036598 0.07964206674 0.1450115843 0.1349139613 0.09539869461 0.1081544556 0.1453319462 0.095612 0.10844263 0.08 0.1 0.089 0.1} {curve(which) 0 -0.077 0.044 -0.0805 0.06 0.046 0.06 0.06 0.06 -0.102 0.06 0.0177 0.0001 0.0001 0.0001 0.000105 -0.05493795109 0.05109712509 0.03471744128 -0.02937932683 -0.008688175787 0.05161680362 -0.084589 -0.03467857 -0.1 -0.05 -0.087 -0.03}}
+   addUserKnob {12 wxy +DISABLED}
+   wxy {{curve(which) 0.33333 0.32168 0.32168 0.3127 0.3127 0.3127 0.32168 0.3127 0.314 0.3127 0.3127 0.3457 0.3457 0.3457 0.3457 0.345704 0.3216831877 0.3216832104 0.3216832894 0.3216832894 0.3216832104 0.3216832894 0.3127 0.3127 0.3127 0.3127 0.3127 0.3127} {curve(which) 0.33333 0.33767 0.33767 0.329 0.329 0.329 0.33767 0.329 0.351 0.329 0.329 0.3585 0.3585 0.3585 0.3585 0.35854 0.337673316 0.3376736101 0.3376734472 0.3376734472 0.3376736101 0.3376734472 0.329 0.329 0.329 0.329 0.329 0.329}}
+  }
+  Output {
+   name Output
+   xpos -40
+   ypos 89
+  }
+ end_group
+ Switch {
+  inputs 2
+  which {{parent.style}}
+  name Switch_Outline
+  xpos -1580
+  ypos 398
+ }
+ Dot {
+  name Dot14
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -1546
+  ypos 450
+ }
+set Ne0674a0 [stack 0]
+ Colorspace {
+  colorspace_in CIE-XYZ
+  primary_in "Adobe (1998)"
+  colorspace_out CIE-Yxy
+  name Colorspace3
+  label "\[value colorspace_in] -> \[value colorspace_out]"
+  xpos -1470
+  ypos 440
+ }
+ Expression {
+  expr0 r
+  expr1 "4*g / ( -2*g + 12*b + 3)"
+  expr2 "9*b / ( -2*g + 12*b + 3)"
+  name Expression3
+  label "CIE Yxy to CIELuv"
+  xpos -1470
+  ypos 512
+  disable {{!parent.diagram}}
+ }
+ Dot {
+  name Dot6
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -1436
+  ypos 570
+ }
+push $Ne0674a0
+ Fill {
+  color {1 0.5 0.1 1}
+  name Fill1
+  xpos -1580
+  ypos 494
+  disable {{!parent.colorize_gamut_boundary}}
+ }
+ BlinkScript {
+  inputs 2
+  KernelDescription "2 \"plot_cie_xy\" iterate pixelWise ade8a5603f41bc1b52fdf48adb6b8fb589de4bc7ef87979a16b1a473d05b1e01 3 \"col\" Read Random \"Yxy\" Read Random \"dst\" Write Random 7 \"padding\" Float 1 AAAAAA== \"left_pad\" Float 2 AAAAAAAAAAA= \"draw_axes\" Bool 1 AA== \"axis_color\" Float 4 AAAAAAAAAAAAAAAAAAAAAA== \"antialias\" Bool 1 AA== \"process_input\" Bool 1 AA== \"add_samples\" Float 1 AAAAAA== 7 \"padding\" 1 1 \"left_pad\" 2 1 \"draw_axes\" 1 1 \"axis_color\" 4 1 \"antialias\" 1 1 \"process_input\" 1 1 \"add_samples\" 1 1 2 \"outsize\" Float 1 1 AAAAAA== \"offset\" Float 2 1 AAAAAAAAAAA="
+  kernelSource "kernel plot_cie_xy : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> col;\n  Image<eRead, eAccessRandom, eEdgeClamped> Yxy;\n  Image<eWrite, eAccessRandom> dst;\n\nparam:\n  float padding;\n  float2 left_pad;\n  bool draw_axes;\n  float4 axis_color;\n  bool antialias;\n  bool process_input;\n  float add_samples;\n\n\nlocal:\n  float outsize;\n  float2 offset;\n\n  void init() \{\n    // calculate output width and height and offset based on padding\n    outsize = dst.bounds.height()/padding;\n    // xy offset for margin on lower left corner\n    offset = float2(dst.bounds.height()*left_pad.x, dst.bounds.height()*left_pad.y);\n  \}\n\n  void write(float posx, float posy, float4 color, float weight=1.0f) \{\n    // Check if we are inside the bounds of the output image\n    if ( dst.bounds.inside(posx, posy)) \{\n      float4 dst_sample = (float4)dst(posx, posy);\n      float4 out = dst_sample*add_samples + (color * weight);\n      out.w = min(1.0f, out.w);\n      dst(posx, posy) = out;\n    \}\n  \}\n  \n  void bilin(float2 tpos, float4 color) \{\n    float2 p;\n    p.x = tpos.x - floor(tpos.x);\n    p.y = tpos.y - floor(tpos.y);\n    float weights\[] = \{(1.0f-p.x)*(1.0f-p.y), p.x*(1.0f-p.y), (1.0f-p.x)*p.y, p.x*p.y\};\n    int2 _position = int2(floor(tpos.x)-0,floor(tpos.y)-0);\n    write(_position.x, _position.y, color, weights\[0]);\n    write(_position.x+1, _position.y, color, weights\[1]);\n    write(_position.x, _position.y+1, color, weights\[2]);\n    write(_position.x+1, _position.y+1, color, weights\[3]);\n  \}\n\n\n  void draw_grid() \{\n    // grid bounds: 0 to 1 range by default\n    float2 grid_bounds = float2(1.0f * outsize + offset.x, 1.0f * outsize + offset.y);\n    // hatch increment gives us cross-hatching at specified incr in pixels\n    int hatch_inc = int(floor((grid_bounds.x - offset.y) * 0.1f));\n    float hatchw = grid_bounds.x * 0.008; // The width of the cross-hatch: 1% of grid width\n\n    int hatch_ct = 0;\n    for ( int i = offset.y; i < grid_bounds.x; i++ ) \{\n      bilin(float2(offset.x, i), axis_color );\n      bilin(float2(i + (offset.x-offset.y), offset.y), axis_color );\n      if (hatch_ct == hatch_inc) \{\n        hatch_ct = 0;\n        for ( int j = -hatchw; j < hatchw; j++) \{\n          bilin(float2(round(offset.x + j), i), axis_color);\n          bilin(float2(i+ (offset.x-offset.y), round(offset.y + j)), axis_color);\n        \}\n      \}\n      hatch_ct++;\n    \}\n  \}\n\n  void process(int2 pos) \{\n    // All the work will be done in the first pixel of the iteration. Essentially a single thread.\n    if ( pos.x > 1 || pos.y > 1) \{ return; \}\n    // Loop over all pixels in input Yxy\n    if (process_input) \{\n      for ( int j = Yxy.bounds.y1; j < Yxy.bounds.y2; j++) \{\n        for ( int i = Yxy.bounds.x1; i < Yxy.bounds.x2; i++) \{\n\n          // sample Yxy pixel at position i, j\n          float2 xy = float2(Yxy(i, j, 1), Yxy(i, j, 2));\n          // don't process black pixels\n          if( xy.x == 0.0f && xy.y == 0.0f) \{\n            continue;\n          \}\n          // calculate output position: xy chromaticity coordinates at centered output pixel position\n          float2 out_pos = float2(xy.x * outsize + offset.x, xy.y * outsize + offset.y);\n          // Write color value to xy sample position in dst\n          if (antialias) \{\n            bilin(out_pos, bilinear(col, i, j));\n          \} else \{\n            // Remember there is a bug: no keyword arguments inside process()\n            // write(out_pos.x, out_pos.y, col(i, j), 1.0f);\n            if ( dst.bounds.inside(out_pos.x, out_pos.y)) \{\n              dst(out_pos.x, out_pos.y) = col(i, j);\n            \}\n          \}\n        \}\n      \}\n    \}\n    // Draw axes if enabled\n    if (draw_axes) \{\n      draw_grid();\n    \}\n  \}\n\};"
+  useGPUIfAvailable false
+  vectorize false
+  rebuild ""
+  plot_cie_xy_padding {{parent.Plot_Input.plot_cie_xy_padding}}
+  plot_cie_xy_left_pad {{parent.Plot_Input.plot_cie_xy_left_pad} {parent.Plot_Input.plot_cie_xy_left_pad}}
+  plot_cie_xy_axis_color 0.1
+  plot_cie_xy_antialias true
+  plot_cie_xy_process_input true
+  plot_cie_xy_add_samples 0.535
+  format {{{parent.Plot_Input.format}}}
+  specifiedFormat true
+  rebuild_finalise ""
+  name Plot_Gamut
+  xpos -1580
+  ypos 560
+ }
+ Multiply {
+  channels rgba
+  value {{parent.opacity_gamut_overlay}}
+  name GamutOverlayOpacity
+  xpos -1580
+  ypos 638
+ }
+ FrameHold {
+  first_frame 1
+  name FrameHold2
+  xpos -1580
+  ypos 728
+  cached true
+ }
+ Dot {
+  name Dot8
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -1546
+  ypos 834
+ }
+ Constant {
+  inputs 0
+  format "256 256 0 0 256 256 1 square_256"
+  name Constant6
+  xpos -1140
+  ypos -154
+  postage_stamp false
+ }
+ Reformat {
+  type "to box"
+  box_width 296
+  box_height 1
+  box_fixed true
+  name ReformatBox3
+  xpos -1140
+  ypos -130
+  addUserKnob {20 User}
+  addUserKnob {7 bits l "" +STARTLINE R 0 16}
+  bits 12
+ }
+ Fill {
+  color {1 {curve 0.433 0.464 0.513 0.611 0.576 0.46 0.426 0.412 0.404 0.397 0.384 0.374 0.346 0.333 0.311 0.287 0.257 0.23 0.21 0.219 0.208 0.211 0.208 0.187 0.191 0.187 0.18 0.164 0.17 0.177 0.175 0.188 0.252 0.325 0.385 0.416 0.433 0.487 0.532 0.588 0.637 0.634 0.549 0.506 0.49 0.458 0.426 0.412 0.397 0.365 0.337 0.301 0.262 0.221 0.192 0.164 0.167 0.162 0.176 0.179 0.148 0.156 0.142 0.148 0.138 0.145 0.145 0.161 0.197 0.256 0.324 0.393 0.451 0.487 0.508 0.538 0.587 0.634 0.659 0.611 0.552 0.526 0.484 0.452 0.428 0.406 0.371 0.334 0.293 0.243 0.204 0.177 0.151 0.151 0.162 0.158 0.161 0.142 0.141 0.129 0.134 0.14 0.156 0.166 0.192 0.221 0.265 0.325 0.392 0.451 0.508 0.48 0.513 0.554 0.597 0.63 0.634 0.58 0.546 0.499 0.466 0.434 0.408 0.372 0.332 0.288 0.242 0.202 0.179 0.16 0.157 0.162 0.157 0.159 0.149 0.153 0.147 0.154 0.164 0.18 0.199 0.226 0.25 0.279 0.325 0.38 0.439 0.48 0.436 0.468 0.502 0.541 0.57 0.605 0.594 0.555 0.511 0.473 0.439 0.409 0.371 0.332 0.288 0.252 0.217 0.196 0.181 0.178 0.185 0.176 0.173 0.168 0.176 0.178 0.19 0.202 0.214 0.235 0.254 0.27 0.291 0.323 0.366 0.41 0.436 0.396 0.414 0.438 0.465 0.485 0.527 0.566 0.557 0.523 0.478 0.442 0.409 0.371 0.334 0.294 0.265 0.244 0.223 0.225 0.212 0.218 0.211 0.211 0.207 0.214 0.217 0.229 0.237 0.244 0.264 0.275 0.285 0.3 0.321 0.348 0.376 0.396 0.357 0.368 0.377 0.391 0.402 0.431 0.481 0.503 0.521 0.482 0.444 0.409 0.372 0.337 0.307 0.286 0.27 0.257 0.247 0.251 0.257 0.255 0.254 0.25 0.258 0.259 0.265 0.269 0.278 0.284 0.292 0.297 0.305 0.317 0.33 0.344 0.357 0.321 0.322 0.328 0.332 0.333 0.346 0.365 0.389 0.411 0.459 0.443 0.399 0.352 0.327 0.313 0.304 0.3 0.294 0.295 0.294 0.293 0.292 0.291 0.295 0.3 0.301 0.302 0.304 0.304 0.304 0.305 0.307 0.309 0.312 0.313 0.316 0.321} {curve 0.26 0.281 0.298 0.306 0.342 0.365 0.39 0.381 0.392 0.416 0.413 0.43 0.448 0.446 0.433 0.425 0.419 0.394 0.362 0.328 0.305 0.298 0.286 0.247 0.26 0.219 0.199 0.168 0.178 0.14 0.11 0.084 0.104 0.158 0.18 0.225 0.26 0.235 0.26 0.28 0.298 0.327 0.372 0.395 0.417 0.43 0.435 0.455 0.488 0.479 0.521 0.522 0.515 0.49 0.436 0.383 0.331 0.295 0.282 0.258 0.219 0.208 0.179 0.168 0.141 0.129 0.106 0.094 0.095 0.112 0.127 0.165 0.199 0.235 0.226 0.258 0.28 0.298 0.316 0.361 0.399 0.427 0.446 0.461 0.482 0.52 0.521 0.553 0.563 0.573 0.524 0.454 0.389 0.33 0.295 0.266 0.247 0.214 0.195 0.168 0.178 0.142 0.14 0.128 0.129 0.126 0.131 0.144 0.167 0.199 0.226 0.238 0.266 0.289 0.31 0.329 0.351 0.395 0.428 0.453 0.475 0.494 0.533 0.542 0.568 0.584 0.576 0.53 0.451 0.385 0.331 0.299 0.266 0.245 0.22 0.206 0.184 0.174 0.167 0.166 0.166 0.173 0.172 0.165 0.172 0.187 0.208 0.238 0.258 0.28 0.3 0.321 0.343 0.362 0.391 0.427 0.458 0.482 0.503 0.546 0.554 0.573 0.582 0.546 0.499 0.431 0.375 0.33 0.304 0.275 0.254 0.234 0.225 0.212 0.209 0.206 0.203 0.21 0.215 0.212 0.204 0.208 0.214 0.231 0.258 0.277 0.294 0.31 0.328 0.348 0.372 0.397 0.427 0.462 0.487 0.51 0.544 0.558 0.559 0.556 0.503 0.444 0.402 0.355 0.329 0.309 0.289 0.275 0.26 0.254 0.245 0.245 0.241 0.238 0.249 0.249 0.245 0.241 0.242 0.246 0.258 0.277 0.295 0.305 0.315 0.327 0.339 0.359 0.39 0.421 0.461 0.491 0.515 0.54 0.546 0.522 0.478 0.429 0.393 0.368 0.345 0.325 0.313 0.303 0.295 0.286 0.284 0.279 0.277 0.274 0.277 0.277 0.28 0.276 0.273 0.274 0.279 0.285 0.295 0.311 0.314 0.316 0.32 0.323 0.331 0.346 0.367 0.397 0.468 0.513 0.494 0.425 0.388 0.372 0.348 0.336 0.331 0.326 0.32 0.316 0.314 0.312 0.309 0.321 0.32 0.319 0.305 0.317 0.316 0.316 0.315 0.316 0.317 0.319 0.321 0.311} 1}
+  name Fill6
+  label "Pointers Samples Yxy\nSource: https://www.rit.edu/cos/colorscience/rc_useful_data.php"
+  xpos -1140
+  ypos -70
+ }
+ Crop {
+  box {{offset} 0 {offset+1} 1}
+  name Crop3
+  xpos -1140
+  ypos -34
+  addUserKnob {20 User}
+  addUserKnob {3 offset}
+  offset {{frame}}
+ }
+ Crop {
+  box {0 0 296 1}
+  name Crop4
+  xpos -1140
+  ypos 14
+ }
+ TimeEcho {
+  mode Plus
+  framesbehind 296
+  frmaesfade 0
+  name TimeEcho1
+  xpos -1140
+  ypos 62
+ }
+ FrameHold {
+  first_frame 295
+  name FrameHold3
+  xpos -1140
+  ypos 104
+ }
+ BlackOutside {
+  name BlackOutside2
+  xpos -1140
+  ypos 182
+ }
+ Crop {
+  box {0 0 {input.width} {height+1}}
+  reformat true
+  name Crop1
+  xpos -1140
+  ypos 230
+ }
+ Dot {
+  name Dot12
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -1106
+  ypos 282
+ }
+ Constant {
+  inputs 0
+  format "256 256 0 0 256 256 1 square_256"
+  name Constant1
+  xpos -920
+  ypos -226
+  postage_stamp false
+ }
+ Reformat {
+  type "to box"
+  box_width {{parent.Fill3.knob.last_frame}}
+  box_height 2
+  box_fixed true
+  name ReformatBox2
+  xpos -920
+  ypos -202
+  addUserKnob {20 User}
+  addUserKnob {7 bits l "" +STARTLINE R 0 16}
+  bits 12
+ }
+ Fill {
+  color {{curve(frame*interpolation) 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1} {curve(frame*interpolation) 0.659 0.634 0.594 0.557 0.523 0.482 0.444 0.409 0.371 0.332 0.288 0.242 0.202 0.177 0.151 0.151 0.162 0.157 0.159 0.142 0.141 0.129 0.138 0.145 0.145 0.161 0.188 0.252 0.324 0.393 0.451 0.5080000162 0.5379999876 0.5879999995 0.6370000243 0.6589999795} {curve(frame*interpolation) 0.316 0.351 0.391 0.427 0.462 0.491 0.515 0.546 0.558 0.573 0.584 0.576 0.53 0.454 0.389 0.33 0.295 0.266 0.245 0.214 0.195 0.168 0.141 0.129 0.106 0.094 0.084 0.104 0.127 0.165 0.199 0.2259999961 0.2579999864 0.2800000012 0.2980000079 0.3160000145} {curve(frame*interpolation) 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 x32 1 x33 1 x104 1}}
+  name Fill3
+  label "Pointer's Gamut Boundary Yxy\nSource: colour.models.dataset.pointer_gamut.POINTER_GAMUT_BOUNDARIES"
+  xpos -920
+  ypos -166
+  addUserKnob {20 User}
+  addUserKnob {7 interpolation l interp}
+  interpolation 0.05
+  addUserKnob {3 last_frame}
+  last_frame {{35/interpolation}}
+ }
+ Crop {
+  box {{offset} 0 {offset+1} 2}
+  name Crop6
+  label "sample single pixel every frqame"
+  xpos -920
+  ypos -88
+  addUserKnob {20 User}
+  addUserKnob {3 offset}
+  offset {{frame}}
+ }
+ Crop {
+  box {0 0 {input.width} 1}
+  reformat true
+  name Crop7
+  xpos -920
+  ypos -34
+ }
+ TimeEcho {
+  framesbehind {{parent.Fill3.knob.last_frame+2}}
+  frmaesfade 0
+  name TimeEcho2
+  xpos -920
+  ypos 14
+ }
+ FrameHold {
+  first_frame {{rint(parent.Fill3.knob.last_frame)}}
+  name FrameHold4
+  xpos -920
+  ypos 56
+ }
+ BlackOutside {
+  name BlackOutside3
+  xpos -920
+  ypos 158
+ }
+ Crop {
+  box {0 -1 {input.width} {height}}
+  reformat true
+  name Crop8
+  xpos -920
+  ypos 206
+ }
+ Merge2 {
+  inputs 2
+  name Merge5
+  xpos -920
+  ypos 278
+  disable {{!parent.enable_pointer_samples}}
+ }
+ BlackOutside {
+  name BlackOutside4
+  xpos -920
+  ypos 326
+ }
+ Crop {
+  box {0 -1 {input.width} {height}}
+  reformat true
+  name Crop2
+  xpos -920
+  ypos 374
+ }
+ Dot {
+  name Dot4
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -886
+  ypos 402
+ }
+ Dot {
+  name Dot15
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -446
+  ypos 402
+ }
+set Nfa444a0 [stack 0]
+ Constant {
+  inputs 0
+  format "256 256 0 0 256 256 1 square_256"
+  name Constant5
+  xpos -370
+  ypos -82
+  postage_stamp false
+ }
+ Reformat {
+  type "to box"
+  box_width {{pow(2,bits)}}
+  box_height 2
+  box_fixed true
+  name ReformatBox1
+  label "\[value bits]bit"
+  xpos -370
+  ypos -40
+  addUserKnob {20 User}
+  addUserKnob {7 bits l "" +STARTLINE R 0 16}
+  bits 14
+ }
+ Ramp {
+  p0 {0 0}
+  p1 {{input.width} 0}
+  name Ramp3
+  xpos -370
+  ypos 14
+ }
+set Nf1a3e70 [stack 0]
+ Dot {
+  name Dot9
+  note_font "Bitstream Vera Sans"
+  xpos -226
+  ypos 18
+ }
+ Expression {
+  expr0 r*-0.00132+0.00142
+  expr1 r*-0.565+0.737
+  expr2 r*-0.26+0.2637
+  expr3 1
+  name Expression1
+  label "line of purples"
+  xpos -260
+  ypos 56
+ }
+ Transform {
+  translate {13300 0}
+  scale {0.1 1}
+  filter Impulse
+  name Transform1
+  note_font "Bitstream Vera Sans"
+  xpos -260
+  ypos 110
+ }
+ BlackOutside {
+  name BlackOutside1
+  xpos -260
+  ypos 158
+ }
+ Dot {
+  name Dot10
+  note_font "Bitstream Vera Sans"
+  xpos -226
+  ypos 234
+ }
+push $Nf1a3e70
+ Expression {
+  temp_name0 start
+  temp_expr0 360
+  temp_name1 end
+  temp_expr1 830
+  channel0 {rgba.red rgba.green rgba.blue none}
+  expr0 r*(end-start)+start
+  channel1 none
+  channel2 none
+  expr3 1
+  name Expression2
+  label "360nm to 830nm"
+  xpos -370
+  ypos 56
+ }
+ ColorLookup {
+  lut {master {}
+    red {curve x360 0.0001298999996 C 0.0001458470069 0.0001638021058 0.0001840037003 0.0002066901943 0.0002321000065 0.0002607280039 0.0002930749906 0.0003293880145 0.0003699139925 0.0004148999869 0.0004641586856 0.000518986024 0.000581854023 0.0006552346749 0.0007416000008 0.0008450296009 0.0009645267855 0.001094948966 0.001231153961 0.001368000056 0.00150204997 0.001642327989 0.001802381943 0.001995756989 0.002236000029 0.00253538508 0.002892602934 0.003300829092 0.003753236029 0.004242999945 0.004762389231 0.005330048036 0.005978711881 0.00674111722 0.007650000043 0.008751372807 0.01002888009 0.01142170001 0.01286900975 0.01431000046 0.01570443064 0.01714744046 0.01878122054 0.02074800991 0.02318999916 0.02620735951 0.02978247963 0.03388091922 0.03846824169 0.04351000115 0.04899559915 0.05502260104 0.06171879917 0.06921199709 0.07762999833 0.08695811033 0.09717672318 0.1084062979 0.1207671985 0.1343799978 0.149358198 0.1653957069 0.1819830984 0.1986110061 0.2147700042 0.2301868051 0.2448796928 0.2587772906 0.271807909 0.2838999927 0.2949438095 0.3048965037 0.3137873113 0.3216454089 0.3285000026 0.3343513012 0.339210093 0.3431212902 0.3461295962 0.3482800126 0.3495998979 0.3501473963 0.3500129879 0.3492870033 0.3480600119 0.3463732898 0.3442623913 0.3418087959 0.3390941024 0.3361999989 0.3331977129 0.3300411105 0.3266356885 0.3228867948 0.3186999857 0.314025104 0.3088839948 0.3032903969 0.2972579002 0.2908000052 0.2839700878 0.2767213881 0.268917799 0.2604227066 0.2511000037 0.2408474982 0.2298512012 0.2184071988 0.2068115026 0.1953600049 0.1842135936 0.173327297 0.1626881063 0.152283296 0.1421000063 0.1321786046 0.1225695983 0.1132752001 0.1042978987 0.09564000368 0.08729954809 0.07930804044 0.07171776146 0.06458099186 0.05795000866 0.05186210945 0.04628152028 0.04115087911 0.0364128314 0.0320100002 0.0279172007 0.02414439991 0.02068700083 0.01754040085 0.01470000017 0.01216179039 0.009919960052 0.007967240177 0.006296345964 0.004900000058 0.003777173115 0.002945319982 0.002424879931 0.00223629293 0.002400000114 0.002925520064 0.003836560063 0.005174839869 0.006982080173 0.009300000034 0.01214949042 0.01553587988 0.01947752014 0.02399276942 0.02910000086 0.0348148495 0.04112016037 0.04798503965 0.05537860841 0.0632700026 0.07163500786 0.08046223968 0.08973996341 0.09945645183 0.1096000001 0.120167397 0.1311144978 0.1423678994 0.1538542062 0.1655000001 0.1772571057 0.1891400069 0.2011694014 0.2133657932 0.225749895 0.238320902 0.2510668039 0.2639921904 0.2771016955 0.2903999984 0.3038912117 0.3175725937 0.3314383924 0.3454827964 0.3596999943 0.3740839064 0.3886395991 0.4033783972 0.4183115065 0.4334498942 0.4487952888 0.4643360078 0.4800640047 0.4959712923 0.5120500922 0.5282958746 0.5446916223 0.5612093806 0.5778214931 0.5945000052 0.6112208962 0.6279758215 0.6447601914 0.6615697145 0.6783999801 0.6952391863 0.7120586038 0.7288283706 0.7455188036 0.7620999813 0.7785431743 0.7948256135 0.8109263778 0.8268247843 0.8424999714 0.857932508 0.8730816245 0.887894392 0.90231812 0.9162999988 0.9297994971 0.9427983761 0.9552776217 0.9672179222 0.9786000252 0.9893856049 0.9995487928 1.009089231 1.018006444 1.026299953 1.033982754 1.040985942 1.047188044 1.05246675 1.056699991 1.059794426 1.061799169 1.062806845 1.062909603 1.06219995 1.060735226 1.058443546 1.055224419 1.050976753 1.045600057 1.03903687 1.031360745 1.022666216 1.013047695 1.002599955 0.9913675189 0.9793313742 0.96649158 0.952847898 0.9383999705 0.9231939912 0.9072440267 0.890501976 0.8729199767 0.8544499278 0.8350840211 0.8149459958 0.7941859961 0.7729539871 0.7513999939 0.729583621 0.7075887918 0.6856021881 0.6638103724 0.6424000263 0.6215149164 0.6011137962 0.5811051726 0.5613976717 0.5418999791 0.5225995183 0.5035464168 0.4847435951 0.4661939144 0.4478999972 0.4298613071 0.4120979905 0.3946439922 0.3775332868 0.360799998 0.3444562852 0.3285168111 0.3130191863 0.2980011106 0.2834999859 0.2695448101 0.256118387 0.2431896031 0.2307271957 0.2187000066 0.2070970982 0.1959231943 0.1851707995 0.1748322994 0.1649000049 0.1553667039 0.1462299973 0.1374900043 0.1291466951 0.1212000027 0.1136396974 0.1064649969 0.09969043732 0.09333060682 0.08739999682 0.0819009617 0.07680428028 0.07207711786 0.06768663973 0.06360000372 0.05980684981 0.05628215894 0.05297103897 0.04981860891 0.04676999897 0.04378404841 0.04087536037 0.03807263821 0.03540461138 0.03290000185 0.03056419082 0.02838055976 0.02634483948 0.02445274964 0.02270000055 0.02108429 0.01959987916 0.01823732071 0.01698716916 0.01583999954 0.01479064021 0.01383132022 0.01294867974 0.01212919969 0.01135915983 0.01062935032 0.009938846342 0.009288421832 0.008678854443 0.008110916242 0.007582387887 0.007088745944 0.006627312861 0.006195407826 0.005790345836 0.005409826059 0.005052582826 0.004717512056 0.004403506871 0.004109457135 0.003833913011 0.003575748065 0.003334342036 0.003109074896 0.002899327083 0.002704347949 0.00252301991 0.0023541681 0.002196616028 0.002049189992 0.001910959953 0.001781438012 0.001660109963 0.00154645904 0.001439971034 0.001340041985 0.001246275031 0.001158470986 0.001076429966 0.0009999492904 0.0009287358262 0.0008624332258 0.0008007502765 0.0007433959981 0.0006900785957 0.0006405155873 0.0005945020821 0.0005518646212 0.0005124289892 0.0004760212905 0.0004424536019 0.0004115116899 0.0003829814086 0.0003566491068 0.0003323011042 0.0003097585868 0.0002888870949 0.0002695393923 0.0002515682136 0.0002348261041 0.0002191709937 0.0002045258007 0.0001908404956 0.0001780653984 0.0001661504939 0.0001550236047 0.0001446218957 0.000134909802 0.000125852006 0.0001174130011 0.0001095515036 0.0001022244978 9.539444727e-05 8.902390255e-05 8.307526878e-05 7.751269004e-05 7.231304335e-05 6.745778228e-05 6.292844046e-05 5.870651876e-05 5.477028026e-05 5.109918129e-05 4.767654173e-05 4.448567051e-05 4.150993846e-05 3.873324022e-05 3.61420316e-05 3.372352148e-05 3.146487143e-05 2.935325938e-05 2.73757305e-05 2.552433034e-05 2.379376019e-05 2.217869951e-05 2.067382957e-05 1.927226003e-05 1.796640026e-05 1.674990926e-05 1.56164806e-05 1.455976962e-05 1.357387009e-05 1.265436003e-05 1.17972304e-05 1.09984403e-05 1.025397978e-05 9.55964606e-06 8.912043995e-06 8.308357792e-06 7.745768926e-06 7.221456144e-06 6.732474958e-06 6.276422937e-06 5.851304195e-06 5.455117844e-06 5.085867997e-06 4.741466e-06 4.42023611e-06 4.12078316e-06 3.841716079e-06 3.581651981e-06 3.339127034e-06 3.112948889e-06 2.902120968e-06 2.705645102e-06 2.522524937e-06 2.351725925e-06 2.192414968e-06 2.043901986e-06 1.905497015e-06 1.776508952e-06 1.656214977e-06 1.544021984e-06 1.439439984e-06 1.341977054e-06 S 1.251141043e-06}
+    green {curve x360 3.916999958e-06 C 4.393581094e-06 4.929604074e-06 5.532136129e-06 6.20824494e-06 6.965000011e-06 7.813218872e-06 8.767336112e-06 9.839844097e-06 1.104323019e-05 1.238999994e-05 1.388640976e-05 1.555727977e-05 1.74429606e-05 1.958374924e-05 2.201999996e-05 2.483965e-05 2.804126052e-05 3.153103899e-05 3.521520921e-05 3.899999865e-05 4.282639929e-05 4.691459981e-05 5.158959902e-05 5.717639942e-05 6.399999984e-05 7.234421355e-05 8.221223834e-05 9.350816254e-05 0.0001061361036 0.000119999997 0.0001349840022 0.0001514920004 0.0001702080044 0.0001918159978 0.0002169999934 0.0002469067113 0.0002812400053 0.0003185200039 0.0003572666901 0.0003959999885 0.0004337147111 0.0004730240034 0.0005178760039 0.0005722186761 0.0006399999838 0.0007245599991 0.0008254999993 0.0009411600186 0.001069879974 0.001210000017 0.001362091047 0.001530752052 0.001720368047 0.001935323002 0.002180000069 0.002454800066 0.002764000092 0.003117799992 0.003526400076 0.00400000019 0.004546239972 0.005159319844 0.005829279777 0.006546160206 0.007300000172 0.008086507209 0.008908719756 0.009767680429 0.01066443045 0.01159999985 0.01257316954 0.01358272042 0.01462967973 0.01571509056 0.01683999971 0.0180073604 0.01921447925 0.02045392059 0.02171823941 0.02300000004 0.0242946092 0.02561024018 0.02695856988 0.02835124917 0.02979999967 0.03131083027 0.03288368136 0.03452112153 0.03622571006 0.03799999878 0.03984666988 0.04176799953 0.04376599938 0.0458426699 0.04800000042 0.05024367943 0.05257304013 0.05498056114 0.0574587211 0.05999999866 0.06260196865 0.06527751684 0.06804207712 0.0709110871 0.07389999926 0.07701600343 0.08026640117 0.08366680145 0.08723279834 0.09098000079 0.09491755068 0.09904584289 0.1033674031 0.1078846008 0.1125999987 0.1175319999 0.1226743981 0.1279927939 0.1334528029 0.1390199959 0.1446764022 0.1504693031 0.1564618945 0.1627177 0.1693000048 0.1762430966 0.1835581064 0.1912734956 0.1994179934 0.2080200016 0.2171199024 0.2267345041 0.2368571013 0.2474811971 0.2585999966 0.2701849043 0.2822938859 0.2950505018 0.3085780144 0.3230000138 0.3384020925 0.3546858132 0.3716985881 0.3892875016 0.4072999954 0.4256299138 0.4443095922 0.4633944035 0.4829395115 0.503000021 0.5235692859 0.5445119739 0.565689981 0.5869653225 0.6082000136 0.6293455958 0.6503068209 0.6708751917 0.6908423901 0.7099999785 0.7281851768 0.7454636097 0.7619693875 0.7778367996 0.793200016 0.8081104159 0.8224961758 0.8363068104 0.8494915962 0.8619999886 0.8738108277 0.8849623799 0.8954936266 0.9054431915 0.9148501158 0.9237347841 0.9320924282 0.9399225712 0.9472252131 0.9539999962 0.9602560997 0.9660074115 0.9712606072 0.9760224819 0.9803000093 0.9840924144 0.9874181747 0.9903128147 0.9928116202 0.9949501157 0.9967107773 0.9980983138 0.99911201 0.9997481704 1 0.9998567104 0.9993045926 0.9983255267 0.9968987107 0.9950000048 0.9926005006 0.9897425771 0.9864444137 0.9827240705 0.9786000252 0.9740837216 0.969171226 0.9638568163 0.9581348896 0.9520000219 0.9454504251 0.9384992123 0.9311627746 0.9234576225 0.9154000282 0.9070063829 0.8982772231 0.8892048001 0.8797816038 0.8700000048 0.8598613143 0.8493919969 0.838621974 0.8275812864 0.8162999749 0.8047947288 0.7930819988 0.7811920047 0.7691547275 0.7570000291 0.744754076 0.7324224114 0.7200036049 0.7074965239 0.6948999763 0.6822192073 0.6694716215 0.6566743851 0.6438447833 0.6309999824 0.6181554794 0.605314374 0.5924755931 0.5796378851 0.5667999983 0.5539610982 0.5411372185 0.528352797 0.5156322718 0.503000021 0.4904688001 0.4780304134 0.4656775892 0.4534032047 0.4411999881 0.4290800095 0.4170359969 0.4050320089 0.3930320144 0.3810000122 0.3689183891 0.3568271995 0.3447768092 0.3328176141 0.3210000098 0.3093380928 0.2978504002 0.2865935862 0.2756245136 0.2649999857 0.254763186 0.2448896021 0.2353343964 0.2260528058 0.2169999927 0.2081616074 0.1995487958 0.1911551952 0.1829743981 0.174999997 0.1672234982 0.1596464068 0.1522776037 0.1451258957 0.1381999999 0.1315003037 0.1250247955 0.1187791973 0.1127690971 0.1070000008 0.1014761999 0.09618864208 0.09112296253 0.08626484871 0.08160000294 0.07712063938 0.07282552123 0.06871008128 0.06476975977 0.06100000069 0.05739621073 0.05395504087 0.05067376047 0.04754965007 0.04458000138 0.04175871983 0.03908495978 0.03656383976 0.03420047835 0.03200000152 0.02996261045 0.0280766394 0.0263293609 0.02470804937 0.0231999997 0.02180076949 0.02050112002 0.01928107999 0.01812068932 0.01700000092 0.01590378955 0.01483718026 0.01381068025 0.01283477992 0.01192000043 0.01106830966 0.01027339045 0.00953331124 0.00884615723 0.008209999651 0.007623780984 0.007085423917 0.006591476034 0.006138484925 0.005723000038 0.005343059078 0.004995795898 0.004676403943 0.004380074795 0.004102000035 0.003838452976 0.00358909904 0.003354219021 0.003134093015 0.002928999951 0.002738138894 0.002559876069 0.002393244067 0.00223727501 0.002091000089 0.001953586936 0.001824580017 0.001703580027 0.001590186963 0.001484000008 0.00138449599 0.001291268039 0.001204092056 0.001122744055 0.001047000056 0.0009765896248 0.0009111088002 0.0008501331904 0.0007932384033 0.0007399999886 0.0006900827284 0.0006433100207 0.0005994960084 0.000558454718 0.0005200000014 0.0004839136091 0.0004500527866 0.0004183452111 0.0003887184139 0.0003611000138 0.0003353834909 0.0003114404099 0.0002891655895 0.0002684539068 0.0002492000058 0.0002313019068 0.0002146855986 0.0001992884063 0.0001850474946 0.0001718999993 0.0001597780938 0.0001486044057 0.0001383016061 0.000128792497 0.000119999997 0.0001118595028 0.0001043223965 9.73356e-05 9.084586782e-05 8.479999815e-05 7.914666639e-05 7.385799836e-05 6.89160006e-05 6.43026724e-05 5.999999848e-05 5.598186908e-05 5.222560139e-05 4.871840065e-05 4.544746844e-05 4.239999907e-05 3.956104047e-05 3.691512029e-05 3.44486798e-05 3.214816024e-05 2.999999924e-05 2.799124923e-05 2.611355922e-05 2.436024079e-05 2.272460915e-05 2.119999954e-05 1.977855027e-05 1.845285078e-05 1.721686931e-05 1.606459045e-05 1.498999973e-05 1.398728e-05 1.305155001e-05 1.217818044e-05 1.136254014e-05 1.059999977e-05 9.885877262e-06 9.217304068e-06 8.592362065e-06 8.009133126e-06 7.465700037e-06 6.959567145e-06 6.487995051e-06 6.048699106e-06 5.639396022e-06 5.257799785e-06 4.901770808e-06 4.569720204e-06 4.260194146e-06 3.971738806e-06 3.702899903e-06 3.4521629e-06 3.218302027e-06 3.000300012e-06 2.797138904e-06 2.60780007e-06 2.431220082e-06 2.266531055e-06 2.113012897e-06 1.969943014e-06 1.836599949e-06 1.71222996e-06 1.596228003e-06 1.488089993e-06 1.387314001e-06 1.293400032e-06 1.205820013e-06 1.124142955e-06 1.04800904e-06 9.770579936e-07 9.109299981e-07 8.492510233e-07 7.917209928e-07 7.380900229e-07 6.881099921e-07 6.415299936e-07 5.980900255e-07 5.575749924e-07 5.198079975e-07 4.846119737e-07 S 4.518099956e-07}
+    blue {curve x360 0.0006061000167 C 0.0006808792241 0.0007651455817 0.0008600124274 0.0009665928083 0.001086000004 0.001220586011 0.001372728962 0.001543579041 0.001734285965 0.001946000033 0.002177777002 0.002435809001 0.002731953049 0.00307806395 0.003486000001 0.00397522701 0.004540880211 0.005158320069 0.00580290705 0.00645000115 0.007083216216 0.007745488081 0.008501151577 0.009414544329 0.01054999046 0.01196580008 0.01365587022 0.01558804978 0.01773015037 0.02005000971 0.0225113593 0.02520287968 0.02827971987 0.03189703822 0.03621000051 0.04143771157 0.04750372097 0.05411988124 0.06099803001 0.06785000861 0.0744863227 0.08136156201 0.08915363997 0.09854047745 0.1102000028 0.1246133 0.1417016983 0.1613035053 0.1832568049 0.2073999941 0.2336920947 0.2626113892 0.2947745919 0.3307985067 0.3713000119 0.4162091017 0.4654642045 0.5196948051 0.5795302987 0.6456000209 0.7184838057 0.7967132926 0.8778458834 0.9594389796 1.039050102 1.115367293 1.188497066 1.258123279 1.323929548 1.385599971 1.442635179 1.494803548 1.542190313 1.58488071 1.622959971 1.656404853 1.685295939 1.709874511 1.730382085 1.747059941 1.760044575 1.76962328 1.776263714 1.780433416 1.782600045 1.782968163 1.781699777 1.77919817 1.775867105 1.772109985 1.768258929 1.76403904 1.758943796 1.752466321 1.744099975 1.733559489 1.720858097 1.705936909 1.688737154 1.669199944 1.647528648 1.623412728 1.596022248 1.564527988 1.528100014 1.486111403 1.439521551 1.389879942 1.338736176 1.287639976 1.237422347 1.187824249 1.138761044 1.090147972 1.041900039 0.994197607 0.9473472834 0.9014530778 0.8566192985 0.8129500747 0.7705172896 0.7294448018 0.6899135709 0.6521049142 0.6161999702 0.5823286176 0.5504161716 0.5203375816 0.4919672906 0.4651800096 0.4399245977 0.4161835909 0.3938821852 0.3729459047 0.3533000052 0.3348577917 0.3175520897 0.3013375103 0.2861686051 0.2720000148 0.2588171065 0.2464838028 0.234771803 0.2234532982 0.2123000026 0.2011691928 0.1901195943 0.1792254001 0.1685608029 0.1581999958 0.1481382996 0.1383758038 0.1289941967 0.1200750992 0.1116999984 0.1039047986 0.09666748345 0.08998271823 0.08384530991 0.07824999094 0.07320898771 0.06867816299 0.06456784159 0.06078834832 0.05725001171 0.05390435085 0.05074663833 0.04775276035 0.04489858821 0.04216000065 0.03950728104 0.03693563864 0.03445836157 0.03208871931 0.02983999997 0.02771181054 0.02569443919 0.02378715947 0.02198925056 0.02030000091 0.01871805079 0.01724036038 0.01586364023 0.01458461024 0.01339999959 0.01230723038 0.01130187977 0.01037792023 0.009529305622 0.008749999106 0.008035199717 0.007381599862 0.006785400212 0.006242800038 0.00574999908 0.005303599872 0.004899799824 0.004534199834 0.004202399869 0.003899999894 0.003623200115 0.003370600054 0.003141399939 0.002934799995 0.002749999054 0.002585199894 0.002438599942 0.00230939989 0.002196799964 0.002099999925 0.002017732942 0.00194820005 0.001889799954 0.001840932993 0.001799999969 0.001766267 0.001737799961 0.001711199991 0.001683066948 0.001650001039 0.001610132982 0.001564400038 0.0015136 0.001458532992 0.00139999995 0.001336666988 0.001270000008 0.001204999979 0.001146667055 0.001099999994 0.001068799989 0.001049399958 0.001035599969 0.001021199976 0.001000000047 0.0009686399717 0.0009299200028 0.0008868799778 0.0008425600245 0.0007999999798 0.0007609599852 0.0007236800157 0.0006859200075 0.0006454400136 0.0006000000285 0.0005478666862 0.000491600018 0.0004353999975 0.0003834666859 0.0003399999987 0.0003072533 0.0002831600141 0.0002654400014 0.0002518132969 0.0002399999939 0.0002295466984 0.000220639995 0.0002119599958 0.0002021866967 0.0001900000061 0.0001742133027 0.0001556399948 0.0001359599992 0.0001168532981 9.999999747e-05 8.613333193e-05 7.460000052e-05 6.500000018e-05 5.693333151e-05 4.999999146e-05 4.415999865e-05 3.948000085e-05 3.57200006e-05 3.264000043e-05 2.999999924e-05 2.765333011e-05 2.556000072e-05 2.36399992e-05 2.181333002e-05 1.999999949e-05 1.813333074e-05 1.619999966e-05 1.41999999e-05 1.213332962e-05 9.999999747e-06 7.733333405e-06 5.400000191e-06 3.200000037e-06 1.333332989e-06 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 S 0}
+    alpha {}}
+  name ColorLookup2
+  label "CIE 1931 2 Degree Standard Observer\n360nm to 830nm"
+  xpos -370
+  ypos 122
+ }
+ Colorspace {
+  colorspace_in CIE-XYZ
+  primary_in "Adobe (1998)"
+  colorspace_out CIE-Yxy
+  name Colorspace5
+  label "\[value colorspace_in] -> \[value colorspace_out]"
+  xpos -370
+  ypos 176
+ }
+ Merge2 {
+  inputs 2
+  name Merge4
+  xpos -370
+  ypos 230
+ }
+ Expression {
+  expr0 "r < 0 ? r * sole.r + lift.r : r < lift.r * 2 ? pow( (lift.r *2 - r) / (lift.r * 2), 2) * lift.r + r : r"
+  expr1 "g < 0 ? g * sole.g + lift.g : g < lift.g * 2 ? pow( (lift.g *2 - g) / (lift.g * 2), 2) * lift.g + g : g"
+  expr2 "b < 0 ? b * sole.b + lift.b : b < lift.b * 2 ? pow( (lift.b *2 - b) / (lift.b * 2), 2) * lift.b + b : b"
+  name ToeExpr1
+  label "increase brightness of line of purples"
+  xpos -370
+  ypos 248
+  dope_sheet true
+  addUserKnob {20 User}
+  addUserKnob {18 lift}
+  lift {0.15 0 0}
+  addUserKnob {6 lift_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  lift_panelDropped true
+  addUserKnob {18 sole R 0 0.1}
+  sole {0 0 0}
+  addUserKnob {6 sole_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ }
+ Crop {
+  box {0 0 16384 1}
+  name Crop10
+  xpos -370
+  ypos 302
+ }
+ Crop {
+  box {0 0 16384 3}
+  reformat true
+  name Crop9
+  xpos -370
+  ypos 326
+  disable {{!parent.enable_pointers_gamut}}
+ }
+ Dot {
+  name Dot2
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -336
+  ypos 378
+ }
+set N13450740 [stack 0]
+ Dot {
+  name Dot5
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -226
+  ypos 378
+ }
+ Merge2 {
+  inputs 2
+  name Merge3
+  xpos -260
+  ypos 398
+  disable {{!parent.enable_pointers_gamut}}
+ }
+ Expression {
+  expr0 r
+  expr1 "4*g / ( -2*g + 12*b + 3)"
+  expr2 "9*b / ( -2*g + 12*b + 3)"
+  name Expression5
+  label "CIE Yxy to CIELuv"
+  xpos -260
+  ypos 512
+  disable {{!parent.diagram}}
+ }
+ Dot {
+  name Dot11
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -226
+  ypos 594
+ }
+push $Nfa444a0
+ Colorspace {
+  colorspace_in CIE-Yxy
+  primary_in "Adobe (1998)"
+  colorspace_out CIE-XYZ
+  name Colorspace4
+  label "\[value colorspace_in] -> \[value colorspace_out]"
+  xpos -480
+  ypos 440
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
+      {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
+      {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
+    }
+  invert true
+  name ColorMatrix1
+  label "XYZ to working"
+  xpos -480
+  ypos 488
+  disable true
+ }
+ Fill {
+  color {1 0.43 1 1}
+  unpremult rgba.alpha
+  name ColorizePointers
+  xpos -480
+  ypos 536
+  disable {{!parent.colorize_pointers_gamut x1 1}}
+ }
+push $N13450740
+ Colorspace {
+  colorspace_in CIE-Yxy
+  primary_in "Adobe (1998)"
+  colorspace_out CIE-XYZ
+  name Colorspace6
+  label "\[value colorspace_in] -> \[value colorspace_out]"
+  xpos -370
+  ypos 440
+ }
+ Fill {
+  color {0 0.5 1 1}
+  unpremult rgba.alpha
+  name Fill2
+  xpos -370
+  ypos 488
+  disable {{!parent.colorize_spectral_locus}}
+ }
+ Merge2 {
+  inputs 2
+  name Merge6
+  xpos -370
+  ypos 542
+  disable {{!parent.enable_pointers_gamut}}
+ }
+ BlinkScript {
+  inputs 2
+  KernelDescription "2 \"plot_cie_xy\" iterate pixelWise ade8a5603f41bc1b52fdf48adb6b8fb589de4bc7ef87979a16b1a473d05b1e01 3 \"col\" Read Random \"Yxy\" Read Random \"dst\" Write Random 7 \"padding\" Float 1 AAAAAA== \"left_pad\" Float 2 AAAAAAAAAAA= \"draw_axes\" Bool 1 AA== \"axis_color\" Float 4 AAAAAAAAAAAAAAAAAAAAAA== \"antialias\" Bool 1 AA== \"process_input\" Bool 1 AA== \"add_samples\" Float 1 AAAAAA== 7 \"padding\" 1 1 \"left_pad\" 2 1 \"draw_axes\" 1 1 \"axis_color\" 4 1 \"antialias\" 1 1 \"process_input\" 1 1 \"add_samples\" 1 1 2 \"outsize\" Float 1 1 AAAAAA== \"offset\" Float 2 1 AAAAAAAAAAA="
+  kernelSource "kernel plot_cie_xy : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> col;\n  Image<eRead, eAccessRandom, eEdgeClamped> Yxy;\n  Image<eWrite, eAccessRandom> dst;\n\nparam:\n  float padding;\n  float2 left_pad;\n  bool draw_axes;\n  float4 axis_color;\n  bool antialias;\n  bool process_input;\n  float add_samples;\n\n\nlocal:\n  float outsize;\n  float2 offset;\n\n  void init() \{\n    // calculate output width and height and offset based on padding\n    outsize = dst.bounds.height()/padding;\n    // xy offset for margin on lower left corner\n    offset = float2(dst.bounds.height()*left_pad.x, dst.bounds.height()*left_pad.y);\n  \}\n\n  void write(float posx, float posy, float4 color, float weight=1.0f) \{\n    // Check if we are inside the bounds of the output image\n    if ( dst.bounds.inside(posx, posy)) \{\n      float4 dst_sample = (float4)dst(posx, posy);\n      float4 out = dst_sample*add_samples + (color * weight);\n      out.w = min(1.0f, out.w);\n      dst(posx, posy) = out;\n    \}\n  \}\n  \n  void bilin(float2 tpos, float4 color) \{\n    float2 p;\n    p.x = tpos.x - floor(tpos.x);\n    p.y = tpos.y - floor(tpos.y);\n    float weights\[] = \{(1.0f-p.x)*(1.0f-p.y), p.x*(1.0f-p.y), (1.0f-p.x)*p.y, p.x*p.y\};\n    int2 _position = int2(floor(tpos.x)-0,floor(tpos.y)-0);\n    write(_position.x, _position.y, color, weights\[0]);\n    write(_position.x+1, _position.y, color, weights\[1]);\n    write(_position.x, _position.y+1, color, weights\[2]);\n    write(_position.x+1, _position.y+1, color, weights\[3]);\n  \}\n\n\n  void draw_grid() \{\n    // grid bounds: 0 to 1 range by default\n    float2 grid_bounds = float2(1.0f * outsize + offset.x, 1.0f * outsize + offset.y);\n    // hatch increment gives us cross-hatching at specified incr in pixels\n    int hatch_inc = int(floor((grid_bounds.x - offset.y) * 0.1f));\n    float hatchw = grid_bounds.x * 0.008; // The width of the cross-hatch: 1% of grid width\n\n    int hatch_ct = 0;\n    for ( int i = offset.y; i < grid_bounds.x; i++ ) \{\n      bilin(float2(offset.x, i), axis_color );\n      bilin(float2(i + (offset.x-offset.y), offset.y), axis_color );\n      if (hatch_ct == hatch_inc) \{\n        hatch_ct = 0;\n        for ( int j = -hatchw; j < hatchw; j++) \{\n          bilin(float2(round(offset.x + j), i), axis_color);\n          bilin(float2(i+ (offset.x-offset.y), round(offset.y + j)), axis_color);\n        \}\n      \}\n      hatch_ct++;\n    \}\n  \}\n\n  void process(int2 pos) \{\n    // All the work will be done in the first pixel of the iteration. Essentially a single thread.\n    if ( pos.x > 1 || pos.y > 1) \{ return; \}\n    // Loop over all pixels in input Yxy\n    if (process_input) \{\n      for ( int j = Yxy.bounds.y1; j < Yxy.bounds.y2; j++) \{\n        for ( int i = Yxy.bounds.x1; i < Yxy.bounds.x2; i++) \{\n\n          // sample Yxy pixel at position i, j\n          float2 xy = float2(Yxy(i, j, 1), Yxy(i, j, 2));\n          // don't process black pixels\n          if( xy.x == 0.0f && xy.y == 0.0f) \{\n            continue;\n          \}\n          // calculate output position: xy chromaticity coordinates at centered output pixel position\n          float2 out_pos = float2(xy.x * outsize + offset.x, xy.y * outsize + offset.y);\n          // Write color value to xy sample position in dst\n          if (antialias) \{\n            bilin(out_pos, bilinear(col, i, j));\n          \} else \{\n            // Remember there is a bug: no keyword arguments inside process()\n            // write(out_pos.x, out_pos.y, col(i, j), 1.0f);\n            if ( dst.bounds.inside(out_pos.x, out_pos.y)) \{\n              dst(out_pos.x, out_pos.y) = col(i, j);\n            \}\n          \}\n        \}\n      \}\n    \}\n    // Draw axes if enabled\n    if (draw_axes) \{\n      draw_grid();\n    \}\n  \}\n\};"
+  useGPUIfAvailable false
+  vectorize false
+  rebuild ""
+  plot_cie_xy_padding {{parent.Plot_Input.plot_cie_xy_padding}}
+  plot_cie_xy_left_pad {{parent.Plot_Input.plot_cie_xy_left_pad} {parent.Plot_Input.plot_cie_xy_left_pad}}
+  plot_cie_xy_draw_axes {{parent.draw_axis}}
+  plot_cie_xy_axis_color {0.09 0.1 0.1 1}
+  plot_cie_xy_antialias true
+  plot_cie_xy_process_input {{parent.draw_spectral_locus}}
+  plot_cie_xy_add_samples 0.7
+  format {{{parent.Plot_Input.format}}}
+  specifiedFormat true
+  rebuild_finalise ""
+  name Plot_SpectralLocus_and_Axis
+  xpos -370
+  ypos 584
+ }
+ FrameHold {
+  first_frame 1
+  name FrameHold1
+  xpos -370
+  ypos 680
+  cached true
+ }
+ Dot {
+  name Dot3
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -336
+  ypos 762
+ }
+ Input {
+  inputs 0
+  name Input
+  xpos 180
+  ypos -490
+ }
+ AddChannels {
+  name AddChannels1
+  xpos 180
+  ypos -424
+ }
+ Reformat {
+  type "to box"
+  box_width 2048
+  box_height {{rint(input.width/box_width*input.height)}}
+  box_fixed true
+  box_pixel_aspect {{input.pixel_aspect}}
+  filter Impulse
+  name ResampleInput
+  xpos 180
+  ypos -370
+  disable {{!parent.resample_input}}
+ }
+ Dot {
+  name Dot7
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 214
+  ypos 378
+ }
+set Nf71b1d0 [stack 0]
+ Dot {
+  name Dot1
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 324
+  ypos 378
+ }
+ Group {
+  name GamutToXYZ3
+  label "\[value gamut] to XYZ\n"
+  xpos 290
+  ypos 416
+  addUserKnob {20 GamutToXYZ_tab l GamutToXYZ}
+  addUserKnob {4 gamut t "Choose gamut" M {XYZ ACES ACEScg "Filmlight E-Gamut" Rec709 Rec2020 P3D60 P3D65 P3DCI ArriAlexaWideGamut "AdobeRGB\t" AdobeWideGamutRGB ROMM RIMM ERIMM ProPhotoRGB REDDRAGONcolor REDDRAGONcolor2 REDcolor REDcolor2 REDcolor3 REDcolor4 REDWideGamutRGB GoProProtune CanonCinemaGamut SonySGamut SonySGamut3Cine PanasonicVGamut ""}}
+  gamut ACEScg
+  addUserKnob {6 invert +STARTLINE}
+  addUserKnob {26 ""}
+  addUserKnob {26 chromaticity_coordinates_label l " " T "<b>Chromaticity Coordinates</b>"}
+  addUserKnob {41 rxy T ColorMatrix.rxy}
+  addUserKnob {41 gxy T ColorMatrix.gxy}
+  addUserKnob {41 bxy T ColorMatrix.bxy}
+  addUserKnob {41 wxy T ColorMatrix.wxy}
+  addUserKnob {41 matrix T ColorMatrix.matrix}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -40
+   ypos -10
+  }
+  ColorMatrix {
+   matrix {
+       {{curve(which) 1 0.9525524378 0.6624541879 0.7053968906 0.4123907983 0.6369580626 0.5049495697 0.4865709841 0.4451698363 0.6380076408 0.5766690373 0.7165006995 0.797760427 0.797760427 0.797760427 0.7976718545 0.5070186853 0.4462202489 0.4300414324 0.4581649601 0.4878340662 0.4517004192 0.7352752686 0.5022571683 0.7160496712 0.7064827085 0.5990839601 0.6796444654} {curve(which) 0 0 0.1340042055 0.1640413404 0.3575843275 0.1446169019 0.2646814585 0.2656676769 0.2771343887 0.2147038579 0.1855582297 0.1010205746 0.1351858526 0.1351858526 0.1351858526 0.1351878047 0.3587769568 0.3157556653 0.3700728714 0.3832037449 0.3432727158 0.3178463876 0.06860940903 0.2929667532 0.1296834797 0.1288010478 0.2489254922 0.1522114277} {curve(which) 0 9.367863095e-05 0.1561876982 0.08101774752 0.180480808 0.1688809693 0.1830150485 0.1982172877 0.1722826511 0.09774444997 0.1882286519 0.1467743814 0.03134934977 0.03134934977 0.03134934977 0.03133957833 0.0868505761 0.190669477 0.152531758 0.1112773567 0.1215386018 0.1830992699 0.1465712637 0.1552320272 0.1047228053 0.1151721701 0.1024464965 0.1186000481}}
+       {{curve(which) 0 0.3439664543 0.2722287476 0.2801307142 0.2126390189 0.2627002299 0.237623319 0.2289745659 0.209491685 0.2919537723 0.2973450124 0.258728236 0.2880711257 0.2880711257 0.2880711257 0.2880405784 0.2207257152 0.1942579001 0.2022213936 0.1694435924 0.2289056629 0.2119505703 0.2866941094 0.1387997568 0.2612613738 0.2709796727 0.2150758505 0.2606855333} {curve(which) 1 0.7281661034 0.6740817428 0.8202066422 0.7151686549 0.6779980659 0.6891706586 0.6917385459 0.7215952873 0.8238410354 0.6273635626 0.7246823311 0.7118432522 0.7118432522 0.7118432522 0.7118694782 0.839184761 0.7385566831 0.7585275769 0.8648257852 0.7808576822 0.7230190039 0.8429791331 0.910841465 0.8696421385 0.786606431 0.8850684762 0.7748944759} {curve(which) 0 -0.07213255018 0.05368951708 -0.1003373638 0.07219231874 0.05930171534 0.07320601493 0.07928691059 0.06891305745 -0.1157948226 0.07529145479 0.01658944227 8.565396274e-05 8.565396274e-05 8.565396274e-05 8.991353388e-05 -0.05991046131 0.06718540192 0.03925102949 -0.03426937759 -0.009763340466 0.06503042579 -0.1296732277 -0.04964122549 -0.1309035122 -0.05758608505 -0.1001443192 -0.03558001295}}
+       {{curve(which) 0 -3.863927134e-08 -0.005574660841 -0.1037815213 0.01933082007 0 0 0 0 0.0027982709 0.02703136392 -2.906408625e-08 -3.236030111e-08 -3.236030111e-08 -3.236030111e-08 0 -0.0544523783 -0.04792318866 -0.0176958181 -0.1061859056 -0.02100777067 -0.01945115253 -0.07968087494 0.07801423222 -0.009676366113 -0.009677864611 -0.03206583485 -0.009310216643} {curve(which) 0 0 0.004060741514 -0.07290724665 0.1191947311 0.0280726999 0.0449459292 0.04511339962 0.04706057906 -0.06703422964 0.07068887353 0.05121183768 1.2621717e-08 1.2621717e-08 1.2621717e-08 -1.262213711e-08 -0.0003228379355 -0.0002844714036 0.08768811822 0.02554347552 0.01782695204 0.01650637016 -0.3473432064 -0.3148325086 -0.2364816219 0.004600019194 -0.02765839547 -0.004612449091} {curve(which) 1 1.008825183 1.010339141 1.265746474 0.950532198 1.060985088 0.9638792276 1.043944359 0.9073553085 1.153293729 0.9913375378 0.7738927603 0.8251045942 0.8251045942 0.8251045942 0.8248898983 1.063571215 1.057001948 0.9388025999 1.089437366 1.01197505 1.011739731 1.51608181 1.325875998 1.335215807 1.094135642 1.148782015 1.102980375}}
+     }
+   invert {{parent.invert}}
+   name ColorMatrix
+   label "RGB to XYZ"
+   xpos -40
+   ypos 33
+   addUserKnob {20 Gamut}
+   addUserKnob {3 which}
+   which {{parent.gamut}}
+   addUserKnob {12 rxy +DISABLED}
+   rxy {{curve(which) 0 0.7347 0.713 0.8 0.64 0.708 0.68 0.68 0.68 0.684 0.64 0.7347 0.7347 0.7347 0.7347 0.734699 0.7530442228 0.7530444911 0.6997470013 0.8786825105 0.7011810359 0.7011805919 0.780308 0.69848046 0.74 0.73 0.766 0.73} {curve(which) 0 0.2653 0.293 0.3177 0.33 0.292 0.32 0.32 0.32 0.313 0.33 0.2653 0.2653 0.2653 0.2653 0.265301 0.3278305767 0.3278310295 0.3290469303 0.3249640074 0.3290141556 0.3290136991 0.304253 0.19302645 0.27 0.28 0.275 0.28}}
+   addUserKnob {12 gxy +DISABLED}
+   gxy {{curve(which) 0 0 0.165 0.18 0.3 0.17 0.265 0.265 0.265 0.221 0.21 0.1152 0.1596 0.1596 0.1596 0.159597 0.2995702285 0.2995704905 0.304264039 0.3008887144 0.3006003047 0.3006003955 0.121595 0.32955538 0.17 0.14 0.225 0.165} {curve(which) 0 1 0.83 0.9 0.6 0.797 0.69 0.69 0.69 0.848 0.71 0.8264 0.8404 0.8404 0.8404 0.840403 0.700699322 0.7006994156 0.6236411451 0.6790547558 0.6837888343 0.6837888243 1.493994 1.02459662 1.14 0.855 0.8 0.84}}
+   addUserKnob {12 bxy +DISABLED}
+   bxy {{curve(which) 0 0.0001 0.128 0.065 0.15 0.131 0.15 0.15 0.15 0.0861 0.15 0.1566 0.0366 0.0366 0.0366 0.036598 0.07964206674 0.1450115843 0.1349139613 0.09539869461 0.1081544556 0.1453319462 0.095612 0.10844263 0.08 0.1 0.089 0.1} {curve(which) 0 -0.077 0.044 -0.0805 0.06 0.046 0.06 0.06 0.06 -0.102 0.06 0.0177 0.0001 0.0001 0.0001 0.000105 -0.05493795109 0.05109712509 0.03471744128 -0.02937932683 -0.008688175787 0.05161680362 -0.084589 -0.03467857 -0.1 -0.05 -0.087 -0.03}}
+   addUserKnob {12 wxy +DISABLED}
+   wxy {{curve(which) 0.33333 0.32168 0.32168 0.3127 0.3127 0.3127 0.32168 0.3127 0.314 0.3127 0.3127 0.3457 0.3457 0.3457 0.3457 0.345704 0.3216831877 0.3216832104 0.3216832894 0.3216832894 0.3216832104 0.3216832894 0.3127 0.3127 0.3127 0.3127 0.3127 0.3127} {curve(which) 0.33333 0.33767 0.33767 0.329 0.329 0.329 0.33767 0.329 0.351 0.329 0.329 0.3585 0.3585 0.3585 0.3585 0.35854 0.337673316 0.3376736101 0.3376734472 0.3376734472 0.3376736101 0.3376734472 0.329 0.329 0.329 0.329 0.329 0.329}}
+  }
+  Output {
+   name Output
+   xpos -40
+   ypos 86
+  }
+ end_group
+ Colorspace {
+  colorspace_in CIE-XYZ
+  primary_in "Adobe (1998)"
+  colorspace_out CIE-Yxy
+  name Colorspace2
+  label "\[value colorspace_in] -> \[value colorspace_out]"
+  xpos 290
+  ypos 464
+ }
+ Expression {
+  expr0 r
+  expr1 "4*g / ( -2*g + 12*b + 3)"
+  expr2 "9*b / ( -2*g + 12*b + 3)"
+  name Expression4
+  label "CIE Yxy to CIELuv"
+  xpos 290
+  ypos 512
+  disable {{!parent.diagram}}
+ }
+ Dot {
+  name Dot13
+  label " Pos"
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 324
+  ypos 618
+ }
+push $Nf71b1d0
+ Dot {
+  name Dot16
+  label " Col"
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 214
+  ypos 522
+ }
+ BlinkScript {
+  inputs 2
+  recompileCount 1
+  KernelDescription "2 \"plot_cie_xy\" iterate pixelWise fd7f72c284c0e954b8c3b98002bf4525e6fae76632a4912f35c395350522b4fd 3 \"col\" Read Random \"Yxy\" Read Random \"dst\" Write Random 3 \"padding\" Float 1 AAAAAA== \"left_pad\" Float 2 AAAAAAAAAAA= \"process_input\" Bool 1 AA== 3 \"padding\" 1 1 \"left_pad\" 2 1 \"process_input\" 1 1 2 \"outsize\" Float 1 1 AAAAAA== \"offset\" Float 2 1 AAAAAAAAAAA="
+  kernelSource "kernel plot_cie_xy : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> col;\n  Image<eRead, eAccessRandom, eEdgeClamped> Yxy;\n  Image<eWrite, eAccessRandom> dst;\n\nparam:\n  float padding;\n  float2 left_pad;\n  bool process_input;\n\n\nlocal:\n  float outsize;\n  float2 offset;\n\n  void init() \{\n    // calculate output width and height and offset based on padding\n    outsize = dst.bounds.height()/padding;\n    // xy offset for margin on lower left corner\n    offset = float2(dst.bounds.height()*left_pad.x, dst.bounds.height()*left_pad.y);\n  \}\n\n  void process(int2 pos) \{\n    // All the work will be done in the first pixel of the iteration. Essentially a single thread.\n    if ( pos.x > 1 || pos.y > 1) \{ return; \}\n    // Loop over all pixels in input Yxy\n    if (process_input) \{\n      for ( int j = Yxy.bounds.y1; j < Yxy.bounds.y2; j++) \{\n        for ( int i = Yxy.bounds.x1; i < Yxy.bounds.x2; i++) \{\n          // sample Yxy pixel at position i, j\n          float2 xy = float2(Yxy(i, j, 1), Yxy(i, j, 2));\n          // don't process black pixels\n          if( xy.x == 0.0f && xy.y == 0.0f) \{ continue; \}\n          // calculate output position: xy chromaticity coordinates at centered output pixel position\n          float2 out_pos = float2(xy.x * outsize + offset.x, xy.y * outsize + offset.y);\n          // Write color value to xy sample position in dst\n          if ( dst.bounds.inside(out_pos.x, out_pos.y)) \{ dst(out_pos.x, out_pos.y) = col(i, j); \}\n        \}\n      \}\n    \}\n  \}\n\};"
+  useGPUIfAvailable false
+  vectorize false
+  rebuild ""
+  plot_cie_xy_padding {{parent.r_margin}}
+  plot_cie_xy_left_pad {{parent.l_margin} {parent.b_margin}}
+  plot_cie_xy_process_input true
+  format "2048 2048 0 0 2048 2048 1 square_2K"
+  specifiedFormat true
+  rebuild_finalise ""
+  name Plot_Input
+  xpos 180
+  ypos 608
+ }
+ Merge2 {
+  inputs 2
+  name Merge1
+  xpos 180
+  ypos 758
+  disable {{"!parent.draw_spectral_locus && !parent.draw_axis"}}
+ }
+ Merge2 {
+  inputs 2
+  bbox B
+  name Merge2
+  xpos 180
+  ypos 830
+  disable {{!parent.draw_gamut_overlay}}
+ }
+ Blur {
+  channels rgba
+  size 1.5
+  name Blur1
+  label "poor man's antialiasing"
+  xpos 180
+  ypos 920
+ }
+ Output {
+  name Output
+  xpos 180
+  ypos 1596
+ }
+end_group
