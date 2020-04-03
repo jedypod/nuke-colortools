@@ -1,0 +1,82 @@
+set cut_paste_input [stack 0]
+ColorWheel {
+ inputs 0
+ format "2048 2048 0 0 2048 2048 1 square_2K"
+ gamma 0.45
+ name ColorWheel3
+ selected true
+ xpos 510
+ ypos 62
+ postage_stamp false
+}
+Colorspace {
+ primary_in ACES
+ colorspace_out CIE-XYZ
+ name Colorspace2
+ label "\[value colorspace_in] -> \[value colorspace_out]"
+ selected true
+ xpos 510
+ ypos 128
+}
+Dot {
+ name Dot5
+ label " "
+ note_font "Helvetica Bold"
+ note_font_size 24
+ note_font_color 0xa5a5a501
+ selected true
+ xpos 544
+ ypos 210
+}
+set Nead83d50 [stack 0]
+Dot {
+ name Dot6
+ label " "
+ note_font "Helvetica Bold"
+ note_font_size 24
+ note_font_color 0xa5a5a501
+ selected true
+ xpos 434
+ ypos 210
+}
+Colorspace {
+ colorspace_in CIE-XYZ
+ primary_in ACES
+ colorspace_out CIE-Yxy
+ name Colorspace3
+ label "\[value colorspace_in] -> \[value colorspace_out]"
+ selected true
+ xpos 400
+ ypos 248
+}
+Expression {
+ expr0 r
+ expr1 "4*g / ( -2*g + 12*b + 3)"
+ expr2 "9*b / ( -2*g + 12*b + 3)"
+ name Expression5
+ label "CIE Yxy to CIELuv"
+ selected true
+ xpos 400
+ ypos 320
+}
+Expression {
+ expr0 r
+ expr1 "9*g / ( 6*g - 16*b + 12)"
+ expr2 "4*b/ ( 6*g - 16*b + 12)"
+ name Expression2
+ label "CIELuv to CIE Yxy"
+ selected true
+ xpos 400
+ ypos 392
+}
+push $Nead83d50
+Expression {
+ expr0 g
+ expr1 "4*r / ( r+15*g+3*b)"
+ expr2 "9*g / ( r+15*g+3*b)"
+ name Expression4
+ label "CIE XYZ to CIELuv"
+ selected true
+ xpos 510
+ ypos 248
+}

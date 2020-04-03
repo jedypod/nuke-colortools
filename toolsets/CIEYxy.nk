@@ -1,0 +1,23 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Expression {
+ expr0 g
+ expr1 "(r + g + b) == 0 ? 0 : r / (r + g + b)"
+ expr2 "(r + g + b) == 0 ? 0 : g / (r + g + b)"
+ name XYZ_to_Yxy
+ label "XYZ to Yxy"
+ selected true
+ xpos 757
+ ypos 224
+}
+Expression {
+ inputs 0
+ expr0 "b == 0 ? 0 : (g/b)*r"
+ expr1 r
+ expr2 "b == 0 ? 0 : ((1-(g+b))/b)*r"
+ name Yxy_to_XYZ
+ label "Yxy to XYZ"
+ selected true
+ xpos 757
+ ypos 299
+}
