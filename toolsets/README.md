@@ -60,11 +60,11 @@ ChromaticityConverter calculates a 3x3 matrix given the xy chromaticity coordina
 
 
 ## Plot Chromaticity
-![Plot Chromaticity](/images/PlotChromaticity_awg_xy.jpg)
+![PlotChromaticity UI](/images/PlotChromaticity_ui.png)
 
 PlotChromaticity is a tool for plotting the chromaticities or hues of an image on a chromaticity diagram. There are two diagrams supported: The CIE 1931 xy Chromaticity Diagram, and the CIE 1976 u'v' Chromaticity Diagram.
 
-![PlotChromaticity UI](/images/PlotChromaticity_ui.png)
+![Plot Chromaticity](/images/PlotChromaticity_awg_xy.jpg)
 
 There are quite a few options on the node:
 - input gamut - You have to tell the node what the gamut of the input image is so that it can correctly map the colors into CIE Yxy colorspace and plot the color values accurately.
