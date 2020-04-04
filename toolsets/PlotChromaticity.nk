@@ -4,7 +4,7 @@ Group {
  name PlotChromaticity
  addUserKnob {20 PlotGamut_tab l PlotGamut}
  addUserKnob {41 input_gamut t "Set the gamut that the input colors are encoded in" T GamutToXYZ3.gamut}
- addUserKnob {4 diagram t "Choose the type of chromaticity diagram" M {"CIE 1931 xy Chromaticity Diagram" "CIE 1976 u' v' Uniform Chrimaticity Scale Diagram"}}
+ addUserKnob {4 diagram t "Choose the type of chromaticity diagram" M {"CIE 1931 xy Chromaticity Diagram" "CIE 1976 u' v' Uniform Chromaticity Scale Diagram" ""}}
  addUserKnob {26 plot_dimensions_label l " " T "<b>Plot Dimensions"}
  addUserKnob {7 r_margin l "right margin" R 1 1.5}
  r_margin 1
@@ -16,6 +16,7 @@ Group {
  addUserKnob {6 resample_input l "resample input" t "scale down input - can help speed up plotting for high resolution inputs." +STARTLINE}
  addUserKnob {3 input_width l " " t "width to resample input to" -STARTLINE}
  input_width 2048
+ addUserKnob {6 map_overlays_to_input_gamut l "map overlays to input gamut" t "This maps the overlays like the spectral locus, pointer's gamut, and the gamut overlay to the working gamut instead of keeping them as XYZ.\n\nFor example if the input gamut is ACEScg, these overlays will be mapped to that. Note that this can cause most of the overlays to be negative or highly saturated which might harm the visual appearance." +STARTLINE}
  addUserKnob {26 ""}
  addUserKnob {6 draw_axis l "&nbsp;&nbsp; <b> Coordinate System" t "Draw axis" +STARTLINE}
  draw_axis true
@@ -136,8 +137,8 @@ Group {
    xpos -260
    ypos 110
   }
-set N145a85c0 [stack 0]
-push $N145a85c0
+set N4ed23e50 [stack 0]
+push $N4ed23e50
   ContactSheet {
    inputs 2
    width {{width*columns}}
@@ -211,7 +212,7 @@ push $N145a85c0
    xpos -40
    ypos -341
   }
-set N3a448040 [stack 0]
+set N37fbd340 [stack 0]
   Dot {
    name Dot2
    label " "
@@ -244,7 +245,7 @@ set N3a448040 [stack 0]
    addUserKnob {12 white}
    white {{"parent.distribution ? 4*parent.wxy.x / ( -2 * parent.wxy.x + 12 * parent.wxy.y + 3) : parent.wxy"} {"parent.distribution ? 9*parent.wxy.y / ( -2*parent.wxy.x + 12*parent.wxy.y + 3) : parent.wxy"}}
   }
-set N688240 [stack 0]
+set N6bcfcb20 [stack 0]
   Posterize {
    channels rgb
    Colors {{rint(parent.density/3*2)}}
@@ -253,8 +254,8 @@ set N688240 [stack 0]
    xpos -590
    ypos -194
   }
-set Necb4a40 [stack 0]
-push $N688240
+set Nfc4ef580 [stack 0]
+push $N6bcfcb20
   Dot {
    name Dot15
    note_font "Bitstream Vera Sans"
@@ -269,8 +270,8 @@ push $N688240
    xpos -480
    ypos -154
   }
-push $Necb4a40
-push $N688240
+push $Nfc4ef580
+push $N6bcfcb20
   Dot {
    name Dot16
    note_font "Bitstream Vera Sans"
@@ -386,8 +387,8 @@ push $N688240
    xpos -556
    ypos 378
   }
-push $N145a85c0
-push $N3a448040
+push $N4ed23e50
+push $N37fbd340
   Expression {
    expr0 r
    expr1 "4*g / ( -2*g + 12*b + 3)"
@@ -596,7 +597,7 @@ push $N3a448040
   xpos -1546
   ypos 450
  }
-set N326a79c0 [stack 0]
+set N9255cf80 [stack 0]
  Colorspace {
   colorspace_in CIE-XYZ
   primary_in "Adobe (1998)"
@@ -625,12 +626,25 @@ set N326a79c0 [stack 0]
   xpos -1436
   ypos 570
  }
-push $N326a79c0
+push $N9255cf80
+ ColorMatrix {
+  matrix {
+      {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
+      {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
+      {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
+    }
+  invert true
+  name ColorMatrix2
+  label "XYZ to working"
+  xpos -1580
+  ypos 471
+  disable {{!map_overlays_to_input_gamut}}
+ }
  Fill {
   color {1 0.5 0.1 1}
   name Fill1
   xpos -1580
-  ypos 494
+  ypos 521
   disable {{!parent.colorize_gamut_boundary}}
  }
  BlinkScript {
@@ -864,7 +878,7 @@ push $N326a79c0
   xpos -446
   ypos 402
  }
-set Nd2cae100 [stack 0]
+set N18f1420 [stack 0]
  Constant {
   inputs 0
   format "256 256 0 0 256 256 1 square_256"
@@ -893,7 +907,7 @@ set Nd2cae100 [stack 0]
   xpos -370
   ypos 14
  }
-set N2eae15f0 [stack 0]
+set N1feed10 [stack 0]
  Dot {
   name Dot9
   note_font "Bitstream Vera Sans"
@@ -930,7 +944,7 @@ set N2eae15f0 [stack 0]
   xpos -226
   ypos 234
  }
-push $N2eae15f0
+push $N1feed10
  Expression {
   temp_name0 start
   temp_expr0 360
@@ -1013,7 +1027,7 @@ push $N2eae15f0
   xpos -336
   ypos 378
  }
-set N8ce7f340 [stack 0]
+set N967937e0 [stack 0]
  Dot {
   name Dot5
   label " "
@@ -1047,9 +1061,9 @@ set N8ce7f340 [stack 0]
   note_font_size 24
   note_font_color 0xa5a5a501
   xpos -226
-  ypos 594
+  ypos 636
  }
-push $Nd2cae100
+push $N18f1420
  Colorspace {
   colorspace_in CIE-Yxy
   primary_in "Adobe (1998)"
@@ -1066,21 +1080,22 @@ push $Nd2cae100
       {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
     }
   invert true
-  name ColorMatrix1
+  name ColorMatrix3
   label "XYZ to working"
+  selected true
   xpos -480
-  ypos 488
-  disable true
+  ypos 478
+  disable {{!map_overlays_to_input_gamut}}
  }
  Fill {
   color {1 0.43 1 1}
   unpremult rgba.alpha
   name ColorizePointers
   xpos -480
-  ypos 536
+  ypos 575
   disable {{!parent.colorize_pointers_gamut x1 1}}
  }
-push $N8ce7f340
+push $N967937e0
  Colorspace {
   colorspace_in CIE-Yxy
   primary_in "Adobe (1998)"
@@ -1090,19 +1105,32 @@ push $N8ce7f340
   xpos -370
   ypos 440
  }
+ ColorMatrix {
+  matrix {
+      {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
+      {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
+      {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
+    }
+  invert true
+  name ColorMatrix1
+  label "XYZ to working"
+  xpos -370
+  ypos 478
+  disable {{!map_overlays_to_input_gamut}}
+ }
  Fill {
   color {0 0.5 1 1}
   unpremult rgba.alpha
   name Fill2
   xpos -370
-  ypos 488
+  ypos 527
   disable {{!parent.colorize_spectral_locus}}
  }
  Merge2 {
   inputs 2
   name Merge6
   xpos -370
-  ypos 542
+  ypos 581
   disable {{!parent.enable_pointers_gamut}}
  }
  BlinkScript {
@@ -1124,7 +1152,7 @@ push $N8ce7f340
   rebuild_finalise ""
   name Plot_SpectralLocus_and_Axis
   xpos -370
-  ypos 584
+  ypos 626
  }
  FrameHold {
   first_frame 1
@@ -1174,7 +1202,7 @@ push $N8ce7f340
   xpos 214
   ypos 378
  }
-set Ne87fae30 [stack 0]
+set N9618eb50 [stack 0]
  Dot {
   name Dot1
   label " "
@@ -1264,7 +1292,7 @@ set Ne87fae30 [stack 0]
   xpos 324
   ypos 618
  }
-push $Ne87fae30
+push $N9618eb50
  Dot {
   name Dot16
   label " Col"
