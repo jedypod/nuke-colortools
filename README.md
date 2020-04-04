@@ -16,6 +16,9 @@ For more specific information on each tool go to the [toolsets folder](/toolsets
 - The [AcesCentral Forums](https://acescentral.com)
 - The [ACES Central Gamut Mapping Virtual Working Group](https://acescentral.com/c/aces-development-acesnext/vwg-aces-gamut-mapping-working-group/80)
 - The [excellent information](https://colour.readthedocs.io/en/v0.3.10/colour.models.rgb.html) that comes with the [Colour python package](https://colour.readthedocs.io/en/v0.3.15/index.html).
+- [Colour](https://github.com/colour-science/colour/): [color matching functions](https://nbviewer.jupyter.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/cmfs.ipynb).
+- [Colour and Vision Research Labratory](http://www.cvrl.org) - Great resource for datasets related to human visual perception. Including the [CIE 1931 color matching functions](http://cvrl.ioo.ucl.ac.uk/cie.htm), and the newer [CIE 2006 color matching functions](http://www.cvrl.org/ciexyzpr.htm).
+- [Useful article](https://www.tftcentral.co.uk/articles/pointers_gamut.htm) on Pointer's Gamut and wide gamut display devices.
 - [Cinematic Color 2: Color for Motion Pictures and Games](https://nick-shaw.github.io/cinematiccolor/cinematic-color.html#color-science.html)
 - Zach Lewis' [ACES Output Transform](https://gist.github.com/zachlewis/786c0be941868644c993fde1c3515c2c)
 
