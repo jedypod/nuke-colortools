@@ -262,7 +262,7 @@ set N7cf44870 [stack 0]
  }
  Reformat {
   type "to box"
-  box_width {{"min(input.width, parent.input.width*box_size)"}}
+  box_width {{"min(input.width, parent.Input.width*box_size)"}}
   scale 0.5
   filter Notch
   black_outside true
