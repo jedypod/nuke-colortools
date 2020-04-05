@@ -3,25 +3,30 @@ push $cut_paste_input
 Group {
  name PlotChromaticity
  addUserKnob {20 PlotGamut_tab l PlotGamut}
+ addUserKnob {6 plot_input l "&nbsp;<b>Plot Input Pixels" t "Enable plotting of the input pixels" +STARTLINE}
+ plot_input true
  addUserKnob {41 input_gamut t "Set the gamut that the input colors are encoded in" T GamutToXYZ3.gamut}
  addUserKnob {4 diagram t "Choose the type of chromaticity diagram" M {"CIE 1931 xy Chromaticity Diagram" "CIE 1976 u' v' Uniform Chromaticity Scale Diagram" ""}}
  addUserKnob {4 plot_type l "plot type" t "Choose the type of plot rendering.\n\nBlinkScript uses a custom blinkscript plotting node which is very fast.\n\nPositionToPoints renders each pixels as a point in 3D space and renders it through a ScanlineRender node. Much slower and more buggy, but can be useful for visualizing the 3 dimensional aspect of the color data." M {BlinkScript "PositionToPoints + ScanlineRender"}}
+ addUserKnob {6 enable_sample_color l "enable sample color" t "Enable plotting of the sampled color below" +STARTLINE}
+ addUserKnob {41 sample_color l "sample color" t "sample and plot selected color" T SampleColor.color}
+ addUserKnob {26 ""}
  addUserKnob {26 plot_dimensions_label l " " T "<b>Plot Dimensions"}
- addUserKnob {7 r_margin l "right margin" R 1 1.5}
- r_margin 1
- addUserKnob {7 l_margin l "L margin" R 0 0.25}
- l_margin 0.08
- addUserKnob {7 b_margin l "B margin" R 0 0.25}
- b_margin 0.08
+ addUserKnob {7 right_margin l "right margin" R 1 1.5}
+ right_margin 1.1
+ addUserKnob {7 left_margin l "left margin" R 0 0.2}
+ left_margin 0.1
  addUserKnob {41 output_format l format T Plot_Input.format}
  addUserKnob {6 resample_input l "resample input" t "scale down input - can help speed up plotting for high resolution inputs." +STARTLINE}
  addUserKnob {3 input_width l " " t "width to resample input to" -STARTLINE}
  input_width 2048
  addUserKnob {6 map_overlays_to_input_gamut l "map overlays to input gamut" t "This maps the overlays like the spectral locus, pointer's gamut, and the gamut overlay to the working gamut instead of keeping them as XYZ.\n\nFor example if the input gamut is ACEScg, these overlays will be mapped to that. Note that this can cause most of the overlays to be negative or highly saturated which might harm the visual appearance." +STARTLINE}
  addUserKnob {26 ""}
- addUserKnob {6 draw_axis l "&nbsp;&nbsp; <b> Coordinate System" t "Draw axis" +STARTLINE}
+ addUserKnob {6 draw_axis l "&nbsp;&nbsp; <b> Coordinate Grid" t "Draw coordinate grid" +STARTLINE}
  draw_axis true
- addUserKnob {41 plot_cie_xy_axis_color l axis_color T Plot_SpectralLocus_and_Axis.plot_cie_xy_axis_color}
+ addUserKnob {6 full_width_grid l "full width grid" t "Enable full width coordinate grid" +STARTLINE}
+ addUserKnob {41 plot_cie_xy_axis_color l "axis color" T Plot_SpectralLocus_and_Axis.plot_cie_xy_axis_color}
+ addUserKnob {41 plot_cie_xy_axis_hatch_color l "grid color" T Plot_SpectralLocus_and_Axis.plot_cie_xy_axis_hatch_color}
  addUserKnob {26 ""}
  addUserKnob {6 draw_spectral_locus l " &nbsp;&nbsp; <b> Spectral Locus" t "draw the spectrum locus: the boundary of color the human eye can see." +STARTLINE}
  draw_spectral_locus true
@@ -53,7 +58,7 @@ Group {
   tile_color 0x222222ff
   label "Draw Gamut"
   note_font_size 42
-  xpos -1835
+  xpos -2165
   ypos -325
   bdwidth 585
   bdheight 1462
@@ -64,7 +69,7 @@ Group {
   tile_color 0x222222ff
   label "Draw Spectral Locus"
   note_font_size 42
-  xpos -627
+  xpos -955
   ypos -321
   bdwidth 582
   bdheight 1458
@@ -75,10 +80,10 @@ Group {
   tile_color 0x222222ff
   label "Plot Input Pixels"
   note_font_size 42
-  xpos -13
-  ypos -604
-  bdwidth 514
-  bdheight 1904
+  xpos -222
+  ypos -633
+  bdwidth 797
+  bdheight 2562
  }
  BackdropNode {
   inputs 0
@@ -86,23 +91,35 @@ Group {
   tile_color 0x202020ff
   label "Pointer's Gamut"
   note_font_size 48
-  xpos -1205
+  xpos -1535
   ypos -321
   bdwidth 554
   bdheight 1458
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode5
+  tile_color 0x3a3a3aff
+  label "Sample Input Color"
+  note_font_size 42
+  xpos -237
+  ypos 114
+  bdwidth 415
+  bdheight 639
+  z_order 4
  }
  Camera2 {
   inputs 0
   display off
   selectable false
-  translate {{0.5-parent.l_margin*0.3 x14 0.476000011} {0.5-parent.b_margin*0.3 x14 0.476000011} 3}
+  translate {{0.5-parent.left_margin*0.3 x14 0.476000011} {0.5-parent.left_margin*0.3 x14 0.476000011} 3}
   projection_mode orthographic
-  focal {{40/parent.r_margin}}
+  focal {{40/parent.right_margin}}
   haperture 50
   vaperture 18
   far 10
   name Camera1
-  xpos -378
+  xpos -708
   ypos 1329
  }
  Input {
@@ -135,9 +152,9 @@ Group {
   note_font_size 24
   note_font_color 0xa5a5a501
   xpos 214
-  ypos 378
+  ypos 244
  }
-set Nec6faaa0 [stack 0]
+set N7394c350 [stack 0]
  Dot {
   name Dot1
   label " "
@@ -145,13 +162,13 @@ set Nec6faaa0 [stack 0]
   note_font_size 24
   note_font_color 0xa5a5a501
   xpos 324
-  ypos 378
+  ypos 244
  }
  Group {
   name GamutToXYZ3
   label "\[value gamut] to XYZ\n"
   xpos 290
-  ypos 416
+  ypos 392
   addUserKnob {20 GamutToXYZ_tab l GamutToXYZ}
   addUserKnob {4 gamut t "Choose gamut" M {XYZ ACES ACEScg "Filmlight E-Gamut" Rec709 Rec2020 P3D60 P3D65 P3DCI ArriAlexaWideGamut "AdobeRGB\t" AdobeWideGamutRGB ROMM RIMM ERIMM ProPhotoRGB REDDRAGONcolor REDDRAGONcolor2 REDcolor REDcolor2 REDcolor3 REDcolor4 REDWideGamutRGB GoProProtune CanonCinemaGamut SonySGamut SonySGamut3Cine PanasonicVGamut ""}}
   gamut ACES
@@ -179,6 +196,7 @@ set Nec6faaa0 [stack 0]
    invert {{parent.invert}}
    name ColorMatrix
    label "RGB to XYZ"
+   selected true
    xpos -40
    ypos 33
    addUserKnob {20 Gamut}
@@ -206,7 +224,7 @@ set Nec6faaa0 [stack 0]
   name Colorspace2
   label "\[value colorspace_in] -> \[value colorspace_out]"
   xpos 290
-  ypos 464
+  ypos 440
  }
  Expression {
   expr0 r
@@ -227,8 +245,8 @@ set Nec6faaa0 [stack 0]
   xpos 324
   ypos 618
  }
-set Na44ee330 [stack 0]
-push $Nec6faaa0
+set N2146be70 [stack 0]
+push $N7394c350
  Dot {
   name Dot16
   label " Col"
@@ -238,12 +256,12 @@ push $Nec6faaa0
   xpos 214
   ypos 522
  }
-set Nac1fa290 [stack 0]
+set N10c62e30 [stack 0]
  Group {
   inputs 2
   name PlotPoints2
   xpos 290
-  ypos 667
+  ypos 676
   addUserKnob {20 User}
   addUserKnob {41 detail l "point detail" T PositionToPoints1.detail}
   addUserKnob {41 pointSize l "point size" T PositionToPoints1.pointSize}
@@ -304,7 +322,7 @@ add_layer {pos pos.red pos.green pos.blue pos.alpha}
   inputs 0
   format "256 256 0 0 256 256 1 square_256"
   name Constant6
-  xpos -1140
+  xpos -1470
   ypos -58
   postage_stamp false
  }
@@ -314,7 +332,7 @@ add_layer {pos pos.red pos.green pos.blue pos.alpha}
   box_height 2
   box_fixed true
   name ReformatBox3
-  xpos -1140
+  xpos -1470
   ypos -9
   addUserKnob {20 User}
   addUserKnob {7 bits l "" +STARTLINE R 0 16}
@@ -325,7 +343,7 @@ add_layer {pos pos.red pos.green pos.blue pos.alpha}
   p1 {{input.width} 0}
   color {{input.width}}
   name Ramp1
-  xpos -1140
+  xpos -1470
   ypos 38
  }
  ColorLookup {
@@ -336,19 +354,19 @@ add_layer {pos pos.red pos.green pos.blue pos.alpha}
     alpha {}}
   name ColorLookup1
   label "Pointers Samples Yxy\nSource: https://www.rit.edu/cos/colorscience/rc_useful_data.php"
-  xpos -1140
+  xpos -1470
   ypos 98
  }
  BlackOutside {
   name BlackOutside2
-  xpos -1140
+  xpos -1470
   ypos 179
  }
  Crop {
   box {0 0 {input.width} {height+1}}
   reformat true
   name Crop1
-  xpos -1140
+  xpos -1470
   ypos 227
  }
  Dot {
@@ -357,14 +375,14 @@ add_layer {pos pos.red pos.green pos.blue pos.alpha}
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xa5a5a501
-  xpos -1106
+  xpos -1436
   ypos 282
  }
  Constant {
   inputs 0
   format "256 256 0 0 256 256 1 square_256"
   name Constant1
-  xpos -920
+  xpos -1250
   ypos -58
   postage_stamp false
  }
@@ -374,7 +392,7 @@ add_layer {pos pos.red pos.green pos.blue pos.alpha}
   box_height 2
   box_fixed true
   name ReformatBox2
-  xpos -920
+  xpos -1250
   ypos -10
   addUserKnob {20 User}
   addUserKnob {7 bits l "" +STARTLINE R 0 16}
@@ -385,7 +403,7 @@ add_layer {pos pos.red pos.green pos.blue pos.alpha}
   p1 {{input.width} 0}
   color {{input.width}}
   name Ramp2
-  xpos -920
+  xpos -1250
   ypos 38
  }
  ColorLookup {
@@ -396,38 +414,38 @@ add_layer {pos pos.red pos.green pos.blue pos.alpha}
     alpha {}}
   name ColorLookup3
   label "Pointer's Gamut Boundary Yxy\ninterpolated: incr 50 - 0 to 8000"
-  xpos -920
+  xpos -1250
   ypos 98
  }
  BlackOutside {
   name BlackOutside3
-  xpos -920
+  xpos -1250
   ypos 179
  }
  Crop {
   box {0 -1 {input.width} {height}}
   reformat true
   name Crop8
-  xpos -920
+  xpos -1250
   ypos 228
  }
  Merge2 {
   inputs 2
   name Merge5
-  xpos -920
+  xpos -1250
   ypos 278
   disable {{!parent.enable_pointer_samples}}
  }
  BlackOutside {
   name BlackOutside4
-  xpos -920
+  xpos -1250
   ypos 325
  }
  Crop {
   box {0 -1 {input.width} {height}}
   reformat true
   name Crop2
-  xpos -920
+  xpos -1250
   ypos 367
  }
  Dot {
@@ -436,7 +454,7 @@ add_layer {pos pos.red pos.green pos.blue pos.alpha}
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xa5a5a501
-  xpos -886
+  xpos -1216
   ypos 402
  }
  Dot {
@@ -445,15 +463,15 @@ add_layer {pos pos.red pos.green pos.blue pos.alpha}
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xa5a5a501
-  xpos -446
+  xpos -776
   ypos 402
  }
-set N9e15430 [stack 0]
+set N943d6f00 [stack 0]
  Constant {
   inputs 0
   format "256 256 0 0 256 256 1 square_256"
   name Constant5
-  xpos -370
+  xpos -700
   ypos -122
   postage_stamp false
  }
@@ -464,7 +482,7 @@ set N9e15430 [stack 0]
   box_fixed true
   name ReformatBox1
   label "\[value bits]bit"
-  xpos -370
+  xpos -700
   ypos -80
   addUserKnob {20 User}
   addUserKnob {7 bits l "" +STARTLINE R 0 16}
@@ -474,14 +492,14 @@ set N9e15430 [stack 0]
   p0 {0 0}
   p1 {{input.width} 0}
   name Ramp3
-  xpos -370
+  xpos -700
   ypos -26
  }
-set Necef0c70 [stack 0]
+set N5d3ff420 [stack 0]
  Dot {
   name Dot9
   note_font "Bitstream Vera Sans"
-  xpos -226
+  xpos -556
   ypos -22
  }
  Expression {
@@ -491,7 +509,7 @@ set Necef0c70 [stack 0]
   expr3 1
   name Expression1
   label "line of purples"
-  xpos -260
+  xpos -590
   ypos 16
  }
  Transform {
@@ -500,21 +518,21 @@ set Necef0c70 [stack 0]
   filter Impulse
   name Transform1
   note_font "Bitstream Vera Sans"
-  xpos -260
+  xpos -590
   ypos 70
  }
  BlackOutside {
   name BlackOutside1
-  xpos -260
+  xpos -590
   ypos 118
  }
  Dot {
   name Dot10
   note_font "Bitstream Vera Sans"
-  xpos -226
+  xpos -556
   ypos 194
  }
-push $Necef0c70
+push $N5d3ff420
  Expression {
   temp_name0 start
   temp_expr0 360
@@ -527,7 +545,7 @@ push $Necef0c70
   expr3 1
   name Expression2
   label "360nm to 830nm"
-  xpos -370
+  xpos -700
   ypos 16
  }
  ColorLookup {
@@ -538,7 +556,7 @@ push $Necef0c70
     alpha {}}
   name ColorLookup2
   label "CIE 1931 2 Degree Standard Observer\n360nm to 830nm"
-  xpos -370
+  xpos -700
   ypos 74
  }
  Colorspace {
@@ -547,13 +565,13 @@ push $Necef0c70
   colorspace_out CIE-Yxy
   name Colorspace5
   label "\[value colorspace_in] -> \[value colorspace_out]"
-  xpos -370
+  xpos -700
   ypos 136
  }
  Merge2 {
   inputs 2
   name Merge4
-  xpos -370
+  xpos -700
   ypos 190
  }
  Expression {
@@ -562,7 +580,7 @@ push $Necef0c70
   expr2 "b < 0 ? b * sole.b + lift.b : b < lift.b * 2 ? pow( (lift.b *2 - b) / (lift.b * 2), 2) * lift.b + b : b"
   name ToeExpr1
   label "increase brightness of line of purples"
-  xpos -370
+  xpos -700
   ypos 227
   dope_sheet true
   addUserKnob {20 User}
@@ -577,21 +595,21 @@ push $Necef0c70
  Crop {
   box {0 0 16384 1}
   name Crop10
-  xpos -370
+  xpos -700
   ypos 279
  }
  Crop {
   box {0 0 16384 3}
   reformat true
   name Crop9
-  xpos -370
+  xpos -700
   ypos 305
   disable {{!parent.enable_pointers_gamut}}
  }
  Fill {
   color {0 0 0 1}
   name Disable_SpectralLocus
-  xpos -370
+  xpos -700
   ypos 337
   disable {{parent.draw_spectral_locus}}
  }
@@ -601,23 +619,23 @@ push $Necef0c70
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xa5a5a501
-  xpos -336
+  xpos -666
   ypos 378
  }
-set Na45f1a60 [stack 0]
+set Nee5fcd70 [stack 0]
  Dot {
   name Dot5
   label " "
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xa5a5a501
-  xpos -226
+  xpos -556
   ypos 378
  }
  Merge2 {
   inputs 2
   name Merge3
-  xpos -260
+  xpos -590
   ypos 398
   disable {{!parent.enable_pointers_gamut}}
  }
@@ -627,7 +645,7 @@ set Na45f1a60 [stack 0]
   expr2 "9*b / ( -2*g + 12*b + 3)"
   name Expression5
   label "CIE Yxy to CIELuv"
-  xpos -260
+  xpos -590
   ypos 493
   disable {{!parent.diagram}}
  }
@@ -637,18 +655,18 @@ set Na45f1a60 [stack 0]
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xa5a5a501
-  xpos -226
+  xpos -556
   ypos 609
  }
-set Ne5524100 [stack 0]
-push $N9e15430
+set N1d435b30 [stack 0]
+push $N943d6f00
  Colorspace {
   colorspace_in CIE-Yxy
   primary_in "Adobe (1998)"
   colorspace_out CIE-XYZ
   name Colorspace4
   label "\[value colorspace_in] -> \[value colorspace_out]"
-  xpos -480
+  xpos -810
   ypos 440
  }
  ColorMatrix {
@@ -660,7 +678,7 @@ push $N9e15430
   invert true
   name ColorMatrix3
   label "XYZ to working"
-  xpos -480
+  xpos -810
   ypos 478
   disable {{!map_overlays_to_input_gamut}}
  }
@@ -668,18 +686,18 @@ push $N9e15430
   color {1 0.43 1 1}
   unpremult rgba.alpha
   name ColorizePointers
-  xpos -480
+  xpos -810
   ypos 575
   disable {{!parent.colorize_pointers_gamut x1 1}}
  }
-push $Na45f1a60
+push $Nee5fcd70
  Colorspace {
   colorspace_in CIE-Yxy
   primary_in "Adobe (1998)"
   colorspace_out CIE-XYZ
   name Colorspace6
   label "\[value colorspace_in] -> \[value colorspace_out]"
-  xpos -370
+  xpos -700
   ypos 429
  }
  ColorMatrix {
@@ -691,30 +709,30 @@ push $Na45f1a60
   invert true
   name ColorMatrix1
   label "XYZ to working"
-  xpos -370
-  ypos 478
+  xpos -700
+  ypos 477
   disable {{!map_overlays_to_input_gamut}}
  }
  Fill {
   color {0 0.5 1 1}
   unpremult rgba.alpha
   name Fill2
-  xpos -370
+  xpos -700
   ypos 528
   disable {{!parent.colorize_spectral_locus}}
  }
  Merge2 {
   inputs 2
   name Merge6
-  xpos -370
+  xpos -700
   ypos 581
   disable {{!parent.enable_pointers_gamut}}
  }
-set Nc39fdf60 [stack 0]
+set Nee5fb5f0 [stack 0]
  Group {
   inputs 2
   name PlotPoints1
-  xpos -260
+  xpos -590
   ypos 650
   disable {{!(parent.draw_spectral_locus||parent.enable_pointers_gamut)}}
   addUserKnob {20 User}
@@ -766,7 +784,7 @@ set Nc39fdf60 [stack 0]
  Group {
   inputs 0
   name GamutGrid
-  xpos -1690
+  xpos -2020
   ypos 398
   addUserKnob {20 GamutGrid}
   addUserKnob {3 style}
@@ -809,8 +827,8 @@ set Nc39fdf60 [stack 0]
    xpos -260
    ypos 110
   }
-set N2151dc50 [stack 0]
-push $N2151dc50
+set N1557b6b0 [stack 0]
+push $N1557b6b0
   ContactSheet {
    inputs 2
    width {{width*columns}}
@@ -884,7 +902,7 @@ push $N2151dc50
    xpos -40
    ypos -341
   }
-set N1e031550 [stack 0]
+set N7263f090 [stack 0]
   Dot {
    name Dot2
    label " "
@@ -917,7 +935,7 @@ set N1e031550 [stack 0]
    addUserKnob {12 white}
    white {{"parent.distribution ? 4*parent.wxy.x / ( -2 * parent.wxy.x + 12 * parent.wxy.y + 3) : parent.wxy"} {"parent.distribution ? 9*parent.wxy.y / ( -2*parent.wxy.x + 12*parent.wxy.y + 3) : parent.wxy"}}
   }
-set N7a94af50 [stack 0]
+set N1da0b780 [stack 0]
   Posterize {
    channels rgb
    Colors {{rint(parent.density/3*2)}}
@@ -926,8 +944,8 @@ set N7a94af50 [stack 0]
    xpos -590
    ypos -194
   }
-set N2b253320 [stack 0]
-push $N7a94af50
+set N74ddc7a0 [stack 0]
+push $N1da0b780
   Dot {
    name Dot15
    note_font "Bitstream Vera Sans"
@@ -942,8 +960,8 @@ push $N7a94af50
    xpos -480
    ypos -154
   }
-push $N2b253320
-push $N7a94af50
+push $N74ddc7a0
+push $N1da0b780
   Dot {
    name Dot16
    note_font "Bitstream Vera Sans"
@@ -1059,8 +1077,8 @@ push $N7a94af50
    xpos -556
    ypos 378
   }
-push $N2151dc50
-push $N1e031550
+push $N1557b6b0
+push $N7263f090
   Expression {
    expr0 r
    expr1 "4*g / ( -2*g + 12*b + 3)"
@@ -1192,19 +1210,19 @@ push $N1e031550
   format "256 256 0 0 256 256 1 square_256"
   centerSaturation 1
   name ColorWheel4
-  xpos -1580
+  xpos -1910
   ypos 254
   postage_stamp false
  }
  Unpremult {
   name Unpremult1
-  xpos -1580
+  xpos -1910
   ypos 302
  }
  Group {
   name GamutToXYZ_OVERLAY
   label "\[value gamut] to XYZ\n"
-  xpos -1580
+  xpos -1910
   ypos 344
   addUserKnob {20 GamutToXYZ_tab l GamutToXYZ}
   addUserKnob {4 gamut t "Choose gamut" M {XYZ ACES ACEScg "Filmlight E-Gamut" Rec709 Rec2020 P3D60 P3D65 P3DCI ArriAlexaWideGamut "AdobeRGB\t" AdobeWideGamutRGB ROMM RIMM ERIMM ProPhotoRGB REDDRAGONcolor REDDRAGONcolor2 REDcolor REDcolor2 REDcolor3 REDcolor4 REDWideGamutRGB GoProProtune CanonCinemaGamut SonySGamut SonySGamut3Cine PanasonicVGamut ""}}
@@ -1257,7 +1275,7 @@ push $N1e031550
   inputs 2
   which {{parent.style}}
   name Switch_Outline
-  xpos -1580
+  xpos -1910
   ypos 398
  }
  Dot {
@@ -1266,17 +1284,17 @@ push $N1e031550
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xa5a5a501
-  xpos -1546
+  xpos -1876
   ypos 450
  }
-set N2c25fef0 [stack 0]
+set Nb6554420 [stack 0]
  Colorspace {
   colorspace_in CIE-XYZ
   primary_in "Adobe (1998)"
   colorspace_out CIE-Yxy
   name Colorspace3
   label "\[value colorspace_in] -> \[value colorspace_out]"
-  xpos -1470
+  xpos -1800
   ypos 440
  }
  Expression {
@@ -1285,7 +1303,7 @@ set N2c25fef0 [stack 0]
   expr2 "9*b / ( -2*g + 12*b + 3)"
   name Expression3
   label "CIE Yxy to CIELuv"
-  xpos -1470
+  xpos -1800
   ypos 512
   disable {{!parent.diagram}}
  }
@@ -1295,11 +1313,11 @@ set N2c25fef0 [stack 0]
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xa5a5a501
-  xpos -1436
+  xpos -1766
   ypos 570
  }
-set N3a7f5680 [stack 0]
-push $N2c25fef0
+set Na52d9260 [stack 0]
+push $Nb6554420
  ColorMatrix {
   matrix {
       {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
@@ -1309,22 +1327,22 @@ push $N2c25fef0
   invert true
   name ColorMatrix2
   label "XYZ to working"
-  xpos -1580
+  xpos -1910
   ypos 471
   disable {{!map_overlays_to_input_gamut}}
  }
  Fill {
   color {1 0.5 0.1 1}
   name Fill1
-  xpos -1580
+  xpos -1910
   ypos 521
   disable {{!parent.colorize_gamut_boundary}}
  }
-set N39df7ec0 [stack 0]
+set N3a6a62f0 [stack 0]
  Group {
   inputs 2
   name PlotPoints
-  xpos -1470
+  xpos -1800
   ypos 614
   addUserKnob {20 User}
   addUserKnob {41 detail l "point detail" T PositionToPoints1.detail}
@@ -1378,28 +1396,29 @@ set N39df7ec0 [stack 0]
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xa5a5a501
-  xpos -1436
+  xpos -1766
   ypos 1266
  }
  Scene {
   inputs 3
   name Scene1
-  xpos -250
+  xpos -580
   ypos 1242
  }
-push $Na44ee330
-push $Nac1fa290
+push $N2146be70
+push $N10c62e30
  BlinkScript {
   inputs 2
-  recompileCount 1
-  KernelDescription "2 \"plot_cie_xy\" iterate pixelWise fd7f72c284c0e954b8c3b98002bf4525e6fae76632a4912f35c395350522b4fd 3 \"col\" Read Random \"Yxy\" Read Random \"dst\" Write Random 3 \"padding\" Float 1 AAAAAA== \"left_pad\" Float 2 AAAAAAAAAAA= \"process_input\" Bool 1 AA== 3 \"padding\" 1 1 \"left_pad\" 2 1 \"process_input\" 1 1 2 \"outsize\" Float 1 1 AAAAAA== \"offset\" Float 2 1 AAAAAAAAAAA="
-  kernelSource "kernel plot_cie_xy : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> col;\n  Image<eRead, eAccessRandom, eEdgeClamped> Yxy;\n  Image<eWrite, eAccessRandom> dst;\n\nparam:\n  float padding;\n  float2 left_pad;\n  bool process_input;\n\n\nlocal:\n  float outsize;\n  float2 offset;\n\n  void init() \{\n    // calculate output width and height and offset based on padding\n    outsize = dst.bounds.height()/padding;\n    // xy offset for margin on lower left corner\n    offset = float2(dst.bounds.height()*left_pad.x, dst.bounds.height()*left_pad.y);\n  \}\n\n  void process(int2 pos) \{\n    // All the work will be done in the first pixel of the iteration. Essentially a single thread.\n    if ( pos.x > 1 || pos.y > 1) \{ return; \}\n    // Loop over all pixels in input Yxy\n    if (process_input) \{\n      for ( int j = Yxy.bounds.y1; j < Yxy.bounds.y2; j++) \{\n        for ( int i = Yxy.bounds.x1; i < Yxy.bounds.x2; i++) \{\n          // sample Yxy pixel at position i, j\n          float2 xy = float2(Yxy(i, j, 1), Yxy(i, j, 2));\n          // don't process black pixels\n          if( xy.x == 0.0f && xy.y == 0.0f) \{ continue; \}\n          // calculate output position: xy chromaticity coordinates at centered output pixel position\n          float2 out_pos = float2(xy.x * outsize + offset.x, xy.y * outsize + offset.y);\n          // Write color value to xy sample position in dst\n          if ( dst.bounds.inside(out_pos.x, out_pos.y)) \{ dst(out_pos.x, out_pos.y) = col(i, j); \}\n        \}\n      \}\n    \}\n  \}\n\};"
+  recompileCount 2
+  ProgramGroup 1
+  KernelDescription "2 \"plot_cie_xy\" iterate pixelWise fc48d30b761944f4622c7e7cade9c548789bc618dc38d8ca992161542531f81f 3 \"col\" Read Random \"Yxy\" Read Random \"dst\" Write Random 3 \"padding\" Float 1 AAAAAA== \"left_margin\" Float 1 AAAAAA== \"process_input\" Bool 1 AA== 3 \"padding\" 1 1 \"left_margin\" 1 1 \"process_input\" 1 1 2 \"outsize\" Float 1 1 AAAAAA== \"offset\" Float 1 1 AAAAAA=="
+  kernelSource "kernel plot_cie_xy : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> col;\n  Image<eRead, eAccessRandom, eEdgeClamped> Yxy;\n  Image<eWrite, eAccessRandom> dst;\n\nparam:\n  float padding;\n  float left_margin;\n  bool process_input;\n\n\nlocal:\n  float outsize;\n  float offset;\n\n  void init() \{\n    // calculate output width and height and offset based on padding\n    outsize = dst.bounds.height()/padding;\n    // xy offset for margin on lower left corner\n    offset = dst.bounds.height()*left_margin;\n  \}\n\n  void process(int2 pos) \{\n    // All the work will be done in the first pixel of the iteration. Essentially a single thread.\n    if ( pos.x > 1 || pos.y > 1) \{ return; \}\n    // Loop over all pixels in input Yxy\n    if (process_input) \{\n      for ( int j = Yxy.bounds.y1; j < Yxy.bounds.y2; j++) \{\n        for ( int i = Yxy.bounds.x1; i < Yxy.bounds.x2; i++) \{\n          // sample Yxy pixel at position i, j\n          float2 xy = float2(Yxy(i, j, 1), Yxy(i, j, 2));\n          // don't process black pixels\n          if( xy.x == 0.0f && xy.y == 0.0f) \{ continue; \}\n          // calculate output position: xy chromaticity coordinates at centered output pixel position\n          float2 out_pos = float2(xy.x * outsize + offset, xy.y * outsize + offset);\n          // Write color value to xy sample position in dst\n          if ( dst.bounds.inside(out_pos.x, out_pos.y)) \{ dst(out_pos.x, out_pos.y) = col(i, j); \}\n        \}\n      \}\n    \}\n  \}\n\};"
   useGPUIfAvailable false
   vectorize false
   rebuild ""
-  plot_cie_xy_padding {{"parent.diagram? parent.r_margin * 0.72 : parent.r_margin"}}
-  plot_cie_xy_left_pad {{parent.l_margin} {parent.b_margin}}
-  plot_cie_xy_process_input true
+  plot_cie_xy_padding {{"parent.diagram? parent.right_margin * 0.72 : parent.right_margin"}}
+  plot_cie_xy_left_margin {{parent.left_margin}}
+  plot_cie_xy_process_input {{parent.plot_input}}
   format "2048 2048 0 0 2048 2048 1 square_2K"
   specifiedFormat true
   rebuild_finalise ""
@@ -1407,11 +1426,11 @@ push $Nac1fa290
   xpos 180
   ypos 608
  }
-set N490dfc60 [stack 0]
+set N9818d430 [stack 0]
  Fill {
   color 0
   name Fill4
-  xpos -134
+  xpos -464
   ypos 1357
   hide_input true
  }
@@ -1424,7 +1443,7 @@ set N490dfc60 [stack 0]
   shutteroffset centred
   motion_vectors_type distance
   name ScanlineRender1
-  xpos -260
+  xpos -590
   ypos 1382
  }
  Dot {
@@ -1433,43 +1452,45 @@ set N490dfc60 [stack 0]
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xa5a5a501
-  xpos -226
+  xpos -556
   ypos 1482
  }
-push $N3a7f5680
-push $N39df7ec0
+push $Na52d9260
+push $N3a6a62f0
  BlinkScript {
   inputs 2
-  KernelDescription "2 \"plot_cie_xy\" iterate pixelWise ade8a5603f41bc1b52fdf48adb6b8fb589de4bc7ef87979a16b1a473d05b1e01 3 \"col\" Read Random \"Yxy\" Read Random \"dst\" Write Random 7 \"padding\" Float 1 AAAAAA== \"left_pad\" Float 2 AAAAAAAAAAA= \"draw_axes\" Bool 1 AA== \"axis_color\" Float 4 AAAAAAAAAAAAAAAAAAAAAA== \"antialias\" Bool 1 AA== \"process_input\" Bool 1 AA== \"add_samples\" Float 1 AAAAAA== 7 \"padding\" 1 1 \"left_pad\" 2 1 \"draw_axes\" 1 1 \"axis_color\" 4 1 \"antialias\" 1 1 \"process_input\" 1 1 \"add_samples\" 1 1 2 \"outsize\" Float 1 1 AAAAAA== \"offset\" Float 2 1 AAAAAAAAAAA="
-  kernelSource "kernel plot_cie_xy : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> col;\n  Image<eRead, eAccessRandom, eEdgeClamped> Yxy;\n  Image<eWrite, eAccessRandom> dst;\n\nparam:\n  float padding;\n  float2 left_pad;\n  bool draw_axes;\n  float4 axis_color;\n  bool antialias;\n  bool process_input;\n  float add_samples;\n\n\nlocal:\n  float outsize;\n  float2 offset;\n\n  void init() \{\n    // calculate output width and height and offset based on padding\n    outsize = dst.bounds.height()/padding;\n    // xy offset for margin on lower left corner\n    offset = float2(dst.bounds.height()*left_pad.x, dst.bounds.height()*left_pad.y);\n  \}\n\n  void write(float posx, float posy, float4 color, float weight=1.0f) \{\n    // Check if we are inside the bounds of the output image\n    if ( dst.bounds.inside(posx, posy)) \{\n      float4 dst_sample = (float4)dst(posx, posy);\n      float4 out = dst_sample*add_samples + (color * weight);\n      out.w = min(1.0f, out.w);\n      dst(posx, posy) = out;\n    \}\n  \}\n  \n  void bilin(float2 tpos, float4 color) \{\n    float2 p;\n    p.x = tpos.x - floor(tpos.x);\n    p.y = tpos.y - floor(tpos.y);\n    float weights\[] = \{(1.0f-p.x)*(1.0f-p.y), p.x*(1.0f-p.y), (1.0f-p.x)*p.y, p.x*p.y\};\n    int2 _position = int2(floor(tpos.x)-0,floor(tpos.y)-0);\n    write(_position.x, _position.y, color, weights\[0]);\n    write(_position.x+1, _position.y, color, weights\[1]);\n    write(_position.x, _position.y+1, color, weights\[2]);\n    write(_position.x+1, _position.y+1, color, weights\[3]);\n  \}\n\n\n  void draw_grid() \{\n    // grid bounds: 0 to 1 range by default\n    float2 grid_bounds = float2(1.0f * outsize + offset.x, 1.0f * outsize + offset.y);\n    // hatch increment gives us cross-hatching at specified incr in pixels\n    int hatch_inc = int(floor((grid_bounds.x - offset.y) * 0.1f));\n    float hatchw = grid_bounds.x * 0.008; // The width of the cross-hatch: 1% of grid width\n\n    int hatch_ct = 0;\n    for ( int i = offset.y; i < grid_bounds.x; i++ ) \{\n      bilin(float2(offset.x, i), axis_color );\n      bilin(float2(i + (offset.x-offset.y), offset.y), axis_color );\n      if (hatch_ct == hatch_inc) \{\n        hatch_ct = 0;\n        for ( int j = -hatchw; j < hatchw; j++) \{\n          bilin(float2(round(offset.x + j), i), axis_color);\n          bilin(float2(i+ (offset.x-offset.y), round(offset.y + j)), axis_color);\n        \}\n      \}\n      hatch_ct++;\n    \}\n  \}\n\n  void process(int2 pos) \{\n    // All the work will be done in the first pixel of the iteration. Essentially a single thread.\n    if ( pos.x > 1 || pos.y > 1) \{ return; \}\n    // Loop over all pixels in input Yxy\n    if (process_input) \{\n      for ( int j = Yxy.bounds.y1; j < Yxy.bounds.y2; j++) \{\n        for ( int i = Yxy.bounds.x1; i < Yxy.bounds.x2; i++) \{\n\n          // sample Yxy pixel at position i, j\n          float2 xy = float2(Yxy(i, j, 1), Yxy(i, j, 2));\n          // don't process black pixels\n          if( xy.x == 0.0f && xy.y == 0.0f) \{\n            continue;\n          \}\n          // calculate output position: xy chromaticity coordinates at centered output pixel position\n          float2 out_pos = float2(xy.x * outsize + offset.x, xy.y * outsize + offset.y);\n          // Write color value to xy sample position in dst\n          if (antialias) \{\n            bilin(out_pos, bilinear(col, i, j));\n          \} else \{\n            // Remember there is a bug: no keyword arguments inside process()\n            // write(out_pos.x, out_pos.y, col(i, j), 1.0f);\n            if ( dst.bounds.inside(out_pos.x, out_pos.y)) \{\n              dst(out_pos.x, out_pos.y) = col(i, j);\n            \}\n          \}\n        \}\n      \}\n    \}\n    // Draw axes if enabled\n    if (draw_axes) \{\n      draw_grid();\n    \}\n  \}\n\};"
+  recompileCount 2
+  ProgramGroup 1
+  KernelDescription "2 \"plot_cie_xy\" iterate pixelWise 3a854edac5c1c8e3a3d2801ec73798509e6e91ec7294287590bd8357a67964d1 3 \"col\" Read Random \"Yxy\" Read Random \"dst\" Write Random 5 \"padding\" Float 1 AAAAAA== \"left_margin\" Float 1 AAAAAA== \"antialias\" Bool 1 AA== \"process_input\" Bool 1 AA== \"add_samples\" Float 1 AAAAAA== 5 \"padding\" 1 1 \"left_margin\" 1 1 \"antialias\" 1 1 \"process_input\" 1 1 \"add_samples\" 1 1 2 \"outsize\" Float 1 1 AAAAAA== \"offset\" Float 1 1 AAAAAA=="
+  kernelSource "kernel plot_cie_xy : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> col;\n  Image<eRead, eAccessRandom, eEdgeClamped> Yxy;\n  Image<eWrite, eAccessRandom> dst;\n\nparam:\n  float padding;\n  float left_margin;\n  bool antialias;\n  bool process_input;\n  float add_samples;\n\n\nlocal:\n  float outsize;\n  float offset;\n\n  void init() \{\n    // calculate output width and height and offset based on padding\n    outsize = float(dst.bounds.height()/padding);\n    // xy offset for margin on lower left corner\n    offset = dst.bounds.height()*left_margin;\n  \}\n\n  void write(float posx, float posy, float4 color, float weight=1.0f) \{\n    // Check if we are inside the bounds of the output image\n    if ( dst.bounds.inside(posx, posy)) \{\n      float4 dst_sample = (float4)dst(posx, posy);\n      float4 out = dst_sample*add_samples + (color * weight);\n      out.w = min(1.0f, out.w);\n      dst(posx, posy) = out;\n    \}\n  \}\n  \n  void bilin(float2 tpos, float4 color) \{\n    float2 p;\n    p.x = tpos.x - floor(tpos.x);\n    p.y = tpos.y - floor(tpos.y);\n    float weights\[] = \{(1.0f-p.x)*(1.0f-p.y), p.x*(1.0f-p.y), (1.0f-p.x)*p.y, p.x*p.y\};\n    int2 _position = int2(floor(tpos.x)-0,floor(tpos.y)-0);\n    write(_position.x, _position.y, color, weights\[0]);\n    write(_position.x+1, _position.y, color, weights\[1]);\n    write(_position.x, _position.y+1, color, weights\[2]);\n    write(_position.x+1, _position.y+1, color, weights\[3]);\n  \}\n\n  void process(int2 pos) \{\n    // All the work will be done in the first pixel of the iteration. Essentially a single thread.\n    if ( pos.x > 1 || pos.y > 1) \{ return; \}\n    // Loop over all pixels in input Yxy\n    if (process_input) \{\n      for ( int j = Yxy.bounds.y1; j < Yxy.bounds.y2; j++) \{\n        for ( int i = Yxy.bounds.x1; i < Yxy.bounds.x2; i++) \{\n\n          // sample Yxy pixel at position i, j\n          float2 xy = float2(Yxy(i, j, 1), Yxy(i, j, 2));\n          // don't process black pixels\n          if( xy.x == 0.0f && xy.y == 0.0f) \{ continue; \}\n          // calculate output position: xy chromaticity coordinates at centered output pixel position\n          float2 out_pos = float2(xy.x * outsize + offset, xy.y * outsize + offset);\n          // Write color value to xy sample position in dst\n          if (antialias) \{\n            bilin(out_pos, bilinear(col, i, j));\n          \} else \{\n            // Remember there is a bug: no keyword arguments inside process()\n            // write(out_pos.x, out_pos.y, col(i, j), 1.0f);\n            if ( dst.bounds.inside(out_pos.x, out_pos.y)) \{\n              dst(out_pos.x, out_pos.y) = col(i, j);\n            \}\n          \}\n        \}\n      \}\n    \}\n  \}\n\};"
   useGPUIfAvailable false
   vectorize false
   rebuild ""
   plot_cie_xy_padding {{parent.Plot_Input.plot_cie_xy_padding}}
-  plot_cie_xy_left_pad {{parent.Plot_Input.plot_cie_xy_left_pad} {parent.Plot_Input.plot_cie_xy_left_pad}}
-  plot_cie_xy_axis_color 0.1
+  plot_cie_xy_left_margin {{parent.Plot_Input.plot_cie_xy_left_margin}}
   plot_cie_xy_antialias true
   plot_cie_xy_process_input true
-  plot_cie_xy_add_samples 0.7
+  plot_cie_xy_add_samples 0.5
   format {{{parent.Plot_Input.format}}}
   specifiedFormat true
   rebuild_finalise ""
   name Plot_Gamut
-  xpos -1580
-  ypos 608
+  xpos -1910
+  ypos 604
  }
  Multiply {
   channels rgba
   value {{parent.opacity_gamut_overlay}}
   name GamutOverlayOpacity
-  xpos -1580
+  xpos -1910
   ypos 686
+  disable true
  }
  FrameHold {
   first_frame 1
   name FrameHold2
-  xpos -1580
-  ypos 776
+  xpos -1910
+  ypos 764
   cached true
  }
  Dot {
@@ -1478,22 +1499,26 @@ push $N39df7ec0
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xa5a5a501
-  xpos -1546
+  xpos -1876
   ypos 834
  }
-push $Ne5524100
-push $Nc39fdf60
+push $N1d435b30
+push $Nee5fb5f0
  BlinkScript {
   inputs 2
-  KernelDescription "2 \"plot_cie_xy\" iterate pixelWise ade8a5603f41bc1b52fdf48adb6b8fb589de4bc7ef87979a16b1a473d05b1e01 3 \"col\" Read Random \"Yxy\" Read Random \"dst\" Write Random 7 \"padding\" Float 1 AAAAAA== \"left_pad\" Float 2 AAAAAAAAAAA= \"draw_axes\" Bool 1 AA== \"axis_color\" Float 4 AAAAAAAAAAAAAAAAAAAAAA== \"antialias\" Bool 1 AA== \"process_input\" Bool 1 AA== \"add_samples\" Float 1 AAAAAA== 7 \"padding\" 1 1 \"left_pad\" 2 1 \"draw_axes\" 1 1 \"axis_color\" 4 1 \"antialias\" 1 1 \"process_input\" 1 1 \"add_samples\" 1 1 2 \"outsize\" Float 1 1 AAAAAA== \"offset\" Float 2 1 AAAAAAAAAAA="
-  kernelSource "kernel plot_cie_xy : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> col;\n  Image<eRead, eAccessRandom, eEdgeClamped> Yxy;\n  Image<eWrite, eAccessRandom> dst;\n\nparam:\n  float padding;\n  float2 left_pad;\n  bool draw_axes;\n  float4 axis_color;\n  bool antialias;\n  bool process_input;\n  float add_samples;\n\n\nlocal:\n  float outsize;\n  float2 offset;\n\n  void init() \{\n    // calculate output width and height and offset based on padding\n    outsize = dst.bounds.height()/padding;\n    // xy offset for margin on lower left corner\n    offset = float2(dst.bounds.height()*left_pad.x, dst.bounds.height()*left_pad.y);\n  \}\n\n  void write(float posx, float posy, float4 color, float weight=1.0f) \{\n    // Check if we are inside the bounds of the output image\n    if ( dst.bounds.inside(posx, posy)) \{\n      float4 dst_sample = (float4)dst(posx, posy);\n      float4 out = dst_sample*add_samples + (color * weight);\n      out.w = min(1.0f, out.w);\n      dst(posx, posy) = out;\n    \}\n  \}\n  \n  void bilin(float2 tpos, float4 color) \{\n    float2 p;\n    p.x = tpos.x - floor(tpos.x);\n    p.y = tpos.y - floor(tpos.y);\n    float weights\[] = \{(1.0f-p.x)*(1.0f-p.y), p.x*(1.0f-p.y), (1.0f-p.x)*p.y, p.x*p.y\};\n    int2 _position = int2(floor(tpos.x)-0,floor(tpos.y)-0);\n    write(_position.x, _position.y, color, weights\[0]);\n    write(_position.x+1, _position.y, color, weights\[1]);\n    write(_position.x, _position.y+1, color, weights\[2]);\n    write(_position.x+1, _position.y+1, color, weights\[3]);\n  \}\n\n\n  void draw_grid() \{\n    // grid bounds: 0 to 1 range by default\n    float2 grid_bounds = float2(1.0f * outsize + offset.x, 1.0f * outsize + offset.y);\n    // hatch increment gives us cross-hatching at specified incr in pixels\n    int hatch_inc = int(floor((grid_bounds.x - offset.y) * 0.1f));\n    float hatchw = grid_bounds.x * 0.008; // The width of the cross-hatch: 1% of grid width\n\n    int hatch_ct = 0;\n    for ( int i = offset.y; i < grid_bounds.x; i++ ) \{\n      bilin(float2(offset.x, i), axis_color );\n      bilin(float2(i + (offset.x-offset.y), offset.y), axis_color );\n      if (hatch_ct == hatch_inc) \{\n        hatch_ct = 0;\n        for ( int j = -hatchw; j < hatchw; j++) \{\n          bilin(float2(round(offset.x + j), i), axis_color);\n          bilin(float2(i+ (offset.x-offset.y), round(offset.y + j)), axis_color);\n        \}\n      \}\n      hatch_ct++;\n    \}\n  \}\n\n  void process(int2 pos) \{\n    // All the work will be done in the first pixel of the iteration. Essentially a single thread.\n    if ( pos.x > 1 || pos.y > 1) \{ return; \}\n    // Loop over all pixels in input Yxy\n    if (process_input) \{\n      for ( int j = Yxy.bounds.y1; j < Yxy.bounds.y2; j++) \{\n        for ( int i = Yxy.bounds.x1; i < Yxy.bounds.x2; i++) \{\n\n          // sample Yxy pixel at position i, j\n          float2 xy = float2(Yxy(i, j, 1), Yxy(i, j, 2));\n          // don't process black pixels\n          if( xy.x == 0.0f && xy.y == 0.0f) \{\n            continue;\n          \}\n          // calculate output position: xy chromaticity coordinates at centered output pixel position\n          float2 out_pos = float2(xy.x * outsize + offset.x, xy.y * outsize + offset.y);\n          // Write color value to xy sample position in dst\n          if (antialias) \{\n            bilin(out_pos, bilinear(col, i, j));\n          \} else \{\n            // Remember there is a bug: no keyword arguments inside process()\n            // write(out_pos.x, out_pos.y, col(i, j), 1.0f);\n            if ( dst.bounds.inside(out_pos.x, out_pos.y)) \{\n              dst(out_pos.x, out_pos.y) = col(i, j);\n            \}\n          \}\n        \}\n      \}\n    \}\n    // Draw axes if enabled\n    if (draw_axes) \{\n      draw_grid();\n    \}\n  \}\n\};"
+  recompileCount 5
+  ProgramGroup 1
+  KernelDescription "2 \"plot_cie_xy\" iterate pixelWise 65751dc3c93d46b59ba922fda7175ada4e69018b6dd8c29c890f1487b4a4c5d0 3 \"col\" Read Random \"Yxy\" Read Random \"dst\" Write Random 9 \"padding\" Float 1 AAAAAA== \"left_margin\" Float 1 AAAAAA== \"draw_axes\" Bool 1 AA== \"grid_hatch_length\" Float 1 AAAAAA== \"axis_color\" Float 4 AAAAAAAAAAAAAAAAAAAAAA== \"axis_hatch_color\" Float 4 AAAAAAAAAAAAAAAAAAAAAA== \"antialias\" Bool 1 AA== \"process_input\" Bool 1 AA== \"add_samples\" Float 1 AAAAAA== 9 \"padding\" 1 1 \"left_margin\" 1 1 \"draw_axes\" 1 1 \"grid_hatch_length\" 1 1 \"axis_color\" 4 1 \"axis_hatch_color\" 4 1 \"antialias\" 1 1 \"process_input\" 1 1 \"add_samples\" 1 1 2 \"outsize\" Float 1 1 AAAAAA== \"offset\" Float 1 1 AAAAAA=="
+  kernelSource "kernel plot_cie_xy : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> col;\n  Image<eRead, eAccessRandom, eEdgeClamped> Yxy;\n  Image<eWrite, eAccessRandom> dst;\n\nparam:\n  float padding;\n  float left_margin;\n  bool draw_axes;\n  float grid_hatch_length;\n  float4 axis_color;\n  float4 axis_hatch_color;\n  bool antialias;\n  bool process_input;\n  float add_samples;\n\n\nlocal:\n  float outsize;\n  float offset;\n\n  void init() \{\n    // calculate output width and height and offset based on padding\n    outsize = float(dst.bounds.height()/padding);\n    // xy offset for margin on lower left corner\n    offset = dst.bounds.height()*left_margin;\n  \}\n\n  void write(float posx, float posy, float4 color, float weight=1.0f) \{\n    // Check if we are inside the bounds of the output image\n    if ( dst.bounds.inside(posx, posy)) \{\n      float4 dst_sample = (float4)dst(posx, posy);\n      float4 out = dst_sample*add_samples + (color * weight);\n      out.w = min(1.0f, out.w);\n      dst(posx, posy) = out;\n    \}\n  \}\n  \n  void bilin(float2 tpos, float4 color) \{\n    float2 p;\n    p.x = tpos.x - floor(tpos.x);\n    p.y = tpos.y - floor(tpos.y);\n    float weights\[] = \{(1.0f-p.x)*(1.0f-p.y), p.x*(1.0f-p.y), (1.0f-p.x)*p.y, p.x*p.y\};\n    int2 _position = int2(floor(tpos.x)-0,floor(tpos.y)-0);\n    write(_position.x, _position.y, color, weights\[0]);\n    write(_position.x+1, _position.y, color, weights\[1]);\n    write(_position.x, _position.y+1, color, weights\[2]);\n    write(_position.x+1, _position.y+1, color, weights\[3]);\n  \}\n\n\n  void draw_grid() \{\n    // grid width in pixels. expresses a 0 to 1 range in CIE xy\n    float grid_width = 1.0f * outsize + offset;\n    // hatch interval gives us cross-hatching at specified interval in pixels. defaults to 0.1\n    int hatch_int = int(round(grid_width - offset) * 0.1f);\n    float hatchw = outsize * grid_hatch_length; // The width of the cross-hatch: 1% of grid width\n\n    int hatch_ct = 0;\n    for ( int i = offset; i < grid_width; i++ ) \{\n      // draw vertical axis\n      bilin( float2(offset, i), axis_color);\n      // draw horizontal axis\n      bilin( float2(i, offset), axis_color);\n      // draw cross hatches at every \n      if (hatch_ct == hatch_int) \{\n        hatch_ct = 0;\n        for ( int j = -outsize*0.01; j < hatchw; j++) \{\n          bilin(float2(round(offset + j), i), axis_hatch_color);\n          bilin(float2(i+ (offset-offset), round(offset + j)), axis_hatch_color);\n        \}\n      \}\n      hatch_ct++;\n    \}\n  \}\n\n  void process(int2 pos) \{\n    // All the work will be done in the first pixel of the iteration. Essentially a single thread.\n    if ( pos.x > 1 || pos.y > 1) \{ return; \}\n    // Loop over all pixels in input Yxy\n    if (process_input) \{\n      for ( int j = Yxy.bounds.y1; j < Yxy.bounds.y2; j++) \{\n        for ( int i = Yxy.bounds.x1; i < Yxy.bounds.x2; i++) \{\n\n          // sample Yxy pixel at position i, j\n          float2 xy = float2(Yxy(i, j, 1), Yxy(i, j, 2));\n          // don't process black pixels\n          if( xy.x == 0.0f && xy.y == 0.0f) \{ continue; \}\n          // calculate output position: xy chromaticity coordinates at centered output pixel position\n          float2 out_pos = float2(xy.x * outsize + offset, xy.y * outsize + offset);\n          // Write color value to xy sample position in dst\n          if (antialias) \{\n            bilin(out_pos, bilinear(col, i, j));\n          \} else \{\n            // Remember there is a bug: no keyword arguments inside process()\n            // write(out_pos.x, out_pos.y, col(i, j), 1.0f);\n            if ( dst.bounds.inside(out_pos.x, out_pos.y)) \{\n              dst(out_pos.x, out_pos.y) = col(i, j);\n            \}\n          \}\n        \}\n      \}\n    \}\n    // Draw axes if enabled\n    if (draw_axes) \{\n      draw_grid();\n    \}\n  \}\n\};"
   useGPUIfAvailable false
   vectorize false
   rebuild ""
   plot_cie_xy_padding {{parent.Plot_Input.plot_cie_xy_padding}}
-  plot_cie_xy_left_pad {{parent.Plot_Input.plot_cie_xy_left_pad} {parent.Plot_Input.plot_cie_xy_left_pad}}
+  plot_cie_xy_left_margin {{parent.Plot_Input.plot_cie_xy_left_margin}}
   plot_cie_xy_draw_axes {{parent.draw_axis}}
-  plot_cie_xy_axis_color {0.09 0.1 0.1 1}
+  plot_cie_xy_grid_hatch_length {{"parent.full_width_grid ? 1 : 0.01"}}
+  plot_cie_xy_axis_color 0.1
+  plot_cie_xy_axis_hatch_color 0.02
   plot_cie_xy_antialias true
   plot_cie_xy_process_input {{"parent.draw_spectral_locus || parent.enable_pointers_gamut"}}
   plot_cie_xy_add_samples 0.7
@@ -1501,13 +1526,13 @@ push $Nc39fdf60
   specifiedFormat true
   rebuild_finalise ""
   name Plot_SpectralLocus_and_Axis
-  xpos -370
-  ypos 647
+  xpos -700
+  ypos 643
  }
  FrameHold {
   first_frame 1
   name FrameHold1
-  xpos -370
+  xpos -700
   ypos 699
   cached true
  }
@@ -1517,10 +1542,166 @@ push $Nc39fdf60
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xa5a5a501
-  xpos -336
+  xpos -666
   ypos 762
  }
-push $N490dfc60
+push $N7394c350
+ Constant {
+  inputs 0
+  channels rgb
+  color {0 0 0 1}
+  format "256 256 0 0 256 256 1 square_256"
+  name Constant2
+  xpos 66
+  ypos 182
+  postage_stamp false
+ }
+ Switch {
+  inputs 2
+  which {{"\[exists parent.input0]"}}
+  name Switch1
+  xpos 66
+  ypos 240
+ }
+ Fill {
+  output rgb
+  color {1 1 1 1}
+  name SampleColor
+  xpos -40
+  ypos 240
+ }
+ Fill {
+  output alpha
+  name Fill3
+  xpos -40
+  ypos 266
+ }
+ Reformat {
+  type "to box"
+  box_width 1
+  box_height {{box_width}}
+  box_fixed true
+  name ReformatBox
+  xpos -40
+  ypos 326
+ }
+set Nbbb5e110 [stack 0]
+ ColorMatrix {
+  matrix {
+      {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
+      {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
+      {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
+    }
+  name ColorMatrix4
+  label "working to XYZ"
+  xpos -150
+  ypos 320
+ }
+ Colorspace {
+  colorspace_in CIE-XYZ
+  primary_in "Adobe (1998)"
+  colorspace_out CIE-Yxy
+  name Colorspace1
+  label "\[value colorspace_in] -> \[value colorspace_out]"
+  xpos -150
+  ypos 368
+ }
+ Expression {
+  expr0 r
+  expr1 "4*g / ( -2*g + 12*b + 3)"
+  expr2 "9*b / ( -2*g + 12*b + 3)"
+  name Expression6
+  label "CIE Yxy to CIELuv"
+  xpos -150
+  ypos 416
+  disable {{!parent.diagram}}
+ }
+push $Nbbb5e110
+ BlinkScript {
+  inputs 2
+  recompileCount 2
+  ProgramGroup 1
+  KernelDescription "2 \"plot_cie_xy\" iterate pixelWise fc48d30b761944f4622c7e7cade9c548789bc618dc38d8ca992161542531f81f 3 \"col\" Read Random \"Yxy\" Read Random \"dst\" Write Random 3 \"padding\" Float 1 AAAAAA== \"left_margin\" Float 1 AAAAAA== \"process_input\" Bool 1 AA== 3 \"padding\" 1 1 \"left_margin\" 1 1 \"process_input\" 1 1 2 \"outsize\" Float 1 1 AAAAAA== \"offset\" Float 1 1 AAAAAA=="
+  kernelSource "kernel plot_cie_xy : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> col;\n  Image<eRead, eAccessRandom, eEdgeClamped> Yxy;\n  Image<eWrite, eAccessRandom> dst;\n\nparam:\n  float padding;\n  float left_margin;\n  bool process_input;\n\n\nlocal:\n  float outsize;\n  float offset;\n\n  void init() \{\n    // calculate output width and height and offset based on padding\n    outsize = dst.bounds.height()/padding;\n    // xy offset for margin on lower left corner\n    offset = dst.bounds.height()*left_margin;\n  \}\n\n  void process(int2 pos) \{\n    // All the work will be done in the first pixel of the iteration. Essentially a single thread.\n    if ( pos.x > 1 || pos.y > 1) \{ return; \}\n    // Loop over all pixels in input Yxy\n    if (process_input) \{\n      for ( int j = Yxy.bounds.y1; j < Yxy.bounds.y2; j++) \{\n        for ( int i = Yxy.bounds.x1; i < Yxy.bounds.x2; i++) \{\n          // sample Yxy pixel at position i, j\n          float2 xy = float2(Yxy(i, j, 1), Yxy(i, j, 2));\n          // don't process black pixels\n          if( xy.x == 0.0f && xy.y == 0.0f) \{ continue; \}\n          // calculate output position: xy chromaticity coordinates at centered output pixel position\n          float2 out_pos = float2(xy.x * outsize + offset, xy.y * outsize + offset);\n          // Write color value to xy sample position in dst\n          if ( dst.bounds.inside(out_pos.x, out_pos.y)) \{ dst(out_pos.x, out_pos.y) = col(i, j); \}\n        \}\n      \}\n    \}\n  \}\n\};"
+  useGPUIfAvailable false
+  vectorize false
+  rebuild ""
+  plot_cie_xy_padding {{parent.Plot_Input.plot_cie_xy_padding}}
+  plot_cie_xy_left_margin {{parent.Plot_Input.plot_cie_xy_left_margin}}
+  plot_cie_xy_process_input true
+  format "2048 2048 0 0 2048 2048 1 square_2K"
+  specifiedFormat true
+  rebuild_finalise ""
+  name Plot_SampledColor
+  xpos -40
+  ypos 416
+ }
+set N7c4b7500 [stack 0]
+ Dilate {
+  channels rgba
+  size 10
+  name Dilate2
+  label "\[value size]"
+  xpos -150
+  ypos 464
+ }
+ Laplacian {
+  channels rgba
+  size {{parent.Dilate1.size*2}}
+  name Laplacian1
+  xpos -150
+  ypos 502
+ }
+ Grade {
+  channels rgba
+  white 0
+  add {2 0 0 0}
+  white_clamp true
+  unpremult rgba.alpha
+  name Grade1
+  xpos -150
+  ypos 539
+ }
+ CCorrect {
+  contrast 2.6
+  name CCorrect2
+  xpos -150
+  ypos 590
+ }
+push $N7c4b7500
+ Dilate {
+  channels rgba
+  size 4
+  name Dilate1
+  label "\[value size]"
+  xpos -40
+  ypos 487
+ }
+ Merge2 {
+  inputs 2
+  bbox B
+  name Merge8
+  xpos -40
+  ypos 590
+ }
+ Dot {
+  name Dot20
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos -6
+  ypos 690
+ }
+push $N9818d430
+ Merge2 {
+  inputs 2
+  bbox B
+  name Merge7
+  xpos 180
+  ypos 686
+  disable {{!parent.enable_sample_color}}
+ }
  Merge2 {
   inputs 2
   name Merge1

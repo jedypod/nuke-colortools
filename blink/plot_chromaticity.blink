@@ -6,9 +6,11 @@ kernel plot_cie_xy : public ImageComputationKernel<ePixelWise>
 
 param:
   float padding;
-  float2 left_pad;
+  float left_margin;
   bool draw_axes;
+  float grid_hatch_length;
   float4 axis_color;
+  float4 axis_hatch_color;
   bool antialias;
   bool process_input;
   float add_samples;
@@ -16,13 +18,13 @@ param:
 
 local:
   float outsize;
-  float2 offset;
+  float offset;
 
   void init() {
     // calculate output width and height and offset based on padding
-    outsize = dst.bounds.height()/padding;
+    outsize = float(dst.bounds.height()/padding);
     // xy offset for margin on lower left corner
-    offset = float2(dst.bounds.height()*left_pad.x, dst.bounds.height()*left_pad.y);
+    offset = dst.bounds.height()*left_margin;
   }
 
   void write(float posx, float posy, float4 color, float weight=1.0f) {
@@ -49,21 +51,24 @@ local:
 
 
   void draw_grid() {
-    // grid bounds: 0 to 1 range by default
-    float2 grid_bounds = float2(1.0f * outsize + offset.x, 1.0f * outsize + offset.y);
-    // hatch increment gives us cross-hatching at specified incr in pixels
-    int hatch_inc = int(floor((grid_bounds.x - offset.y) * 0.1f));
-    float hatchw = grid_bounds.x * 0.008; // The width of the cross-hatch: 1% of grid width
+    // grid width in pixels. expresses a 0 to 1 range in CIE xy
+    float grid_width = 1.0f * outsize + offset;
+    // hatch interval gives us cross-hatching at specified interval in pixels. defaults to 0.1
+    int hatch_int = int(round(grid_width - offset) * 0.1f);
+    float hatchw = outsize * grid_hatch_length; // The width of the cross-hatch: 1% of grid width
 
     int hatch_ct = 0;
-    for ( int i = offset.y; i < grid_bounds.x; i++ ) {
-      bilin(float2(offset.x, i), axis_color );
-      bilin(float2(i + (offset.x-offset.y), offset.y), axis_color );
-      if (hatch_ct == hatch_inc) {
+    for ( int i = offset; i < grid_width; i++ ) {
+      // draw vertical axis
+      bilin( float2(offset, i), axis_color);
+      // draw horizontal axis
+      bilin( float2(i, offset), axis_color);
+      // draw cross hatches at every 
+      if (hatch_ct == hatch_int) {
         hatch_ct = 0;
-        for ( int j = -hatchw; j < hatchw; j++) {
-          bilin(float2(round(offset.x + j), i), axis_color);
-          bilin(float2(i+ (offset.x-offset.y), round(offset.y + j)), axis_color);
+        for ( int j = -outsize*0.01; j < hatchw; j++) {
+          bilin(float2(round(offset + j), i), axis_hatch_color);
+          bilin(float2(i+ (offset-offset), round(offset + j)), axis_hatch_color);
         }
       }
       hatch_ct++;
@@ -83,7 +88,7 @@ local:
           // don't process black pixels
           if( xy.x == 0.0f && xy.y == 0.0f) { continue; }
           // calculate output position: xy chromaticity coordinates at centered output pixel position
-          float2 out_pos = float2(xy.x * outsize + offset.x, xy.y * outsize + offset.y);
+          float2 out_pos = float2(xy.x * outsize + offset, xy.y * outsize + offset);
           // Write color value to xy sample position in dst
           if (antialias) {
             bilin(out_pos, bilinear(col, i, j));
