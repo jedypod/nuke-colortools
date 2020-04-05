@@ -1,0 +1,105 @@
+kernel plot_cie_xy : public ImageComputationKernel<ePixelWise>
+{
+  Image<eRead, eAccessRandom, eEdgeClamped> col;
+  Image<eRead, eAccessRandom, eEdgeClamped> Yxy;
+  Image<eWrite, eAccessRandom> dst;
+
+param:
+  float padding;
+  float2 left_pad;
+  bool draw_axes;
+  float4 axis_color;
+  bool antialias;
+  bool process_input;
+  float add_samples;
+
+
+local:
+  float outsize;
+  float2 offset;
+
+  void init() {
+    // calculate output width and height and offset based on padding
+    outsize = dst.bounds.height()/padding;
+    // xy offset for margin on lower left corner
+    offset = float2(dst.bounds.height()*left_pad.x, dst.bounds.height()*left_pad.y);
+  }
+
+  void write(float posx, float posy, float4 color, float weight=1.0f) {
+    // Check if we are inside the bounds of the output image
+    if ( dst.bounds.inside(posx, posy)) {
+      float4 dst_sample = (float4)dst(posx, posy);
+      float4 out = dst_sample*add_samples + (color * weight);
+      out.w = min(1.0f, out.w);
+      dst(posx, posy) = out;
+    }
+  }
+  
+  void bilin(float2 tpos, float4 color) {
+    float2 p;
+    p.x = tpos.x - floor(tpos.x);
+    p.y = tpos.y - floor(tpos.y);
+    float weights[] = {(1.0f-p.x)*(1.0f-p.y), p.x*(1.0f-p.y), (1.0f-p.x)*p.y, p.x*p.y};
+    int2 _position = int2(floor(tpos.x)-0,floor(tpos.y)-0);
+    write(_position.x, _position.y, color, weights[0]);
+    write(_position.x+1, _position.y, color, weights[1]);
+    write(_position.x, _position.y+1, color, weights[2]);
+    write(_position.x+1, _position.y+1, color, weights[3]);
+  }
+
+
+  void draw_grid() {
+    // grid bounds: 0 to 1 range by default
+    float2 grid_bounds = float2(1.0f * outsize + offset.x, 1.0f * outsize + offset.y);
+    // hatch increment gives us cross-hatching at specified incr in pixels
+    int hatch_inc = int(floor((grid_bounds.x - offset.y) * 0.1f));
+    float hatchw = grid_bounds.x * 0.008; // The width of the cross-hatch: 1% of grid width
+
+    int hatch_ct = 0;
+    for ( int i = offset.y; i < grid_bounds.x; i++ ) {
+      bilin(float2(offset.x, i), axis_color );
+      bilin(float2(i + (offset.x-offset.y), offset.y), axis_color );
+      if (hatch_ct == hatch_inc) {
+        hatch_ct = 0;
+        for ( int j = -hatchw; j < hatchw; j++) {
+          bilin(float2(round(offset.x + j), i), axis_color);
+          bilin(float2(i+ (offset.x-offset.y), round(offset.y + j)), axis_color);
+        }
+      }
+      hatch_ct++;
+    }
+  }
+
+  void process(int2 pos) {
+    // All the work will be done in the first pixel of the iteration. Essentially a single thread.
+    if ( pos.x > 1 || pos.y > 1) { return; }
+    // Loop over all pixels in input Yxy
+    if (process_input) {
+      for ( int j = Yxy.bounds.y1; j < Yxy.bounds.y2; j++) {
+        for ( int i = Yxy.bounds.x1; i < Yxy.bounds.x2; i++) {
+
+          // sample Yxy pixel at position i, j
+          float2 xy = float2(Yxy(i, j, 1), Yxy(i, j, 2));
+          // don't process black pixels
+          if( xy.x == 0.0f && xy.y == 0.0f) { continue; }
+          // calculate output position: xy chromaticity coordinates at centered output pixel position
+          float2 out_pos = float2(xy.x * outsize + offset.x, xy.y * outsize + offset.y);
+          // Write color value to xy sample position in dst
+          if (antialias) {
+            bilin(out_pos, bilinear(col, i, j));
+          } else {
+            // Remember there is a bug: no keyword arguments inside process()
+            // write(out_pos.x, out_pos.y, col(i, j), 1.0f);
+            if ( dst.bounds.inside(out_pos.x, out_pos.y)) {
+              dst(out_pos.x, out_pos.y) = col(i, j);
+            }
+          }
+        }
+      }
+    }
+    // Draw axes if enabled
+    if (draw_axes) {
+      draw_grid();
+    }
+  }
+};

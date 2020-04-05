@@ -1,0 +1,32 @@
+kernel plot_waveform : public ImageComputationKernel<ePixelWise>
+{
+  Image<eRead, eAccessRandom, eEdgeClamped> src;
+  Image<eWrite, eAccessRandom> dst;
+
+  param:
+    float max_val; // This value in scene linear maps to the top of the frame
+    float weight;
+    float offset;
+
+  local:
+    float yscale;
+
+  void init() {
+    yscale = dst.bounds.height() / max_val;
+  }
+
+  void write(float posx, float posy, int channel, float color, float weight=1.0f) {
+    if ( dst.bounds.inside(posx, posy)) {
+      float dst_sample = dst(posx, posy, channel)+(color*weight);
+      dst(posx, posy, channel) = dst_sample;
+    }
+  }
+
+  void process(int2 pos) {
+    float4 source = src(pos.x, pos.y);
+    float4 source_scaled = (source+offset) * yscale;
+    write(pos.x, source_scaled.x, 0, source.x, weight);
+    write(pos.x, source_scaled.y, 1, source.y, weight);
+    write(pos.x, source_scaled.z, 2, source.z, weight);
+  }
+};
