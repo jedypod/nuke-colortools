@@ -10,6 +10,7 @@ Group {
  addUserKnob {41 specifiedFormat l "output format" t "specify the output format. Otherwise the input format will be used." -STARTLINE T WaveForm.specifiedFormat}
  addUserKnob {41 format l "" -STARTLINE T WaveForm.format}
  addUserKnob {6 log t "display waveform in log (generic log2 shaper)" +STARTLINE}
+ addUserKnob {6 split_rgb l "split rgb" t "separate rgb" -STARTLINE}
  addUserKnob {7 max t "The value to map to the top of frame. For example you may want to set this to the max pixel value in the image." R 1 25}
  max {2}
  addUserKnob {22 set_max l "set max" t "Set's the max slider to the max pixel value on the current frame of the input image." T "n = nuke.thisNode()\nnuke.root().begin()\nn.begin()\nct = nuke.toNode('CT')\nnuke.execute(ct, nuke.frame(), nuke.frame())\nmaxpx = ct\['maxlumapixvalue'].getValue()\nave = (maxpx\[0] + maxpx\[1] + maxpx\[2])/3\nn\['max'].setValue(ave)" +STARTLINE}
@@ -21,7 +22,7 @@ Group {
   inputs 0
   name Input
   xpos 70
-  ypos -178
+  ypos -317
  }
  Dot {
   name Dot1
@@ -30,7 +31,7 @@ Group {
   note_font_size 24
   note_font_color 0xa5a5a501
   xpos 104
-  ypos -102
+  ypos -241
  }
 set N3385e570 [stack 0]
  Reformat {
@@ -39,7 +40,7 @@ set N3385e570 [stack 0]
   filter Impulse
   name ReScale
   xpos 70
-  ypos -64
+  ypos -203
   disable {{!parent.specifiedFormat}}
  }
 set Nb5c6950 [stack 0]
@@ -53,7 +54,7 @@ set Nb5c6950 [stack 0]
   minlumapixvalue {{curve x1 -0.006042480469} {curve x1 -0.006591796875} {curve x1 0.003295898438}}
   name CT
   xpos -40
-  ypos -58
+  ypos -197
  }
 push $Nb5c6950
  Expression {
@@ -68,7 +69,7 @@ push $Nb5c6950
   expr2 "b > 0 ? (log( b / mid_grey)/log(2) - min_exp) / (max_exp - min_exp) : b"
   name lin_to_log
   xpos 70
-  ypos -10
+  ypos -149
   disable {{!parent.log}}
  }
  BlinkScript {
@@ -86,8 +87,105 @@ push $Nb5c6950
   rebuild_finalise ""
   name WaveForm
   xpos 70
-  ypos 33
+  ypos -106
  }
+ Group {
+  name RGB_Split
+  xpos 70
+  ypos -48
+  disable {{!parent.split_rgb}}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos 45
+   ypos -59
+  }
+  Reformat {
+   type "to box"
+   box_width {{rint(input.width/3)}}
+   box_height {{input.height}}
+   scale {1 1}
+   resize none
+   name Reformat4
+   xpos 45
+   ypos 1
+  }
+  Dot {
+   name Dot18
+   label " "
+   note_font "Helvetica Bold"
+   note_font_size 24
+   note_font_color 0xa5a5a501
+   xpos 79
+   ypos 53
+  }
+set Nc7d28820 [stack 0]
+  Dot {
+   name Dot19
+   label " "
+   note_font "Helvetica Bold"
+   note_font_size 24
+   note_font_color 0xa5a5a501
+   xpos 189
+   ypos 53
+  }
+  Expression {
+   expr0 0
+   expr1 0
+   expr2 b
+   expr3 a
+   name Expression3
+   xpos 155
+   ypos 97
+  }
+push $Nc7d28820
+  Expression {
+   expr0 0
+   expr1 g
+   expr2 0
+   expr3 a
+   name Expression2
+   xpos 45
+   ypos 97
+  }
+push $Nc7d28820
+  Dot {
+   name Dot17
+   label " "
+   note_font "Helvetica Bold"
+   note_font_size 24
+   note_font_color 0xa5a5a501
+   xpos -31
+   ypos 53
+  }
+  Expression {
+   expr0 r
+   expr1 0
+   expr2 0
+   expr3 a
+   name Expression1
+   xpos -65
+   ypos 97
+  }
+  ContactSheet {
+   inputs 3
+   width {{parent.input.width}}
+   height {{parent.input.width}}
+   rows 1
+   columns 3
+   roworder TopBottom
+   name ContactSheet1
+   selected true
+   xpos 45
+   ypos 151
+  }
+  Output {
+   name Output
+   xpos 45
+   ypos 241
+  }
+ end_group
  Grid {
   number {0 {parent.WaveForm.plot_waveform_max_val}}
   translate {0 {"parent.WaveForm.plot_waveform_offset * input.height / parent.WaveForm.plot_waveform_max_val"}}
@@ -114,7 +212,6 @@ push $Nb5c6950
  Keyer {
   operation "luminance key"
   name Keyer1
-  selected true
   xpos 70
   ypos 199
  }
@@ -176,7 +273,7 @@ push $N3385e570
   note_font_size 24
   note_font_color 0xa5a5a501
   xpos 324
-  ypos -102
+  ypos -241
  }
 set Nf855120 [stack 0]
  Dot {
@@ -186,12 +283,12 @@ set Nf855120 [stack 0]
   note_font_size 24
   note_font_color 0xa5a5a501
   xpos 544
-  ypos -102
+  ypos -241
  }
  BlackOutside {
   name BlackOutside2
   xpos 510
-  ypos 14
+  ypos -125
  }
 set Nb8e3bd0 [stack 0]
  Dot {
@@ -201,7 +298,7 @@ set Nb8e3bd0 [stack 0]
   note_font_size 24
   note_font_color 0xa5a5a501
   xpos 764
-  ypos 18
+  ypos -121
  }
 set N9901ad80 [stack 0]
  Dot {
@@ -211,7 +308,7 @@ set N9901ad80 [stack 0]
   note_font_size 24
   note_font_color 0xa5a5a501
   xpos 874
-  ypos 18
+  ypos -121
  }
  Merge2 {
   inputs 2
