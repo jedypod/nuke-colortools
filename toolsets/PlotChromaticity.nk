@@ -38,6 +38,7 @@ Group {
  addUserKnob {7 opacity_gamut_overlay l opacity R 0.1 1}
  opacity_gamut_overlay 0.5
  addUserKnob {6 colorize_gamut_boundary l "colorize gamut boundary" t "use a constant color for the gamut overlay instead of the spectral boundary colors." +STARTLINE}
+ colorize_gamut_boundary true
  addUserKnob {41 overlay_gamut_color l color t "gamut boundary fill color, if enabled." T Fill1.color}
  addUserKnob {26 ""}
  addUserKnob {6 enable_pointers_gamut l "&nbsp; <b>Pointers Gamut" t "Enable Pointer's gamut overlay" +STARTLINE}
@@ -92,6 +93,8 @@ Group {
  }
  Camera2 {
   inputs 0
+  display off
+  selectable false
   translate {{0.5-parent.l_margin*0.3 x14 0.476000011} {0.5-parent.b_margin*0.3 x14 0.476000011} 3}
   projection_mode orthographic
   focal {{40/parent.r_margin}}
@@ -99,8 +102,8 @@ Group {
   vaperture 18
   far 10
   name Camera1
-  xpos -360
-  ypos 1362
+  xpos -378
+  ypos 1329
  }
  Input {
   inputs 0
@@ -134,7 +137,7 @@ Group {
   xpos 214
   ypos 378
  }
-set N612a9e90 [stack 0]
+set Nec6faaa0 [stack 0]
  Dot {
   name Dot1
   label " "
@@ -224,8 +227,8 @@ set N612a9e90 [stack 0]
   xpos 324
   ypos 618
  }
-set N62dcfa00 [stack 0]
-push $N612a9e90
+set Na44ee330 [stack 0]
+push $Nec6faaa0
  Dot {
   name Dot16
   label " Col"
@@ -235,7 +238,7 @@ push $N612a9e90
   xpos 214
   ypos 522
  }
-set N62dd49a0 [stack 0]
+set Nac1fa290 [stack 0]
  Group {
   inputs 2
   name PlotPoints2
@@ -445,7 +448,7 @@ add_layer {pos pos.red pos.green pos.blue pos.alpha}
   xpos -446
   ypos 402
  }
-set N5af732e0 [stack 0]
+set N9e15430 [stack 0]
  Constant {
   inputs 0
   format "256 256 0 0 256 256 1 square_256"
@@ -474,7 +477,7 @@ set N5af732e0 [stack 0]
   xpos -370
   ypos -26
  }
-set N68100220 [stack 0]
+set Necef0c70 [stack 0]
  Dot {
   name Dot9
   note_font "Bitstream Vera Sans"
@@ -511,7 +514,7 @@ set N68100220 [stack 0]
   xpos -226
   ypos 194
  }
-push $N68100220
+push $Necef0c70
  Expression {
   temp_name0 start
   temp_expr0 360
@@ -560,11 +563,11 @@ push $N68100220
   name ToeExpr1
   label "increase brightness of line of purples"
   xpos -370
-  ypos 225
+  ypos 227
   dope_sheet true
   addUserKnob {20 User}
   addUserKnob {18 lift}
-  lift {0.15 0 0}
+  lift {0.08 0 0}
   addUserKnob {6 lift_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
   lift_panelDropped true
   addUserKnob {18 sole R 0 0.1}
@@ -601,7 +604,7 @@ push $N68100220
   xpos -336
   ypos 378
  }
-set N6048f0b0 [stack 0]
+set Na45f1a60 [stack 0]
  Dot {
   name Dot5
   label " "
@@ -637,8 +640,8 @@ set N6048f0b0 [stack 0]
   xpos -226
   ypos 609
  }
-set N603874c0 [stack 0]
-push $N5af732e0
+set Ne5524100 [stack 0]
+push $N9e15430
  Colorspace {
   colorspace_in CIE-Yxy
   primary_in "Adobe (1998)"
@@ -669,7 +672,7 @@ push $N5af732e0
   ypos 575
   disable {{!parent.colorize_pointers_gamut x1 1}}
  }
-push $N6048f0b0
+push $Na45f1a60
  Colorspace {
   colorspace_in CIE-Yxy
   primary_in "Adobe (1998)"
@@ -707,7 +710,7 @@ push $N6048f0b0
   ypos 581
   disable {{!parent.enable_pointers_gamut}}
  }
-set N5ee8dd30 [stack 0]
+set Nc39fdf60 [stack 0]
  Group {
   inputs 2
   name PlotPoints1
@@ -806,8 +809,8 @@ set N5ee8dd30 [stack 0]
    xpos -260
    ypos 110
   }
-set N6a367b50 [stack 0]
-push $N6a367b50
+set N2151dc50 [stack 0]
+push $N2151dc50
   ContactSheet {
    inputs 2
    width {{width*columns}}
@@ -881,7 +884,7 @@ push $N6a367b50
    xpos -40
    ypos -341
   }
-set N636f8c30 [stack 0]
+set N1e031550 [stack 0]
   Dot {
    name Dot2
    label " "
@@ -914,7 +917,7 @@ set N636f8c30 [stack 0]
    addUserKnob {12 white}
    white {{"parent.distribution ? 4*parent.wxy.x / ( -2 * parent.wxy.x + 12 * parent.wxy.y + 3) : parent.wxy"} {"parent.distribution ? 9*parent.wxy.y / ( -2*parent.wxy.x + 12*parent.wxy.y + 3) : parent.wxy"}}
   }
-set N68ff5130 [stack 0]
+set N7a94af50 [stack 0]
   Posterize {
    channels rgb
    Colors {{rint(parent.density/3*2)}}
@@ -923,8 +926,8 @@ set N68ff5130 [stack 0]
    xpos -590
    ypos -194
   }
-set N6a9a6630 [stack 0]
-push $N68ff5130
+set N2b253320 [stack 0]
+push $N7a94af50
   Dot {
    name Dot15
    note_font "Bitstream Vera Sans"
@@ -939,8 +942,8 @@ push $N68ff5130
    xpos -480
    ypos -154
   }
-push $N6a9a6630
-push $N68ff5130
+push $N2b253320
+push $N7a94af50
   Dot {
    name Dot16
    note_font "Bitstream Vera Sans"
@@ -1056,8 +1059,8 @@ push $N68ff5130
    xpos -556
    ypos 378
   }
-push $N6a367b50
-push $N636f8c30
+push $N2151dc50
+push $N1e031550
   Expression {
    expr0 r
    expr1 "4*g / ( -2*g + 12*b + 3)"
@@ -1266,7 +1269,7 @@ push $N636f8c30
   xpos -1546
   ypos 450
  }
-set N60baf840 [stack 0]
+set N2c25fef0 [stack 0]
  Colorspace {
   colorspace_in CIE-XYZ
   primary_in "Adobe (1998)"
@@ -1295,8 +1298,8 @@ set N60baf840 [stack 0]
   xpos -1436
   ypos 570
  }
-set N68fffd80 [stack 0]
-push $N60baf840
+set N3a7f5680 [stack 0]
+push $N2c25fef0
  ColorMatrix {
   matrix {
       {{parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix} {parent.GamutToXYZ3.ColorMatrix.matrix}}
@@ -1317,7 +1320,7 @@ push $N60baf840
   ypos 521
   disable {{!parent.colorize_gamut_boundary}}
  }
-set N62d0dcb0 [stack 0]
+set N39df7ec0 [stack 0]
  Group {
   inputs 2
   name PlotPoints
@@ -1384,8 +1387,8 @@ set N62d0dcb0 [stack 0]
   xpos -250
   ypos 1242
  }
-push $N62dcfa00
-push $N62dd49a0
+push $Na44ee330
+push $Nac1fa290
  BlinkScript {
   inputs 2
   recompileCount 1
@@ -1404,12 +1407,12 @@ push $N62dd49a0
   xpos 180
   ypos 608
  }
-set N62dbe3a0 [stack 0]
+set N490dfc60 [stack 0]
  Fill {
   color 0
   name Fill4
-  xpos -150
-  ypos 1382
+  xpos -134
+  ypos 1357
   hide_input true
  }
  ScanlineRender {
@@ -1433,8 +1436,8 @@ set N62dbe3a0 [stack 0]
   xpos -226
   ypos 1482
  }
-push $N68fffd80
-push $N62d0dcb0
+push $N3a7f5680
+push $N39df7ec0
  BlinkScript {
   inputs 2
   KernelDescription "2 \"plot_cie_xy\" iterate pixelWise ade8a5603f41bc1b52fdf48adb6b8fb589de4bc7ef87979a16b1a473d05b1e01 3 \"col\" Read Random \"Yxy\" Read Random \"dst\" Write Random 7 \"padding\" Float 1 AAAAAA== \"left_pad\" Float 2 AAAAAAAAAAA= \"draw_axes\" Bool 1 AA== \"axis_color\" Float 4 AAAAAAAAAAAAAAAAAAAAAA== \"antialias\" Bool 1 AA== \"process_input\" Bool 1 AA== \"add_samples\" Float 1 AAAAAA== 7 \"padding\" 1 1 \"left_pad\" 2 1 \"draw_axes\" 1 1 \"axis_color\" 4 1 \"antialias\" 1 1 \"process_input\" 1 1 \"add_samples\" 1 1 2 \"outsize\" Float 1 1 AAAAAA== \"offset\" Float 2 1 AAAAAAAAAAA="
@@ -1447,7 +1450,7 @@ push $N62d0dcb0
   plot_cie_xy_axis_color 0.1
   plot_cie_xy_antialias true
   plot_cie_xy_process_input true
-  plot_cie_xy_add_samples 0.535
+  plot_cie_xy_add_samples 0.7
   format {{{parent.Plot_Input.format}}}
   specifiedFormat true
   rebuild_finalise ""
@@ -1478,8 +1481,8 @@ push $N62d0dcb0
   xpos -1546
   ypos 834
  }
-push $N603874c0
-push $N5ee8dd30
+push $Ne5524100
+push $Nc39fdf60
  BlinkScript {
   inputs 2
   KernelDescription "2 \"plot_cie_xy\" iterate pixelWise ade8a5603f41bc1b52fdf48adb6b8fb589de4bc7ef87979a16b1a473d05b1e01 3 \"col\" Read Random \"Yxy\" Read Random \"dst\" Write Random 7 \"padding\" Float 1 AAAAAA== \"left_pad\" Float 2 AAAAAAAAAAA= \"draw_axes\" Bool 1 AA== \"axis_color\" Float 4 AAAAAAAAAAAAAAAAAAAAAA== \"antialias\" Bool 1 AA== \"process_input\" Bool 1 AA== \"add_samples\" Float 1 AAAAAA== 7 \"padding\" 1 1 \"left_pad\" 2 1 \"draw_axes\" 1 1 \"axis_color\" 4 1 \"antialias\" 1 1 \"process_input\" 1 1 \"add_samples\" 1 1 2 \"outsize\" Float 1 1 AAAAAA== \"offset\" Float 2 1 AAAAAAAAAAA="
@@ -1493,12 +1496,13 @@ push $N5ee8dd30
   plot_cie_xy_axis_color {0.09 0.1 0.1 1}
   plot_cie_xy_antialias true
   plot_cie_xy_process_input {{"parent.draw_spectral_locus || parent.enable_pointers_gamut"}}
+  plot_cie_xy_add_samples 0.7
   format {{{parent.Plot_Input.format}}}
   specifiedFormat true
   rebuild_finalise ""
   name Plot_SpectralLocus_and_Axis
   xpos -370
-  ypos 646
+  ypos 647
  }
  FrameHold {
   first_frame 1
@@ -1516,7 +1520,7 @@ push $N5ee8dd30
   xpos -336
   ypos 762
  }
-push $N62dbe3a0
+push $N490dfc60
  Merge2 {
   inputs 2
   name Merge1
