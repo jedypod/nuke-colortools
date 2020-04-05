@@ -1,0 +1,375 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name PlotWaveform
+ addUserKnob {20 Waveform_tab l Waveform}
+ addUserKnob {41 useGPUIfAvailable l "Use GPU if available" T WaveForm.useGPUIfAvailable}
+ addUserKnob {41 vectorize l "Vectorize on CPU" -STARTLINE T WaveForm.vectorize}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {4 style M {fill add right bottom pip "" ""}}
+ addUserKnob {41 specifiedFormat l "output format" t "specify the output format. Otherwise the input format will be used." -STARTLINE T WaveForm.specifiedFormat}
+ addUserKnob {41 format l "" -STARTLINE T WaveForm.format}
+ addUserKnob {6 log t "display waveform in log (generic log2 shaper)" +STARTLINE}
+ addUserKnob {7 max t "The value to map to the top of frame. For example you may want to set this to the max pixel value in the image." R 1 25}
+ max {2}
+ addUserKnob {22 set_max l "set max" t "Set's the max slider to the max pixel value on the current frame of the input image." T "n = nuke.thisNode()\nnuke.root().begin()\nn.begin()\nct = nuke.toNode('CT')\nnuke.execute(ct, nuke.frame(), nuke.frame())\nmaxpx = ct\['maxlumapixvalue'].getValue()\nave = (maxpx\[0] + maxpx\[1] + maxpx\[2])/3\nn\['max'].setValue(ave)" +STARTLINE}
+ addUserKnob {41 plot_waveform_weight l brightness t "controls the brightness of the waveform" T WaveForm.plot_waveform_weight}
+ addUserKnob {41 plot_waveform_offset l offset t "offset the waveform up so that values below zero are visible." T WaveForm.plot_waveform_offset}
+ addUserKnob {41 box_size l pip_size t "set the picture in picture size" T Reformat3.box_size}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 70
+  ypos -178
+ }
+ Dot {
+  name Dot1
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 104
+  ypos -102
+ }
+set N3385e570 [stack 0]
+ Reformat {
+  format {{{parent.WaveForm.format}}}
+  resize distort
+  filter Impulse
+  name ReScale
+  xpos 70
+  ypos -64
+  disable {{!parent.specifiedFormat}}
+ }
+set Nb5c6950 [stack 0]
+ CurveTool {
+  operation "Max Luma Pixel"
+  ROI {0 0 {input.width} {input.height}}
+  autocropdata {0 0 {input.width} {input.height}}
+  maxlumapixdata {{curve x1 1034} {curve x1 1202}}
+  maxlumapixvalue {{curve x1 35.84375} {curve x1 35.84375} {curve x1 35.84375}}
+  minlumapixdata {{curve x1 695} {curve x1 1775}}
+  minlumapixvalue {{curve x1 -0.006042480469} {curve x1 -0.006591796875} {curve x1 0.003295898438}}
+  name CT
+  xpos -40
+  ypos -58
+ }
+push $Nb5c6950
+ Expression {
+  temp_name0 mid_grey
+  temp_expr0 0.18
+  temp_name1 min_exp
+  temp_expr1 -6.5
+  temp_name2 max_exp
+  temp_expr2 6.5
+  expr0 "r > 0 ? (log( r / mid_grey)/log(2) - min_exp) / (max_exp - min_exp) : r"
+  expr1 "g > 0 ? (log( g / mid_grey)/log(2) - min_exp) / (max_exp - min_exp) : g"
+  expr2 "b > 0 ? (log( b / mid_grey)/log(2) - min_exp) / (max_exp - min_exp) : b"
+  name lin_to_log
+  xpos 70
+  ypos -10
+  disable {{!parent.log}}
+ }
+ BlinkScript {
+  kernelSourceFile /cave/dev/tool/nuke/nuketools/blink/plot_cie_xy/blink/plot_waveform.cpp
+  recompileCount 97
+  ProgramGroup 1
+  KernelDescription "2 \"plot_waveform\" iterate pixelWise 45070952ac0926881985c9bfa2a7208c154c2e13a3467c3cdcac0900d545bd4a 2 \"src\" Read Random \"dst\" Write Random 3 \"max_val\" Float 1 AAAAAA== \"weight\" Float 1 AAAAAA== \"offset\" Float 1 AAAAAA== 3 \"max_val\" 1 1 \"weight\" 1 1 \"offset\" 1 1 1 \"yscale\" Float 1 1 AAAAAA=="
+  kernelSource "kernel plot_waveform : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> src;\n  Image<eWrite, eAccessRandom> dst;\n\n  param:\n    float max_val; // This value in scene linear maps to the top of the frame\n    float weight;\n    float offset;\n\n  local:\n    float yscale;\n\n  void init() \{\n    yscale = dst.bounds.height() / max_val;\n  \}\n\n  void write(float posx, float posy, int channel, float color, float weight=1.0f) \{\n    if ( dst.bounds.inside(posx, posy)) \{\n      float dst_sample = dst(posx, posy, channel)+(color*weight);\n      dst(posx, posy, channel) = dst_sample;\n    \}\n  \}\n\n  void process(int2 pos) \{\n    float4 source = src(pos.x, pos.y);\n    float4 source_scaled = (source+offset) * yscale;\n    write(pos.x, source_scaled.x, 0, source.x, weight);\n    write(pos.x, source_scaled.y, 1, source.y, weight);\n    write(pos.x, source_scaled.z, 2, source.z, weight);\n  \}\n\};"
+  rebuild ""
+  plot_waveform_max_val {{"parent.log ? 1.01 : (parent.max+parent.plot_waveform_offset)"}}
+  plot_waveform_weight {0.3}
+  plot_waveform_offset {0.03}
+  format "2048 2048 0 0 2048 2048 1 square_2K"
+  specifiedFormat true
+  rebuild_finalise ""
+  name WaveForm
+  xpos 70
+  ypos 33
+ }
+ Grid {
+  number {0 {parent.WaveForm.plot_waveform_max_val}}
+  translate {0 {"parent.WaveForm.plot_waveform_offset * input.height / parent.WaveForm.plot_waveform_max_val"}}
+  color {1 0.07 0.03 1}
+  name GridLines
+  xpos 70
+  ypos 94
+ }
+ Grid {
+  number {0 1}
+  translate {0 {"(0.18+parent.WaveForm.plot_waveform_offset) * input.height / parent.WaveForm.plot_waveform_max_val"}}
+  color {0.5 0.5 0.5 1}
+  name MiddleGrey
+  xpos 70
+  ypos 134
+ }
+ Blur {
+  channels rgba
+  size 1.5
+  name Blur
+  xpos 70
+  ypos 173
+ }
+ Keyer {
+  operation "luminance key"
+  name Keyer1
+  selected true
+  xpos 70
+  ypos 199
+ }
+ Dot {
+  name Dot5
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 104
+  ypos 234
+ }
+set N2457b3d0 [stack 0]
+ Dot {
+  name Dot3
+  label " Fill"
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 104
+  ypos 378
+ }
+ Dot {
+  name Dot13
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 104
+  ypos 444
+ }
+set Nc9935730 [stack 0]
+ Shuffle {
+  alpha white
+  name Shuffle1
+  label "\[value in] -> \[value out]"
+  xpos 747
+  ypos 420
+ }
+ Reformat {
+  type "to box"
+  box_width {{"min(input.width, parent.input.width*box_size)"}}
+  scale 0.5
+  filter Notch
+  black_outside true
+  pbb true
+  name Reformat3
+  xpos 747
+  ypos 465
+  addUserKnob {20 User}
+  addUserKnob {7 box_size R 0.05 0.6}
+  box_size {0.3}
+ }
+push $N3385e570
+ Dot {
+  name Dot8
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 324
+  ypos -102
+ }
+set Nf855120 [stack 0]
+ Dot {
+  name Dot2
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 544
+  ypos -102
+ }
+ BlackOutside {
+  name BlackOutside2
+  xpos 510
+  ypos 14
+ }
+set Nb8e3bd0 [stack 0]
+ Dot {
+  name Dot7
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 764
+  ypos 18
+ }
+set N9901ad80 [stack 0]
+ Dot {
+  name Dot14
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 874
+  ypos 18
+ }
+ Merge2 {
+  inputs 2
+  bbox B
+  name Merge4
+  xpos 840
+  ypos 518
+ }
+ Dot {
+  name Dot11
+  label PIP
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 874
+  ypos 570
+ }
+push $N2457b3d0
+ Dot {
+  name Dot9
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 214
+  ypos 234
+ }
+set Ne4afcb50 [stack 0]
+ Reformat {
+  type "to box"
+  box_width {{parent.input.width}}
+  box_height {{parent.input.height}}
+  box_fixed true
+  resize none
+  center false
+  black_outside true
+  name Reformat1
+  xpos 400
+  ypos 230
+ }
+ BlackOutside {
+  name BlackOutside1
+  xpos 400
+  ypos 254
+ }
+set Nafc4d0 [stack 0]
+ Position {
+  translate {0 {-parent.input.height}}
+  name MoveDown
+  xpos 620
+  ypos 254
+  disable true
+ }
+push $N9901ad80
+ Crop {
+  box {0 {-parent.input.height} {input.width} {input.height}}
+  reformat true
+  crop false
+  name Crop2
+  xpos 730
+  ypos 182
+ }
+ Merge2 {
+  inputs 2
+  name Merge2
+  xpos 730
+  ypos 326
+ }
+ Dot {
+  name Dot6
+  label " Bottom"
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 764
+  ypos 378
+ }
+push $Nafc4d0
+ Position {
+  translate {{parent.input.width} 0}
+  name MoveRight
+  xpos 400
+  ypos 278
+ }
+push $Nb8e3bd0
+ Crop {
+  box {0 0 {parent.MoveRight.bbox.r} {input.height}}
+  reformat true
+  crop false
+  name Crop1
+  xpos 510
+  ypos 278
+ }
+ Merge2 {
+  inputs 2
+  name Merge1
+  xpos 510
+  ypos 326
+ }
+ Dot {
+  name Dot4
+  label " Right"
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 544
+  ypos 378
+ }
+push $Ne4afcb50
+ Reformat {
+  type "to box"
+  box_width {{parent.input.width}}
+  box_height {{parent.input.height}}
+  box_fixed true
+  resize distort
+  center false
+  black_outside true
+  name Reformat2
+  xpos 180
+  ypos 279
+ }
+push $Nf855120
+ Dot {
+  name Dot12
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 324
+  ypos 190
+ }
+ Merge2 {
+  inputs 2
+  bbox B
+  name Merge3
+  xpos 290
+  ypos 279
+ }
+ Dot {
+  name Dot10
+  label " Add"
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 324
+  ypos 378
+ }
+push $Nc9935730
+ Switch {
+  inputs 5
+  which {{parent.style}}
+  name SwitchStyle
+  xpos 70
+  ypos 613
+ }
+ Output {
+  name Output
+  xpos 70
+  ypos 710
+ }
+end_group
