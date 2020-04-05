@@ -5,14 +5,16 @@ Group {
  addUserKnob {20 Waveform_tab l Waveform}
  addUserKnob {41 useGPUIfAvailable l "Use GPU if available" T WaveForm.useGPUIfAvailable}
  addUserKnob {41 vectorize l "Vectorize on CPU" -STARTLINE T WaveForm.vectorize}
- addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 ""}
  addUserKnob {4 style M {fill add right bottom pip "" ""}}
  addUserKnob {41 specifiedFormat l "output format" t "specify the output format. Otherwise the input format will be used." -STARTLINE T WaveForm.specifiedFormat}
  addUserKnob {41 format l "" -STARTLINE T WaveForm.format}
  addUserKnob {6 log t "display waveform in log (generic log2 shaper)" +STARTLINE}
  addUserKnob {6 split_rgb l "split rgb" t "separate rgb" -STARTLINE}
+ addUserKnob {6 guides t "draw guides at integer values (0, 1, 2 etc), and 0.18" +STARTLINE}
+ guides true
  addUserKnob {7 max t "The value to map to the top of frame. For example you may want to set this to the max pixel value in the image." R 1 25}
- max {2}
+ max 1
  addUserKnob {22 set_max l "set max" t "Set's the max slider to the max pixel value on the current frame of the input image." T "n = nuke.thisNode()\nnuke.root().begin()\nn.begin()\nct = nuke.toNode('CT')\nnuke.execute(ct, nuke.frame(), nuke.frame())\nmaxpx = ct\['maxlumapixvalue'].getValue()\nave = (maxpx\[0] + maxpx\[1] + maxpx\[2])/3\nn\['max'].setValue(ave)" +STARTLINE}
  addUserKnob {41 plot_waveform_weight l brightness t "controls the brightness of the waveform" T WaveForm.plot_waveform_weight}
  addUserKnob {41 plot_waveform_offset l offset t "offset the waveform up so that values below zero are visible." T WaveForm.plot_waveform_offset}
@@ -24,6 +26,11 @@ Group {
   xpos 70
   ypos -317
  }
+ AddChannels {
+  name AddChannels1
+  xpos 70
+  ypos -291
+ }
  Dot {
   name Dot1
   label " "
@@ -33,7 +40,7 @@ Group {
   xpos 104
   ypos -241
  }
-set N3385e570 [stack 0]
+set Nae2dfa80 [stack 0]
  Reformat {
   format {{{parent.WaveForm.format}}}
   resize distort
@@ -43,20 +50,20 @@ set N3385e570 [stack 0]
   ypos -203
   disable {{!parent.specifiedFormat}}
  }
-set Nb5c6950 [stack 0]
+set N8760820 [stack 0]
  CurveTool {
   operation "Max Luma Pixel"
   ROI {0 0 {input.width} {input.height}}
   autocropdata {0 0 {input.width} {input.height}}
-  maxlumapixdata {{curve x1 1034} {curve x1 1202}}
-  maxlumapixvalue {{curve x1 35.84375} {curve x1 35.84375} {curve x1 35.84375}}
-  minlumapixdata {{curve x1 695} {curve x1 1775}}
-  minlumapixvalue {{curve x1 -0.006042480469} {curve x1 -0.006591796875} {curve x1 0.003295898438}}
+  maxlumapixdata {{curve x1 1034 x14 1800} {curve x1 1202 x14 436}}
+  maxlumapixvalue {{curve x1 35.84375 x14 3.869687557} {curve x1 35.84375 x14 4.130000114} {curve x1 35.84375 x14 3.160937548}}
+  minlumapixdata {{curve x1 695 x14 380} {curve x1 1775 x14 0}}
+  minlumapixvalue {{curve x1 -0.006042480469 x14 0} {curve x1 -0.006591796875 x14 0} {curve x1 0.003295898438 x14 0}}
   name CT
   xpos -40
   ypos -197
  }
-push $Nb5c6950
+push $N8760820
  Expression {
   temp_name0 mid_grey
   temp_expr0 0.18
@@ -80,9 +87,9 @@ push $Nb5c6950
   kernelSource "kernel plot_waveform : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> src;\n  Image<eWrite, eAccessRandom> dst;\n\n  param:\n    float max_val; // This value in scene linear maps to the top of the frame\n    float weight;\n    float offset;\n\n  local:\n    float yscale;\n\n  void init() \{\n    yscale = dst.bounds.height() / max_val;\n  \}\n\n  void write(float posx, float posy, int channel, float color, float weight=1.0f) \{\n    if ( dst.bounds.inside(posx, posy)) \{\n      float dst_sample = dst(posx, posy, channel)+(color*weight);\n      dst(posx, posy, channel) = dst_sample;\n    \}\n  \}\n\n  void process(int2 pos) \{\n    float4 source = src(pos.x, pos.y);\n    float4 source_scaled = (source+offset) * yscale;\n    write(pos.x, source_scaled.x, 0, source.x, weight);\n    write(pos.x, source_scaled.y, 1, source.y, weight);\n    write(pos.x, source_scaled.z, 2, source.z, weight);\n  \}\n\};"
   rebuild ""
   plot_waveform_max_val {{"parent.log ? 1.01 : (parent.max+parent.plot_waveform_offset)"}}
-  plot_waveform_weight {0.3}
-  plot_waveform_offset {0.03}
-  format "2048 2048 0 0 2048 2048 1 square_2K"
+  plot_waveform_weight 0.3
+  plot_waveform_offset 0.03
+  format "2048 1024 0 0 2048 1024 1 2K_LatLong"
   specifiedFormat true
   rebuild_finalise ""
   name WaveForm
@@ -92,7 +99,7 @@ push $Nb5c6950
  Group {
   name RGB_Split
   xpos 70
-  ypos -48
+  ypos -41
   disable {{!parent.split_rgb}}
  }
   Input {
@@ -120,7 +127,7 @@ push $Nb5c6950
    xpos 79
    ypos 53
   }
-set Nc7d28820 [stack 0]
+set Naf5d940 [stack 0]
   Dot {
    name Dot19
    label " "
@@ -139,7 +146,7 @@ set Nc7d28820 [stack 0]
    xpos 155
    ypos 97
   }
-push $Nc7d28820
+push $Naf5d940
   Expression {
    expr0 0
    expr1 g
@@ -149,7 +156,7 @@ push $Nc7d28820
    xpos 45
    ypos 97
   }
-push $Nc7d28820
+push $Naf5d940
   Dot {
    name Dot17
    label " "
@@ -171,14 +178,14 @@ push $Nc7d28820
   ContactSheet {
    inputs 3
    width {{parent.input.width}}
-   height {{parent.input.width}}
+   height {{parent.input.height}}
    rows 1
    columns 3
    roworder TopBottom
    name ContactSheet1
    selected true
    xpos 45
-   ypos 151
+   ypos 152
   }
   Output {
    name Output
@@ -193,6 +200,7 @@ push $Nc7d28820
   name GridLines
   xpos 70
   ypos 94
+  disable {{!parent.guides}}
  }
  Grid {
   number {0 1}
@@ -200,7 +208,8 @@ push $Nc7d28820
   color {0.5 0.5 0.5 1}
   name MiddleGrey
   xpos 70
-  ypos 134
+  ypos 125
+  disable {{!parent.guides}}
  }
  Blur {
   channels rgba
@@ -224,7 +233,7 @@ push $Nc7d28820
   xpos 104
   ypos 234
  }
-set N2457b3d0 [stack 0]
+set Ndc5e1a0 [stack 0]
  Dot {
   name Dot3
   label " Fill"
@@ -243,7 +252,7 @@ set N2457b3d0 [stack 0]
   xpos 104
   ypos 444
  }
-set Nc9935730 [stack 0]
+set N7cf44870 [stack 0]
  Shuffle {
   alpha white
   name Shuffle1
@@ -263,9 +272,9 @@ set Nc9935730 [stack 0]
   ypos 465
   addUserKnob {20 User}
   addUserKnob {7 box_size R 0.05 0.6}
-  box_size {0.3}
+  box_size 0.3
  }
-push $N3385e570
+push $Nae2dfa80
  Dot {
   name Dot8
   label " "
@@ -275,7 +284,7 @@ push $N3385e570
   xpos 324
   ypos -241
  }
-set Nf855120 [stack 0]
+set Ne9d2d4c0 [stack 0]
  Dot {
   name Dot2
   label " "
@@ -290,7 +299,7 @@ set Nf855120 [stack 0]
   xpos 510
   ypos -125
  }
-set Nb8e3bd0 [stack 0]
+set N4893d6a0 [stack 0]
  Dot {
   name Dot7
   label " "
@@ -300,7 +309,7 @@ set Nb8e3bd0 [stack 0]
   xpos 764
   ypos -121
  }
-set N9901ad80 [stack 0]
+set Ne311eec0 [stack 0]
  Dot {
   name Dot14
   label " "
@@ -326,7 +335,7 @@ set N9901ad80 [stack 0]
   xpos 874
   ypos 570
  }
-push $N2457b3d0
+push $Ndc5e1a0
  Dot {
   name Dot9
   label " "
@@ -336,11 +345,11 @@ push $N2457b3d0
   xpos 214
   ypos 234
  }
-set Ne4afcb50 [stack 0]
+set N5dcfee40 [stack 0]
  Reformat {
   type "to box"
-  box_width {{parent.input.width}}
-  box_height {{parent.input.height}}
+  box_width {{parent.Input.width}}
+  box_height {{parent.Input.height}}
   box_fixed true
   resize none
   center false
@@ -354,7 +363,7 @@ set Ne4afcb50 [stack 0]
   xpos 400
   ypos 254
  }
-set Nafc4d0 [stack 0]
+set Nb40ed370 [stack 0]
  Position {
   translate {0 {-parent.input.height}}
   name MoveDown
@@ -362,7 +371,7 @@ set Nafc4d0 [stack 0]
   ypos 254
   disable true
  }
-push $N9901ad80
+push $Ne311eec0
  Crop {
   box {0 {-parent.input.height} {input.width} {input.height}}
   reformat true
@@ -386,14 +395,14 @@ push $N9901ad80
   xpos 764
   ypos 378
  }
-push $Nafc4d0
+push $Nb40ed370
  Position {
   translate {{parent.input.width} 0}
   name MoveRight
   xpos 400
   ypos 278
  }
-push $Nb8e3bd0
+push $N4893d6a0
  Crop {
   box {0 0 {parent.MoveRight.bbox.r} {input.height}}
   reformat true
@@ -417,7 +426,7 @@ push $Nb8e3bd0
   xpos 544
   ypos 378
  }
-push $Ne4afcb50
+push $N5dcfee40
  Reformat {
   type "to box"
   box_width {{parent.input.width}}
@@ -430,7 +439,7 @@ push $Ne4afcb50
   xpos 180
   ypos 279
  }
-push $Nf855120
+push $Ne9d2d4c0
  Dot {
   name Dot12
   label " "
@@ -456,7 +465,7 @@ push $Nf855120
   xpos 324
   ypos 378
  }
-push $Nc9935730
+push $N7cf44870
  Switch {
   inputs 5
   which {{parent.style}}
@@ -466,6 +475,7 @@ push $Nc9935730
  }
  Output {
   name Output
+  selected true
   xpos 70
   ypos 710
  }

@@ -82,6 +82,16 @@ A lot of the techniques and ideas in this tool were inspired by the excellent wo
 
 
 
+## Plot Waveform
+![PlotWaveform UI](/images/PlotWaveform_ui.png)
+
+PlotWaveform is a tool to plot a waveform representation of the input image. The waveform graphs the input pixels, keeping horizontal position, but transforming vertical position into brightness. So in simple terms it shows the distribution of pixels by brightness.
+
+![PlotWaveform UI](/images/PlotWaveform_plot.png)
+
+
+
+
 ## Matrix Tools
 ![Matrix Tools](/images/MatrixTools_ui.png)
 
