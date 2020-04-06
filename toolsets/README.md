@@ -1,17 +1,17 @@
 # Documentation
 
 ## Overview
-![ACES Output Transform](#aces-output-transform)
-![ACES 1.0.3 OutputTransform](#aces-1.0.3-outputtransform)
-![RGB to XYZ](#rgb-to-xyz)
-![Chromatic Adaptation](#chromatic-adaptation)
-![Chromaticity Converter](#chromaticity-converter)
-![Plot Chromaticity](#plot-chromaticity)
-![Plot Waveform](#plot-waveform)
-![Matrix Tools](#matrix-tools)
-![Log2 Shaper](#log2-shaper)
-![DolbyPQ Shaper](#dolbypq-shaper)
-![Misc Conversions](#misc-conversions)
+[ACES Output Transform](#aces-output-transform)
+[ACES 1.0.3 OutputTransform](#aces-1.0.3-outputtransform)
+[RGB to XYZ](#rgb-to-xyz)
+[Chromatic Adaptation](#chromatic-adaptation)
+[Chromaticity Converter](#chromaticity-converter)
+[Plot Chromaticity](#plot-chromaticity)
+[Plot Waveform](#plot-waveform)
+[Matrix Tools](#matrix-tools)
+[Log2 Shaper](#log2-shaper)
+[DolbyPQ Shaper](#dolbypq-shaper)
+[Misc Conversions](#misc-conversions)
 
 
 ## ACES Output Transform
