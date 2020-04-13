@@ -1439,10 +1439,11 @@ set N9818d430 [stack 0]
   conservative_shader_sampling false
   transparency false
   ztest_enabled false
-  antialiasing high
+  filter Impulse
+  samples 0
   shutteroffset centred
-  motion_vectors_type distance
-  name ScanlineRender1
+  motion_vectors_type off
+  name ScanlineRender
   xpos -590
   ypos 1382
  }
