@@ -1,0 +1,65 @@
+set cut_paste_input [stack 0]
+BackdropNode {
+ inputs 0
+ name BackdropNode1
+ tile_color 0x2d323a01
+ label "<font color=#7c7c7c><font size=7><b>IHLS Colorspace</b></font>\n<font size=4><b></b></font><font size=2>\nBased on the paper \n    \"A 3D-polar Coordinate Colour Representation\n    Suitable for Image Analysis\"\n    by Allan Hanbury and Jean Serra\n    \nhttps://www.researchgate.net/publication/243602454_A_3D-Polar_Coordinate_Colour_Representation_Suitable_for_Image_Analysis\n\n</font>"
+ note_font Helvetica
+ note_font_size 22
+ note_font_color 0xffffffff
+ selected true
+ xpos -196
+ ypos 1106
+ bdwidth 505
+ bdheight 523
+ z_order -10
+}
+push $cut_paste_input
+Dot {
+ name Dot59
+ note_font "Helvetica Bold"
+ note_font_size 24
+ note_font_color 0xff
+ selected true
+ xpos -6
+ ypos 1338
+}
+Expression {
+ temp_name0 C1
+ temp_expr0 r+-0.5*g+-0.5*b
+ temp_name1 C2
+ temp_expr1 "0*r + -(sqrt(3)/2)*g + (sqrt(3)/2)*b"
+ temp_name2 C
+ temp_expr2 sqrt(pow(C1,2)+pow(C2,2))
+ temp_name3 H
+ temp_expr3 "C2 < 0 ? acos(C1/C) : C2 > 0 ? 6.28319 - acos(C1/C) : 0"
+ expr0 H/6.28319
+ expr1 "0.2126*r + 0.7152*g + 0.0722*b"
+ expr2 "(2*C * sin(2.0944 - H%1.0472))/sqrt(3)"
+ expr3 C
+ name RGBtoIHLS
+ label "<pre>r = Hue\ng = Lightness\nb = Saturation\na = Chroma"
+ note_font Helvetica
+ selected true
+ xpos -40
+ ypos 1367
+}
+Expression {
+ temp_name0 H
+ temp_expr0 r*6.28319
+ temp_name1 C
+ temp_expr1 "sqrt(3) * b /  ( 2 * sin(2.0944 - (H % 1.0472) ) )"
+ temp_name2 C1
+ temp_expr2 "C * cos(H)"
+ temp_name3 C2
+ temp_expr3 "-C * sin(H)"
+ expr0 "g + C1*0.7875 + C2*0.3714"
+ expr1 "g + C1*-0.2125 + C2*-0.2059"
+ expr2 "g + C1*-0.2125  + C2*0.9488"
+ expr3 C
+ name IHLStoRGB
+ note_font Helvetica
+ selected true
+ xpos -40
+ ypos 1527
+}
