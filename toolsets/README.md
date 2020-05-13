@@ -11,6 +11,8 @@
 - [Matrix Tools](#matrix-tools)
 - [Log2 Shaper](#log2-shaper)
 - [DolbyPQ Shaper](#dolbypq-shaper)
+- [Soft Compress](#soft-compress)
+- [Gamut Compress](#gamut-compress)
 - [Misc Conversions](#misc-conversions)
 
 
@@ -129,8 +131,36 @@ A note of interest: the `48nits shaper acescc` preset is the new shaper used in 
 
 A node implementation of the alternative Dolby PQ / ST.2084 log shaper function, which can be used in the ACES OCIO configs. 
 
+## Soft Compress
+A couple of useful tonemapping operations which might serve you better than the `SoftClip` node. Both curve types have the same controls.
+- threshold: only values above this threshold will be affected.
+- limit: the value which infinity is remapped to.
+
+## Gamut Compress
+This tool compresses out of gamut colors back into gamut.
+
+**Background**
+
+Out of gamut colors can ocurr with modern digital cinema cameras.  Using the original camera gamut, there would be no problem, but often when doing visual effects or grading, we need to work in a different colorspace like ACEScg. Since ACEScg is designed to operate within the spectral locus, this is where out of gamut colors can appear
+
+Cameras can generate color outside of the spectral locus because the spectral response curves of the camera do not match the spectral response curves of the human eye, making the camera a  non-colorimetric device which does not satisfy the Luther-Ives criterion.
+
+Out of gamut colors often ocurr with highly saturated light sources like police lights, neon, or lasers. Re-mapping these colors back into gamut is necessary for pleasing color reproduction, and for working
+
+**Usage**
+
+Method specifies the type of compression curve to use. Tanh is a hyperbolic tangent function which has a very  smooth rolloff. This method tends to preserve the appearance of colors very well. Simple has a more aggressive slope, and tends to change the appearance of colors a bit more, but can be good when used with creative intent
+Threshold is the percentage of the core gamut to affect. A value of 0 would be a hard clip, a value of 0.2 would affect  the outer 20% of the gamut's most  saturated colors
+
+The cyan / magenta / yellow limits allow you to adjust the amount of compression per color component.  For example increasing the magenta limit will push blues more cyan. A value of 0 is no compression. A value of 1 compresses asymptotically to the gamut boundary. And values above 1 up to a max of 1/(1-threshold) will compress more than the  gamut boundary. Note a value at max will be a hard clip at the  gamut boundary and is probably not something you want
+
+Inverting the gamut compression is also possible but should be used with an excess of caution. An exact inversion doesn't appear to be possible if you only have the gamut compressed source image, due to rounding errors and the asymptotic behavior of the compression functions. You can get an exact inversion if you use the original source image as an extra input however.
+
+**About** 
+
+This tool was [built with help](https://community.acescentral.com/t/rgb-saturation-gamut-mapping-approach-and-a-comp-vfx-perspective) from the [ACES Gamut Mapping Virtual Working Group](https://community.acescentral.com/c/aces-development-acesnext/vwg-aces-gamut-mapping-working-group)
 
 ## Misc Conversions
 ![Misc Conversins](/images/cie_conversions.png)
 
-A few node implmentations for miscelaneous colorspace conversions. CIE XYZ to CIE Yxy to CIE Luv and back are now possible!
+A few node implmentations for miscelaneous colorspace conversions. CIE XYZ to CIE Yxy to CIE Luv and back are now possible! There is also [a node](/toolsets/IHLS.nk) implementing the [IHLS colorspace](https://www.researchgate.net/publication/243602454_A_3D-Polar_Coordinate_Colour_Representation_Suitable_for_Image_Analysis) which has a reprsentation of saturation more useful for scene linear images.
