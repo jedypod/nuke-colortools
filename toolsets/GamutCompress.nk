@@ -3,9 +3,8 @@ push $cut_paste_input
 Group {
  name GamutCompress
  label "\[value method]: \[value direction]"
- note_font Helvetica
  addUserKnob {20 GamutCompress}
- addUserKnob {4 method t "<b>softclip method</b>" M {tanh simple}}
+ addUserKnob {4 method t "<b>softclip method</b>" M {tanh exp simple ""}}
  addUserKnob {7 threshold t "Percentage of the gamut to affect. A value of 0.2 will leave leave the core 80% of the colors within the gamut unaffected." R 0 0.2}
  threshold 0.2
  addUserKnob {26 limits_label l " " T <b>limits}
@@ -18,39 +17,8 @@ Group {
  addUserKnob {26 ""}
  addUserKnob {4 direction M {forward reverse}}
  addUserKnob {20 info_tab l Info}
- addUserKnob {26 info_label l " " T "<b>Information</b>\n<br><br>\nThis tool compresses out of gamut colors back\ninto gamut.<br><br>\n\nOut of gamut colors can ocurr with modern<br>\ndigital cinema cameras. <br>\nUsing the original camera gamut, there would be<br>\nno problem, but often when doing visual effects<br>\nor grading, we need to work in a different colorspace<br>\nlike ACEScg. Since ACEScg is designed to operate within<br>\nthe spectral locus, this is where out of gamut colors can appear.<br><br>\n\nCameras can generate color outside of the spectral locus because<br>\nthe spectral response curves of the camera<br>\ndo not match the spectral response curves<br>\nof the human eye, making the camera a <br>\nnon-colorimetric device which does not satisfy<br>\nthe Luther-Ives criterion. <br><br>\n\nOut of gamut colors often ocurr with highly saturated<br>\nlight sources like police lights, neon, or lasers.<br>\nRe-mapping these colors back into gamut is necessary<br>\nfor pleasing color reproduction, and for working.<br><br>\n\n<b>Usage</b><br>\nMethod specifies the type of compression curve to use.<br>\nTanh is a hyperbolic tangent function which has a very <br>\nsmooth rolloff. This method tends to preserve the appearance<br>\nof colors very well.<br>\nSimple has a more aggressive slope, and tends to change<br>\nthe appearance of colors a bit more, but can be good when<br>\nused with creative intent.<br><br>\nThreshold is the percentage of the core gamut to affect.<br>\nA value of 0 would be a hard clip, a value of 0.2 would affect <br>\nthe outer 20% of the gamut's most  saturated colors.<br><br>\n\nThe cyan / magenta / yellow limits allow you to adjust<br>\nthe amount of compression per color component. <br>\nFor example increasing the magenta limit will push blues more cyan.<br>\nA value of 0 is no compression. A value of 1 compresses<br>\nasymptotically to the gamut boundary. And values above 1<br>\nup to a max of 1/(1-threshold) will compress more than the <br>\ngamut boundary. Note a value at max will be a hard clip at the <br>\ngamut boundary and is probably not something you want!<br><br>\n\nInverting the gamut compression is also possible but should be used<br>\nwith an excess of caution. An exact inversion doesn't appear to be possible<br>\nif you only have the gamut compressed source image,<br>\ndue to rounding errors and the asymptotic behavior of the<br>\ncompression functions. You can get an exact inversion if you use<br>\nthe original source image as an extra input however.\n<br><br>\n<b>About</b><br>\nWritten by Jed Smith with help from the <br>\nACES Gamut Mapping Virtual Working Group\n<br>github.com/jedypod\n<br>https://community.acescentral.com/t/rgb-saturation-gamut-mapping-approach-and-a-comp-vfx-perspective"}
+ addUserKnob {26 info_label l " " T "<b>About</b><br>\nWritten by Jed Smith with help from the <br>\nACES Gamut Mapping Virtual Working Group\n<br><a href=http://github.com/jedypod>http://github.com/jedypod</a>\n<br><a href=https://community.acescentral.com/t/rgb-saturation-gamut-mapping-approach-and-a-comp-vfx-perspective>acescentral thread</a>"}
 }
- Input {
-  inputs 0
-  name Inputorig
-  label "\[value number]"
-  note_font Helvetica
-  xpos 400
-  ypos -182
-  number 1
- }
- Expression {
-  temp_name0 o
-  temp_expr0 max(r,g,b)
-  expr0 fabs(r-o)/o
-  expr1 fabs(g-o)/o
-  expr2 fabs(b-o)/o
-  channel3 none
-  name Expression
-  label distance
-  note_font Helvetica
-  xpos 400
-  ypos -110
- }
- Dot {
-  name Dot8
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
-  xpos 434
-  ypos 18
- }
-set Nfae70 [stack 0]
  Input {
   inputs 0
   name Input
@@ -66,7 +34,7 @@ set Nfae70 [stack 0]
   xpos -6
   ypos 66
  }
-set N4ece1160 [stack 0]
+set Naa3fabd0 [stack 0]
  Dot {
   name Dot5
   note_font "Helvetica Bold"
@@ -75,89 +43,7 @@ set N4ece1160 [stack 0]
   xpos 104
   ypos 66
  }
-set Naf5ac360 [stack 0]
- Dot {
-  name Dot2
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
-  xpos 324
-  ypos 66
- }
-set Nc27f2be0 [stack 0]
- MergeExpression {
-  inputs 2
-  temp_name0 d_r
-  temp_expr0 Ar
-  temp_name1 d_g
-  temp_expr1 Ag
-  temp_name2 d_b
-  temp_expr2 Ab
-  temp_name3 ach
-  temp_expr3 max(Br,Bg,Bb)
-  expr0 "(Br-ach) * ((d_r - ( d_r > thr ? thr + (lim_x -thr) * tanh( ( (d_r-thr)/( lim_x-thr))) : d_r))+1)+ach"
-  expr1 "(Bg-ach) * ((d_g - ( d_g > thr ? thr + (lim_y -thr) * tanh( ( (d_g-thr)/( lim_y-thr))) : d_g))+1)+ach"
-  expr2 "(Bb-ach) * ((d_b - ( d_b > thr ? thr + (lim_z -thr) * tanh( ( (d_b-thr)/( lim_z-thr))) : d_b))+1)+ach"
-  name GamutUncompress_orig_tanh
-  note_font Helvetica
-  xpos 510
-  ypos 111
-  addUserKnob {20 Params}
-  addUserKnob {7 thr t "complement of threshold"}
-  thr {{1-parent.threshold}}
-  addUserKnob {7 lim_x R 0 1.25}
-  lim_x {{"1/max(0.0001, min(1/thr, cyan))"}}
-  addUserKnob {7 lim_y R 0 1.25}
-  lim_y {{"1/max(0.0001, min(1/thr, magenta))"}}
-  addUserKnob {7 lim_z R 0 1.25}
-  lim_z {{"1/max(0.0001, min(1/thr, yellow))"}}
- }
-push $Nfae70
-push $Nc27f2be0
- MergeExpression {
-  inputs 2
-  temp_name0 d_r
-  temp_expr0 Ar
-  temp_name1 d_g
-  temp_expr1 Ag
-  temp_name2 d_b
-  temp_expr2 Ab
-  temp_name3 ach
-  temp_expr3 max(Br,Bg,Bb)
-  expr0 "(Br-ach) / (d_r - ( d_r < thr ? d_r : thr+(-1/((d_r-thr)/(lim_x-thr)+1)+1)*(lim_x-thr)) + 1) + ach"
-  expr1 "(Bg-ach) / (d_g - ( d_g < thr ? d_g : thr+(-1/((d_g-thr)/(lim_y-thr)+1)+1)*(lim_y-thr)) + 1) + ach"
-  expr2 "(Bb-ach) / (d_b - ( d_b < thr ? d_b : thr+(-1/((d_b-thr)/(lim_z-thr)+1)+1)*(lim_z-thr)) + 1) + ach"
-  name GamutUncompress_orig_simple
-  note_font Helvetica
-  xpos 400
-  ypos 111
-  addUserKnob {20 Params}
-  addUserKnob {7 thr t "complement of threshold"}
-  thr {{1-parent.threshold}}
-  addUserKnob {7 lim_x R 0 1.25}
-  lim_x {{"1/max(0.0001, min(1/thr, cyan))"}}
-  addUserKnob {7 lim_y R 0 1.25}
-  lim_y {{"1/max(0.0001, min(1/thr, magenta))"}}
-  addUserKnob {7 lim_z R 0 1.25}
-  lim_z {{"1/max(0.0001, min(1/thr, yellow))"}}
- }
- Switch {
-  inputs 2
-  which {{parent.method}}
-  name switch_method2
-  note_font Helvetica
-  xpos 400
-  ypos 183
- }
- Dot {
-  name Dot6
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
-  xpos 434
-  ypos 330
- }
-push $Naf5ac360
+set Nb281ed20 [stack 0]
  Expression {
   temp_name0 ach
   temp_expr0 max(r,g,b)
@@ -167,10 +53,37 @@ push $Naf5ac360
   temp_expr2 fabs(g-ach)/ach
   temp_name3 d_b
   temp_expr3 fabs(b-ach)/ach
-  expr0 (r-ach)*((d_r<thr?d_r:(pow2(thr)-thr*d_r+(lim_x-thr)*d_r)/(thr+(lim_x-thr)-d_r))-d_r+1)+ach
-  expr1 (g-ach)*((d_g<thr?d_g:(pow2(thr)-thr*d_g+(lim_y-thr)*d_g)/(thr+(lim_y-thr)-d_g))-d_g+1)+ach
-  expr2 (b-ach)*((d_b<thr?d_b:(pow2(thr)-thr*d_b+(lim_z-thr)*d_b)/(thr+(lim_z-thr)-d_b))-d_b+1)+ach
+  expr0 ach-(d_r<thr?d_r:(pow2(thr)-thr*d_r+(lim_x-thr)*d_r)/(thr+(lim_x-thr)-d_r))*ach
+  expr1 ach-(d_g<thr?d_g:(pow2(thr)-thr*d_g+(lim_y-thr)*d_g)/(thr+(lim_y-thr)-d_g))*ach
+  expr2 ach-(d_b<thr?d_b:(pow2(thr)-thr*d_b+(lim_z-thr)*d_b)/(thr+(lim_z-thr)-d_b))*ach
   name GamutUnCompress_simple
+  note_font Helvetica
+  xpos 290
+  ypos 111
+  addUserKnob {20 User}
+  addUserKnob {7 thr t "complement of threshold"}
+  thr {{1-parent.threshold}}
+  addUserKnob {7 lim_x R 0 1.25}
+  lim_x {{"1/max(0.0001, min(1/thr, cyan))"}}
+  addUserKnob {7 lim_y R 0 1.25}
+  lim_y {{"1/max(0.0001, min(1/thr, magenta))"}}
+  addUserKnob {7 lim_z R 0 1.25}
+  lim_z {{"1/max(0.0001, min(1/thr, yellow))"}}
+ }
+push $Nb281ed20
+ Expression {
+  temp_name0 ach
+  temp_expr0 max(r,g,b)
+  temp_name1 d_r
+  temp_expr1 fabs(r-ach)/ach
+  temp_name2 d_g
+  temp_expr2 fabs(g-ach)/ach
+  temp_name3 d_b
+  temp_expr3 fabs(b-ach)/ach
+  expr0 "ach-(d_r<thr?d_r : -log( (d_r-lim_x)/(thr-lim_x))*(-thr+lim_x)+thr)*ach"
+  expr1 "ach-(d_g<thr?d_g : -log( (d_g-lim_y)/(thr-lim_y))*(-thr+lim_y)+thr)*ach"
+  expr2 "ach-(d_b<thr?d_b : -log( (d_b-lim_z)/(thr-lim_z))*(-thr+lim_z)+thr)*ach"
+  name GamutUnCompress_exp
   note_font Helvetica
   xpos 180
   ypos 111
@@ -184,7 +97,7 @@ push $Naf5ac360
   addUserKnob {7 lim_z R 0 1.25}
   lim_z {{"1/max(0.0001, min(1/thr, yellow))"}}
  }
-push $Naf5ac360
+push $Nb281ed20
  Expression {
   temp_name0 ach
   temp_expr0 max(r,g,b)
@@ -194,9 +107,9 @@ push $Naf5ac360
   temp_expr2 fabs(g-ach)/ach
   temp_name3 d_b
   temp_expr3 fabs(b-ach)/ach
-  expr0 "(r-ach)*((d_r<thr?d_r : thr+(lim_x-thr)*log((1+(d_r/(lim_x-thr)-thr/(lim_x-thr)))/(1-(d_r/(lim_x-thr)-thr/(lim_x-thr))))/2)-d_r+1)+ach"
-  expr1 "(g-ach)*((d_g<thr?d_g : thr+(lim_y-thr)*log((1+(d_g/(lim_y-thr)-thr/(lim_y-thr)))/(1-(d_g/(lim_y-thr)-thr/(lim_y-thr))))/2)-d_g+1)+ach"
-  expr2 "(b-ach)*((d_b<thr?d_b : thr+(lim_z-thr)*log((1+(d_b/(lim_z-thr)-thr/(lim_z-thr)))/(1-(d_b/(lim_z-thr)-thr/(lim_z-thr))))/2)-d_b+1)+ach"
+  expr0 "ach-(d_r<thr?d_r : thr+(lim_x-thr)*log((1+(d_r/(lim_x-thr)-thr/(lim_x-thr)))/(1-(d_r/(lim_x-thr)-thr/(lim_x-thr))))/2)*ach"
+  expr1 "ach-(d_g<thr?d_g : thr+(lim_y-thr)*log((1+(d_g/(lim_y-thr)-thr/(lim_y-thr)))/(1-(d_g/(lim_y-thr)-thr/(lim_y-thr))))/2)*ach"
+  expr2 "ach-(d_b<thr?d_b : thr+(lim_z-thr)*log((1+(d_b/(lim_z-thr)-thr/(lim_z-thr)))/(1-(d_b/(lim_z-thr)-thr/(lim_z-thr))))/2)*ach"
   name GamutUnCompress_tanh
   note_font Helvetica
   xpos 70
@@ -212,14 +125,14 @@ push $Naf5ac360
   lim_z {{"1/max(0.0001, min(1/thr, yellow))"}}
  }
  Switch {
-  inputs 2
+  inputs 3
   which {{parent.method}}
   name switch_method1
   note_font Helvetica
   xpos 70
   ypos 183
  }
-push $N4ece1160
+push $Naa3fabd0
  Dot {
   name Dot3
   note_font "Helvetica Bold"
@@ -228,7 +141,7 @@ push $N4ece1160
   xpos -116
   ypos 66
  }
-set Nc0b834b0 [stack 0]
+set Ne43c21c0 [stack 0]
  Expression {
   temp_name0 ach
   temp_expr0 max(r,g,b)
@@ -238,9 +151,9 @@ set Nc0b834b0 [stack 0]
   temp_expr2 fabs(g-ach)/ach
   temp_name3 d_b
   temp_expr3 fabs(b-ach)/ach
-  expr0 "(r-ach) / (d_r - ( d_r < thr ? d_r : thr+(-1/((d_r-thr)/(lim_x-thr)+1)+1)*(lim_x-thr)) + 1) + ach"
-  expr1 "(g-ach) / (d_g - ( d_g < thr ? d_g : thr+(-1/((d_g-thr)/(lim_y-thr)+1)+1)*(lim_y-thr)) + 1) + ach"
-  expr2 "(b-ach) / (d_b - ( d_b < thr ? d_b : thr+(-1/((d_b-thr)/(lim_z-thr)+1)+1)*(lim_z-thr)) + 1) + ach"
+  expr0 "ach-( d_r < thr ? d_r : thr+(-1/((d_r-thr)/(lim_x-thr)+1)+1)*(lim_x-thr))*ach"
+  expr1 "ach-( d_g < thr ? d_g : thr+(-1/((d_g-thr)/(lim_y-thr)+1)+1)*(lim_y-thr))*ach"
+  expr2 "ach-( d_b < thr ? d_b : thr+(-1/((d_b-thr)/(lim_z-thr)+1)+1)*(lim_z-thr))*ach"
   name GamutCompress_simple
   note_font Helvetica
   xpos -150
@@ -255,7 +168,7 @@ set Nc0b834b0 [stack 0]
   addUserKnob {7 lim_z R 0 1.25}
   lim_z {{"1/max(0.0001, min(1/thr, yellow))"}}
  }
-push $Nc0b834b0
+push $Ne43c21c0
  Expression {
   temp_name0 ach
   temp_expr0 max(r,g,b)
@@ -265,10 +178,10 @@ push $Nc0b834b0
   temp_expr2 fabs(g-ach)/ach
   temp_name3 d_b
   temp_expr3 fabs(b-ach)/ach
-  expr0 "(r-ach) / ((d_r - ( d_r > thr ? thr + (lim_x -thr) * tanh( ( (d_r-thr)/( lim_x-thr))) : d_r))+1)+ach"
-  expr1 "(g-ach) / ((d_g - ( d_g > thr ? thr + (lim_y -thr) * tanh( ( (d_g-thr)/( lim_y-thr))) : d_g))+1)+ach"
-  expr2 "(b-ach) / ((d_b - ( d_b > thr ? thr + (lim_z -thr) * tanh( ( (d_b-thr)/( lim_z-thr))) : d_b))+1)+ach"
-  name GamutCompress_tanh
+  expr0 "ach-( d_r > thr ? lim_x-(lim_x-thr)*exp(-(((d_r-thr)*((lim_x)/(lim_x-thr))/lim_x))) : d_r)*ach"
+  expr1 "ach-( d_g > thr ? lim_y-(lim_y-thr)*exp(-(((d_g-thr)*((lim_y)/(lim_y-thr))/lim_y))) : d_g)*ach"
+  expr2 "ach-( d_b > thr ? lim_z-(lim_z-thr)*exp(-(((d_b-thr)*((lim_z)/(lim_z-thr))/lim_z))) : d_b)*ach"
+  name GamutCompress_exp
   note_font Helvetica
   xpos -260
   ypos 111
@@ -282,8 +195,35 @@ push $Nc0b834b0
   addUserKnob {7 lim_z R 0 1.25}
   lim_z {{"1/max(0.0001, min(1/thr, yellow))"}}
  }
+push $Ne43c21c0
+ Expression {
+  temp_name0 ach
+  temp_expr0 max(r,g,b)
+  temp_name1 d_r
+  temp_expr1 fabs(r-ach)/ach
+  temp_name2 d_g
+  temp_expr2 fabs(g-ach)/ach
+  temp_name3 d_b
+  temp_expr3 fabs(b-ach)/ach
+  expr0 "ach-( d_r > thr ? thr + (lim_x -thr) * tanh( ( (d_r-thr)/( lim_x-thr))) : d_r)*ach"
+  expr1 "ach-( d_g > thr ? thr + (lim_y -thr) * tanh( ( (d_g-thr)/( lim_y-thr))) : d_g)*ach"
+  expr2 "ach-( d_b > thr ? thr + (lim_z -thr) * tanh( ( (d_b-thr)/( lim_z-thr))) : d_b)*ach"
+  name GamutCompress_tanh
+  note_font Helvetica
+  xpos -370
+  ypos 111
+  addUserKnob {20 User}
+  addUserKnob {7 thr t "complement of threshold"}
+  thr {{1-parent.threshold}}
+  addUserKnob {7 lim_x R 0 1.25}
+  lim_x {{"1/max(0.0001, min(1/thr, cyan))"}}
+  addUserKnob {7 lim_y R 0 1.25}
+  lim_y {{"1/max(0.0001, min(1/thr, magenta))"}}
+  addUserKnob {7 lim_z R 0 1.25}
+  lim_z {{"1/max(0.0001, min(1/thr, yellow))"}}
+ }
  Switch {
-  inputs 2
+  inputs 3
   which {{parent.method}}
   name switch_method
   note_font Helvetica
@@ -297,15 +237,6 @@ push $Nc0b834b0
   note_font Helvetica
   xpos -40
   ypos 231
- }
- Switch {
-  inputs 2
-  which {{"\[exists parent.input1] && parent.direction"}}
-  name switch_orig_input1
-  label "use original plate input"
-  note_font Helvetica
-  xpos -40
-  ypos 322
  }
  Output {
   name Output
