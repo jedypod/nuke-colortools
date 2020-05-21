@@ -1,0 +1,352 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name PlotSlice
+ addUserKnob {20 PlotSlice_tab l PlotSlice}
+ addUserKnob {4 plot M {replace over right bottom}}
+ addUserKnob {7 thickness}
+ thickness 0.1
+ addUserKnob {7 max_value l "max value" R 1 10}
+ max_value 1.2
+ addUserKnob {7 min_value l "min value" R -1 0}
+ addUserKnob {12 pos1 l p1}
+ addUserKnob {12 pos2 l p2 -STARTLINE}
+ pos2 {342 335}
+ addUserKnob {6 draw_line l "draw line" +STARTLINE}
+ draw_line true
+ addUserKnob {7 line_width l "line width" R 0.5 3}
+ line_width 1
+ addUserKnob {41 color T Constant5.color}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -810
+  ypos -898
+ }
+ Dot {
+  name Dot13
+  note_font_size 42
+  note_font_color 0x7f7f7f01
+  xpos -776
+  ypos -558
+ }
+set N11718250 [stack 0]
+ Dot {
+  name Dot12
+  note_font_size 42
+  note_font_color 0x7f7f7f01
+  xpos -556
+  ypos -558
+ }
+set N1181efb0 [stack 0]
+ Transform {
+  translate {{-parent.pos1} {-parent.pos1}}
+  black_outside false
+  name Transform4
+  label T
+  xpos -590
+  ypos -520
+ }
+ Transform {
+  rotate {{"-degrees( atan2(parent.pos2.y-parent.pos1.y, parent.pos2.x-parent.pos1.x) )"}}
+  black_outside false
+  name Transform5
+  label "R\n"
+  xpos -590
+  ypos -448
+ }
+ Transform {
+  scale {{"width / sqrt(pow(parent.pos2.x-parent.pos1.x,2) + pow(parent.pos2.y-parent.pos1.y,2))"}}
+  black_outside false
+  name Transform6
+  label S
+  xpos -590
+  ypos -400
+ }
+ Crop {
+  box {0 0 {Input.width} 1}
+  reformat true
+  crop false
+  name Crop1
+  xpos -590
+  ypos -322
+ }
+ Reformat {
+  type "to box"
+  box_width {{Input.width}}
+  box_height {{Input.height}}
+  box_fixed true
+  resize distort
+  filter impulse
+  name Reformat1
+  xpos -590
+  ypos -274
+ }
+ Expression {
+  expr0 r/(max_value-min_value)-min_value
+  expr1 g/(max_value-min_value)-min_value
+  expr2 b/(max_value-min_value)-min_value
+  expr3 a/(max_value-min_value)-min_value
+  name Expression1
+  note_font Helvetica
+  xpos -590
+  ypos -225
+ }
+set N1180d2b0 [stack 0]
+ Fill {
+  color {1 -10 0 1}
+  name Fill1
+  note_font Helvetica
+  xpos -480
+  ypos -225
+ }
+ Expression {
+  expr0 r/(max_value-min_value)-min_value
+  expr1 g/(max_value-min_value)-min_value
+  expr2 b/(max_value-min_value)-min_value
+  expr3 a/(max_value-min_value)-min_value
+  name Expression2
+  note_font Helvetica
+  xpos -480
+  ypos -201
+ }
+ Expression {
+  expr0 "fabs((y/height)-r)<=tolerance ? 1 : 0"
+  expr1 "fabs((y/height)-g)<=tolerance ? 1 : 0"
+  expr2 "fabs((y/height)-b)<=tolerance ? 1 : 0"
+  expr3 "fabs((y/height)-a)<=tolerance ? 1 : 0"
+  name Expression4
+  xpos -480
+  ypos -154
+  addUserKnob {20 User}
+  addUserKnob {7 tolerance}
+  tolerance {{parent.thickness/100}}
+ }
+ Multiply {
+  channels rgba
+  value 0.25
+  name Multiply1
+  note_font Helvetica
+  xpos -480
+  ypos -129
+ }
+push $N1180d2b0
+ Expression {
+  expr0 "fabs((y/height)-r)<=tolerance ? 1 : 0"
+  expr1 "fabs((y/height)-g)<=tolerance ? 1 : 0"
+  expr2 "fabs((y/height)-b)<=tolerance ? 1 : 0"
+  expr3 "fabs((y/height)-a)<=tolerance ? 1 : 0"
+  name Expression3
+  xpos -590
+  ypos -130
+  addUserKnob {20 User}
+  addUserKnob {7 tolerance}
+  tolerance {{parent.thickness/100}}
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  bbox B
+  output rgb
+  name Merge2
+  note_font Helvetica
+  xpos -590
+  ypos -57
+ }
+ Dot {
+  name Dot14
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -556
+  ypos -6
+ }
+set N11b2ce40 [stack 0]
+ Rectangle {
+  opacity 0.395
+  area {{width/2-swidth/2} 0 {width/2+swidth/2} {height}}
+  color {1 0 0 1}
+  name Rectangle1
+  label 0.5
+  xpos -370
+  ypos -40
+  addUserKnob {20 User}
+  addUserKnob {7 swidth}
+  swidth 3
+ }
+ Dot {
+  name Dot3
+  xpos -226
+  ypos -54
+ }
+set N11b42570 [stack 0]
+ Dot {
+  name Dot9
+  xpos -6
+  ypos -54
+ }
+ Constant {
+  inputs 0
+  color {1 0 0 1}
+  format "256 256 0 0 256 256 1 square_256"
+  name Constant5
+  xpos -480
+  ypos -826
+  postage_stamp false
+ }
+ NoOp {
+  name Line
+  xpos -480
+  ypos -778
+  addUserKnob {20 User}
+  addUserKnob {12 pt1}
+  pt1 {{parent.pos1} {parent.pos1}}
+  addUserKnob {12 pt2}
+  pt2 {{parent.pos2} {parent.pos2}}
+  addUserKnob {7 Radius R 1 15}
+  Radius {{parent.line_width}}
+  addUserKnob {7 angle}
+  angle {{"(pt1.x<pt2.x)? (int( atan( (pt1.y - pt2.y) / (pt1.x - pt2.x)) * (180/pi) * 1000) / 1000) :  (int( atan( (pt1.y - pt2.y) / (pt1.x - pt2.x)) * (180/pi) * 1000) / 1000)+180"}}
+ }
+ Reformat {
+  type "to box"
+  box_width {{"sqrt( pow(parent.Line.pt2.x - parent.Line.pt1.x, 2) + pow(parent.Line.pt2.y - parent.Line.pt1.y, 2) )"}}
+  box_height {{parent.Line.Radius*2}}
+  box_fixed true
+  resize fill
+  filter impulse
+  name Reformat3
+  xpos -480
+  ypos -730
+ }
+ Crop {
+  box {0 0 {width} {height}}
+  name Crop2
+  xpos -480
+  ypos -682
+ }
+ Transform {
+  translate {{parent.pt1.x x1 66} {parent.pt1.y-(parent.Tickness) x1 174}}
+  rotate {{parent.Line.angle}}
+  center {0 {parent.Tickness}}
+  filter Parzen
+  name Transform2
+  xpos -480
+  ypos -634
+ }
+push $N1181efb0
+ Merge2 {
+  inputs 2
+  bbox B
+  name Merge3
+  note_font Helvetica
+  xpos -480
+  ypos -561
+  disable {{!parent.draw_line x1 1}}
+ }
+ Dot {
+  name Dot2
+  xpos -336
+  ypos -558
+ }
+ Dot {
+  name Dot1
+  xpos -116
+  ypos -558
+ }
+set N11b5aff0 [stack 0]
+ Dot {
+  name Dot7
+  xpos 104
+  ypos -558
+ }
+ ContactSheet {
+  inputs 2
+  width {{Input.width i}}
+  height {{Input.height*2 i}}
+  rows 2
+  columns 1
+  roworder TopBottom
+  name ContactSheet2
+  label Bottom
+  xpos 70
+  ypos -16
+ }
+ Dot {
+  name Dot11
+  note_font_size 42
+  note_font_color 0x7f7f7f01
+  xpos 104
+  ypos 282
+ }
+push $N11b42570
+push $N11b5aff0
+ ContactSheet {
+  inputs 2
+  width {{Input.width*2}}
+  height {{Input.height}}
+  rows 1
+  columns 2
+  name ContactSheet1
+  label Right
+  xpos -150
+  ypos -16
+ }
+ Dot {
+  name Dot15
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -116
+  ypos 282
+ }
+push $N11b2ce40
+push $N11b2ce40
+ ChannelMerge {
+  inputs 2
+  A rgba.red
+  B rgba.green
+  name ChannelMerge1
+  xpos -590
+  ypos 98
+ }
+set N11ba68c0 [stack 0]
+push $N11ba68c0
+ ChannelMerge {
+  inputs 2
+  B rgba.blue
+  name ChannelMerge2
+  xpos -590
+  ypos 170
+ }
+ Dot {
+  name Dot17
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -556
+  ypos 282
+ }
+set N11c0e2a0 [stack 0]
+push $N11718250
+ Merge2 {
+  inputs 2
+  name Merge1
+  xpos -810
+  ypos 278
+ }
+push $N11c0e2a0
+ Switch {
+  inputs 4
+  which {{parent.plot}}
+  name switch_plot_type
+  xpos -810
+  ypos 422
+ }
+ Output {
+  name Output1
+  xpos -810
+  ypos 662
+ }
+end_group
