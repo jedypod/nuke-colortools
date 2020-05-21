@@ -5,8 +5,7 @@ Group {
  label "\[knob method]: \[knob direction]"
  addUserKnob {20 SoftCompress}
  addUserKnob {41 channels T NodeWrapper1.channels}
- addUserKnob {4 method t "The type of compression function to use. " M {tanh exp simple ""}}
- method exp
+ addUserKnob {4 method t "The type of compression function to use. " M {simple exp arctan tanh "" "" "" ""}}
  addUserKnob {7 threshold t "The minimum threshold. Values below this number will not be affected." R 0 6}
  threshold 1
  addUserKnob {7 limit t "The asymptotic maximum value. For example, the value that inf becomes." R 1 10}
@@ -16,14 +15,14 @@ Group {
  Input {
   inputs 0
   name Inputmask
-  xpos -590
-  ypos 1118
+  xpos -920
+  ypos 1214
   number 1
  }
  Input {
   inputs 0
   name Input
-  xpos -810
+  xpos -1030
   ypos 542
  }
  Dot {
@@ -31,10 +30,19 @@ Group {
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xff
-  xpos -776
+  xpos -996
   ypos 642
  }
-set N192573f0 [stack 0]
+set N2a8521b0 [stack 0]
+ Dot {
+  name Dot6
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -996
+  ypos 714
+ }
+set Na26ff50 [stack 0]
  Dot {
   name Dot5
   note_font "Helvetica Bold"
@@ -43,26 +51,43 @@ set N192573f0 [stack 0]
   xpos -666
   ypos 714
  }
-set N2981fc40 [stack 0]
+set Na2869b0 [stack 0]
  Expression {
-  expr0 "r < t ? r : (pow2(t) - t * r + (l-t) * r)/(t + (l-t) - r)"
-  expr1 "g < t ? g : (pow2(t) - t * g + (l-t) * r)/(t + (l-t) - g)"
-  expr2 "b < t ? b : (pow2(t) - t * b + (l-t) * b)/(t + (l-t) - b)"
-  name UnCompress1
-  label simple
+  expr0 "r < t ? r : t+(l-t)*log((1+(r/(l-t)-t/(l-t)))/(1-(r/(l-t)-t/(l-t))))/2"
+  expr1 "g < t ? g : t+(l-t)*log((1+(g/(l-t)-t/(l-t)))/(1-(g/(l-t)-t/(l-t))))/2"
+  expr2 "b < t ? b : t+(l-t)*log((1+(b/(l-t)-t/(l-t)))/(1-(b/(l-t)-t/(l-t))))/2"
+  name UnCompress
+  label tanh
+  xpos -370
+  ypos 776
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{"min(parent.threshold, parent.limit)"}}
+  addUserKnob {7 l R 1 2}
+  l {{max(this.t,parent.limit)}}
+ }
+push $Na2869b0
+ Expression {
+  temp_name0 pi
+  temp_expr0 3.14159265359
+  expr0 "r < t ? r : t+(l-t)*2/pi*tan(pi/2*(r-t)/(l-t))"
+  expr1 "g < t ? g : t+(l-t)*2/pi*tan(pi/2*(g-t)/(l-t))"
+  expr2 "b < t ? b : t+(l-t)*2/pi*tan(pi/2*(b-t)/(l-t))"
+  name UnCompress4
+  label arctan
   xpos -480
   ypos 776
   addUserKnob {20 Params_tab l Params}
   addUserKnob {7 t}
   t {{"min(parent.threshold, parent.limit)"}}
   addUserKnob {7 l R 1 2}
-  l {{parent.limit}}
+  l {{max(this.t,parent.limit)}}
  }
-push $N2981fc40
+push $Na2869b0
  Expression {
   expr0 "r < t ? r : -log( (r-l)/(t-l))*(-t+l)/s+t"
-  expr1 "g < t ? g : -log( (r-l)/(t-l))*(-t+l)/s+t"
-  expr2 "b < t ? b : -log( (r-l)/(t-l))*(-t+l)/s+t"
+  expr1 "g < t ? g : -log( (g-l)/(t-l))*(-t+l)/s+t"
+  expr2 "b < t ? b : -log( (b-l)/(t-l))*(-t+l)/s+t"
   name UnCompress3
   label exp
   xpos -590
@@ -75,46 +100,14 @@ push $N2981fc40
   addUserKnob {7 s}
   s 1
  }
-push $N2981fc40
+push $Na2869b0
  Expression {
-  expr0 "r < t ? r : t+(l-t)*log((1+(r/(l-t)-t/(l-t)))/(1-(r/(l-t)-t/(l-t))))/2"
-  expr1 "g < t ? g : t+(l-t)*log((1+(g/(l-t)-t/(l-t)))/(1-(g/(l-t)-t/(l-t))))/2"
-  expr2 "b < t ? b : t+(l-t)*log((1+(b/(l-t)-t/(l-t)))/(1-(b/(l-t)-t/(l-t))))/2"
-  name UnCompress
-  label tanh
-  xpos -700
-  ypos 776
-  addUserKnob {20 Params_tab l Params}
-  addUserKnob {7 t}
-  t {{"min(parent.threshold, parent.limit)"}}
-  addUserKnob {7 l R 1 2}
-  l {{max(this.t,parent.limit)}}
- }
- Switch {
-  inputs 3
-  which {{parent.method}}
-  name switch_method1
-  note_font Helvetica
-  xpos -700
-  ypos 879
- }
-push $N192573f0
- Dot {
-  name Dot6
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
-  xpos -886
-  ypos 714
- }
-set N60667c70 [stack 0]
- Expression {
-  expr0 "r < t ? r : t + (-1 / ((r - t) / (l-t) + 1) + 1)*(l-t)"
-  expr1 "g < t ? g : t + (-1 / ((g - t) / (l-t) + 1) + 1)*(l-t)"
-  expr2 "b < t ? b : t + (-1 / ((b - t) / (l-t) + 1) + 1)*(l-t)"
-  name Compress1
+  expr0 "r < t ? r : t+1/(1/(r-t)-1/(l-t))"
+  expr1 "g < t ? g : t+1/(1/(g-t)-1/(l-t))"
+  expr2 "b < t ? b : t+1/(1/(b-t)-1/(l-t))"
+  name UnCompress2
   label simple
-  xpos -810
+  xpos -700
   ypos 776
   addUserKnob {20 Params_tab l Params}
   addUserKnob {7 t}
@@ -122,14 +115,62 @@ set N60667c70 [stack 0]
   addUserKnob {7 l R 1 2}
   l {{parent.limit}}
  }
-push $N60667c70
+ Switch {
+  inputs 4
+  which {{parent.method}}
+  name switch_method1
+  note_font Helvetica
+  xpos -700
+  ypos 879
+ }
+ Dot {
+  name Dot1
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -666
+  ypos 978
+ }
+push $Na26ff50
+ Expression {
+  expr0 "r < t ? r : t+(l-t)*tanh( ( (r-t)/( l-t)))"
+  expr1 "g < t ? g : t+(l-t)*tanh( ( (g-t)/( l-t)))"
+  expr2 "b < t ? b : t+(l-t)*tanh( ( (b-t)/( l-t)))"
+  name Compress
+  label tanh
+  xpos -810
+  ypos 776
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{"min(parent.threshold, parent.limit)"}}
+  addUserKnob {7 l R 1 2}
+  l {{max(this.t,parent.limit)}}
+ }
+push $Na26ff50
+ Expression {
+  temp_name0 pi
+  temp_expr0 3.14159265359
+  expr0 "r < t ? r : t+(l-t)*2/pi*atan(pi/2*(r-t)/(l-t))"
+  expr1 "g < t ? g : t+(l-t)*2/pi*atan(pi/2*(g-t)/(l-t))"
+  expr2 "b < t ? b : t+(l-t)*2/pi*atan(pi/2*(b-t)/(l-t))"
+  name Compress3
+  label arctan
+  xpos -920
+  ypos 776
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{"min(parent.threshold, parent.limit)"}}
+  addUserKnob {7 l R 1 2}
+  l {{max(this.t,parent.limit)}}
+ }
+push $Na26ff50
  Expression {
   expr0 "r < t ? r : l-(l-t)*exp(-(((r-t)*((s*l)/(l-t))/l)))"
   expr1 "g < t ? g :  l-(l-t)*exp(-(((g-t)*((s*l)/(l-t))/l)))"
   expr2 "b < t ? b :  l-(l-t)*exp(-(((b-t)*((s*l)/(l-t))/l)))"
   name Compress2
   label exp
-  xpos -920
+  xpos -1030
   ypos 776
   addUserKnob {20 Params_tab l Params}
   addUserKnob {7 t}
@@ -139,37 +180,38 @@ push $N60667c70
   addUserKnob {7 s}
   s 1
  }
-push $N60667c70
+push $Na26ff50
  Expression {
-  expr0 "r < t ? r : t+(l-t)*tanh( ( (r-t)/( l-t)))"
-  expr1 "g < t ? g : t+(l-t)*tanh( ( (g-t)/( l-t)))"
-  expr2 "b < t ? b : t+(l-t)*tanh( ( (b-t)/( l-t)))"
-  name Compress
-  label tanh
-  xpos -1030
+  expr0 "r < t ? r : t+1/(1/(r-t)+1/(l-t))"
+  expr1 "g < t ? g : t+1/(1/(g-t)+1/(l-t))"
+  expr2 "b < t ? b : t+1/(1/(b-t)+1/(l-t))"
+  name Compress4
+  label simple
+  selected true
+  xpos -1140
   ypos 776
   addUserKnob {20 Params_tab l Params}
   addUserKnob {7 t}
   t {{"min(parent.threshold, parent.limit)"}}
   addUserKnob {7 l R 1 2}
-  l {{max(this.t,parent.limit)}}
+  l {{parent.limit}}
  }
  Switch {
-  inputs 3
+  inputs 4
   which {{parent.method}}
   name switch_method
   note_font Helvetica
-  xpos -920
+  xpos -1140
   ypos 879
  }
  Switch {
   inputs 2
   which {{parent.direction}}
   name switch_reverse
-  xpos -810
+  xpos -1140
   ypos 974
  }
-push $N192573f0
+push $N2a8521b0
  Dot {
   name Dot2
   label " "
@@ -186,18 +228,18 @@ push $N192573f0
   note_font_size 24
   note_font_color 0xa5a5a501
   xpos -1436
-  ypos 1122
+  ypos 1218
  }
  NodeWrapper {
   inputs 2+1
   channels rgb
   name NodeWrapper1
-  xpos -810
-  ypos 1118
+  xpos -1140
+  ypos 1214
  }
  Output {
   name Output
-  xpos -810
-  ypos 1214
+  xpos -1140
+  ypos 1310
  }
 end_group
