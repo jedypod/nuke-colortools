@@ -1,0 +1,64 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name RGBtoHSV
+ label "direction : \[value direction]"
+ selected true
+ xpos -40
+ ypos 296
+ addUserKnob {20 RGBtoHSV_tab l RGBtoHSV}
+ addUserKnob {4 direction M {forward inverse}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -700
+  ypos 566
+ }
+set N106084f0 [stack 0]
+ Expression {
+  temp_name0 C
+  temp_expr0 b*g
+  temp_name1 X
+  temp_expr1 C*(1-abs((r*6)%2-1))
+  temp_name2 m
+  temp_expr2 b-C
+  expr0 (r<1/6?C:r<2/6?X:r<3/6?0:r<4/6?0:r<5/6?X:C)+m
+  expr1 (r<1/6?X:r<2/6?C:r<3/6?C:r<4/6?X:r<5/6?0:0)+m
+  expr2 (r<1/6?0:r<2/6?0:r<3/6?X:r<4/6?C:r<5/6?C:X)+m
+  name Expression48
+  label "HSV to RGB"
+  note_font "Bitstream Vera Sans"
+  xpos -590
+  ypos 656
+ }
+push $N106084f0
+ Expression {
+  temp_name0 cmax
+  temp_expr0 max(r,g,b)
+  temp_name1 cmin
+  temp_expr1 min(r,g,b)
+  temp_name2 delta
+  temp_expr2 cmax-cmin
+  expr0 delta==0?0:cmax==r?(((g-b)/delta+6)%6)/6:cmax==g?(((b-r)/delta+2)/6):(((r-g)/delta+4)/6)
+  expr1 "cmax == 0 ? 0 : delta / cmax"
+  expr2 cmax
+  name Expression47
+  label "RGB to HSV"
+  note_font "Bitstream Vera Sans"
+  xpos -810
+  ypos 656
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name Switch1
+  xpos -700
+  ypos 734
+ }
+ Output {
+  name Output
+  xpos -700
+  ypos 806
+ }
+end_group

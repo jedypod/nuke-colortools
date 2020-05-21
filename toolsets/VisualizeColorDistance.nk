@@ -1,0 +1,122 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name VisualizeColorDistance
+ addUserKnob {20 VisualizeColorDistance}
+ addUserKnob {7 threshold t "threshold of color distance to visualize. 1.0 is the edge of the gamut boundary. 0.0 is all colors." R 0 1.2}
+ threshold 0.8
+ addUserKnob {4 bg t "choose bg to put behind result colors" M {checkerboard "solid color"}}
+ bg "solid color"
+ addUserKnob {41 color T Fill1.color}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -226
+ }
+ Dot {
+  name Dot1
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -6
+  ypos -174
+ }
+set N317a8c50 [stack 0]
+ Dot {
+  name Dot2
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -226
+  ypos -174
+ }
+ Expression {
+  temp_name0 o
+  temp_expr0 max(r,g,b)
+  expr0 -(r-o)/o
+  expr1 -(g-o)/o
+  expr2 -(b-o)/o
+  channel3 alpha
+  expr3 "max(fabs(r-o)/o, fabs(g-o)/o, fabs(b-o)/o)"
+  name Distance_1
+  label "RGB Distance\naka \"Inverse RGB Ratios\""
+  note_font Helvetica
+  xpos -260
+  ypos -139
+ }
+push $N317a8c50
+ MergeExpression {
+  inputs 2
+  temp_name0 limit
+  temp_expr0 threshold
+  temp_name1 sat
+  temp_expr1 max(Ar,Ag,Ab)
+  expr0 sat>=limit?Br:0
+  expr1 sat>=limit?Bg:0
+  expr2 sat>=limit?Bb:0
+  expr3 sat>limit?1:0
+  name MergeExpression1
+  note_font Helvetica
+  xpos -150
+  ypos -129
+ }
+ Dot {
+  name Dot3
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -116
+  ypos -30
+ }
+push $N317a8c50
+ Fill {
+  output rgb
+  color 0.18
+  name Fill1
+  note_font Helvetica
+  xpos -40
+  ypos -129
+ }
+ CheckerBoard2 {
+  inputs 0
+  centerlinewidth 0
+  name CheckerBoard1
+  note_font Helvetica
+  xpos 70
+  ypos -129
+  postage_stamp false
+ }
+ Reformat {
+  type "to box"
+  box_width {{parent.input.width}}
+  box_height {{parent.input.height}}
+  box_fixed true
+  resize fill
+  name ReformatBox
+  xpos 70
+  ypos -82
+ }
+ Switch {
+  inputs 2
+  which {{parent.bg}}
+  name Switch1
+  note_font Helvetica
+  xpos -40
+  ypos -81
+ }
+ Merge2 {
+  inputs 2
+  bbox B
+  name Merge1
+  note_font Helvetica
+  xpos -40
+  ypos -33
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 14
+ }
+end_group
