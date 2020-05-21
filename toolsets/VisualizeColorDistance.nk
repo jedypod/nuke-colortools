@@ -3,17 +3,19 @@ push $cut_paste_input
 Group {
  name VisualizeColorDistance
  addUserKnob {20 VisualizeColorDistance}
+ addUserKnob {4 type M {inside outside}}
+ type outside
+ addUserKnob {6 show_distance l "show distance" -STARTLINE}
  addUserKnob {7 threshold t "threshold of color distance to visualize. 1.0 is the edge of the gamut boundary. 0.0 is all colors." R 0 1.2}
  threshold 0.8
  addUserKnob {4 bg t "choose bg to put behind result colors" M {checkerboard "solid color"}}
- bg "solid color"
  addUserKnob {41 color T Fill1.color}
 }
  Input {
   inputs 0
   name Input
   xpos -40
-  ypos -226
+  ypos -285
  }
  Dot {
   name Dot1
@@ -23,7 +25,7 @@ Group {
   xpos -6
   ypos -174
  }
-set N317a8c50 [stack 0]
+set N51cfd120 [stack 0]
  Dot {
   name Dot2
   note_font "Helvetica Bold"
@@ -35,9 +37,9 @@ set N317a8c50 [stack 0]
  Expression {
   temp_name0 o
   temp_expr0 max(r,g,b)
-  expr0 -(r-o)/o
-  expr1 -(g-o)/o
-  expr2 -(b-o)/o
+  expr0 fabs(r-o)/o
+  expr1 fabs(g-o)/o
+  expr2 fabs(b-o)/o
   channel3 alpha
   expr3 "max(fabs(r-o)/o, fabs(g-o)/o, fabs(b-o)/o)"
   name Distance_1
@@ -46,17 +48,27 @@ set N317a8c50 [stack 0]
   xpos -260
   ypos -139
  }
-push $N317a8c50
+set N2a7eb150 [stack 0]
+ Dot {
+  name Dot4
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -226
+  ypos 66
+ }
+push $N2a7eb150
+push $N51cfd120
  MergeExpression {
   inputs 2
   temp_name0 limit
   temp_expr0 threshold
   temp_name1 sat
   temp_expr1 max(Ar,Ag,Ab)
-  expr0 sat>=limit?Br:0
-  expr1 sat>=limit?Bg:0
-  expr2 sat>=limit?Bb:0
-  expr3 sat>limit?1:0
+  expr0 type?(sat>=limit?Br:0):sat<=limit?Br:0
+  expr1 type?(sat>=limit?Bg:0):sat<=limit?Bg:0
+  expr2 type?(sat>=limit?Bb:0):sat<=limit?Bb:0
+  expr3 type?(sat>limit?1:0):sat<limit?1:0
   name MergeExpression1
   note_font Helvetica
   xpos -150
@@ -70,7 +82,7 @@ push $N317a8c50
   xpos -116
   ypos -30
  }
-push $N317a8c50
+push $N51cfd120
  Fill {
   output rgb
   color 0.18
@@ -114,9 +126,17 @@ push $N317a8c50
   xpos -40
   ypos -33
  }
+ Switch {
+  inputs 2
+  which {{parent.show_distance}}
+  name switch_distance
+  note_font Helvetica
+  xpos -40
+  ypos 63
+ }
  Output {
   name Output
   xpos -40
-  ypos 14
+  ypos 110
  }
 end_group
