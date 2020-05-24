@@ -1,102 +1,372 @@
 set cut_paste_input [stack 0]
 push $cut_paste_input
 Group {
-name GamutCompress
-label "\[value direction]"
-addUserKnob {20 GamutCompress}
-addUserKnob {7 threshold t "Percentage of the gamut to affect. A value of 0.2 will leave leave the core 80% of the colors within the gamut unaffected." R 0 0.2}
-threshold 0.2
-addUserKnob {26 limits_label l " " T <b>limits}
-addUserKnob {7 cyan t "cyan limit" R 0.001 1}
-cyan 0.25
-addUserKnob {7 magenta t "magenta limit" R 0.001 1}
-magenta 0.25
-addUserKnob {7 yellow t "yellow limit" R 0.001 1}
-yellow 0.25
-addUserKnob {26 ""}
-addUserKnob {4 direction M {forward inverse}}
-addUserKnob {20 info_tab l Info}
-addUserKnob {26 info_label l " " T "<font color=#ccc>\n<b>GamutCompress</b> brings out of gamut colors back into gamut.<br><br>\n\n<b>Threshold</b><br>\nPercentage of the gamut to affect. If threshold is 0.2, <br>\nthe inner 80% of the gamut will be unaffected and <br>\nout of gamut values will be compressed into <br>\nthe outer 20% of the gamut.<br><br>\n\n<b>Limits</b><br>\nPer color component control to specify what distance will be <br>\ncompressed to the gamut boundary. For example, <br>\na value of 0.2 will map colors with a distance of 1.2 from <br>\nthe achromatic axis to 1.0, which is the gamut boundary.<br><br><br>\n\n<b>Direction</b><br>\nSpecifies whether to apply or inverse the gamut compression operation.\n<br><br>\n<a href=https://github.com/jedypod/gamut-compress>Additional Documentation</a><br><br>\n\nWritten by <a href=https://github.com/jedypod color=red>Jed Smith</a> with <a href=https://community.acescentral.com/t/rgb-saturation-gamut-mapping-approach-and-a-comp-vfx-perspective>help</a> from the <a href=https://community.acescentral.com/c/aces-development-acesnext/vwg-aces-gamut-mapping-working-group>ACES Gamut Mapping VWG</a>"}
+ name GamutCompress5
+ label "\[value method]: \[value direction]"
+ addUserKnob {20 GamutCompress}
+ addUserKnob {41 method T compress.method}
+ addUserKnob {22 reset -STARTLINE T "n = nuke.thisNode()\nknobs = \['threshold', 'cyan', 'magenta', 'yellow']\nfor k in knobs:\n    n\[k].setValue(0.2)"}
+ addUserKnob {41 threshold T compress.threshold}
+ addUserKnob {26 distance_limit_label l " " t "Specifies the distance beyond the gamut boundary to map to the gamut boundary for each color component." T "<b>distance limit"}
+ addUserKnob {41 cyan T compress.cyan}
+ addUserKnob {41 magenta T compress.magenta}
+ addUserKnob {41 yellow T compress.yellow}
+ addUserKnob {26 ""}
+ addUserKnob {4 direction M {forward inverse}}
+ addUserKnob {20 info_tab l Info}
+ addUserKnob {26 info_label l " " T "<style> a:link \{ color: #ccc \}</style>\n<font color=#ccc>\n<b>GamutCompress</b><br>\nmaps out of gamut colors back into gamut.\n<br><br><a href=https://github.com/jedypod/gamut-compress>Documentation</a>"}
+ addUserKnob {20 doc_grp l "" +STARTLINE n 1}
+ doc_grp 0
+ addUserKnob {26 doc_label l " " T "<style> a:link \{ color: #ccc \}</style>\n<font color=#ccc>\n<b>Method</b><br>\nSpecify the tone compression curve to use when <br>\nmapping out of gamut colors into the boundary threshold.<br>\n<a href=https://www.desmos.com/calculator/hmzirlw7tj>log</a>\n<a href=https://www.desmos.com/calculator/lkhdtjbodx>reinhard</a>\n<a href=https://www.desmos.com/calculator/s2adnicmmr>exp</a>\n<a href=https://www.desmos.com/calculator/h96qmnozpo>atan</a>\n<a href=https://www.desmos.com/calculator/xiwliws24x>tanh</a>\n<br><br>\n\n<b>Threshold</b><br>\nPercentage of the gamut to affect. If threshold is 0.2, <br>\nthe inner 80% of the gamut will be unaffected and <br>\nout of gamut values will be compressed into <br>\nthe outer 20% of the gamut's color volume.<br><br>\n\n<b>Max Distance</b><br>\nPer color component control to specify what distance will be <br>\ncompressed to the gamut boundary. For example, <br>\na value of cyan=0.2 will map colors with a distance of red=1.2 from <br>\nthe achromatic axis to red=1.0, which is the gamut boundary.<br><br>\n\n<b>Direction</b><br>\nSpecifies whether to apply or inverse the gamut compression operation.<br><br>"}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {26 about_label l " " T "<style> a:link \{ color: #ccc \}</style>\n<font color=#ccc>\nWritten by <a href=https://github.com/jedypod color=red>Jed Smith</a> with <a href=https://community.acescentral.com/t/rgb-saturation-gamut-mapping-approach-and-a-comp-vfx-perspective>help</a> from the <a href=https://community.acescentral.com/c/aces-development-acesnext/vwg-aces-gamut-mapping-working-group>ACES Gamut Mapping VWG</a>"}
 }
-Input {
-inputs 0
-name Input
-xpos -40
-ypos 62
-}
-Dot {
-name Dot1
-note_font "Helvetica Bold"
-note_font_size 24
-note_font_color 0xff
-xpos -6
-ypos 114
-}
-set Na20da940 [stack 0]
-Expression {
-temp_name0 ach
-temp_expr0 max(r,g,b)
-temp_name1 d_r
-temp_expr1 ach==0?0:fabs(r-ach)/ach
-temp_name2 d_g
-temp_expr2 ach==0?0:fabs(g-ach)/ach
-temp_name3 d_b
-temp_expr3 ach==0?0:fabs(b-ach)/ach
-expr0 "ach-(d_r<thr?d_r:(thr+1/(1/(d_r-thr)-1/(1-thr)+1/(lim_x-thr))))*ach"
-expr1 "ach-(d_g<thr?d_g:(thr+1/(1/(d_g-thr)-1/(1-thr)+1/(lim_y-thr))))*ach"
-expr2 "ach-(d_b<thr?d_b:(thr+1/(1/(d_b-thr)-1/(1-thr)+1/(lim_z-thr))))*ach"
-name GamutUnCompress
-note_font Helvetica
-xpos 70
-ypos 159
-addUserKnob {20 User}
-addUserKnob {7 thr t "complement of threshold"}
-thr {{1-parent.threshold}}
-addUserKnob {7 lim_x R 0 1.25}
-lim_x {{cyan+1}}
-addUserKnob {7 lim_y R 0 1.25}
-lim_y {{magenta+1}}
-addUserKnob {7 lim_z R 0 1.25}
-lim_z {{yellow+1}}
-}
-push $Na20da940
-Expression {
-temp_name0 ach
-temp_expr0 max(r,g,b)
-temp_name1 d_r
-temp_expr1 ach==0?0:fabs(r-ach)/ach
-temp_name2 d_g
-temp_expr2 ach==0?0:fabs(g-ach)/ach
-temp_name3 d_b
-temp_expr3 ach==0?0:fabs(b-ach)/ach
-expr0 "ach-(d_r<thr?d_r:(thr+1/(1/(d_r-thr)+1/(1-thr)-1/(lim_x-thr))) )*ach"
-expr1 "ach-(d_g<thr?d_g:(thr+1/(1/(d_g-thr)+1/(1-thr)-1/(lim_y-thr))) )*ach"
-expr2 "ach-(d_b<thr?d_b:(thr+1/(1/(d_b-thr)+1/(1-thr)-1/(lim_z-thr))) )*ach"
-name GamutCompress
-note_font Helvetica
-xpos -150
-ypos 159
-addUserKnob {20 User}
-addUserKnob {7 thr t "complement of threshold"}
-thr {{1-parent.threshold}}
-addUserKnob {7 lim_x R 0 1.25}
-lim_x {{cyan+1}}
-addUserKnob {7 lim_y R 0 1.25}
-lim_y {{magenta+1}}
-addUserKnob {7 lim_z R 0 1.25}
-lim_z {{yellow+1}}
-}
-Switch {
-inputs 2
-which {{parent.direction}}
-name switch_direction
-note_font Helvetica
-xpos -40
-ypos 255
-}
-Output {
-name Output
-xpos -40
-ypos 326
-}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -232
+ }
+ Dot {
+  name Dot4
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -6
+  ypos -150
+ }
+set N7e23d260 [stack 0]
+ Dot {
+  name Dot2
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -116
+  ypos -150
+ }
+ Expression {
+  channel0 rgba
+  expr0 max(r,g,b)
+  name achromatic
+  note_font Helvetica
+  xpos -150
+  ypos -81
+ }
+set Nfefbcac0 [stack 0]
+ Dot {
+  name Dot7
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -116
+  ypos 114
+ }
+push $Nfefbcac0
+push $N7e23d260
+ MergeExpression {
+  inputs 2
+  expr0 "Ar == 0 ? 0 : (Ar-Br)/Ar"
+  expr1 "Ar == 0 ? 0 : (Ag-Bg)/Ag"
+  expr2 "Ar == 0 ? 0 : (Ab-Bb)/Ab"
+  name distance
+  note_font Helvetica
+  xpos -40
+  ypos -81
+ }
+ Group {
+  name compress
+  knobChanged "from math import (pow, exp, log, tan, atan, atanh, cos, pi, fabs)\n\ndef i_log(x):\n    return (exp((1-t+t*log(1-x)-x*t*log(1-x))/(t*(1-x))))*t+x*t-k\ndef i_exp(x):\n    return -log((-x+1)/(t-x))*(-t+x)+t-k\ndef i_atan(x):\n    return (2*tan((pi*(1-t))/(2*(x-t)))*(x-t))/pi+t-k\ndef i_tanh(x):\n    return atanh((1-t)/(x-t))*(x-t)+t-k\ndef sign(x):\n    return 0 if x == 0 else 1 if x > 0 else -1\n\ndef bisect(f, a, b):\n    if sign(f(a)) == sign(f(b)): \n        # bad estimate. return something close to linear\n        if method == 'exp' or method == 'log':\n            return -100\n        else: \n            return 1.99999\n    c = (a+b)/2.0\n    y = f(c)\n    if y == 0:\n        return c # lucky guess\n    n = 1\n    while fabs(y) > tol and n <= nmax:\n        if sign(y) == sign(f(a)):\n            a = c\n        else:\n            b = c\n        c = (a+b)/2.0\n        y = f(c)\n        n += 1\n    return c\n\ndef calc():\n    a = 1.0001\n    b = 5\n    if method == 'log':\n        f = i_log\n        a = -50\n        b = 0.98\n    elif method == 'exp':\n        f = i_exp\n    elif method == 'atan':\n        f = i_atan\n    elif method == 'tanh':\n        f = i_tanh\n        a = 1.000001\n    lim = bisect(f, a, b)\n    return lim\n\n\nn = nuke.thisNode()\nknob = nuke.thisKnob()\n\nt = 1-n\['threshold'].getValue()\nmethod = n\['method'].value()\n\ntol = 1e-3\nnmax = 100\n\nn.begin()\nif n\['method'].value() != 'reinhard':\n    k_knobs = \['cyan', 'magenta', 'yellow']\n    lim_knobs = \['lim_x', 'lim_y', 'lim_z']\n    if knob.name() in k_knobs:\n        lim_knob = lim_knobs\[k_knobs.index(knob.name())]\n        k = knob.getValue()+1\n        lim = calc()\n        n\[lim_knob].setValue(lim)\n    elif knob.name() == 'method' or knob.name() == 'threshold':\n        for i, lknob in enumerate(lim_knobs):\n            k = n\[k_knobs\[i]].getValue()+1\n            lim = calc()\n            n\[lknob].setValue(lim)\n            \nn.end()"
+  note_font Helvetica
+  selected true
+  xpos -40
+  ypos 6
+  addUserKnob {20 compress}
+  addUserKnob {4 method M {log reinhard exp atan tanh ""}}
+  addUserKnob {7 threshold R 0 0.3}
+  threshold 0.2
+  addUserKnob {7 cyan}
+  cyan 0.2
+  addUserKnob {7 magenta}
+  magenta 0.2
+  addUserKnob {7 yellow}
+  yellow 0.2
+  addUserKnob {26 "" +STARTLINE}
+  addUserKnob {7 lim_x R -5 2}
+  lim_x 0.8010845947
+  addUserKnob {7 lim_y R -5 2}
+  lim_y 0.8010845947
+  addUserKnob {7 lim_z R -5 2}
+  lim_z 0.8010845947
+  addUserKnob {26 "" +STARTLINE}
+  addUserKnob {6 invert +STARTLINE}
+  invert {{parent.direction}}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -40
+   ypos -202
+  }
+  Dot {
+   name Dot2
+   note_font "Helvetica Bold"
+   note_font_size 24
+   note_font_color 0xff
+   xpos -6
+   ypos -102
+  }
+set Nde137320 [stack 0]
+  Dot {
+   name Dot1
+   note_font "Helvetica Bold"
+   note_font_size 24
+   note_font_color 0xff
+   xpos 324
+   ypos -30
+  }
+set N29c4e40 [stack 0]
+  Expression {
+   expr0 r<thr?r:thr+(lim_x-thr)*log((1+(r/(lim_x-thr)-thr/(lim_x-thr)))/(1-(r/(lim_x-thr)-thr/(lim_x-thr))))/2
+   expr1 g<thr?g:thr+(lim_y-thr)*log((1+(g/(lim_y-thr)-thr/(lim_y-thr)))/(1-(g/(lim_y-thr)-thr/(lim_y-thr))))/2
+   expr2 b<thr?b:thr+(lim_z-thr)*log((1+(b/(lim_z-thr)-thr/(lim_z-thr)))/(1-(b/(lim_z-thr)-thr/(lim_z-thr))))/2
+   name uncompress_tanh
+   note_font Helvetica
+   xpos 510
+   ypos 39
+   addUserKnob {20 Params_tab l Params}
+   addUserKnob {7 thr t "complement of threshold"}
+   thr {{1-parent.threshold}}
+   addUserKnob {7 lim_x}
+   lim_x {{parent.lim_x}}
+   addUserKnob {7 lim_y}
+   lim_y {{parent.lim_y}}
+   addUserKnob {7 lim_z}
+   lim_z {{parent.lim_z}}
+  }
+push $N29c4e40
+  Expression {
+   temp_name0 pi
+   temp_expr0 3.14159265359
+   expr0 r<thr?r:thr+(lim_x-thr)*2/pi*tan(pi/2*(r-thr)/(lim_x-thr))
+   expr1 g<thr?g:thr+(lim_y-thr)*2/pi*tan(pi/2*(g-thr)/(lim_y-thr))
+   expr2 b<thr?b:thr+(lim_z-thr)*2/pi*tan(pi/2*(b-thr)/(lim_z-thr))
+   name uncompress_atan
+   xpos 400
+   ypos 38
+   addUserKnob {20 Params_tab l Params}
+   addUserKnob {7 thr t "complement of threshold"}
+   thr {{1-parent.threshold}}
+   addUserKnob {7 lim_x}
+   lim_x {{parent.lim_x}}
+   addUserKnob {7 lim_y}
+   lim_y {{parent.lim_y}}
+   addUserKnob {7 lim_z}
+   lim_z {{parent.lim_z}}
+  }
+push $N29c4e40
+  Expression {
+   expr0 r<thr?r:-log((r-lim_x)/(thr-lim_x))*(-thr+lim_x)+thr
+   expr1 g<thr?g:-log((g-lim_y)/(thr-lim_y))*(-thr+lim_y)+thr
+   expr2 b<thr?b:-log((b-lim_z)/(thr-lim_z))*(-thr+lim_z)+thr
+   name uncompress_exp
+   note_font Helvetica
+   xpos 290
+   ypos 39
+   addUserKnob {20 Params_tab l Params}
+   addUserKnob {7 thr t "complement of threshold"}
+   thr {{1-parent.threshold}}
+   addUserKnob {7 lim_x}
+   lim_x {{parent.lim_x}}
+   addUserKnob {7 lim_y}
+   lim_y {{parent.lim_y}}
+   addUserKnob {7 lim_z}
+   lim_z {{parent.lim_z}}
+  }
+push $N29c4e40
+  Expression {
+   expr0 r<thr?r:(thr+1/(1/(r-thr)-1/(1-thr)+1/(lim_x-thr)))
+   expr1 g<thr?g:(thr+1/(1/(g-thr)-1/(1-thr)+1/(lim_y-thr)))
+   expr2 b<thr?b:(thr+1/(1/(b-thr)-1/(1-thr)+1/(lim_z-thr)))
+   name uncompress_reinhard
+   note_font Helvetica
+   xpos 180
+   ypos 39
+   addUserKnob {20 Params_tab l Params}
+   addUserKnob {7 thr t "complement of threshold"}
+   thr {{1-parent.threshold}}
+   addUserKnob {7 lim_x}
+   lim_x {{parent.compress_reinhard.lim_x}}
+   addUserKnob {7 lim_y}
+   lim_y {{parent.compress_reinhard.lim_y}}
+   addUserKnob {7 lim_z}
+   lim_z {{parent.compress_reinhard.lim_z}}
+  }
+push $N29c4e40
+  Expression {
+   expr0 r<thr?r:exp((r-thr+thr*log(1-lim_x)-lim_x*thr*log(1-lim_x))/(thr*(1-lim_x)))*thr+lim_x*thr
+   expr1 "g<thr?g:exp((g-thr+thr*log(1-lim_y)-lim_y*thr*log(1-lim_y))/(thr*(1-lim_y)))*thr+lim_y*thr\n"
+   expr2 b<thr?b:exp((b-thr+thr*log(1-lim_z)-lim_z*thr*log(1-lim_z))/(thr*(1-lim_z)))*thr+lim_z*thr
+   name uncompress_log
+   note_font Helvetica
+   xpos 70
+   ypos 39
+   addUserKnob {20 Params_tab l Params}
+   addUserKnob {7 thr t "complement of threshold"}
+   thr {{1-parent.threshold}}
+   addUserKnob {7 lim_x}
+   lim_x {{parent.lim_x}}
+   addUserKnob {7 lim_y}
+   lim_y {{parent.lim_y}}
+   addUserKnob {7 lim_z}
+   lim_z {{parent.lim_z}}
+  }
+  Switch {
+   inputs 5
+   which {{parent.method}}
+   name switch_method1
+   note_font Helvetica
+   xpos 290
+   ypos 135
+  }
+push $Nde137320
+  Dot {
+   name Dot6
+   note_font "Helvetica Bold"
+   note_font_size 24
+   note_font_color 0xff
+   xpos -336
+   ypos -30
+  }
+set Nf8ad7e00 [stack 0]
+  Expression {
+   expr0 r<thr?r:thr+(lim_x-thr)*tanh(((r-thr)/(lim_x-thr)))
+   expr1 g<thr?g:thr+(lim_y-thr)*tanh(((g-thr)/(lim_y-thr)))
+   expr2 b<thr?b:thr+(lim_z-thr)*tanh(((b-thr)/(lim_z-thr)))
+   name compress_tanh
+   note_font Helvetica
+   xpos -150
+   ypos 39
+   addUserKnob {20 Params_tab l Params}
+   addUserKnob {7 thr t "complement of threshold"}
+   thr {{1-parent.threshold}}
+   addUserKnob {7 lim_x}
+   lim_x {{parent.lim_x}}
+   addUserKnob {7 lim_y}
+   lim_y {{parent.lim_y}}
+   addUserKnob {7 lim_z}
+   lim_z {{parent.lim_z}}
+  }
+push $Nf8ad7e00
+  Expression {
+   temp_name0 pi
+   temp_expr0 3.14159265359
+   expr0 r<thr?r:thr+(lim_x-thr)*2/pi*atan(pi/2*(r-thr)/(lim_x-thr))
+   expr1 g<thr?g:thr+(lim_y-thr)*2/pi*atan(pi/2*(g-thr)/(lim_y-thr))
+   expr2 b<thr?b:thr+(lim_z-thr)*2/pi*atan(pi/2*(b-thr)/(lim_z-thr))
+   name compress_atan
+   xpos -260
+   ypos 38
+   addUserKnob {20 Params_tab l Params}
+   addUserKnob {7 thr t "complement of threshold"}
+   thr {{1-parent.threshold}}
+   addUserKnob {7 lim_x}
+   lim_x {{parent.lim_x}}
+   addUserKnob {7 lim_y}
+   lim_y {{parent.lim_y}}
+   addUserKnob {7 lim_z}
+   lim_z {{parent.lim_z}}
+  }
+push $Nf8ad7e00
+  Expression {
+   expr0 r<thr?r:lim_x-(lim_x-thr)*exp(-(((r-thr)*((lim_x)/(lim_x-thr))/lim_x)))
+   expr1 g<thr?g:lim_y-(lim_y-thr)*exp(-(((g-thr)*((lim_y)/(lim_y-thr))/lim_y)))
+   expr2 b<thr?b:lim_z-(lim_z-thr)*exp(-(((b-thr)*((lim_z)/(lim_z-thr))/lim_z)))
+   name compress_exp
+   note_font Helvetica
+   xpos -370
+   ypos 39
+   addUserKnob {20 Params_tab l Params}
+   addUserKnob {7 thr t "complement of threshold"}
+   thr {{1-parent.threshold}}
+   addUserKnob {7 lim_x}
+   lim_x {{parent.lim_x}}
+   addUserKnob {7 lim_y}
+   lim_y {{parent.lim_y}}
+   addUserKnob {7 lim_z}
+   lim_z {{parent.lim_z}}
+  }
+push $Nf8ad7e00
+  Expression {
+   expr0 r<thr?r:(thr+1/(1/(r-thr)+1/(1-thr)-1/(lim_x-thr)))
+   expr1 g<thr?g:(thr+1/(1/(g-thr)+1/(1-thr)-1/(lim_y-thr)))
+   expr2 b<thr?b:(thr+1/(1/(b-thr)+1/(1-thr)-1/(lim_z-thr)))
+   name compress_reinhard
+   note_font Helvetica
+   xpos -480
+   ypos 39
+   addUserKnob {20 Params_tab l Params}
+   addUserKnob {7 thr t "complement of threshold"}
+   thr {{1-parent.threshold}}
+   addUserKnob {7 lim_x}
+   lim_x {{parent.cyan+1}}
+   addUserKnob {7 lim_y}
+   lim_y {{parent.magenta+1}}
+   addUserKnob {7 lim_z}
+   lim_z {{parent.yellow+1}}
+  }
+push $Nf8ad7e00
+  Expression {
+   expr0 r<thr?r:thr*log(r/thr-lim_x)-lim_x*thr*log(r/thr-lim_x)+thr-thr*log(1-lim_x)+lim_x*thr*log(1-lim_x)
+   expr1 g<thr?g:thr*log(g/thr-lim_y)-lim_y*thr*log(g/thr-lim_y)+thr-thr*log(1-lim_y)+lim_y*thr*log(1-lim_y)
+   expr2 b<thr?b:thr*log(b/thr-lim_z)-lim_z*thr*log(b/thr-lim_z)+thr-thr*log(1-lim_z)+lim_z*thr*log(1-lim_z)
+   name compress_log
+   note_font Helvetica
+   xpos -590
+   ypos 39
+   addUserKnob {20 Params_tab l Params}
+   addUserKnob {7 thr t "complement of threshold"}
+   thr {{1-parent.threshold}}
+   addUserKnob {7 lim_x}
+   lim_x {{parent.lim_x}}
+   addUserKnob {7 lim_y}
+   lim_y {{parent.lim_y}}
+   addUserKnob {7 lim_z}
+   lim_z {{parent.lim_z}}
+  }
+  Switch {
+   inputs 5
+   which {{parent.method}}
+   name switch_method
+   note_font Helvetica
+   xpos -370
+   ypos 135
+  }
+  Switch {
+   inputs 2
+   which {{parent.invert}}
+   name switch_reverse
+   xpos -40
+   ypos 278
+  }
+  Output {
+   name Output
+   xpos -40
+   ypos 422
+  }
+ end_group
+ MergeExpression {
+  inputs 2
+  expr0 Ar-Br*Ar
+  expr1 Ar-Bg*Ar
+  expr2 Ar-Bb*Ar
+  name rgb
+  note_font Helvetica
+  xpos -40
+  ypos 111
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 206
+ }
 end_group
