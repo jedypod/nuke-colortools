@@ -1,8 +1,8 @@
 set cut_paste_input [stack 0]
 push $cut_paste_input
 Group {
- name VisualizeColorDistance
- addUserKnob {20 VisualizeColorDistance}
+ name VisualizeRGBDistance
+ addUserKnob {20 VisualizeRGBDistance}
  addUserKnob {4 type M {inside outside}}
  type outside
  addUserKnob {6 show_distance l "show distance" -STARTLINE}
@@ -25,30 +25,44 @@ Group {
   xpos -6
   ypos -174
  }
-set N51cfd120 [stack 0]
+set Nf81ff4d0 [stack 0]
  Dot {
-  name Dot2
+  name Dot5
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xff
   xpos -226
   ypos -174
  }
+set N9c9f8bc0 [stack 0]
  Expression {
-  temp_name0 o
-  temp_expr0 max(r,g,b)
-  expr0 fabs(r-o)/o
-  expr1 fabs(g-o)/o
-  expr2 fabs(b-o)/o
-  channel3 alpha
-  expr3 "max(fabs(r-o)/o, fabs(g-o)/o, fabs(b-o)/o)"
-  name Distance_1
-  label "RGB Distance\naka \"Inverse RGB Ratios\""
+  channel0 rgba
+  expr0 max(r,g,b)
+  name achromatic
   note_font Helvetica
-  xpos -260
-  ypos -139
+  xpos -370
+  ypos -177
  }
-set N2a7eb150 [stack 0]
+push $N9c9f8bc0
+ MergeExpression {
+  inputs 2
+  temp_name0 dr
+  temp_expr0 "Ar == 0 ? 0 : (Ar-Br)/Ar"
+  temp_name1 dg
+  temp_expr1 "Ar == 0 ? 0 : (Ag-Bg)/Ag"
+  temp_name2 db
+  temp_expr2 "Ar == 0 ? 0 : (Ab-Bb)/Ab"
+  expr0 dr
+  expr1 dg
+  expr2 db
+  expr3 max(dr,dg,db)
+  name distance
+  note_font Helvetica
+  selected true
+  xpos -260
+  ypos -129
+ }
+set Na4ceff10 [stack 0]
  Dot {
   name Dot4
   note_font "Helvetica Bold"
@@ -57,8 +71,8 @@ set N2a7eb150 [stack 0]
   xpos -226
   ypos 66
  }
-push $N2a7eb150
-push $N51cfd120
+push $Na4ceff10
+push $Nf81ff4d0
  MergeExpression {
   inputs 2
   temp_name0 limit
@@ -82,7 +96,7 @@ push $N51cfd120
   xpos -116
   ypos -30
  }
-push $N51cfd120
+push $Nf81ff4d0
  Fill {
   output rgb
   color 0.18
