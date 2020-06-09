@@ -1,0 +1,5045 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name segmented_spline_c5_fwd
+ selected true
+ xpos 70
+ ypos -226
+ addUserKnob {20 SegmentedSplineParams_c5_tab l SegmentedSplineParams_c5}
+ addUserKnob {78 coefsLow n 6}
+ coefsLow {-4 -4 -3.157376577 -0.4852499958 1.847732471 1.847732471}
+ addUserKnob {78 coefsHigh n 6}
+ coefsHigh {-0.7185482425 2.081030717 3.668124124 4 4 4}
+ addUserKnob {12 minPoint}
+ minPoint {{0.18*pow(2,-15)} 0.0001}
+ addUserKnob {12 midPoint}
+ midPoint {0.18 4.8}
+ addUserKnob {12 maxPoint}
+ maxPoint {{0.18*pow(2,18)} 10000}
+ addUserKnob {7 slopeLow}
+ addUserKnob {7 slopeHigh}
+ addUserKnob {3 N_KNOTS_LOW}
+ N_KNOTS_LOW 4
+ addUserKnob {3 N_KNOTS_HIGH}
+ N_KNOTS_HIGH 4
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -1030
+  ypos -634
+ }
+ Dot {
+  name Dot25
+  label " "
+  xpos -996
+  ypos -318
+ }
+set Nefb74cf0 [stack 0]
+ Dot {
+  name Dot26
+  label " "
+  xpos -996
+  ypos 1506
+ }
+push $Nefb74cf0
+ Dot {
+  name Dot4
+  label " "
+  xpos -886
+  ypos -318
+ }
+set N22d4c050 [stack 0]
+ Dot {
+  name Dot5
+  label " "
+  xpos -776
+  ypos -318
+ }
+set N12217a00 [stack 0]
+ Dot {
+  name Dot2
+  label " "
+  xpos -666
+  ypos -318
+ }
+set N1ca0ed20 [stack 0]
+ Dot {
+  name Dot3
+  label " "
+  xpos -556
+  ypos -318
+ }
+set N2d7dfe60 [stack 0]
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  expr0 "logr <= log10(minPoint.x)"
+  expr1 "logg <= log10(minPoint.x)"
+  expr2 "logb <= log10(minPoint.x)"
+  name segment_bottom
+  xpos -590
+  ypos -178
+ }
+ Dot {
+  name Dot1
+  label " "
+  xpos -556
+  ypos 162
+ }
+push $N2d7dfe60
+ Dot {
+  name Dot7
+  label " "
+  xpos -336
+  ypos -318
+ }
+set N99cf8160 [stack 0]
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 "logr * slopeLow + ( log10(minPoint.y) - slopeLow * log10(minPoint.x) )"
+  expr1 "logg * slopeLow + ( log10(minPoint.y) - slopeLow * log10(minPoint.x) )"
+  expr2 "logb* slopeLow + ( log10(minPoint.y) - slopeLow * log10(minPoint.x) )"
+  expr3 1
+  name Expression
+  xpos -370
+  ypos -202
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply3
+  xpos -370
+  ypos 158
+ }
+ Dot {
+  name Dot27
+  label " "
+  xpos -336
+  ypos 786
+ }
+push $N1ca0ed20
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  expr0 "( logr > log10(minPoint.x) ) * ( logr < log10(midPoint.x) )"
+  expr1 "( logg > log10(minPoint.x) ) * ( logg < log10(midPoint.x) )"
+  expr2 "( logb > log10(minPoint.x) ) * ( logb < log10(midPoint.x) )"
+  name segment_low
+  xpos -700
+  ypos -178
+ }
+ Dot {
+  name Dot22
+  label " "
+  xpos -666
+  ypos 354
+ }
+push $N99cf8160
+ Dot {
+  name Dot9
+  label " "
+  xpos -6
+  ypos -318
+ }
+set Nd1e78c90 [stack 0]
+ Dot {
+  name Dot6
+  label " "
+  xpos -6
+  ypos -198
+ }
+set N76086b60 [stack 0]
+ Dot {
+  name Dot8
+  label " "
+  xpos 214
+  ypos -198
+ }
+set N6608ae80 [stack 0]
+ Dot {
+  name Dot13
+  label " "
+  xpos 434
+  ypos -198
+ }
+ Dot {
+  name Dot12
+  label " "
+  xpos 434
+  ypos -78
+ }
+set Nb48a13a0 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsLow.0 : j == 1 ? coefsLow.1 : j == 2 ? coefsLow.2 :j == 3 ? coefsLow.3 : j == 4 ? coefsLow.4 : j == 5 ? coefsLow.5 : 6"
+  expr1 "j == 0 ? coefsLow.1 : j == 1 ? coefsLow.2 : j == 2 ? coefsLow.3 :j == 3 ? coefsLow.4 : j == 4 ? coefsLow.5 : j == 5 ? coefsLow.5 : 6"
+  expr2 "j == 0 ? coefsLow.2 : j == 1 ? coefsLow.3 : j == 2 ? coefsLow.4 :j == 3 ? coefsLow.5 : j == 4 ? coefsLow.5 : j == 5 ? coefsLow.5 : 6"
+  name Expression5
+  xpos 290
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix3
+  label "mult_f3_f33( cf, M)"
+  xpos 290
+  ypos 8
+ }
+push $Nb48a13a0
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression6
+  xpos 400
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 0
+  expr1 0
+  expr2 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  name dot_f3_f2
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 400
+  ypos 8
+ }
+push 0
+push $N6608ae80
+ Dot {
+  name Dot11
+  label " "
+  xpos 214
+  ypos -78
+ }
+set N656dabb0 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsLow.0 : j == 1 ? coefsLow.1 : j == 2 ? coefsLow.2 :j == 3 ? coefsLow.3 : j == 4 ? coefsLow.4 : j == 5 ? coefsLow.5 : 6"
+  expr1 "j == 0 ? coefsLow.1 : j == 1 ? coefsLow.2 : j == 2 ? coefsLow.3 :j == 3 ? coefsLow.4 : j == 4 ? coefsLow.5 : j == 5 ? coefsLow.5 : 6"
+  expr2 "j == 0 ? coefsLow.2 : j == 1 ? coefsLow.3 : j == 2 ? coefsLow.4 :j == 3 ? coefsLow.5 : j == 4 ? coefsLow.5 : j == 5 ? coefsLow.5 : 6"
+  name Expression3
+  xpos 70
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix1
+  label "mult_f3_f33( cf, M)"
+  xpos 70
+  ypos 8
+ }
+push $N656dabb0
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression4
+  xpos 180
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 0
+  expr1 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  expr2 0
+  name dot_f3_f7
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 180
+  ypos 8
+ }
+push $N76086b60
+ Dot {
+  name Dot10
+  label " "
+  xpos -6
+  ypos -78
+ }
+set N73ebfdb0 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsLow.0 : j == 1 ? coefsLow.1 : j == 2 ? coefsLow.2 :j == 3 ? coefsLow.3 : j == 4 ? coefsLow.4 : j == 5 ? coefsLow.5 : 6"
+  expr1 "j == 0 ? coefsLow.1 : j == 1 ? coefsLow.2 : j == 2 ? coefsLow.3 :j == 3 ? coefsLow.4 : j == 4 ? coefsLow.5 : j == 5 ? coefsLow.5 : 6"
+  expr2 "j == 0 ? coefsLow.2 : j == 1 ? coefsLow.3 : j == 2 ? coefsLow.4 :j == 3 ? coefsLow.5 : j == 4 ? coefsLow.5 : j == 5 ? coefsLow.5 : 6"
+  name Expression1
+  xpos -150
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix2
+  label "mult_f3_f33( cf, M)"
+  xpos -150
+  ypos 8
+ }
+push $N73ebfdb0
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression2
+  xpos -40
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  expr1 0
+  expr2 0
+  name dot_f3_f1
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos -40
+  ypos 66
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge1
+  xpos 180
+  ypos 158
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply1
+  xpos 180
+  ypos 350
+ }
+ Dot {
+  name Dot28
+  label " "
+  xpos 214
+  ypos 786
+ }
+push 0
+push $N12217a00
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  expr0 "( logr >= log10(midPoint.x) ) * ( logr < log10(maxPoint.x) )"
+  expr1 "( logg >= log10(midPoint.x) ) * ( logg < log10(maxPoint.x) )"
+  expr2 "( logb >= log10(midPoint.x) ) * ( logb < log10(maxPoint.x) )"
+  name segment_high
+  xpos -810
+  ypos -178
+ }
+ Dot {
+  name Dot23
+  label " "
+  xpos -776
+  ypos 474
+ }
+push $Nd1e78c90
+ Dot {
+  name Dot14
+  label " "
+  xpos 764
+  ypos -318
+ }
+set N7d80a40 [stack 0]
+ Dot {
+  name Dot15
+  label " "
+  xpos 764
+  ypos -198
+ }
+set N15555050 [stack 0]
+ Dot {
+  name Dot17
+  label " "
+  xpos 984
+  ypos -198
+ }
+set N5c1f3d10 [stack 0]
+ Dot {
+  name Dot20
+  label " "
+  xpos 1204
+  ypos -198
+ }
+ Dot {
+  name Dot19
+  label " "
+  xpos 1204
+  ypos -78
+ }
+set N3e16ec10 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsHigh.0 : j == 1 ? coefsHigh.1 : j == 2 ? coefsHigh.2 :j == 3 ? coefsHigh.3 : j == 4 ? coefsHigh.4 : j == 5 ? coefsHigh.5 : 6"
+  expr1 "j == 0 ? coefsHigh.1 : j == 1 ? coefsHigh.2 : j == 2 ? coefsHigh.3 :j == 3 ? coefsHigh.4 : j == 4 ? coefsHigh.5 : j == 5 ? coefsHigh.5 : 6"
+  expr2 "j == 0 ? coefsHigh.2 : j == 1 ? coefsHigh.3 : j == 2 ? coefsHigh.4 :j == 3 ? coefsHigh.5 : j == 4 ? coefsHigh.5 : j == 5 ? coefsHigh.5 : 6"
+  expr3 j
+  name Expression11
+  xpos 1060
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix6
+  label "mult_f3_f33( cf, M)"
+  xpos 1060
+  ypos 8
+ }
+push $N3e16ec10
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression12
+  xpos 1170
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 0
+  expr1 0
+  expr2 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  name dot_f3_f6
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 1170
+  ypos 8
+ }
+push 0
+push $N5c1f3d10
+ Dot {
+  name Dot18
+  label " "
+  xpos 984
+  ypos -78
+ }
+set Na5abd10 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsHigh.0 : j == 1 ? coefsHigh.1 : j == 2 ? coefsHigh.2 :j == 3 ? coefsHigh.3 : j == 4 ? coefsHigh.4 : j == 5 ? coefsHigh.5 : 6"
+  expr1 "j == 0 ? coefsHigh.1 : j == 1 ? coefsHigh.2 : j == 2 ? coefsHigh.3 :j == 3 ? coefsHigh.4 : j == 4 ? coefsHigh.5 : j == 5 ? coefsHigh.5 : 6"
+  expr2 "j == 0 ? coefsHigh.2 : j == 1 ? coefsHigh.3 : j == 2 ? coefsHigh.4 :j == 3 ? coefsHigh.5 : j == 4 ? coefsHigh.5 : j == 5 ? coefsHigh.5 : 6"
+  expr3 j
+  name Expression9
+  xpos 840
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix5
+  label "mult_f3_f33( cf, M)"
+  xpos 840
+  ypos 8
+ }
+push $Na5abd10
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression10
+  xpos 950
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 0
+  expr1 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  expr2 0
+  name dot_f3_f5
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 950
+  ypos 8
+ }
+push $N15555050
+ Dot {
+  name Dot16
+  label " "
+  xpos 764
+  ypos -78
+ }
+set N45bf53d0 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsHigh.0 : j == 1 ? coefsHigh.1 : j == 2 ? coefsHigh.2 :j == 3 ? coefsHigh.3 : j == 4 ? coefsHigh.4 : j == 5 ? coefsHigh.5 : 6"
+  expr1 "j == 0 ? coefsHigh.1 : j == 1 ? coefsHigh.2 : j == 2 ? coefsHigh.3 :j == 3 ? coefsHigh.4 : j == 4 ? coefsHigh.5 : j == 5 ? coefsHigh.5 : 6"
+  expr2 "j == 0 ? coefsHigh.2 : j == 1 ? coefsHigh.3 : j == 2 ? coefsHigh.4 :j == 3 ? coefsHigh.5 : j == 4 ? coefsHigh.5 : j == 5 ? coefsHigh.5 : 6"
+  expr3 j
+  name Expression7
+  xpos 620
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix4
+  label "mult_f3_f33( cf, M)"
+  xpos 620
+  ypos 8
+ }
+push $N45bf53d0
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression8
+  xpos 730
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  expr1 0
+  expr2 0
+  name dot_f3_f4
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 730
+  ypos 8
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge2
+  xpos 950
+  ypos 158
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply2
+  xpos 950
+  ypos 470
+ }
+ Dot {
+  name Dot29
+  label " "
+  xpos 984
+  ypos 786
+ }
+push $N22d4c050
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  expr0 "logr >= log10(maxPoint.x) ? 1 : 0"
+  expr1 "logg >= log10(maxPoint.x) ? 1 : 0"
+  expr2 "logb >= log10(maxPoint.x) ? 1 : 0"
+  name segment_peak
+  xpos -920
+  ypos -178
+ }
+ Dot {
+  name Dot24
+  label " "
+  xpos -886
+  ypos 618
+ }
+push $N7d80a40
+ Dot {
+  name Dot21
+  label " "
+  xpos 1534
+  ypos -318
+ }
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 "logr * slopeHigh + ( log10(maxPoint.y) - slopeHigh * log10(maxPoint.x) )"
+  expr1 "logg * slopeHigh + ( log10(maxPoint.y) - slopeHigh * log10(maxPoint.x) )"
+  expr2 "logb* slopeHigh + ( log10(maxPoint.y) - slopeHigh * log10(maxPoint.x) )"
+  expr3 1
+  name proc_low1
+  label Expression
+  xpos 1500
+  ypos -202
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply4
+  xpos 1500
+  ypos 614
+ }
+ Merge2 {
+  inputs 4+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge3
+  xpos 510
+  ypos 1118
+ }
+ Expression {
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 pow(10,r)
+  expr1 pow(10,g)
+  expr2 pow(10,b)
+  name Expression13
+  xpos 510
+  ypos 1238
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 510
+  ypos 1496
+ }
+ Output {
+  name Output1
+  xpos 510
+  ypos 1814
+ }
+end_group
+push $cut_paste_input
+Group {
+ name red_modifier
+ note_font Helvetica
+ selected true
+ xpos 400
+ ypos -177
+ addUserKnob {20 Params_tab l Params}
+ addUserKnob {7 RRT_RED_SCALE}
+ RRT_RED_SCALE 0.82
+ addUserKnob {7 RRT_RED_PIVOT}
+ RRT_RED_PIVOT 0.03
+ addUserKnob {7 RRT_RED_HUE}
+ addUserKnob {7 RRT_RED_WIDTH R 0 360}
+ RRT_RED_WIDTH 135
+ addUserKnob {6 invert +STARTLINE}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 42
+ }
+set N89efede0 [stack 0]
+ Dot {
+  name Dot2
+  xpos -226
+  ypos 42
+ }
+set N17857240 [stack 0]
+ Expression {
+  temp_name0 TINY
+  temp_expr0 1e-10
+  temp_name1 min_f3
+  temp_expr1 min(r,min(g,b))
+  temp_name2 max_f3
+  temp_expr2 max(r,max(g,b))
+  channel0 rgb
+  expr0 "(max( max_f3, TINY) - max( min_f3, TINY)) / max( max_f3, 1e-2)"
+  channel1 none
+  expr1 0
+  channel2 none
+  expr2 0
+  name rgb_2_saturation
+  xpos -260
+  ypos 86
+ }
+push $N17857240
+ Dot {
+  name Dot3
+  xpos -336
+  ypos 42
+ }
+ Expression {
+  temp_name0 hue
+  temp_expr0 "(r==g&&g==b)?0:(180/pi) * atan2( sqrt(3)*(g-b), 2*r-g-b)"
+  channel0 {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  expr0 "hue < 0 ? hue + 360 : hue"
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 0
+  expr2 0
+  name rgb_2_hue
+  xpos -370
+  ypos 86
+ }
+ Expression {
+  temp_name0 hue
+  temp_expr0 r
+  temp_name1 centerH
+  temp_expr1 RRT_RED_HUE
+  temp_name2 hueCentered
+  temp_expr2 hue-centerH
+  channel0 {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+  expr0 "hueCentered < -180.0 ? hueCentered + 360.0 : (hueCentered > 180.0) ? hueCentered - 360.0 : hueCentered"
+  name center_hue
+  xpos -370
+  ypos 134
+ }
+ Expression {
+  temp_name0 centeredHue
+  temp_expr0 g
+  temp_name1 knot_coord
+  temp_expr1 "(centeredHue - knots.0) * 4.0/w"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  channel0 {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+  expr0 "(min((centeredHue > knots.0?1:0) , (centeredHue < knots.4?1:0)) ? j == 3 ? t*t*t * -1./6 + t*t * 3./6 +  t * -3./6 + 1 * 1./6 : j == 2 ? t*t*t * 3./6 + t*t * -6./6 + t * 0./6 + 1. *4./6 : j == 1 ? t*t*t * -3./6 + t*t * 3./6 + t * 3./6 + 1. * 1./6 : j == 0 ? t*t*t * 1./6 + t*t * 0./6 + t * 0./6 + 1. * 0./6 : 0 : 0) * 3/2"
+  channel1 none
+  channel2 none
+  name cubic_basis_shaper
+  xpos -370
+  ypos 182
+  addUserKnob {20 param}
+  addUserKnob {7 w R 0 360}
+  w {{parent.RRT_RED_WIDTH}}
+  addUserKnob {78 knots n 5}
+  knots {{-w/2} {-w/4} 0 {w/4} {w/2}}
+ }
+ Dot {
+  name Dot4
+  xpos -336
+  ypos 234
+ }
+ Copy {
+  inputs 2
+  from0 rgba.blue
+  to0 rgba.blue
+  name Copy4
+  note_font Helvetica
+  xpos -260
+  ypos 226
+ }
+ Dot {
+  name Dot6
+  label " r : hueWeight\n g : centeredHue\n b : saturation"
+  note_font "Helvetica \[pyrs]"
+  note_font_size 12
+  note_font_color 0xff
+  xpos -226
+  ypos 282
+ }
+ Dot {
+  name Dot7
+  xpos -226
+  ypos 330
+ }
+set N514aa6b0 [stack 0]
+push $N89efede0
+ Dot {
+  name Dot8
+  xpos -6
+  ypos 258
+ }
+set N358e73e0 [stack 0]
+ MergeExpression {
+  inputs 2
+  temp_name0 minChan
+  temp_expr0 "Ag < 0 ? Bg : Bb"
+  temp_name1 a_
+  temp_expr1 "Ar * (1. - RRT_RED_SCALE) - 1."
+  temp_name2 b
+  temp_expr2 "Br - Ar* (RRT_RED_PIVOT + minChan) * (1. - RRT_RED_SCALE)"
+  temp_name3 c
+  temp_expr3 "Ar * RRT_RED_PIVOT * minChan * (1. - RRT_RED_SCALE)"
+  expr0 "( -b - sqrt( b * b - 4. * a_ * c)) / ( 2. * a_)"
+  name red_modifier_rev
+  note_font Helvetica
+  xpos -150
+  ypos 351
+ }
+push $N514aa6b0
+push $N358e73e0
+ MergeExpression {
+  inputs 2
+  expr0 "r + Ar * Ab * (RRT_RED_PIVOT - r) * (1. - RRT_RED_SCALE)"
+  name red_modifier_fwd
+  note_font Helvetica
+  xpos -40
+  ypos 327
+ }
+ Switch {
+  inputs 2
+  which {{parent.invert}}
+  name Switch_direction
+  note_font Helvetica
+  xpos -40
+  ypos 423
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 494
+ }
+end_group
+push $cut_paste_input
+Group {
+ name glow_module
+ note_font Helvetica
+ selected true
+ xpos 400
+ ypos -225
+ addUserKnob {20 Params_tab l Params}
+ addUserKnob {7 RRT_GLOW_GAIN}
+ RRT_GLOW_GAIN 0.05
+ addUserKnob {7 RRT_GLOW_MID}
+ RRT_GLOW_MID 0.08
+ addUserKnob {6 invert +STARTLINE}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -562
+ }
+ Dot {
+  name Dot2
+  xpos -6
+  ypos -510
+ }
+set N25243b50 [stack 0]
+ Dot {
+  name Dot4
+  xpos -116
+  ypos -510
+ }
+set N2b5ece80 [stack 0]
+ Expression {
+  temp_name0 chroma
+  temp_expr0 sqrt(b*(b-g)+g*(g-r)+r*(r-b))
+  temp_name1 ycRadiusWeight
+  temp_expr1 1.75
+  channel0 {-rgba.red rgba.green -rgba.blue none}
+  expr0 "( b + g + r + ycRadiusWeight * chroma) / 3.0"
+  channel1 {rgba.red -rgba.green -rgba.blue none}
+  expr1 0
+  expr2 0
+  name rgb_2_yc1
+  xpos -150
+  ypos -466
+ }
+push 0
+push $N2b5ece80
+ Dot {
+  name Dot3
+  xpos -226
+  ypos -510
+ }
+ Expression {
+  temp_name0 TINY
+  temp_expr0 1e-10
+  temp_name1 min_f3
+  temp_expr1 min(r,min(g,b))
+  temp_name2 max_f3
+  temp_expr2 max(r,max(g,b))
+  expr0 "(max( max_f3, TINY) - max( min_f3, TINY)) / max( max_f3, 1e-2)"
+  expr1 0
+  expr2 0
+  name rgb_2_saturation1
+  xpos -260
+  ypos -466
+ }
+set N691936d0 [stack 0]
+ Expression {
+  channel0 {rgba.red rgba.green rgba.blue none}
+  expr0 "(r - 0.4) / 0.2"
+  name Expression1
+  xpos -370
+  ypos -466
+ }
+ Expression {
+  temp_name0 t
+  temp_expr0 "max( 1.0 - fabs( r / 2.0), 0.0)"
+  temp_name1 sign
+  temp_expr1 r>0?1:r<0?-1:0
+  temp_name2 valy
+  temp_expr2 "1.0 + sign * (1.0 - t * t)"
+  channel0 {-rgba.red -rgba.green rgba.blue none}
+  expr0 "valy / 2"
+  channel1 {rgba.red rgba.green -rgba.blue none}
+  expr1 0
+  channel2 {-rgba.red rgba.green rgba.blue none}
+  expr2 0
+  name sigmoid_shaper1
+  xpos -370
+  ypos -442
+ }
+push $N691936d0
+ Merge2 {
+  inputs 3+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge2
+  note_font Helvetica
+  xpos -260
+  ypos -393
+ }
+set N6785acc0 [stack 0]
+ Expression {
+  temp_name0 ycOut
+  temp_expr0 g
+  temp_name1 glowGainIn
+  temp_expr1 "RRT_GLOW_GAIN * b"
+  temp_name2 glowMid
+  temp_expr2 RRT_GLOW_MID
+  channel0 rgb
+  expr0 "1 + ((ycOut <= ((1 + glowGainIn) * 2./3. * glowMid)) ? -glowGainIn / (1 + glowGainIn) : ( ycOut >= (2. * glowMid)) ? 0 : glowGainIn * (glowMid / ycOut - 1./2.) / (glowGainIn / 2. - 1.))"
+  channel1 none
+  channel2 none
+  name glow_inv
+  xpos -150
+  ypos -346
+ }
+push $N6785acc0
+ Expression {
+  temp_name0 ycIn
+  temp_expr0 g
+  temp_name1 glowGainIn
+  temp_expr1 "RRT_GLOW_GAIN * b"
+  temp_name2 glowMid
+  temp_expr2 RRT_GLOW_MID
+  channel0 rgb
+  expr0 "1 + ( ycIn <= 2./3. * glowMid ? glowGainIn : ycIn >= 2. * glowMid ? 0 : glowGainIn * (glowMid / ycIn - 1./2.) )"
+  channel1 none
+  channel2 none
+  name glow_fwd
+  xpos -370
+  ypos -346
+ }
+ Switch {
+  inputs 2
+  which {{parent.invert}}
+  name Switch_direction
+  note_font Helvetica
+  selected true
+  xpos -260
+  ypos -297
+ }
+ Dot {
+  name Dot5
+  xpos -226
+  ypos -246
+ }
+push $N25243b50
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox B
+  output rgb
+  name Merge3
+  note_font Helvetica
+  xpos -40
+  ypos -249
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos -178
+ }
+end_group
+push $cut_paste_input
+Group {
+ name segmented_spline_c5_rev
+ selected true
+ xpos 70
+ ypos -178
+ addUserKnob {20 SegmentedSplineParams_c5_tab l SegmentedSplineParams_c5}
+ addUserKnob {78 coefsLow n 6}
+ coefsLow {-4 -4 -3.157376577 -0.4852499958 1.847732471 1.847732471}
+ addUserKnob {78 coefsHigh n 6}
+ coefsHigh {-0.7185482425 2.081030717 3.668124124 4 4 4}
+ addUserKnob {12 minPoint}
+ minPoint {{0.18*pow(2,-15)} 0.0001}
+ addUserKnob {12 midPoint}
+ midPoint {0.18 4.8}
+ addUserKnob {12 maxPoint}
+ maxPoint {{0.18*pow(2,18)} 10000}
+ addUserKnob {7 slopeLow}
+ addUserKnob {7 slopeHigh}
+ addUserKnob {3 N_KNOTS_LOW}
+ N_KNOTS_LOW 4
+ addUserKnob {3 N_KNOTS_HIGH}
+ N_KNOTS_HIGH 4
+ addUserKnob {7 KNOT_INC_LOW}
+ KNOT_INC_LOW {{"(log10(midPoint.x) - log10(minPoint.x)) / (N_KNOTS_LOW - 1)"}}
+ addUserKnob {7 KNOT_INC_HIGH}
+ KNOT_INC_HIGH {{"(log10(maxPoint.x) - log10(midPoint.x)) / (N_KNOTS_HIGH - 1)"}}
+ addUserKnob {78 KNOT_Y_LOW n 4}
+ KNOT_Y_LOW {{"(coefsLow.0 + coefsLow.1) / 2"} {"(coefsLow.1 + coefsLow.2)/2"} {"(coefsLow.2 + coefsLow.3)/2"} {"(coefsLow.3 + coefsLow.4)/2"}}
+ addUserKnob {78 KNOT_Y_HIGH n 4}
+ KNOT_Y_HIGH {{"(coefsHigh.0 + coefsHigh.1)/2"} {"(coefsHigh.1 + coefsHigh.2)/2"} {"(coefsHigh.2 + coefsHigh.3)/2"} {"(coefsHigh.3 + coefsHigh.4)/2"}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -1030
+  ypos -634
+ }
+ Dot {
+  name Dot25
+  label " "
+  xpos -996
+  ypos -318
+ }
+set N182ca770 [stack 0]
+ Dot {
+  name Dot26
+  label " "
+  xpos -996
+  ypos 1506
+ }
+push $N182ca770
+ Dot {
+  name Dot4
+  label " "
+  xpos -886
+  ypos -318
+ }
+set Nc53398a0 [stack 0]
+ Dot {
+  name Dot5
+  label " "
+  xpos -776
+  ypos -318
+ }
+set Nea4e7b30 [stack 0]
+ Dot {
+  name Dot2
+  label " "
+  xpos -666
+  ypos -318
+ }
+set N44524af0 [stack 0]
+ Dot {
+  name Dot3
+  label " "
+  xpos -556
+  ypos -318
+ }
+set N46b9110 [stack 0]
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  expr0 "logr <= log10(minPoint.y)"
+  expr1 "logg <= log10(minPoint.y)"
+  expr2 "logb <= log10(minPoint.y)"
+  name segment_bottom
+  xpos -590
+  ypos -178
+ }
+ Dot {
+  name Dot1
+  label " "
+  xpos -556
+  ypos 162
+ }
+push $N46b9110
+ Dot {
+  name Dot7
+  label " "
+  xpos -336
+  ypos -318
+ }
+set Nb42517f0 [stack 0]
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 log10(minPoint.x)
+  expr1 log10(minPoint.x)
+  expr2 log10(minPoint.x)
+  expr3 1
+  name Expression
+  xpos -370
+  ypos -178
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply3
+  xpos -370
+  ypos 158
+ }
+ Dot {
+  name Dot27
+  label " "
+  xpos -336
+  ypos 786
+ }
+push $N44524af0
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  expr0 "( logr > log10(minPoint.y) ) * ( logr < log10(midPoint.y) )"
+  expr1 "( logg > log10(minPoint.y) ) * ( logg < log10(midPoint.y) )"
+  expr2 "( logb > log10(minPoint.y) ) * ( logb < log10(midPoint.y) )"
+  name segment_low
+  xpos -700
+  ypos -178
+ }
+ Dot {
+  name Dot22
+  label " "
+  xpos -666
+  ypos 354
+ }
+push $Nb42517f0
+ Dot {
+  name Dot9
+  label " "
+  xpos -6
+  ypos -318
+ }
+set Nde985da0 [stack 0]
+ Dot {
+  name Dot6
+  label " "
+  xpos -6
+  ypos -198
+ }
+set Na07d69e0 [stack 0]
+ Dot {
+  name Dot8
+  label " "
+  xpos 214
+  ypos -198
+ }
+set N8edc6670 [stack 0]
+ Dot {
+  name Dot13
+  label " "
+  xpos 434
+  ypos -198
+ }
+ Dot {
+  name Dot19
+  xpos 436
+  ypos -102
+ }
+set N54395500 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "log10( max(b, 1e-10 ))"
+  temp_name1 low
+  temp_expr1 "(logy > KNOT_Y_LOW.0) && (logy <= KNOT_Y_LOW.1)"
+  temp_name2 mid
+  temp_expr2 "(logy > KNOT_Y_LOW.1) && (logy <= KNOT_Y_LOW.2)"
+  temp_name3 high
+  temp_expr3 "(logy > KNOT_Y_LOW.2) && (logy <= KNOT_Y_LOW.3)"
+  expr0 "low ? coefsLow.0 : mid ? coefsLow.1 : coefsLow.2"
+  expr1 "low ? coefsLow.1 : mid ? coefsLow.2 : coefsLow.3"
+  expr2 "low ? coefsLow.2 : mid ? coefsLow.3 : coefsLow.4"
+  expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+  name inv_cfLow5
+  xpos 292
+  ypos -106
+ }
+ ColorMatrix {
+  channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name inv_basis_low5
+  xpos 292
+  ypos -58
+ }
+push $N54395500
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Bb, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy5
+  xpos 400
+  ypos -58
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "(2.*b)/(-sqrt(g*g - 4*r*b)-g)"
+  expr0 0
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 0
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals4
+  xpos 400
+  ypos -10
+  addUserKnob {20 User}
+  addUserKnob {7 knotIncLow}
+  knotIncLow {{parent.knotIncLow}}
+  addUserKnob {13 min l Min}
+  min {{parent.min.x} {parent.min.y} {parent.minSlope}}
+ }
+push 0
+push $Na07d69e0
+ Dot {
+  name Dot10
+  xpos -6
+  ypos -102
+ }
+set N18d49d60 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 low
+  temp_expr1 "(logy > KNOT_Y_LOW.0) && (logy <= KNOT_Y_LOW.1)"
+  temp_name2 mid
+  temp_expr2 "(logy > KNOT_Y_LOW.1) && (logy <= KNOT_Y_LOW.2)"
+  temp_name3 high
+  temp_expr3 "(logy > KNOT_Y_LOW.2) && (logy <= KNOT_Y_LOW.3)"
+  expr0 "low ? coefsLow.0 : mid ? coefsLow.1 : coefsLow.2"
+  expr1 "low ? coefsLow.1 : mid ? coefsLow.2 : coefsLow.3"
+  expr2 "low ? coefsLow.2 : mid ? coefsLow.3 : coefsLow.4"
+  expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+  name inv_cfLow
+  xpos -150
+  ypos -106
+ }
+ ColorMatrix {
+  channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name inv_basis_low
+  xpos -150
+  ypos -58
+ }
+push $N18d49d60
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Br, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy
+  xpos -40
+  ypos -58
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "(2.*b)/(-sqrt(g*g - 4*r*b)-g)"
+  expr0 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 0
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 0
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals
+  selected true
+  xpos -40
+  ypos -10
+  addUserKnob {20 User}
+  addUserKnob {7 knotIncLow}
+  knotIncLow {{parent.knotIncLow}}
+  addUserKnob {13 min l Min}
+  min {{parent.min.x} {parent.min.y} {parent.minSlope}}
+ }
+push $N8edc6670
+ Dot {
+  name Dot18
+  xpos 214
+  ypos -102
+ }
+set N16b6c1d0 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "log10( max(g, 1e-10 ))"
+  temp_name1 low
+  temp_expr1 "(logy > KNOT_Y_LOW.0) && (logy <= KNOT_Y_LOW.1)"
+  temp_name2 mid
+  temp_expr2 "(logy > KNOT_Y_LOW.1) && (logy <= KNOT_Y_LOW.2)"
+  temp_name3 high
+  temp_expr3 "(logy > KNOT_Y_LOW.2) && (logy <= KNOT_Y_LOW.3)"
+  expr0 "low ? coefsLow.0 : mid ? coefsLow.1 : coefsLow.2"
+  expr1 "low ? coefsLow.1 : mid ? coefsLow.2 : coefsLow.3"
+  expr2 "low ? coefsLow.2 : mid ? coefsLow.3 : coefsLow.4"
+  expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+  name inv_cfLow4
+  xpos 70
+  ypos -106
+ }
+ ColorMatrix {
+  channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name inv_basis_low4
+  xpos 70
+  ypos -58
+ }
+push $N16b6c1d0
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Bg, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy4
+  xpos 178
+  ypos -58
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "(2.*b)/(-sqrt(g*g - 4*r*b)-g)"
+  expr0 0
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 0
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals5
+  xpos 178
+  ypos -10
+  addUserKnob {20 User}
+  addUserKnob {7 knotIncLow}
+  knotIncLow {{parent.knotIncLow}}
+  addUserKnob {13 min l Min}
+  min {{parent.min.x} {parent.min.y} {parent.minSlope}}
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  bbox B
+  name Merge2
+  xpos 180
+  ypos 110
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply1
+  xpos 180
+  ypos 350
+ }
+ Dot {
+  name Dot28
+  label " "
+  xpos 214
+  ypos 786
+ }
+push 0
+push $Nea4e7b30
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  expr0 "( logr >= log10(midPoint.y) ) * ( logr < log10(maxPoint.y) )"
+  expr1 "( logg >= log10(midPoint.y) ) * ( logg < log10(maxPoint.y) )"
+  expr2 "( logb >= log10(midPoint.y) ) * ( logb < log10(maxPoint.y) )"
+  name segment_high
+  xpos -810
+  ypos -178
+ }
+ Dot {
+  name Dot23
+  label " "
+  xpos -776
+  ypos 474
+ }
+push $Nde985da0
+ Dot {
+  name Dot14
+  label " "
+  xpos 764
+  ypos -318
+ }
+set N444b9ca0 [stack 0]
+ Dot {
+  name Dot15
+  label " "
+  xpos 764
+  ypos -198
+ }
+set Nee064240 [stack 0]
+ Dot {
+  name Dot17
+  label " "
+  xpos 984
+  ypos -198
+ }
+set Nad7680a0 [stack 0]
+ Dot {
+  name Dot20
+  label " "
+  xpos 1204
+  ypos -198
+ }
+ Dot {
+  name Dot16
+  xpos 1206
+  ypos -102
+ }
+set Nad0d95e0 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "log10( max(b, 1e-10 ))"
+  temp_name1 low
+  temp_expr1 "(logy > KNOT_Y_HIGH.0) && (logy <= KNOT_Y_HIGH.1)"
+  temp_name2 mid
+  temp_expr2 "(logy > KNOT_Y_HIGH.1) && (logy <= KNOT_Y_HIGH.2)"
+  temp_name3 high
+  temp_expr3 "(logy > KNOT_Y_HIGH.2) && (logy <= KNOT_Y_HIGH.3)"
+  expr0 "low ? coefsHigh.0 : mid ? coefsHigh.1 : coefsHigh.2"
+  expr1 "low ? coefsHigh.1 : mid ? coefsHigh.2 : coefsHigh.3"
+  expr2 "low ? coefsHigh.2 : mid ? coefsHigh.3 : coefsHigh.4"
+  expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+  name inv_cfLow3
+  xpos 1064
+  ypos -106
+ }
+ ColorMatrix {
+  channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name inv_basis_low3
+  xpos 1064
+  ypos -58
+ }
+push $Nad0d95e0
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Bb, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy3
+  xpos 1170
+  ypos -58
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "(2.*b) / (-sqrt(g*g - 4*r*b) - g)"
+  expr0 0
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 0
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals3
+  xpos 1170
+  ypos -10
+ }
+push 0
+push $Nee064240
+ Dot {
+  name Dot11
+  xpos 762
+  ypos -102
+ }
+set Nf6caa840 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 low
+  temp_expr1 "(logy > KNOT_Y_HIGH.0) && (logy <= KNOT_Y_HIGH.1)"
+  temp_name2 mid
+  temp_expr2 "(logy > KNOT_Y_HIGH.1) && (logy <= KNOT_Y_HIGH.2)"
+  temp_name3 high
+  temp_expr3 "(logy > KNOT_Y_HIGH.2) && (logy <= KNOT_Y_HIGH.3)"
+  expr0 "low ? coefsHigh.0 : mid ? coefsHigh.1 : coefsHigh.2"
+  expr1 "low ? coefsHigh.1 : mid ? coefsHigh.2 : coefsHigh.3"
+  expr2 "low ? coefsHigh.2 : mid ? coefsHigh.3 : coefsHigh.4"
+  expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+  name inv_cfLow1
+  xpos 620
+  ypos -106
+ }
+ ColorMatrix {
+  channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name inv_basis_low1
+  xpos 620
+  ypos -58
+ }
+push $Nf6caa840
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Br, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy1
+  xpos 726
+  ypos -58
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "(2.*b) / (-sqrt(g*g - 4*r*b) - g)"
+  expr0 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 0
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 0
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals1
+  xpos 726
+  ypos -10
+ }
+push $Nad7680a0
+ Dot {
+  name Dot12
+  xpos 986
+  ypos -102
+ }
+set N5eeeecb0 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "log10( max(g, 1e-10 ))"
+  temp_name1 low
+  temp_expr1 "(logy > KNOT_Y_HIGH.0) && (logy <= KNOT_Y_HIGH.1)"
+  temp_name2 mid
+  temp_expr2 "(logy > KNOT_Y_HIGH.1) && (logy <= KNOT_Y_HIGH.2)"
+  temp_name3 high
+  temp_expr3 "(logy > KNOT_Y_HIGH.2) && (logy <= KNOT_Y_HIGH.3)"
+  expr0 "low ? coefsHigh.0 : mid ? coefsHigh.1 : coefsHigh.2"
+  expr1 "low ? coefsHigh.1 : mid ? coefsHigh.2 : coefsHigh.3"
+  expr2 "low ? coefsHigh.2 : mid ? coefsHigh.3 : coefsHigh.4"
+  expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+  name inv_cfLow2
+  xpos 844
+  ypos -106
+ }
+ ColorMatrix {
+  channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name inv_basis_low2
+  xpos 844
+  ypos -58
+ }
+push $N5eeeecb0
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Bg, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy2
+  xpos 950
+  ypos -58
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "(2.*b) / (-sqrt(g*g - 4*r*b) - g)"
+  expr0 0
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 0
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals2
+  xpos 950
+  ypos -10
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge1
+  xpos 950
+  ypos 110
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply2
+  xpos 950
+  ypos 470
+ }
+ Dot {
+  name Dot29
+  label " "
+  xpos 984
+  ypos 786
+ }
+push $Nc53398a0
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  expr0 "logr >= log10(maxPoint.y) ? 1 : 0"
+  expr1 "logg >= log10(maxPoint.y) ? 1 : 0"
+  expr2 "logb >= log10(maxPoint.y) ? 1 : 0"
+  name segment_peak
+  xpos -920
+  ypos -178
+ }
+ Dot {
+  name Dot24
+  label " "
+  xpos -886
+  ypos 618
+ }
+push $N444b9ca0
+ Dot {
+  name Dot21
+  label " "
+  xpos 1534
+  ypos -318
+ }
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 "logr * slopeHigh + ( log10(maxPoint.y) - slopeHigh * log10(maxPoint.x) )"
+  expr1 "logg * slopeHigh + ( log10(maxPoint.y) - slopeHigh * log10(maxPoint.x) )"
+  expr2 "logb* slopeHigh + ( log10(maxPoint.y) - slopeHigh * log10(maxPoint.x) )"
+  expr3 1
+  name proc_low1
+  label Expression
+  xpos 1500
+  ypos -202
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply4
+  xpos 1500
+  ypos 614
+ }
+ Merge2 {
+  inputs 4+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge3
+  xpos 510
+  ypos 1118
+ }
+ Expression {
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 pow(10,r)
+  expr1 pow(10,g)
+  expr2 pow(10,b)
+  name Expression13
+  xpos 510
+  ypos 1262
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 510
+  ypos 1496
+ }
+ Output {
+  name Output1
+  xpos 510
+  ypos 1814
+ }
+end_group
+push $cut_paste_input
+Group {
+ name segmented_spline_c9_fwd
+ selected true
+ xpos 180
+ ypos -226
+ addUserKnob {20 SegmentedSplineParams_c9_tab l SegmentedSplineParams_c9}
+ addUserKnob {78 coefsLow n 10}
+ coefsLow {-1.698970004 -1.698970004 -1.4779 -1.2291 -0.8648 -0.448 0.00518 0.4511080334 0.9113744414 0.9113744414}
+ addUserKnob {78 coefsHigh n 10}
+ coefsHigh {0.5154386965 0.8470437783 1.1358 1.3802 1.5197 1.5985 1.6467 1.674609136 1.687873339 1.687873339}
+ addUserKnob {12 minPoint}
+ minPoint {0.0028799 0.02}
+ addUserKnob {12 midPoint}
+ midPoint {4.79999924 4.8}
+ addUserKnob {12 maxPoint}
+ maxPoint {1005.719116 48}
+ addUserKnob {7 slopeLow}
+ addUserKnob {7 slopeHigh}
+ slopeHigh 0.04
+ addUserKnob {3 N_KNOTS_LOW}
+ N_KNOTS_LOW 8
+ addUserKnob {3 N_KNOTS_HIGH}
+ N_KNOTS_HIGH 8
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -1030
+  ypos -634
+ }
+ Dot {
+  name Dot25
+  label " "
+  xpos -996
+  ypos -318
+ }
+set N1773d5e0 [stack 0]
+ Dot {
+  name Dot26
+  label " "
+  xpos -996
+  ypos 1506
+ }
+push $N1773d5e0
+ Dot {
+  name Dot4
+  label " "
+  xpos -886
+  ypos -318
+ }
+set Ne0c21340 [stack 0]
+ Dot {
+  name Dot5
+  label " "
+  xpos -776
+  ypos -318
+ }
+set Nef48eb50 [stack 0]
+ Dot {
+  name Dot2
+  label " "
+  xpos -666
+  ypos -318
+ }
+set N1ed857d0 [stack 0]
+ Dot {
+  name Dot3
+  label " "
+  xpos -556
+  ypos -318
+ }
+set N221a5d60 [stack 0]
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  expr0 "logr <= log10(minPoint.x)"
+  expr1 "logg <= log10(minPoint.x)"
+  expr2 "logb <= log10(minPoint.x)"
+  name segment_bottom
+  xpos -590
+  ypos -178
+ }
+ Dot {
+  name Dot1
+  label " "
+  xpos -556
+  ypos 162
+ }
+push $N221a5d60
+ Dot {
+  name Dot7
+  label " "
+  xpos -336
+  ypos -318
+ }
+set N2221f960 [stack 0]
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 "logr * slopeLow + ( log10(minPoint.y) - slopeLow * log10(minPoint.x) )"
+  expr1 "logg * slopeLow + ( log10(minPoint.y) - slopeLow * log10(minPoint.x) )"
+  expr2 "logb* slopeLow + ( log10(minPoint.y) - slopeLow * log10(minPoint.x) )"
+  expr3 1
+  name Expression
+  xpos -370
+  ypos -178
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply3
+  xpos -370
+  ypos 158
+ }
+ Dot {
+  name Dot27
+  label " "
+  xpos -336
+  ypos 786
+ }
+push $N1ed857d0
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  expr0 "( logr > log10(minPoint.x) ) * ( logr < log10(midPoint.x) )"
+  expr1 "( logg > log10(minPoint.x) ) * ( logg < log10(midPoint.x) )"
+  expr2 "( logb > log10(minPoint.x) ) * ( logb < log10(midPoint.x) )"
+  name segment_low
+  xpos -700
+  ypos -178
+ }
+ Dot {
+  name Dot22
+  label " "
+  xpos -666
+  ypos 354
+ }
+push $N2221f960
+ Dot {
+  name Dot9
+  label " "
+  xpos -6
+  ypos -318
+ }
+set Nf0c8e840 [stack 0]
+ Dot {
+  name Dot6
+  label " "
+  xpos -6
+  ypos -198
+ }
+set Nacb59820 [stack 0]
+ Dot {
+  name Dot8
+  label " "
+  xpos 214
+  ypos -198
+ }
+set Nba406770 [stack 0]
+ Dot {
+  name Dot13
+  label " "
+  xpos 434
+  ypos -198
+ }
+ Dot {
+  name Dot12
+  label " "
+  xpos 434
+  ypos -78
+ }
+set Na9d8d090 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsLow.0 : j == 1 ? coefsLow.1 : j == 2 ? coefsLow.2 :j == 3 ? coefsLow.3 : j == 4 ? coefsLow.4 : j == 5 ? coefsLow.5 : j == 6 ? coefsLow.6 : j == 7 ? coefsLow.7 : j == 8 ? coefsLow.8 : j == 9 ? coefsLow.9 : coefsLow.9"
+  expr1 "j == 0 ? coefsLow.1 : j == 1 ? coefsLow.2 : j == 2 ? coefsLow.3 :j == 3 ? coefsLow.4 : j == 4 ? coefsLow.5 : j == 5 ? coefsLow.6 : j == 6 ? coefsLow.7 : j == 7 ? coefsLow.8 : j == 8 ? coefsLow.9 : j == 9 ? coefsLow.9 : coefsLow.9"
+  expr2 "j == 0 ? coefsLow.2 : j == 1 ? coefsLow.3 : j == 2 ? coefsLow.4 :j == 3 ? coefsLow.5 : j == 4 ? coefsLow.6 : j == 5 ? coefsLow.7 : j == 6 ? coefsLow.8 : j == 7 ? coefsLow.9 : j == 8 ? coefsLow.9 : j == 9 ? coefsLow.9 : coefsLow.9"
+  expr3 j
+  name Expression15
+  xpos 290
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix3
+  label "mult_f3_f33( cf, M)"
+  xpos 290
+  ypos 8
+ }
+push $Na9d8d090
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression6
+  xpos 400
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 0
+  expr1 0
+  expr2 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  name dot_f3_f2
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 400
+  ypos 8
+ }
+push 0
+push $Nba406770
+ Dot {
+  name Dot11
+  label " "
+  xpos 214
+  ypos -78
+ }
+set Ne63b5cf0 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsLow.0 : j == 1 ? coefsLow.1 : j == 2 ? coefsLow.2 :j == 3 ? coefsLow.3 : j == 4 ? coefsLow.4 : j == 5 ? coefsLow.5 : j == 6 ? coefsLow.6 : j == 7 ? coefsLow.7 : j == 8 ? coefsLow.8 : j == 9 ? coefsLow.9 : coefsLow.9"
+  expr1 "j == 0 ? coefsLow.1 : j == 1 ? coefsLow.2 : j == 2 ? coefsLow.3 :j == 3 ? coefsLow.4 : j == 4 ? coefsLow.5 : j == 5 ? coefsLow.6 : j == 6 ? coefsLow.7 : j == 7 ? coefsLow.8 : j == 8 ? coefsLow.9 : j == 9 ? coefsLow.9 : coefsLow.9"
+  expr2 "j == 0 ? coefsLow.2 : j == 1 ? coefsLow.3 : j == 2 ? coefsLow.4 :j == 3 ? coefsLow.5 : j == 4 ? coefsLow.6 : j == 5 ? coefsLow.7 : j == 6 ? coefsLow.8 : j == 7 ? coefsLow.9 : j == 8 ? coefsLow.9 : j == 9 ? coefsLow.9 : coefsLow.9"
+  expr3 j
+  name Expression14
+  xpos 70
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix1
+  label "mult_f3_f33( cf, M)"
+  xpos 70
+  ypos 8
+ }
+push $Ne63b5cf0
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression4
+  xpos 180
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 0
+  expr1 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  expr2 0
+  name dot_f3_f7
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 180
+  ypos 8
+ }
+push $Nacb59820
+ Dot {
+  name Dot10
+  label " "
+  xpos -6
+  ypos -78
+ }
+set N9d5422f0 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsLow.0 : j == 1 ? coefsLow.1 : j == 2 ? coefsLow.2 :j == 3 ? coefsLow.3 : j == 4 ? coefsLow.4 : j == 5 ? coefsLow.5 : j == 6 ? coefsLow.6 : j == 7 ? coefsLow.7 : j == 8 ? coefsLow.8 : j == 9 ? coefsLow.9 : coefsLow.9"
+  expr1 "j == 0 ? coefsLow.1 : j == 1 ? coefsLow.2 : j == 2 ? coefsLow.3 :j == 3 ? coefsLow.4 : j == 4 ? coefsLow.5 : j == 5 ? coefsLow.6 : j == 6 ? coefsLow.7 : j == 7 ? coefsLow.8 : j == 8 ? coefsLow.9 : j == 9 ? coefsLow.9 : coefsLow.9"
+  expr2 "j == 0 ? coefsLow.2 : j == 1 ? coefsLow.3 : j == 2 ? coefsLow.4 :j == 3 ? coefsLow.5 : j == 4 ? coefsLow.6 : j == 5 ? coefsLow.7 : j == 6 ? coefsLow.8 : j == 7 ? coefsLow.9 : j == 8 ? coefsLow.9 : j == 9 ? coefsLow.9 : coefsLow.9"
+  expr3 j
+  name Expression1
+  xpos -150
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix2
+  label "mult_f3_f33( cf, M)"
+  xpos -150
+  ypos 8
+ }
+push $N9d5422f0
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression2
+  xpos -40
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  expr1 0
+  expr2 0
+  name dot_f3_f1
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos -40
+  ypos 8
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge1
+  xpos 180
+  ypos 158
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply1
+  xpos 180
+  ypos 350
+ }
+ Dot {
+  name Dot28
+  label " "
+  xpos 214
+  ypos 786
+ }
+push 0
+push $Nef48eb50
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  expr0 "( logr >= log10(midPoint.x) ) * ( logr < log10(maxPoint.x) )"
+  expr1 "( logg >= log10(midPoint.x) ) * ( logg < log10(maxPoint.x) )"
+  expr2 "( logb >= log10(midPoint.x) ) * ( logb < log10(maxPoint.x) )"
+  name segment_high
+  xpos -810
+  ypos -178
+ }
+ Dot {
+  name Dot23
+  label " "
+  xpos -776
+  ypos 474
+ }
+push $Nf0c8e840
+ Dot {
+  name Dot14
+  label " "
+  xpos 764
+  ypos -318
+ }
+set N9c3a8090 [stack 0]
+ Dot {
+  name Dot15
+  label " "
+  xpos 764
+  ypos -198
+ }
+set N9bd9e0d0 [stack 0]
+ Dot {
+  name Dot17
+  label " "
+  xpos 984
+  ypos -198
+ }
+set Nad1af2e0 [stack 0]
+ Dot {
+  name Dot20
+  label " "
+  xpos 1204
+  ypos -198
+ }
+ Dot {
+  name Dot19
+  label " "
+  xpos 1204
+  ypos -78
+ }
+set Nacfc3ef0 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsHigh.0 : j == 1 ? coefsHigh.1 : j == 2 ? coefsHigh.2 :j == 3 ? coefsHigh.3 : j == 4 ? coefsHigh.4 : j == 5 ? coefsHigh.5 : j == 6 ? coefsHigh.6 : j == 7 ? coefsHigh.7 : j == 8 ? coefsHigh.8 : j == 9 ? coefsHigh.9 : coefsHigh.9"
+  expr1 "j == 0 ? coefsHigh.1 : j == 1 ? coefsHigh.2 : j == 2 ? coefsHigh.3 :j == 3 ? coefsHigh.4 : j == 4 ? coefsHigh.5 : j == 5 ? coefsHigh.6 : j == 6 ? coefsHigh.7 : j == 7 ? coefsHigh.8 : j == 8 ? coefsHigh.9 : j == 9 ? coefsHigh.9 : coefsHigh.9"
+  expr2 "j == 0 ? coefsHigh.2 : j == 1 ? coefsHigh.3 : j == 2 ? coefsHigh.4 :j == 3 ? coefsHigh.5 : j == 4 ? coefsHigh.6 : j == 5 ? coefsHigh.7 : j == 6 ? coefsHigh.8 : j == 7 ? coefsHigh.9 : j == 8 ? coefsHigh.9 : j == 9 ? coefsHigh.9 : coefsHigh.9"
+  expr3 j
+  name Expression3
+  xpos 1060
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix6
+  label "mult_f3_f33( cf, M)"
+  xpos 1060
+  ypos 8
+ }
+push $Nacfc3ef0
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression12
+  xpos 1170
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 0
+  expr1 0
+  expr2 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  name dot_f3_f6
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 1170
+  ypos 8
+ }
+push 0
+push $Nad1af2e0
+ Dot {
+  name Dot18
+  label " "
+  xpos 984
+  ypos -78
+ }
+set N63971c0 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsHigh.0 : j == 1 ? coefsHigh.1 : j == 2 ? coefsHigh.2 :j == 3 ? coefsHigh.3 : j == 4 ? coefsHigh.4 : j == 5 ? coefsHigh.5 : j == 6 ? coefsHigh.6 : j == 7 ? coefsHigh.7 : j == 8 ? coefsHigh.8 : j == 9 ? coefsHigh.9 : coefsHigh.9"
+  expr1 "j == 0 ? coefsHigh.1 : j == 1 ? coefsHigh.2 : j == 2 ? coefsHigh.3 :j == 3 ? coefsHigh.4 : j == 4 ? coefsHigh.5 : j == 5 ? coefsHigh.6 : j == 6 ? coefsHigh.7 : j == 7 ? coefsHigh.8 : j == 8 ? coefsHigh.9 : j == 9 ? coefsHigh.9 : coefsHigh.9"
+  expr2 "j == 0 ? coefsHigh.2 : j == 1 ? coefsHigh.3 : j == 2 ? coefsHigh.4 :j == 3 ? coefsHigh.5 : j == 4 ? coefsHigh.6 : j == 5 ? coefsHigh.7 : j == 6 ? coefsHigh.8 : j == 7 ? coefsHigh.9 : j == 8 ? coefsHigh.9 : j == 9 ? coefsHigh.9 : coefsHigh.9"
+  expr3 j
+  name Expression5
+  xpos 840
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix5
+  label "mult_f3_f33( cf, M)"
+  xpos 840
+  ypos 8
+ }
+push $N63971c0
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression10
+  xpos 950
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 0
+  expr1 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  expr2 0
+  name dot_f3_f5
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 950
+  ypos 8
+ }
+push $N9bd9e0d0
+ Dot {
+  name Dot16
+  label " "
+  xpos 764
+  ypos -78
+ }
+set N1dc5ee60 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsHigh.0 : j == 1 ? coefsHigh.1 : j == 2 ? coefsHigh.2 :j == 3 ? coefsHigh.3 : j == 4 ? coefsHigh.4 : j == 5 ? coefsHigh.5 : j == 6 ? coefsHigh.6 : j == 7 ? coefsHigh.7 : j == 8 ? coefsHigh.8 : j == 9 ? coefsHigh.9 : coefsHigh.9"
+  expr1 "j == 0 ? coefsHigh.1 : j == 1 ? coefsHigh.2 : j == 2 ? coefsHigh.3 :j == 3 ? coefsHigh.4 : j == 4 ? coefsHigh.5 : j == 5 ? coefsHigh.6 : j == 6 ? coefsHigh.7 : j == 7 ? coefsHigh.8 : j == 8 ? coefsHigh.9 : j == 9 ? coefsHigh.9 : coefsHigh.9"
+  expr2 "j == 0 ? coefsHigh.2 : j == 1 ? coefsHigh.3 : j == 2 ? coefsHigh.4 :j == 3 ? coefsHigh.5 : j == 4 ? coefsHigh.6 : j == 5 ? coefsHigh.7 : j == 6 ? coefsHigh.8 : j == 7 ? coefsHigh.9 : j == 8 ? coefsHigh.9 : j == 9 ? coefsHigh.9 : coefsHigh.9"
+  expr3 j
+  name Expression16
+  xpos 620
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix4
+  label "mult_f3_f33( cf, M)"
+  xpos 620
+  ypos 8
+ }
+push $N1dc5ee60
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression8
+  xpos 730
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  expr1 0
+  expr2 0
+  name dot_f3_f4
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 730
+  ypos 8
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge2
+  xpos 950
+  ypos 158
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply2
+  xpos 950
+  ypos 470
+ }
+ Dot {
+  name Dot29
+  label " "
+  xpos 984
+  ypos 786
+ }
+push $Ne0c21340
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  expr0 "logr >= log10(maxPoint.x) ? 1 : 0"
+  expr1 "logg >= log10(maxPoint.x) ? 1 : 0"
+  expr2 "logb >= log10(maxPoint.x) ? 1 : 0"
+  name segment_peak
+  xpos -920
+  ypos -178
+ }
+ Dot {
+  name Dot24
+  label " "
+  xpos -886
+  ypos 618
+ }
+push $N9c3a8090
+ Dot {
+  name Dot21
+  label " "
+  xpos 1534
+  ypos -318
+ }
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 "logr * slopeHigh + ( log10(maxPoint.y) - slopeHigh * log10(maxPoint.x) )"
+  expr1 "logg * slopeHigh + ( log10(maxPoint.y) - slopeHigh * log10(maxPoint.x) )"
+  expr2 "logb* slopeHigh + ( log10(maxPoint.y) - slopeHigh * log10(maxPoint.x) )"
+  expr3 1
+  name proc_low1
+  label Expression
+  xpos 1500
+  ypos -202
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply4
+  xpos 1500
+  ypos 614
+ }
+ Merge2 {
+  inputs 4+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge3
+  xpos 510
+  ypos 1118
+ }
+ Expression {
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 pow(10,r)
+  expr1 pow(10,g)
+  expr2 pow(10,b)
+  name Expression13
+  xpos 510
+  ypos 1238
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 510
+  ypos 1496
+ }
+ Output {
+  name Output1
+  xpos 510
+  ypos 1814
+ }
+end_group
+push $cut_paste_input
+Group {
+ name segmented_spline_c9_rev
+ selected true
+ xpos 180
+ ypos -178
+ addUserKnob {20 segmented_spline_c9_rev_tab l segmented_spline_c9_rev}
+ addUserKnob {78 coefsLow n 10}
+ coefsLow {-1.698970004 -1.698970004 -1.4779 -1.2291 -0.8648 -0.448 0.00518 0.4511080334 0.9113744414 0.9113744414}
+ addUserKnob {78 coefsHigh n 10}
+ coefsHigh {0.5154386965 0.8470437783 1.1358 1.3802 1.5197 1.5985 1.6467 1.674609136 1.687873339 1.687873339}
+ addUserKnob {12 minPoint}
+ minPoint {0.0028799 0.02}
+ addUserKnob {12 midPoint}
+ midPoint {4.79999924 4.8}
+ addUserKnob {12 maxPoint}
+ maxPoint {1005.719116 48}
+ addUserKnob {7 slopeLow}
+ addUserKnob {7 slopeHigh}
+ slopeHigh 0.04
+ addUserKnob {3 N_KNOTS_LOW}
+ N_KNOTS_LOW 8
+ addUserKnob {3 N_KNOTS_HIGH}
+ N_KNOTS_HIGH 8
+ addUserKnob {7 KNOT_INC_LOW}
+ KNOT_INC_LOW {{"(log10(midPoint.x) - log10(minPoint.x)) / (N_KNOTS_LOW - 1)"}}
+ addUserKnob {7 KNOT_INC_HIGH}
+ KNOT_INC_HIGH {{"(log10(maxPoint.x) - log10(midPoint.x)) / (N_KNOTS_HIGH - 1)"}}
+ addUserKnob {78 KNOT_Y_LOW n 8}
+ KNOT_Y_LOW {{"(coefsLow.0 + coefsLow.1) / 2"} {"(coefsLow.1 + coefsLow.2)/2"} {"(coefsLow.2 + coefsLow.3)/2"} {"(coefsLow.3 + coefsLow.4)/2"} {"(coefsLow.4 + coefsLow.5)/2"} {"(coefsLow.5 + coefsLow.6)/2"} {"(coefsLow.6 + coefsLow.7)/2"} {"(coefsLow.7 + coefsLow.8)/2"}}
+ addUserKnob {78 KNOT_Y_HIGH n 8}
+ KNOT_Y_HIGH {{"(coefsHigh.0 + coefsHigh.1)/2"} {"(coefsHigh.1 + coefsHigh.2)/2"} {"(coefsHigh.2 + coefsHigh.3)/2"} {"(coefsHigh.3 + coefsHigh.4)/2"} {"(coefsHigh.4 + coefsHigh.5)/2"} {"(coefsHigh.5 + coefsHigh.6)/2"} {"(coefsHigh.6 + coefsHigh.7)/2"} {"(coefsHigh.7 + coefsHigh.8)/2"}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -1030
+  ypos -634
+ }
+ Dot {
+  name Dot25
+  label " "
+  xpos -996
+  ypos -318
+ }
+set N94bfd6b0 [stack 0]
+ Dot {
+  name Dot26
+  label " "
+  xpos -996
+  ypos 1506
+ }
+push $N94bfd6b0
+ Dot {
+  name Dot4
+  label " "
+  xpos -886
+  ypos -318
+ }
+set Nb9fce400 [stack 0]
+ Dot {
+  name Dot5
+  label " "
+  xpos -776
+  ypos -318
+ }
+set Na10b6740 [stack 0]
+ Dot {
+  name Dot2
+  label " "
+  xpos -666
+  ypos -318
+ }
+set N9fedfb50 [stack 0]
+ Dot {
+  name Dot3
+  label " "
+  xpos -556
+  ypos -318
+ }
+set Nb3726740 [stack 0]
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  expr0 "logr <= log10(minPoint.y)"
+  expr1 "logg <= log10(minPoint.y)"
+  expr2 "logb <= log10(minPoint.y)"
+  name segment_bottom
+  xpos -590
+  ypos -178
+ }
+ Dot {
+  name Dot1
+  label " "
+  xpos -556
+  ypos 162
+ }
+push $Nb3726740
+ Dot {
+  name Dot7
+  label " "
+  xpos -336
+  ypos -318
+ }
+set N84c11910 [stack 0]
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 log10(minPoint.x)
+  expr1 log10(minPoint.x)
+  expr2 log10(minPoint.x)
+  expr3 1
+  name Expression
+  xpos -370
+  ypos -178
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply3
+  xpos -370
+  ypos 158
+ }
+ Dot {
+  name Dot27
+  label " "
+  xpos -336
+  ypos 786
+ }
+push $N9fedfb50
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  expr0 "( logr > log10(minPoint.y) ) && ( logr < log10(midPoint.y) )"
+  expr1 "( logg > log10(minPoint.y) ) && ( logg < log10(midPoint.y) )"
+  expr2 "( logb > log10(minPoint.y) ) && ( logb < log10(midPoint.y) )"
+  name segment_low
+  xpos -700
+  ypos -178
+ }
+ Dot {
+  name Dot22
+  label " "
+  xpos -666
+  ypos 354
+ }
+push $N84c11910
+ Dot {
+  name Dot9
+  label " "
+  xpos -6
+  ypos -318
+ }
+set Nef5eba10 [stack 0]
+ Dot {
+  name Dot32
+  label " "
+  xpos -6
+  ypos -198
+ }
+set N9caef500 [stack 0]
+ Dot {
+  name Dot30
+  label " "
+  xpos -6
+  ypos -102
+ }
+set Neb3f2580 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "(log10( max(r, 1e-10 )))"
+  temp_name1 r0
+  temp_expr1 "( logy > KNOT_Y_LOW.0 && logy <= KNOT_Y_LOW.1)"
+  temp_name2 r1
+  temp_expr2 "( logy > KNOT_Y_LOW.1 && logy <= KNOT_Y_LOW.2)"
+  temp_name3 r2
+  temp_expr3 "( logy > KNOT_Y_LOW.2 && logy <= KNOT_Y_LOW.3)"
+  expr0 "r0 ? coefsLow.0 : r1 ? coefsLow.1 : r2 ? coefsLow.2 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.3 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.4 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.5 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.6 : 0"
+  expr1 "r0 ? coefsLow.1 : r1 ? coefsLow.2 : r2 ? coefsLow.3 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.4 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.5 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.6 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.7 : 0"
+  expr2 "r0 ? coefsLow.2 : r1 ? coefsLow.3 : r2 ? coefsLow.4 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.5 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.6 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.7 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.8 : 0"
+  expr3 "r0 ? 0 : r1 ? 1 : r2 ? 2 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? 3 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? 4 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? 5 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? 6 : 0"
+  name inv_cfLow12
+  xpos -150
+  ypos -106
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix2
+  label "mult_f3_f33( cf, M)"
+  xpos -150
+  ypos -64
+ }
+push $Neb3f2580
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Br, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy6
+  xpos -40
+  ypos -58
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "( 2. * b) / ( -d - g)"
+  temp_name3 logx
+  temp_expr3 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+  expr0 "isinf(logx) ? 0 : logx"
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 0
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 0
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals6
+  xpos -40
+  ypos -10
+ }
+push 0
+push $N9caef500
+ Dot {
+  name Dot33
+  label " "
+  xpos 214
+  ypos -198
+ }
+set Nf2cec360 [stack 0]
+ Dot {
+  name Dot34
+  label " "
+  xpos 434
+  ypos -198
+ }
+ Dot {
+  name Dot35
+  label " "
+  xpos 434
+  ypos -102
+ }
+set N9fedf390 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "(log10( max(b, 1e-10 )))"
+  temp_name1 r0
+  temp_expr1 "( logy > KNOT_Y_LOW.0 && logy <= KNOT_Y_LOW.1)"
+  temp_name2 r1
+  temp_expr2 "( logy > KNOT_Y_LOW.1 && logy <= KNOT_Y_LOW.2)"
+  temp_name3 r2
+  temp_expr3 "( logy > KNOT_Y_LOW.2 && logy <= KNOT_Y_LOW.3)"
+  expr0 "r0 ? coefsLow.0 : r1 ? coefsLow.1 : r2 ? coefsLow.2 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.3 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.4 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.5 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.6 : 0"
+  expr1 "r0 ? coefsLow.1 : r1 ? coefsLow.2 : r2 ? coefsLow.3 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.4 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.5 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.6 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.7 : 0"
+  expr2 "r0 ? coefsLow.2 : r1 ? coefsLow.3 : r2 ? coefsLow.4 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.5 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.6 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.7 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.8 : 0"
+  expr3 "r0 ? 0 : r1 ? 1 : r2 ? 2 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? 3 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? 4 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? 5 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? 6 : 0"
+  name inv_cfLow5
+  xpos 290
+  ypos -106
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix3
+  label "mult_f3_f33( cf, M)"
+  xpos 290
+  ypos -64
+ }
+push $N9fedf390
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Bb, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy8
+  xpos 400
+  ypos -58
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "( 2. * b) / ( -d - g)"
+  temp_name3 logx
+  temp_expr3 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+  expr0 0
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 0
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 "isinf(logx) ? 0 : logx"
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals8
+  xpos 400
+  ypos -10
+ }
+push $Nf2cec360
+ Dot {
+  name Dot31
+  label " "
+  xpos 214
+  ypos -102
+ }
+set Nc88b7330 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "(log10( max(g, 1e-10 )))"
+  temp_name1 r0
+  temp_expr1 "( logy > KNOT_Y_LOW.0 && logy <= KNOT_Y_LOW.1)"
+  temp_name2 r1
+  temp_expr2 "( logy > KNOT_Y_LOW.1 && logy <= KNOT_Y_LOW.2)"
+  temp_name3 r2
+  temp_expr3 "( logy > KNOT_Y_LOW.2 && logy <= KNOT_Y_LOW.3)"
+  expr0 "r0 ? coefsLow.0 : r1 ? coefsLow.1 : r2 ? coefsLow.2 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.3 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.4 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.5 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.6 : 0"
+  expr1 "r0 ? coefsLow.1 : r1 ? coefsLow.2 : r2 ? coefsLow.3 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.4 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.5 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.6 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.7 : 0"
+  expr2 "r0 ? coefsLow.2 : r1 ? coefsLow.3 : r2 ? coefsLow.4 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.5 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.6 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.7 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.8 : 0"
+  expr3 "r0 ? 0 : r1 ? 1 : r2 ? 2 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? 3 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? 4 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? 5 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? 6 : 0"
+  name inv_cfLow4
+  xpos 70
+  ypos -106
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix1
+  label "mult_f3_f33( cf, M)"
+  xpos 70
+  ypos -64
+ }
+push $Nc88b7330
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Bg, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy7
+  xpos 180
+  ypos -58
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "( 2. * b) / ( -d - g)"
+  temp_name3 logx
+  temp_expr3 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+  expr0 0
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 "isinf(logx) ? 0 : logx"
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 0
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals7
+  xpos 180
+  ypos -10
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge4
+  xpos 180
+  ypos 62
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply1
+  xpos 180
+  ypos 350
+ }
+ Dot {
+  name Dot28
+  label " "
+  xpos 214
+  ypos 786
+ }
+push 0
+push $Na10b6740
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  expr0 "( logr >= log10(midPoint.y) ) && ( logr < log10(maxPoint.y) )"
+  expr1 "( logg >= log10(midPoint.y) ) && ( logg < log10(maxPoint.y) )"
+  expr2 "( logb >= log10(midPoint.y) ) && ( logb < log10(maxPoint.y) )"
+  name segment_high
+  xpos -810
+  ypos -178
+ }
+ Dot {
+  name Dot23
+  label " "
+  xpos -776
+  ypos 474
+ }
+push $Nef5eba10
+ Dot {
+  name Dot14
+  label " "
+  xpos 764
+  ypos -318
+ }
+set N44527af0 [stack 0]
+ Dot {
+  name Dot36
+  label " "
+  xpos 764
+  ypos -198
+ }
+set Nb8ed4340 [stack 0]
+ Dot {
+  name Dot37
+  label " "
+  xpos 764
+  ypos -102
+ }
+set N5ef0130 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "(log10( max(r, 1e-10 )))"
+  temp_name1 r0
+  temp_expr1 "( logy > KNOT_Y_HIGH.0 && logy <= KNOT_Y_HIGH.1)"
+  temp_name2 r1
+  temp_expr2 "( logy > KNOT_Y_HIGH.1 && logy <= KNOT_Y_HIGH.2)"
+  temp_name3 r2
+  temp_expr3 "( logy > KNOT_Y_HIGH.2 && logy <= KNOT_Y_HIGH.3)"
+  expr0 "r0 ? coefsHigh.0 : r1 ? coefsHigh.1 : r2 ? coefsHigh.2 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.3 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.6 : 0"
+  expr1 "r0 ? coefsHigh.1 : r1 ? coefsHigh.2 : r2 ? coefsHigh.3 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.6 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.7 : 0"
+  expr2 "r0 ? coefsHigh.2 : r1 ? coefsHigh.3 : r2 ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.6 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.7 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.8 : 0"
+  expr3 "r0 ? 0 : r1 ? 1 : r2 ? 2 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? 3 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? 4 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? 5 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? 6 : 0"
+  name inv_cfLow8
+  xpos 620
+  ypos -106
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix4
+  label "mult_f3_f33( cf, M)"
+  xpos 620
+  ypos -64
+ }
+push $N5ef0130
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Br, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy9
+  xpos 730
+  ypos -58
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "( 2. * b) / ( -d - g)"
+  temp_name3 logx
+  temp_expr3 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+  expr0 "isinf(logx) ? 0 : logx"
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 0
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 0
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals9
+  xpos 730
+  ypos -10
+ }
+push 0
+push $Nb8ed4340
+ Dot {
+  name Dot38
+  label " "
+  xpos 984
+  ypos -198
+ }
+set Nd1479e70 [stack 0]
+ Dot {
+  name Dot39
+  label " "
+  xpos 1204
+  ypos -198
+ }
+ Dot {
+  name Dot40
+  label " "
+  xpos 1204
+  ypos -102
+ }
+set Nb0f72a0 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "(log10( max(b, 1e-10 )))"
+  temp_name1 r0
+  temp_expr1 "( logy > KNOT_Y_HIGH.0 && logy <= KNOT_Y_HIGH.1)"
+  temp_name2 r1
+  temp_expr2 "( logy > KNOT_Y_HIGH.1 && logy <= KNOT_Y_HIGH.2)"
+  temp_name3 r2
+  temp_expr3 "( logy > KNOT_Y_HIGH.2 && logy <= KNOT_Y_HIGH.3)"
+  expr0 "r0 ? coefsHigh.0 : r1 ? coefsHigh.1 : r2 ? coefsHigh.2 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.3 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.6 : 0"
+  expr1 "r0 ? coefsHigh.1 : r1 ? coefsHigh.2 : r2 ? coefsHigh.3 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.6 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.7 : 0"
+  expr2 "r0 ? coefsHigh.2 : r1 ? coefsHigh.3 : r2 ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.6 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.7 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.8 : 0"
+  expr3 "r0 ? 0 : r1 ? 1 : r2 ? 2 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? 3 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? 4 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? 5 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? 6 : 0"
+  name inv_cfLow10
+  xpos 1060
+  ypos -106
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix5
+  label "mult_f3_f33( cf, M)"
+  xpos 1060
+  ypos -64
+ }
+push $Nb0f72a0
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Bb, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy10
+  xpos 1170
+  ypos -58
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "( 2. * b) / ( -d - g)"
+  temp_name3 logx
+  temp_expr3 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+  expr0 0
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 0
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 "isinf(logx) ? 0 : logx"
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals10
+  xpos 1170
+  ypos -10
+ }
+push $Nd1479e70
+ Dot {
+  name Dot41
+  label " "
+  xpos 984
+  ypos -102
+ }
+set Nbb664130 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "(log10( max(g, 1e-10 )))"
+  temp_name1 r0
+  temp_expr1 "( logy > KNOT_Y_HIGH.0 && logy <= KNOT_Y_HIGH.1)"
+  temp_name2 r1
+  temp_expr2 "( logy > KNOT_Y_HIGH.1 && logy <= KNOT_Y_HIGH.2)"
+  temp_name3 r2
+  temp_expr3 "( logy > KNOT_Y_HIGH.2 && logy <= KNOT_Y_HIGH.3)"
+  expr0 "r0 ? coefsHigh.0 : r1 ? coefsHigh.1 : r2 ? coefsHigh.2 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.3 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.6 : 0"
+  expr1 "r0 ? coefsHigh.1 : r1 ? coefsHigh.2 : r2 ? coefsHigh.3 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.6 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.7 : 0"
+  expr2 "r0 ? coefsHigh.2 : r1 ? coefsHigh.3 : r2 ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.6 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.7 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.8 : 0"
+  expr3 "r0 ? 0 : r1 ? 1 : r2 ? 2 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? 3 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? 4 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? 5 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? 6 : 0"
+  name inv_cfLow11
+  xpos 840
+  ypos -106
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix6
+  label "mult_f3_f33( cf, M)"
+  xpos 840
+  ypos -64
+ }
+push $Nbb664130
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Bg, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy11
+  xpos 950
+  ypos -58
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "( 2. * b) / ( -d - g)"
+  temp_name3 logx
+  temp_expr3 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+  expr0 0
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 "isinf(logx) ? 0 : logx"
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 0
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals11
+  xpos 950
+  ypos -10
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge5
+  xpos 950
+  ypos 62
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply2
+  xpos 950
+  ypos 470
+ }
+ Dot {
+  name Dot29
+  label " "
+  xpos 984
+  ypos 786
+ }
+push $Nb9fce400
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  expr0 "logr >= log10(maxPoint.y) ? 1 : 0"
+  expr1 "logg >= log10(maxPoint.y) ? 1 : 0"
+  expr2 "logb >= log10(maxPoint.y) ? 1 : 0"
+  name segment_peak
+  xpos -920
+  ypos -178
+ }
+ Dot {
+  name Dot24
+  label " "
+  xpos -886
+  ypos 618
+ }
+push $N44527af0
+ Dot {
+  name Dot21
+  label " "
+  xpos 1534
+  ypos -318
+ }
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 log10(maxPoint.x)
+  expr1 log10(maxPoint.x)
+  expr2 log10(maxPoint.x)
+  expr3 1
+  name proc_low1
+  label Expression
+  xpos 1500
+  ypos -202
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply4
+  xpos 1500
+  ypos 614
+ }
+ Merge2 {
+  inputs 4+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge3
+  xpos 510
+  ypos 1118
+ }
+ Expression {
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 pow(10,r)
+  expr1 pow(10,g)
+  expr2 pow(10,b)
+  name Expression13
+  xpos 510
+  ypos 1238
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 510
+  ypos 1496
+ }
+ Output {
+  name Output1
+  xpos 510
+  ypos 1814
+ }
+end_group
+push $cut_paste_input
+Group {
+ name ssts
+ selected true
+ xpos 290
+ ypos -226
+ addUserKnob {20 ssts_tab l ssts}
+ addUserKnob {35 presets t "display output presets." M {"display luminance/SDR" "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0\}" "display luminance/Dolby Vision - 108nits 7.2nits" "knobs this \{lum \{0.0001 7.2 108\} override_ssts_params 0\}" "display luminance/HDR - 1000nits 15nits" "knobs this \{lum \{0.0001 15 1000\} override_ssts_params 0\}" "display luminance/HDR - 2000nits 15nits" "knobs this \{lum \{0.0001 15 2000\} override_ssts_params 0\}" "display luminance/HDR - 4000nits 15nits" "knobs this \{lum \{0.0001 15 4000\} override_ssts_params 0\}" "display luminance/OCES" "knobs this \{lum \{0.0001 4.8 10000\} override_ssts_params 0\}"}}
+ addUserKnob {26 ""}
+ addUserKnob {26 display_label l " " T "<b>Display Settings</b>"}
+ addUserKnob {78 lum l luminance t "<b>SSTS Display Luminance</b>: \ny_min y_mid y_max\n\nAccording to Zach Lewis's ACES_OT\nhttps://gist.github.com/zachlewis/786c0be941868644c993fde1c3515c2c\n\n<b>Standard Cinema</b>: \n0.02 4.8 48\n<b>Dolby Cinema</b>: \n0.0001 7.2 108\n<b>Dolby Pulsar</b>: \n0.005 15 4000\n<b>Dolby PRR-4220</b>: \n0.005 10 600\n<b>Sony BVM-X300</b>: \n0.0001 10 1000\n<b>ACES OCES</b>: \n0.0001 4.8 10000\n\n" n 3}
+ lum {0.02 4.8 48}
+ addUserKnob {20 ssts_params_grp l "SSTS Parameters" n 1}
+ ssts_params_grp 0
+ addUserKnob {6 override_ssts_params l "override ssts params" t "Enable overrides of SSTS params.\n\nOtherwise the values will be calculated automatically by the algorithm." +STARTLINE}
+ addUserKnob {35 presets_ssts_param l presets t "If you want to override the default SSTS parameters and play around, here are some useful starting points." M {contrast/default "knobs this \{override_ssts_params 0 knee 0.35 shoulder 0.89 slope \{0 1.5 0.\} exposure 0\}" contrast/sdr "knobs this \{override_ssts_params 1 knee 0.35 shoulder 0.89 slope \{0.1 1.6 0.01\} exposure 0\}" contrast/high "knobs this \{override_ssts_params 1 knee 0.2 shoulder 0.89 slope \{0.28 1.75 0.01\} exposure 0\}" contrast/med "knobs this \{override_ssts_params 1 knee 0.40 shoulder 0.89 slope \{0.38 1.3 0.01\} exposure 0\}" contrast/med-low "knobs this \{override_ssts_params 1 knee 0.40 shoulder 0.80 slope \{0.38 1.42 0.01\} exposure 0\}" contrast/low "knobs this \{override_ssts_params 1 knee 0.40 shoulder 0.80 slope \{0.38 1.2 0.01\} exposure 0\}" ""}}
+ addUserKnob {7 exposure R -5 5}
+ addUserKnob {7 knee}
+ knee 0.35
+ addUserKnob {7 shoulder}
+ shoulder 0.89
+ addUserKnob {78 slope n 3}
+ slope {0 1.5 0}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 TsParams_tab l TsParams}
+ addUserKnob {7 mid_lum l "mid lum" R 0 20}
+ mid_lum 4.8
+ addUserKnob {7 expShift R -4 4}
+ expShift {{"override_ssts_params ? exposure : 0"}}
+ addUserKnob {13 minPoint t "x;        // ACES\ny;        // luminance\nz;        // slope"}
+ minPoint {{"pow(2, log(0.18*pow(2, MIN_STOP_RRT+((MIN_STOP_SDR-MIN_STOP_RRT)/(log10(MIN_LUM_SDR)-log10(MIN_LUM_RRT)))*(log10(minPoint.y)-log10(MIN_LUM_RRT))))/log(2)-expShift)"} {lum.0} {override_ssts_params?slope.0:0}}
+ addUserKnob {13 midPoint t "x;        // ACES\ny;        // luminance\nz;        // slope"}
+ midPoint {{"pow(2, ((log(0.18)/log(2)-expShift)))"} 4.8 {override_ssts_params?slope.1:1.55}}
+ addUserKnob {13 maxPoint t "x;        // ACES\ny;        // luminance\nz;        // slope"}
+ maxPoint {{"pow(2, log(0.18*pow(2, (MAX_STOP_SDR+(MAX_STOP_RRT-MAX_STOP_SDR)/(log10(MAX_LUM_RRT)-log10(MAX_LUM_SDR))*(log10(maxPoint.y)-log10(MAX_LUM_SDR)))))/log(2)-expShift)"} {lum.2} {override_ssts_params?slope.2:0}}
+ addUserKnob {7 knotIncLow}
+ knotIncLow {{"(log10(midPoint.x) - log10(minPoint.x)) / 3.0"}}
+ addUserKnob {7 knotIncHigh}
+ knotIncHigh {{"(log10(maxPoint.x) - log10(midPoint.x)) / 3.0"}}
+ addUserKnob {7 pctLow}
+ pctLow {{0.18+(0.35-0.18)/(MIN_STOP_SDR-MIN_STOP_RRT)*(log(minPoint.x/0.18)/log(2)-MIN_STOP_RRT)}}
+ addUserKnob {7 pctHigh}
+ pctHigh {{0.89+(0.90-0.89)/(MAX_STOP_SDR-MAX_STOP_RRT)*(log(maxPoint.x/0.89)/log(2)-MAX_STOP_RRT)}}
+ addUserKnob {78 coefsLow n 5}
+ coefsLow {{"(minPoint.z * (log10(minPoint.x)-0.5*knotIncLow)) + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x))"} {"(minPoint.z * (log10(minPoint.x)+0.5*knotIncLow)) + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x))"} {log10(minPoint.y)+pctLow*(log10(midPoint.y)-log10(minPoint.y))} {"(midPoint.z * (log10(midPoint.x)-0.5*knotIncLow)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {"(midPoint.z * (log10(midPoint.x)+0.5*knotIncLow)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"}}
+ addUserKnob {78 coefsHigh n 5}
+ coefsHigh {{"(midPoint.z * (log10(midPoint.x)-0.5*knotIncHigh)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {"(midPoint.z * (log10(midPoint.x)+0.5*knotIncHigh)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {log10(midPoint.y)+pctHigh*(log10(maxPoint.y)-log10(midPoint.y))} {"(maxPoint.z * (log10(maxPoint.x)-0.5*knotIncHigh)) + ( log10(maxPoint.y) - maxPoint.z * log10(maxPoint.x))"} {"(maxPoint.z * (log10(maxPoint.x)+0.5*knotIncHigh)) + ( log10(maxPoint.y) - maxPoint.z * log10(maxPoint.x))"}}
+ addUserKnob {20 Constants_tab l const}
+ addUserKnob {3 N_KNOTS_LOW}
+ N_KNOTS_LOW 4
+ addUserKnob {3 N_KNOTS_HIGH}
+ N_KNOTS_HIGH 4
+ addUserKnob {7 MIN_STOP_SDR R -20 20}
+ MIN_STOP_SDR -6.5
+ addUserKnob {7 MAX_STOP_SDR R -20 20}
+ MAX_STOP_SDR 6.5
+ addUserKnob {7 MIN_STOP_RRT R -20 20}
+ MIN_STOP_RRT -15
+ addUserKnob {7 MAX_STOP_RRT R -20 20}
+ MAX_STOP_RRT 18
+ addUserKnob {7 MIN_LUM_SDR R 0 0.1}
+ MIN_LUM_SDR 0.02
+ addUserKnob {7 MAX_LUM_SDR R 0 100}
+ MAX_LUM_SDR 48
+ addUserKnob {7 MIN_LUM_RRT R 0 0.1}
+ MIN_LUM_RRT 0.0001
+ addUserKnob {7 MAX_LUM_RRT R 0 10000}
+ MAX_LUM_RRT 10000
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -1030
+  ypos -634
+ }
+ Dot {
+  name Dot25
+  label " "
+  xpos -996
+  ypos -318
+ }
+set Nd41f0580 [stack 0]
+ Dot {
+  name Dot26
+  label " "
+  xpos -996
+  ypos 1506
+ }
+push $Nd41f0580
+ Dot {
+  name Dot4
+  label " "
+  xpos -886
+  ypos -318
+ }
+set N35563670 [stack 0]
+ Dot {
+  name Dot5
+  label " "
+  xpos -776
+  ypos -318
+ }
+set Nc99c0900 [stack 0]
+ Dot {
+  name Dot2
+  label " "
+  xpos -666
+  ypos -318
+ }
+set Nc97139f0 [stack 0]
+ Dot {
+  name Dot3
+  label " "
+  xpos -556
+  ypos -318
+ }
+set Nc970dc60 [stack 0]
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  expr0 "logr <= log10(minPoint.x)"
+  expr1 "logg <= log10(minPoint.x)"
+  expr2 "logb <= log10(minPoint.x)"
+  name segment_bottom
+  xpos -590
+  ypos -178
+ }
+ Dot {
+  name Dot1
+  label " "
+  xpos -556
+  ypos 162
+ }
+push $Nc970dc60
+ Dot {
+  name Dot7
+  label " "
+  xpos -336
+  ypos -318
+ }
+set Ne5893bd0 [stack 0]
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 "logr * minPoint.z + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x) )"
+  expr1 "logg * minPoint.z + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x) )"
+  expr2 "logb* minPoint.z + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x) )"
+  expr3 1
+  name Expression
+  xpos -370
+  ypos -178
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply3
+  xpos -370
+  ypos 158
+ }
+ Dot {
+  name Dot27
+  label " "
+  xpos -336
+  ypos 786
+ }
+push $Nc97139f0
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  expr0 "( logr > log10(minPoint.x) ) * ( logr < log10(midPoint.x) )"
+  expr1 "( logg > log10(minPoint.x) ) * ( logg < log10(midPoint.x) )"
+  expr2 "( logb > log10(minPoint.x) ) * ( logb < log10(midPoint.x) )"
+  name segment_low
+  xpos -700
+  ypos -178
+ }
+ Dot {
+  name Dot22
+  label " "
+  xpos -666
+  ypos 354
+ }
+push $Ne5893bd0
+ Dot {
+  name Dot9
+  label " "
+  xpos -6
+  ypos -318
+ }
+set N8d321140 [stack 0]
+ Dot {
+  name Dot6
+  label " "
+  xpos -6
+  ypos -198
+ }
+set Nad397350 [stack 0]
+ Dot {
+  name Dot8
+  label " "
+  xpos 214
+  ypos -198
+ }
+set Nc875e550 [stack 0]
+ Dot {
+  name Dot13
+  label " "
+  xpos 434
+  ypos -198
+ }
+ Dot {
+  name Dot12
+  label " "
+  xpos 434
+  ypos -78
+ }
+set N88f016b0 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsLow.0 : j == 1 ? coefsLow.1 : j == 2 ? coefsLow.2 :j == 3 ? coefsLow.3 : j == 4 ? coefsLow.4 : 0"
+  expr1 "j == 0 ? coefsLow.1 : j == 1 ? coefsLow.2 : j == 2 ? coefsLow.3 :j == 3 ? coefsLow.4 : j == 4 ? coefsLow.4 : 0"
+  expr2 "j == 0 ? coefsLow.2 : j == 1 ? coefsLow.3 : j == 2 ? coefsLow.4 :j == 3 ? coefsLow.4 : j == 4 ? coefsLow.4 : 0"
+  name Expression5
+  xpos 290
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix3
+  label "mult_f3_f33( cf, M)"
+  xpos 290
+  ypos 8
+ }
+push $N88f016b0
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression6
+  xpos 400
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 0
+  expr1 0
+  expr2 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  name dot_f3_f2
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 400
+  ypos 8
+ }
+push 0
+push $Nc875e550
+ Dot {
+  name Dot11
+  label " "
+  xpos 214
+  ypos -78
+ }
+set Nb8da1780 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsLow.0 : j == 1 ? coefsLow.1 : j == 2 ? coefsLow.2 :j == 3 ? coefsLow.3 : j == 4 ? coefsLow.4 : 0"
+  expr1 "j == 0 ? coefsLow.1 : j == 1 ? coefsLow.2 : j == 2 ? coefsLow.3 :j == 3 ? coefsLow.4 : j == 4 ? coefsLow.4 : 0"
+  expr2 "j == 0 ? coefsLow.2 : j == 1 ? coefsLow.3 : j == 2 ? coefsLow.4 :j == 3 ? coefsLow.4 : j == 4 ? coefsLow.4 : 0"
+  name Expression3
+  xpos 70
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix1
+  label "mult_f3_f33( cf, M)"
+  xpos 70
+  ypos 8
+ }
+push $Nb8da1780
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression4
+  xpos 180
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 0
+  expr1 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  expr2 0
+  name dot_f3_f7
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 180
+  ypos 8
+ }
+push $Nad397350
+ Dot {
+  name Dot10
+  label " "
+  xpos -6
+  ypos -78
+ }
+set Ne5544870 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsLow.0 : j == 1 ? coefsLow.1 : j == 2 ? coefsLow.2 :j == 3 ? coefsLow.3 : j == 4 ? coefsLow.4 : 0"
+  expr1 "j == 0 ? coefsLow.1 : j == 1 ? coefsLow.2 : j == 2 ? coefsLow.3 :j == 3 ? coefsLow.4 : j == 4 ? coefsLow.4 : 0"
+  expr2 "j == 0 ? coefsLow.2 : j == 1 ? coefsLow.3 : j == 2 ? coefsLow.4 :j == 3 ? coefsLow.4 : j == 4 ? coefsLow.4 : 0"
+  name Expression1
+  xpos -150
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix2
+  label "mult_f3_f33( cf, M)"
+  xpos -150
+  ypos 8
+ }
+push $Ne5544870
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_LOW-1) * (logx-log10(minPoint.x))/(log10(midPoint.x)-log10(minPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression2
+  xpos -40
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  expr1 0
+  expr2 0
+  name dot_f3_f1
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos -40
+  ypos 8
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge1
+  xpos 180
+  ypos 158
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply1
+  xpos 180
+  ypos 350
+ }
+ Dot {
+  name Dot28
+  label " "
+  xpos 214
+  ypos 786
+ }
+push 0
+push $Nc99c0900
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  expr0 "( logr >= log10(midPoint.x) ) * ( logr < log10(maxPoint.x) )"
+  expr1 "( logg >= log10(midPoint.x) ) * ( logg < log10(maxPoint.x) )"
+  expr2 "( logb >= log10(midPoint.x) ) * ( logb < log10(maxPoint.x) )"
+  name segment_high
+  xpos -810
+  ypos -178
+ }
+ Dot {
+  name Dot23
+  label " "
+  xpos -776
+  ypos 474
+ }
+push $N8d321140
+ Dot {
+  name Dot14
+  label " "
+  xpos 764
+  ypos -318
+ }
+set N513bd3f0 [stack 0]
+ Dot {
+  name Dot15
+  label " "
+  xpos 764
+  ypos -198
+ }
+set N34feb4b0 [stack 0]
+ Dot {
+  name Dot17
+  label " "
+  xpos 984
+  ypos -198
+ }
+set N2a78ed00 [stack 0]
+ Dot {
+  name Dot20
+  label " "
+  xpos 1204
+  ypos -198
+ }
+ Dot {
+  name Dot19
+  label " "
+  xpos 1204
+  ypos -78
+ }
+set N357de7a0 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsHigh.0 : j == 1 ? coefsHigh.1 : j == 2 ? coefsHigh.2 :j == 3 ? coefsHigh.3 : j == 4 ? coefsHigh.4 : 0"
+  expr1 "j == 0 ? coefsHigh.1 : j == 1 ? coefsHigh.2 : j == 2 ? coefsHigh.3 :j == 3 ? coefsHigh.4 : j == 4 ? coefsHigh.4 : 0"
+  expr2 "j == 0 ? coefsHigh.2 : j == 1 ? coefsHigh.3 : j == 2 ? coefsHigh.4 :j == 3 ? coefsHigh.4 : j == 4 ? coefsHigh.4 : 0"
+  expr3 j
+  name Expression11
+  xpos 1060
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix6
+  label "mult_f3_f33( cf, M)"
+  xpos 1060
+  ypos 8
+ }
+push $N357de7a0
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression12
+  xpos 1170
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 0
+  expr1 0
+  expr2 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  name dot_f3_f6
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 1170
+  ypos 8
+ }
+push 0
+push $N2a78ed00
+ Dot {
+  name Dot18
+  label " "
+  xpos 984
+  ypos -78
+ }
+set Nb4a2ed40 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsHigh.0 : j == 1 ? coefsHigh.1 : j == 2 ? coefsHigh.2 :j == 3 ? coefsHigh.3 : j == 4 ? coefsHigh.4 : 0"
+  expr1 "j == 0 ? coefsHigh.1 : j == 1 ? coefsHigh.2 : j == 2 ? coefsHigh.3 :j == 3 ? coefsHigh.4 : j == 4 ? coefsHigh.4 : 0"
+  expr2 "j == 0 ? coefsHigh.2 : j == 1 ? coefsHigh.3 : j == 2 ? coefsHigh.4 :j == 3 ? coefsHigh.4 : j == 4 ? coefsHigh.4 : 0"
+  expr3 j
+  name Expression9
+  xpos 840
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix5
+  label "mult_f3_f33( cf, M)"
+  xpos 840
+  ypos 8
+ }
+push $Nb4a2ed40
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression10
+  xpos 950
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 0
+  expr1 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  expr2 0
+  name dot_f3_f5
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 950
+  ypos 8
+ }
+push $N34feb4b0
+ Dot {
+  name Dot16
+  label " "
+  xpos 764
+  ypos -78
+ }
+set Nae3787a0 [stack 0]
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 "j == 0 ? coefsHigh.0 : j == 1 ? coefsHigh.1 : j == 2 ? coefsHigh.2 :j == 3 ? coefsHigh.3 : j == 4 ? coefsHigh.4 : 0"
+  expr1 "j == 0 ? coefsHigh.1 : j == 1 ? coefsHigh.2 : j == 2 ? coefsHigh.3 :j == 3 ? coefsHigh.4 : j == 4 ? coefsHigh.4 : 0"
+  expr2 "j == 0 ? coefsHigh.2 : j == 1 ? coefsHigh.3 : j == 2 ? coefsHigh.4 :j == 3 ? coefsHigh.4 : j == 4 ? coefsHigh.4 : 0"
+  expr3 j
+  name Expression7
+  xpos 620
+  ypos -34
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name ColorMatrix4
+  label "mult_f3_f33( cf, M)"
+  xpos 620
+  ypos 8
+ }
+push $Nae3787a0
+ Expression {
+  temp_name0 logx
+  temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
+  temp_name1 knot_coord
+  temp_expr1 "(N_KNOTS_HIGH-1) * (logx-log10(midPoint.x))/(log10(maxPoint.x)-log10(midPoint.x))"
+  temp_name2 j
+  temp_expr2 int(knot_coord)
+  temp_name3 t
+  temp_expr3 "knot_coord - j"
+  expr0 t*t
+  expr1 t
+  expr2 1
+  expr3 1
+  name Expression8
+  xpos 730
+  ypos -34
+ }
+ MergeExpression {
+  inputs 2
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 (Ar*Br)+(Ag*Bg)+(Ab*Bb)
+  expr1 0
+  expr2 0
+  name dot_f3_f4
+  label "logy = dot_f3_f3( monomials, mult_f3_f33( cf, M))"
+  xpos 730
+  ypos 8
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge2
+  xpos 950
+  ypos 158
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply2
+  xpos 950
+  ypos 470
+ }
+ Dot {
+  name Dot29
+  label " "
+  xpos 984
+  ypos 786
+ }
+push $N35563670
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  expr0 "logr >= log10(maxPoint.x) ? 1 : 0"
+  expr1 "logg >= log10(maxPoint.x) ? 1 : 0"
+  expr2 "logb >= log10(maxPoint.x) ? 1 : 0"
+  name segment_peak
+  xpos -920
+  ypos -178
+ }
+ Dot {
+  name Dot24
+  label " "
+  xpos -886
+  ypos 618
+ }
+push $N513bd3f0
+ Dot {
+  name Dot21
+  label " "
+  xpos 1534
+  ypos -318
+ }
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 5.96046448e-08 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 5.96046448e-08 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 5.96046448e-08 ))"
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 "logr * maxPoint.z + ( log10(maxPoint.y) - maxPoint.z * log10(maxPoint.x) )"
+  expr1 "logg * maxPoint.z + ( log10(maxPoint.y) - maxPoint.z * log10(maxPoint.x) )"
+  expr2 "logb* maxPoint.z + ( log10(maxPoint.y) - maxPoint.z * log10(maxPoint.x) )"
+  expr3 1
+  name proc_low1
+  label Expression
+  xpos 1500
+  ypos -160
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply4
+  xpos 1500
+  ypos 614
+ }
+ Dot {
+  name Dot30
+  xpos 1534
+  ypos 810
+ }
+ Merge2 {
+  inputs 4+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge3
+  xpos 510
+  ypos 1118
+ }
+ Expression {
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 pow(10,r)
+  expr1 pow(10,g)
+  expr2 pow(10,b)
+  name Expression13
+  xpos 510
+  ypos 1238
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 510
+  ypos 1496
+ }
+ Output {
+  name Output1
+  selected true
+  xpos 510
+  ypos 1814
+ }
+end_group
+push $cut_paste_input
+Group {
+ name inv_ssts
+ selected true
+ xpos 290
+ ypos -178
+ addUserKnob {20 ssts_tab l ssts}
+ addUserKnob {35 presets t "display output presets." M {"display luminance/SDR" "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0\}" "display luminance/Dolby Vision - 108nits 7.2nits" "knobs this \{lum \{0.0001 7.2 108\} override_ssts_params 0\}" "display luminance/HDR - 1000nits 15nits" "knobs this \{lum \{0.0001 15 1000\} override_ssts_params 0\}" "display luminance/HDR - 2000nits 15nits" "knobs this \{lum \{0.0001 15 2000\} override_ssts_params 0\}" "display luminance/HDR - 4000nits 15nits" "knobs this \{lum \{0.0001 15 4000\} override_ssts_params 0\}" "display luminance/OCES" "knobs this \{lum \{0.0001 4.8 10000\} override_ssts_params 0\}"}}
+ addUserKnob {26 ""}
+ addUserKnob {26 display_label l " " T "<b>Display Settings</b>"}
+ addUserKnob {78 lum l luminance t "<b>SSTS Display Luminance</b>: \ny_min y_mid y_max\n\nAccording to Zach Lewis's ACES_OT\nhttps://gist.github.com/zachlewis/786c0be941868644c993fde1c3515c2c\n\n<b>Standard Cinema</b>: \n0.02 4.8 48\n<b>Dolby Cinema</b>: \n0.0001 7.2 108\n<b>Dolby Pulsar</b>: \n0.005 15 4000\n<b>Dolby PRR-4220</b>: \n0.005 10 600\n<b>Sony BVM-X300</b>: \n0.0001 10 1000\n<b>ACES OCES</b>: \n0.0001 4.8 10000\n\n" n 3}
+ lum {0.02 4.8 48}
+ addUserKnob {20 ssts_params_grp l "SSTS Parameters" n 1}
+ addUserKnob {6 override_ssts_params l "override ssts params" t "Enable overrides of SSTS params.\n\nOtherwise the values will be calculated automatically by the algorithm." +STARTLINE}
+ addUserKnob {35 presets_ssts_param l presets t "If you want to override the default SSTS parameters and play around, here are some useful starting points." M {contrast/default "knobs this \{override_ssts_params 0 knee 0.35 shoulder 0.89 slope \{0 1.5 0.\} exposure 0\}" contrast/sdr "knobs this \{override_ssts_params 1 knee 0.35 shoulder 0.89 slope \{0.1 1.6 0.01\} exposure 0\}" contrast/high "knobs this \{override_ssts_params 1 knee 0.2 shoulder 0.89 slope \{0.28 1.75 0.01\} exposure 0\}" contrast/med "knobs this \{override_ssts_params 1 knee 0.40 shoulder 0.89 slope \{0.38 1.3 0.01\} exposure 0\}" contrast/med-low "knobs this \{override_ssts_params 1 knee 0.40 shoulder 0.80 slope \{0.38 1.42 0.01\} exposure 0\}" contrast/low "knobs this \{override_ssts_params 1 knee 0.40 shoulder 0.80 slope \{0.38 1.2 0.01\} exposure 0\}" ""}}
+ addUserKnob {7 exposure R -5 5}
+ addUserKnob {7 knee}
+ knee 0.35
+ addUserKnob {7 shoulder}
+ shoulder 0.89
+ addUserKnob {78 slope n 3}
+ slope {0 1.5 0}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {20 TsParams_tab l TsParams}
+ addUserKnob {7 mid_lum l "mid lum" R 0 20}
+ addUserKnob {7 expShift R -4 4}
+ expShift {{"override_ssts_params ? exposure : 0"}}
+ addUserKnob {13 minPoint t "x;        // ACES\ny;        // luminance\nz;        // slope"}
+ minPoint {{"pow(2, log(0.18*pow(2, MIN_STOP_RRT+((MIN_STOP_SDR-MIN_STOP_RRT)/(log10(MIN_LUM_SDR)-log10(MIN_LUM_RRT)))*(log10(minPoint.y)-log10(MIN_LUM_RRT))))/log(2)-expShift)"} {lum.0} {override_ssts_params?slope.0:0}}
+ addUserKnob {13 midPoint t "x;        // ACES\ny;        // luminance\nz;        // slope"}
+ midPoint {{"pow(2, ((log(0.18)/log(2)-expShift)))"} 4.8 {override_ssts_params?slope.1:1.55}}
+ addUserKnob {13 maxPoint t "x;        // ACES\ny;        // luminance\nz;        // slope"}
+ maxPoint {{"pow(2, log(0.18*pow(2, (MAX_STOP_SDR+(MAX_STOP_RRT-MAX_STOP_SDR)/(log10(MAX_LUM_RRT)-log10(MAX_LUM_SDR))*(log10(maxPoint.y)-log10(MAX_LUM_SDR)))))/log(2)-expShift)"} {lum.2} {override_ssts_params?slope.2:0}}
+ addUserKnob {7 knotIncLow}
+ knotIncLow {{"(log10(midPoint.x) - log10(minPoint.x)) / 3.0"}}
+ addUserKnob {7 knotIncHigh}
+ knotIncHigh {{"(log10(maxPoint.x) - log10(midPoint.x)) / 3.0"}}
+ addUserKnob {7 pctLow}
+ pctLow {{0.18+(0.35-0.18)/(MIN_STOP_SDR-MIN_STOP_RRT)*(log(minPoint.x/0.18)/log(2)-MIN_STOP_RRT)}}
+ addUserKnob {7 pctHigh}
+ pctHigh {{0.89+(0.90-0.89)/(MAX_STOP_SDR-MAX_STOP_RRT)*(log(maxPoint.x/0.89)/log(2)-MAX_STOP_RRT)}}
+ addUserKnob {78 coefsLow n 5}
+ coefsLow {{"(minPoint.z * (log10(minPoint.x)-0.5*knotIncLow)) + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x))"} {"(minPoint.z * (log10(minPoint.x)+0.5*knotIncLow)) + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x))"} {log10(minPoint.y)+pctLow*(log10(midPoint.y)-log10(minPoint.y))} {"(midPoint.z * (log10(midPoint.x)-0.5*knotIncLow)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {"(midPoint.z * (log10(midPoint.x)+0.5*knotIncLow)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"}}
+ addUserKnob {78 coefsHigh n 5}
+ coefsHigh {{"(midPoint.z * (log10(midPoint.x)-0.5*knotIncHigh)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {"(midPoint.z * (log10(midPoint.x)+0.5*knotIncHigh)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {log10(midPoint.y)+pctHigh*(log10(maxPoint.y)-log10(midPoint.y))} {"(maxPoint.z * (log10(maxPoint.x)-0.5*knotIncHigh)) + ( log10(maxPoint.y) - maxPoint.z * log10(maxPoint.x))"} {"(maxPoint.z * (log10(maxPoint.x)+0.5*knotIncHigh)) + ( log10(maxPoint.y) - maxPoint.z * log10(maxPoint.x))"}}
+ addUserKnob {7 KNOT_INC_LOW}
+ KNOT_INC_LOW {{"(log10(midPoint.x) - log10(minPoint.x)) / (N_KNOTS_LOW - 1)"}}
+ addUserKnob {7 KNOT_INC_HIGH}
+ KNOT_INC_HIGH {{"(log10(maxPoint.x) - log10(midPoint.x)) / (N_KNOTS_HIGH - 1)"}}
+ addUserKnob {78 KNOT_Y_LOW n 4}
+ KNOT_Y_LOW {{"(coefsLow.0 + coefsLow.1) / 2"} {"(coefsLow.1 + coefsLow.2) / 2"} {"(coefsLow.2 + coefsLow.3) / 2"} {"(coefsLow.3 + coefsLow.4) / 2"}}
+ addUserKnob {78 KNOT_Y_HIGH n 4}
+ KNOT_Y_HIGH {{"(coefsHigh.0 + coefsHigh.1) / 2"} {"(coefsHigh.1 + coefsHigh.2) / 2"} {"(coefsHigh.2 + coefsHigh.3) / 2"} {"(coefsHigh.3 + coefsHigh.4) / 2"}}
+ addUserKnob {20 Constants_tab l const}
+ addUserKnob {3 N_KNOTS_LOW}
+ N_KNOTS_LOW 4
+ addUserKnob {3 N_KNOTS_HIGH}
+ N_KNOTS_HIGH 4
+ addUserKnob {7 MIN_STOP_SDR R -20 20}
+ MIN_STOP_SDR -6.5
+ addUserKnob {7 MAX_STOP_SDR R -20 20}
+ MAX_STOP_SDR 6.5
+ addUserKnob {7 MIN_STOP_RRT R -20 20}
+ MIN_STOP_RRT -15
+ addUserKnob {7 MAX_STOP_RRT R -20 20}
+ MAX_STOP_RRT 18
+ addUserKnob {7 MIN_LUM_SDR R 0 0.1}
+ MIN_LUM_SDR 0.02
+ addUserKnob {7 MAX_LUM_SDR R 0 100}
+ MAX_LUM_SDR 48
+ addUserKnob {7 MIN_LUM_RRT R 0 0.1}
+ MIN_LUM_RRT 0.0001
+ addUserKnob {7 MAX_LUM_RRT R 0 10000}
+ MAX_LUM_RRT 10000
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -1030
+  ypos -634
+ }
+ Dot {
+  name Dot25
+  label " "
+  xpos -996
+  ypos -318
+ }
+set N969bf240 [stack 0]
+ Dot {
+  name Dot26
+  label " "
+  xpos -996
+  ypos 1506
+ }
+push $N969bf240
+ Dot {
+  name Dot4
+  label " "
+  xpos -886
+  ypos -318
+ }
+set Nacb153e0 [stack 0]
+ Dot {
+  name Dot5
+  label " "
+  xpos -776
+  ypos -318
+ }
+set Nacc99cb0 [stack 0]
+ Dot {
+  name Dot2
+  label " "
+  xpos -666
+  ypos -318
+ }
+set Ne184fed0 [stack 0]
+ Dot {
+  name Dot3
+  label " "
+  xpos -556
+  ypos -318
+ }
+set Nbb9df710 [stack 0]
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  expr0 "logr <= log10(minPoint.y)"
+  expr1 "logg <= log10(minPoint.y)"
+  expr2 "logb <= log10(minPoint.y)"
+  name segment_bottom
+  xpos -590
+  ypos -202
+ }
+ Dot {
+  name Dot1
+  label " "
+  xpos -556
+  ypos 162
+ }
+push $Nbb9df710
+ Dot {
+  name Dot7
+  label " "
+  xpos -336
+  ypos -318
+ }
+set Nba5644a0 [stack 0]
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 log10(minPoint.x)
+  expr1 log10(minPoint.x)
+  expr2 log10(minPoint.x)
+  expr3 1
+  name Expression
+  xpos -370
+  ypos -202
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply3
+  xpos -370
+  ypos 158
+ }
+ Dot {
+  name Dot27
+  label " "
+  xpos -336
+  ypos 786
+ }
+push $Ne184fed0
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  expr0 "( logr > log10(minPoint.y) ) && ( logr <= log10(midPoint.y) )"
+  expr1 "( logg > log10(minPoint.y) ) && ( logg <= log10(midPoint.y) )"
+  expr2 "( logb > log10(minPoint.y) ) && ( logb <= log10(midPoint.y) )"
+  name segment_low
+  xpos -700
+  ypos -202
+ }
+ Dot {
+  name Dot22
+  label " "
+  xpos -666
+  ypos 354
+ }
+push $Nba5644a0
+ Dot {
+  name Dot9
+  label " "
+  xpos -6
+  ypos -318
+ }
+set Naccb0df0 [stack 0]
+ Dot {
+  name Dot6
+  label " "
+  xpos -6
+  ypos -174
+ }
+set N102b9140 [stack 0]
+ Dot {
+  name Dot8
+  label " "
+  xpos 214
+  ypos -174
+ }
+set Nedfdfa30 [stack 0]
+ Dot {
+  name Dot13
+  label " "
+  xpos 434
+  ypos -174
+ }
+ Dot {
+  name Dot19
+  xpos 434
+  ypos -78
+ }
+set Nee00f970 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "log10( max(b, 1e-10 ))"
+  temp_name1 low
+  temp_expr1 "(logy > KNOT_Y_LOW.0) && (logy <= KNOT_Y_LOW.1)"
+  temp_name2 mid
+  temp_expr2 "(logy > KNOT_Y_LOW.1) && (logy <= KNOT_Y_LOW.2)"
+  temp_name3 high
+  temp_expr3 "(logy > KNOT_Y_LOW.2) && (logy <= KNOT_Y_LOW.3)"
+  expr0 "low ? coefsLow.0 : mid ? coefsLow.1 : coefsLow.2"
+  expr1 "low ? coefsLow.1 : mid ? coefsLow.2 : coefsLow.3"
+  expr2 "low ? coefsLow.2 : mid ? coefsLow.3 : coefsLow.4"
+  expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+  name inv_cfLow5
+  xpos 290
+  ypos -82
+ }
+ ColorMatrix {
+  channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name inv_basis_low5
+  xpos 290
+  ypos -34
+ }
+push $Nee00f970
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Bb, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy5
+  xpos 400
+  ypos -34
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "(2.*b)/(-sqrt(g*g - 4*r*b)-g)"
+  expr0 0
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 0
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals4
+  xpos 400
+  ypos 14
+  addUserKnob {20 User}
+  addUserKnob {7 knotIncLow}
+  knotIncLow {{parent.knotIncLow}}
+  addUserKnob {13 min l Min}
+  min {{parent.min.x} {parent.min.y} {parent.minSlope}}
+ }
+push 0
+push $N102b9140
+ Dot {
+  name Dot10
+  xpos -6
+  ypos -78
+ }
+set Nf17ce690 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 low
+  temp_expr1 "(logy > KNOT_Y_LOW.0) && (logy <= KNOT_Y_LOW.1)"
+  temp_name2 mid
+  temp_expr2 "(logy > KNOT_Y_LOW.1) && (logy <= KNOT_Y_LOW.2)"
+  temp_name3 high
+  temp_expr3 "(logy > KNOT_Y_LOW.2) && (logy <= KNOT_Y_LOW.3)"
+  expr0 "low ? coefsLow.0 : mid ? coefsLow.1 : coefsLow.2"
+  expr1 "low ? coefsLow.1 : mid ? coefsLow.2 : coefsLow.3"
+  expr2 "low ? coefsLow.2 : mid ? coefsLow.3 : coefsLow.4"
+  expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+  name inv_cfLow
+  xpos -150
+  ypos -82
+ }
+ ColorMatrix {
+  channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name inv_basis_low
+  xpos -150
+  ypos -34
+ }
+push $Nf17ce690
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Br, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy
+  xpos -40
+  ypos -34
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "(2.*b)/(-sqrt(g*g - 4*r*b)-g)"
+  expr0 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 0
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 0
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals
+  xpos -40
+  ypos 14
+  addUserKnob {20 User}
+  addUserKnob {7 knotIncLow}
+  knotIncLow {{parent.knotIncLow}}
+  addUserKnob {13 min l Min}
+  min {{parent.min.x} {parent.min.y} {parent.minSlope}}
+ }
+push $Nedfdfa30
+ Dot {
+  name Dot18
+  xpos 214
+  ypos -78
+ }
+set N88ef2ca0 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "log10( max(g, 1e-10 ))"
+  temp_name1 low
+  temp_expr1 "(logy > KNOT_Y_LOW.0) && (logy <= KNOT_Y_LOW.1)"
+  temp_name2 mid
+  temp_expr2 "(logy > KNOT_Y_LOW.1) && (logy <= KNOT_Y_LOW.2)"
+  temp_name3 high
+  temp_expr3 "(logy > KNOT_Y_LOW.2) && (logy <= KNOT_Y_LOW.3)"
+  expr0 "low ? coefsLow.0 : mid ? coefsLow.1 : coefsLow.2"
+  expr1 "low ? coefsLow.1 : mid ? coefsLow.2 : coefsLow.3"
+  expr2 "low ? coefsLow.2 : mid ? coefsLow.3 : coefsLow.4"
+  expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+  name inv_cfLow4
+  xpos 70
+  ypos -82
+ }
+ ColorMatrix {
+  channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name inv_basis_low4
+  xpos 70
+  ypos -34
+ }
+push $N88ef2ca0
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Bg, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy4
+  xpos 180
+  ypos -34
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "(2.*b)/(-sqrt(g*g - 4*r*b)-g)"
+  expr0 0
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 0
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals5
+  xpos 180
+  ypos 14
+  addUserKnob {20 User}
+  addUserKnob {7 knotIncLow}
+  knotIncLow {{parent.knotIncLow}}
+  addUserKnob {13 min l Min}
+  min {{parent.min.x} {parent.min.y} {parent.minSlope}}
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  bbox B
+  name Merge2
+  xpos 180
+  ypos 134
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply1
+  xpos 180
+  ypos 350
+ }
+ Dot {
+  name Dot28
+  label " "
+  xpos 214
+  ypos 786
+ }
+push 0
+push $Nacc99cb0
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  expr0 "( logr >= log10(midPoint.y) ) && ( logr < log10(maxPoint.y) )"
+  expr1 "( logg >= log10(midPoint.y) ) && ( logg < log10(maxPoint.y) )"
+  expr2 "( logb >= log10(midPoint.y) ) && ( logb < log10(maxPoint.y) )"
+  name segment_high
+  xpos -810
+  ypos -202
+ }
+ Dot {
+  name Dot23
+  label " "
+  xpos -776
+  ypos 474
+ }
+push $Naccb0df0
+ Dot {
+  name Dot14
+  label " "
+  xpos 764
+  ypos -318
+ }
+set Nd894da90 [stack 0]
+ Dot {
+  name Dot15
+  label " "
+  xpos 764
+  ypos -174
+ }
+set N2c4f6c00 [stack 0]
+ Dot {
+  name Dot17
+  label " "
+  xpos 984
+  ypos -174
+ }
+set N8f18da30 [stack 0]
+ Dot {
+  name Dot20
+  label " "
+  xpos 1204
+  ypos -174
+ }
+ Dot {
+  name Dot16
+  xpos 1204
+  ypos -78
+ }
+set Nc8cad470 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "log10( max(b, 1e-10 ))"
+  temp_name1 low
+  temp_expr1 "(logy > KNOT_Y_HIGH.0) && (logy <= KNOT_Y_HIGH.1)"
+  temp_name2 mid
+  temp_expr2 "(logy > KNOT_Y_HIGH.1) && (logy <= KNOT_Y_HIGH.2)"
+  temp_name3 high
+  temp_expr3 "(logy > KNOT_Y_HIGH.2) && (logy <= KNOT_Y_HIGH.3)"
+  expr0 "low ? coefsHigh.0 : mid ? coefsHigh.1 : coefsHigh.2"
+  expr1 "low ? coefsHigh.1 : mid ? coefsHigh.2 : coefsHigh.3"
+  expr2 "low ? coefsHigh.2 : mid ? coefsHigh.3 : coefsHigh.4"
+  expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+  name inv_cfLow3
+  xpos 1060
+  ypos -82
+ }
+ ColorMatrix {
+  channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name inv_basis_low3
+  xpos 1060
+  ypos -34
+ }
+push $Nc8cad470
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Bb, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy3
+  xpos 1170
+  ypos -34
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "(2.*b) / (-sqrt(g*g - 4*r*b) - g)"
+  expr0 0
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 0
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals3
+  xpos 1170
+  ypos 14
+ }
+push 0
+push $N2c4f6c00
+ Dot {
+  name Dot11
+  xpos 764
+  ypos -78
+ }
+set Nb3a43f70 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 low
+  temp_expr1 "(logy > KNOT_Y_HIGH.0) && (logy <= KNOT_Y_HIGH.1)"
+  temp_name2 mid
+  temp_expr2 "(logy > KNOT_Y_HIGH.1) && (logy <= KNOT_Y_HIGH.2)"
+  temp_name3 high
+  temp_expr3 "(logy > KNOT_Y_HIGH.2) && (logy <= KNOT_Y_HIGH.3)"
+  expr0 "low ? coefsHigh.0 : mid ? coefsHigh.1 : coefsHigh.2"
+  expr1 "low ? coefsHigh.1 : mid ? coefsHigh.2 : coefsHigh.3"
+  expr2 "low ? coefsHigh.2 : mid ? coefsHigh.3 : coefsHigh.4"
+  expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+  name inv_cfLow1
+  xpos 620
+  ypos -82
+ }
+ ColorMatrix {
+  channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name inv_basis_low1
+  xpos 620
+  ypos -34
+ }
+push $Nb3a43f70
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Br, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy1
+  xpos 730
+  ypos -34
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "(2.*b) / (-sqrt(g*g - 4*r*b) - g)"
+  expr0 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 0
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 0
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals1
+  xpos 730
+  ypos 14
+ }
+push $N8f18da30
+ Dot {
+  name Dot12
+  xpos 984
+  ypos -78
+ }
+set N67457710 [stack 0]
+ Expression {
+  temp_name0 logy
+  temp_expr0 "log10( max(g, 1e-10 ))"
+  temp_name1 low
+  temp_expr1 "(logy > KNOT_Y_HIGH.0) && (logy <= KNOT_Y_HIGH.1)"
+  temp_name2 mid
+  temp_expr2 "(logy > KNOT_Y_HIGH.1) && (logy <= KNOT_Y_HIGH.2)"
+  temp_name3 high
+  temp_expr3 "(logy > KNOT_Y_HIGH.2) && (logy <= KNOT_Y_HIGH.3)"
+  expr0 "low ? coefsHigh.0 : mid ? coefsHigh.1 : coefsHigh.2"
+  expr1 "low ? coefsHigh.1 : mid ? coefsHigh.2 : coefsHigh.3"
+  expr2 "low ? coefsHigh.2 : mid ? coefsHigh.3 : coefsHigh.4"
+  expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+  name inv_cfLow2
+  xpos 840
+  ypos -82
+ }
+ ColorMatrix {
+  channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+  matrix {
+      {0.5 -1 0.5}
+      {-1 1 0}
+      {0.5 0.5 0}
+    }
+  name inv_basis_low2
+  xpos 840
+  ypos -34
+ }
+push $N67457710
+ MergeExpression {
+  inputs 2
+  temp_name0 logy
+  temp_expr0 "log10(max(Bg, 1e-10))"
+  expr0 Ar
+  expr1 Ag
+  expr2 Ab-logy
+  expr3 Aa
+  name c_minus_logy2
+  xpos 950
+  ypos -34
+ }
+ Expression {
+  temp_name0 j
+  temp_expr0 a
+  temp_name1 d
+  temp_expr1 "sqrt(g*g - 4*r*b)"
+  temp_name2 t
+  temp_expr2 "(2.*b) / (-sqrt(g*g - 4*r*b) - g)"
+  expr0 0
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+  channel2 {-rgba.red -rgba.green rgba.blue none}
+  expr2 0
+  expr3 1
+  maskChannelInput -rgba.alpha
+  unpremult -rgba.alpha
+  name inv_knot_vals2
+  xpos 950
+  ypos 14
+ }
+ Merge2 {
+  inputs 3+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge1
+  xpos 950
+  ypos 134
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply2
+  xpos 950
+  ypos 470
+ }
+ Dot {
+  name Dot29
+  label " "
+  xpos 984
+  ypos 786
+ }
+push $Nacb153e0
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  expr0 "logr >= log10(maxPoint.y) ? 1 : 0"
+  expr1 "logg >= log10(maxPoint.y) ? 1 : 0"
+  expr2 "logb >= log10(maxPoint.y) ? 1 : 0"
+  name segment_peak
+  xpos -920
+  ypos -202
+ }
+ Dot {
+  name Dot24
+  label " "
+  xpos -886
+  ypos 618
+ }
+push $Nd894da90
+ Dot {
+  name Dot21
+  label " "
+  xpos 1534
+  ypos -318
+ }
+ Expression {
+  temp_name0 logr
+  temp_expr0 "log10( max(r, 1e-10 ))"
+  temp_name1 logg
+  temp_expr1 "log10( max(g, 1e-10 ))"
+  temp_name2 logb
+  temp_expr2 "log10( max(b, 1e-10 ))"
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 log10(maxPoint.x)
+  expr1 log10(maxPoint.x)
+  expr2 log10(maxPoint.x)
+  expr3 1
+  name proc_low1
+  label Expression
+  xpos 1500
+  ypos -208
+ }
+ Merge2 {
+  inputs 2
+  operation multiply
+  also_merge all
+  name Multiply4
+  xpos 1500
+  ypos 614
+ }
+ Merge2 {
+  inputs 4+1
+  operation plus
+  bbox B
+  output rgb
+  name Merge3
+  xpos 510
+  ypos 1118
+ }
+ Expression {
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 pow(10,r)
+  expr1 pow(10,g)
+  expr2 pow(10,b)
+  name Expression13
+  xpos 510
+  ypos 1238
+ }
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 rgba.alpha
+  name Copy1
+  xpos 510
+  ypos 1496
+ }
+ Output {
+  name Output1
+  xpos 510
+  ypos 1814
+ }
+end_group
