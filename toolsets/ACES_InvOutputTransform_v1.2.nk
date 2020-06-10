@@ -1,0 +1,3908 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name ACES_InvOutputTransform_v1_2_
+ tile_color 0xa57aaaff
+ addUserKnob {20 ACES_OutputTransform_tab l "ACES OutputTransform"}
+ addUserKnob {35 presets t "display output presets." M {display/sRGB "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 0 limiting_pri 0 eotf 0 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 1 legal_range 0 label \"sRGB\"\}" "display/sRGB D60 sim." "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 0 limiting_pri 0 eotf 0 stretch_black 0 d60_sim 1 force_d65_cat 0 dark_to_dim 1 legal_range 0 label \"sRGB D60 sim.\"\}" display/Rec.709 "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 0 limiting_pri 0 eotf 1 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 1 legal_range 0 label \"Rec.709\"\}" "display/Rec.709 D60 sim." "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 0 limiting_pri 0 eotf 1 stretch_black 0 d60_sim 1 force_d65_cat 0 dark_to_dim 1 legal_range 0 label \"Rec.709 D60 sim.\"\}" display/Rec.2020 "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 1 limiting_pri 1 eotf 1 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 1 legal_range 0 label \"Rec.2020\"\}" display/P3D60 "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 4 limiting_pri 4 eotf 4 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D60\"\}" display/P3D65 "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 2 limiting_pri 2 eotf 4 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D65\"\}" "display/P3D65 D60 sim." "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 2 limiting_pri 2 eotf 4 stretch_black 0 d60_sim 1 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D65 D60 sim.\"\}" display/P3DCI "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 3 limiting_pri 3 eotf 4 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3DCI\"\}" "display/P3DCI D60 sim." "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 3 limiting_pri 3 eotf 4 stretch_black 0 d60_sim 1 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3DCI D60 sim.\"\}" "display/P3DCI D65 sim." "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 3 limiting_pri 3 eotf 4 stretch_black 0 d60_sim 0 force_d65_cat 1 dark_to_dim 0 legal_range 0 label \"P3DCI D65 sim.\"\}" display/DCDM "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 7 limiting_pri 7 eotf 5 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"DCDM\"\}" "display/P3D65 ST2084 108nits 7.2nits" "knobs this \{lum \{0.0001 7.2 108\} override_ssts_params 0 use_c9 0 display_pri 2 limiting_pri 2 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D65 ST2084 108nits 7.2nits\"\}" "display/P3D65 ST2084 1000nits 15nits" "knobs this \{lum \{0.0001 15 1000\} override_ssts_params 0 use_c9 0 display_pri 2 limiting_pri 2 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D65 ST2084 1000nits 15nits\"\}" "display/P3D65 ST2084 2000nits 15nits" "knobs this \{lum \{0.0001 15 2000\} override_ssts_params 0 use_c9 0 display_pri 2 limiting_pri 2 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D65 ST2084 2000nits 15nits\"\}" "display/P3D65 ST2084 2000nits 15nits" "knobs this \{lum \{0.0001 15 2000\} override_ssts_params 0 use_c9 0 display_pri 2 limiting_pri 2 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D65 ST2084 2000nits 15nits\"\}" "display/P3D65 ST2084 4000nits 15nits" "knobs this \{lum \{0.0001 15 4000\} override_ssts_params 0 use_c9 0 display_pri 2 limiting_pri 2 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D65 ST2084 4000nits 15nits\"\}" display/Rec2020_HLG_1000nits_15nits "knobs this \{lum \{0.0001 15 1000\} override_ssts_params 0 use_c9 0 display_pri 1 limiting_pri 1 eotf 7 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"Rec2020_HLG_1000nits_15nits\"\}" display/Rec2020_ST2084_1000nits_15nits "knobs this \{lum \{0.0001 15 1000\} override_ssts_params 0 use_c9 0 display_pri 1 limiting_pri 1 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"Rec2020_ST2084_1000nits_15nits\"\}" display/Rec2020_ST2084_2000nits_15nits "knobs this \{lum \{0.0001 15 2000\} override_ssts_params 0 use_c9 0 display_pri 1 limiting_pri 1 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"Rec2020_ST2084_2000nits_15nits\"\}" display/Rec2020_ST2084_4000nits_15nits "knobs this \{lum \{0.0001 15 4000\} override_ssts_params 0 use_c9 0 display_pri 1 limiting_pri 1 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"Rec2020_ST2084_4000nits_15nits\"\}" display/OCES "knobs this \{lum \{0.0001 4.8 10000\} override_ssts_params 0 use_c9 0 display_pri 6 limiting_pri 6 eotf 9 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"OCES\"\}" "" ""}}
+ addUserKnob {26 ""}
+ addUserKnob {26 display_label l " " T "<b>Display Settings</b>"}
+ addUserKnob {78 lum l luminance t "SSTS Output Display Luminance:\nx = y_min / y = y_mid / z = y_max\n\nAccording to Zach Lewis's ACES_OT\nhttps://gist.github.com/zachlewis/786c0be941868644c993fde1c3515c2c\n\nStandard Cinema\n0.02 / 4.8 / 48\n" n 3}
+ lum {0.02 4.8 48}
+ addUserKnob {20 ssts_params_grp l "SSTS Parameters" n 1}
+ ssts_params_grp 0
+ addUserKnob {6 override_ssts_params l "override ssts params" t "Enable overrides of SSTS params.\n\nOtherwise the values will be calculated automatically by the algorithm." +STARTLINE}
+ addUserKnob {35 presets_ssts_param l presets t "If you want to override the default SSTS parameters and play around, here are some useful starting points." M {contrast/default "knobs this \{override_ssts_params 0 pctLow 0.35 pctHigh 0.89 slope \{0.38 1.501 0.01\} exposure 0.0 use_c9 0\}" "contrast/sdr (eye match)" "knobs this \{override_ssts_params 1 pctLow 0.35 pctHigh 0.99 slope \{0.38 1.501 0.1\} exposure 0.0 use_c9 0\}" contrast/high "knobs this \{override_ssts_params 1 pctLow 0.2 pctHigh 0.90 slope \{0.28 1.75 0.01\} exposure 0.0 use_c9 0\}" contrast/med "knobs this \{override_ssts_params 1 pctLow 0.40 pctHigh 0.96 slope \{0.38 1.3 0.01\} exposure 0.0 use_c9 0\}" contrast/med-low "knobs this \{override_ssts_params 1 pctLow 0.40 pctHigh 0.80 slope \{0.38 1.42 0.01\} exposure 0.0 use_c9 0\}" contrast/low "knobs this \{override_ssts_params 1 pctLow 0.40 pctHigh 0.80 slope \{0.38 1.2 0.01\} exposure 0.0 use_c9 0\}"}}
+ addUserKnob {7 exposure R -5 5}
+ addUserKnob {7 pctLow l knee}
+ pctLow 0.4
+ addUserKnob {7 pctHigh l shoulder}
+ pctHigh 0.8
+ addUserKnob {78 slope n 3}
+ slope {0.38 1.42 0.01}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {6 use_c9 l "use SegmentedSpline_c9" t "In ACES 1.1 the Output Transform was re-written for HDR tonescales. \n\nIn ACES 1.1, HDR transforms use the new SSTS (Single Stage Tone Scale), while SDR transforms continue to use the old SegmentedSpline_c5 -> OCES -> SegmentedSpline_c9 -> ODT transform.\n\nIf this is enabled, the SegmentedSpline_c9 transform is used to maintain compatibility with the ACES SDR output transforms and enable a 1:1 match with the AMPAS CTL.\n\nIf you are curious, turn use_c9 off and play around with the SSTS Parameters." +STARTLINE}
+ use_c9 true
+ addUserKnob {26 ""}
+ addUserKnob {4 display_pri l "display pri" t "Display encoding primaries." M {Rec709 Rec2020 P3D65 P3DCI P3D60 ACEScg ACES XYZ}}
+ addUserKnob {4 limiting_pri l "limiting pri" t "Limiting primaries for the output transform." -STARTLINE M {Rec709 Rec2020 P3D65 P3DCI P3D60 ACEScg ACES XYZ}}
+ addUserKnob {4 eotf l EOTF t "Electrical to Optical Transfer Function of the monitor." M {sRGB BT.1886 "Gamma 2.2" "Gamma 2.4" "Gamma 2.6" DCDM "ST-2084 (PQ)" HLG Linear OCES ""}}
+ eotf BT.1886
+ addUserKnob {6 stretch_black l "stretch black" t "For hdr outputs: stretch black luminance to a PQ code value of 0" +STARTLINE}
+ addUserKnob {6 d60_sim l "d60 sim" t "d60 whitepoint simulation." +STARTLINE}
+ addUserKnob {6 force_d65_cat l "force d60 to d65 cat" -STARTLINE}
+ addUserKnob {6 dark_to_dim l "dark to dim surround" t "Apply gamma adjustment to compensate for \"Dark to Dim\" surround. For SDR outputs only." +STARTLINE}
+ dark_to_dim true
+ addUserKnob {6 legal_range l "legal range" t "Output legal range." +STARTLINE}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode3
+  tile_color 0x3f3f3f01
+  label EOTFs
+  note_font_size 42
+  xpos 3359
+  ypos -1033
+  bdwidth 1203
+  bdheight 530
+  z_order -5
+ }
+ BackdropNode {
+  inputs 0
+  name BackdropNode4
+  tile_color 0x3f3f3f01
+  label "HDR EOTFs"
+  note_font_size 42
+  xpos 4605
+  ypos -1053
+  bdwidth 910
+  bdheight 617
+  z_order -5
+ }
+ BackdropNode {
+  inputs 0
+  name HLG_2_ST2084_1000nits_f3
+  tile_color 0x7f7f7f01
+  note_font_size 14
+  xpos 4975
+  ypos -941
+  bdwidth 467
+  bdheight 420
+ }
+ BackdropNode {
+  inputs 0
+  name Output_Legal_Range1
+  tile_color 0x232323ff
+  label "ACESlib.OutputTransforms.ctl : 216\n"
+  note_font_size 12
+  xpos 3361
+  ypos -1240
+  bdwidth 318
+  bdheight 176
+ }
+ Input {
+  inputs 0
+  name Input
+  xpos 3480
+  ypos -1570
+ }
+ AddChannels {
+  channels rgba
+  name AddChannels
+  xpos 3480
+  ypos -1498
+ }
+ Dot {
+  name Dot27
+  label " Display-Referred IN"
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3514
+  ypos -1326
+ }
+set N22f2bd0 [stack 0]
+ Dot {
+  name Dot28
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3294
+  ypos -1326
+ }
+ Dot {
+  name Dot29
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3294
+  ypos 1218
+ }
+push $N22f2bd0
+ Expression {
+  temp_name0 REFBLACK
+  temp_expr0 "64 / 1023"
+  temp_name1 REFWHITE
+  temp_expr1 "940 / 1023"
+  expr0 "r * ( REFWHITE - REFBLACK) + REFBLACK"
+  expr1 "g * ( REFWHITE - REFBLACK) + REFBLACK"
+  expr2 "b * ( REFWHITE - REFBLACK) + REFBLACK"
+  name fullRange_to_smpteRange_f3_1
+  label "ACESlib.OutputTransforms.ctl : 216"
+  xpos 3480
+  ypos -1168
+  disable {{!parent.legal_range}}
+ }
+ Dot {
+  name Dot30
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3514
+  ypos -990
+ }
+set N160c21b0 [stack 0]
+push $N160c21b0
+ Dot {
+  name Dot31
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3624
+  ypos -990
+ }
+set Na06d1ac0 [stack 0]
+ Dot {
+  name Dot32
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3734
+  ypos -990
+ }
+set N9f0db310 [stack 0]
+ Dot {
+  name Dot33
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3844
+  ypos -990
+ }
+set N1613f160 [stack 0]
+ Dot {
+  name Dot34
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3954
+  ypos -990
+ }
+set Nf52f80f0 [stack 0]
+ Dot {
+  name Dot35
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 4064
+  ypos -990
+ }
+set N16432550 [stack 0]
+ Dot {
+  name Dot36
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 4174
+  ypos -990
+ }
+set Nb272cf20 [stack 0]
+ Dot {
+  name Dot40
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 4781
+  ypos -990
+ }
+set N21b29890 [stack 0]
+ Dot {
+  name Dot47
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 5202
+  ypos -990
+ }
+ Expression {
+  temp_name0 e
+  temp_expr0 2.718281828
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 "r >= 0.0 && r <= 0.5 ? pow(r, 2)/3 : (pow(e, (r - c_c)/c_a)+c_b)/12"
+  expr1 "g >= 0.0 && g <= 0.5 ? pow(g, 2)/3 : (pow(e, (g - c_c)/c_a)+c_b)/12"
+  expr2 "b >= 0.0 && b <= 0.5 ? pow(b, 2)/3 : (pow(e, (b - c_c)/c_a)+c_b)/12"
+  expr3 1
+  name ST2084_2_HLG_1000nits_f3_2
+  label "ACESlib.Utilities_Color.ctl : 533\n// HLG EOTF (non-linear signal value to display linear)"
+  xpos 5168
+  ypos -910
+  addUserKnob {20 Constants_tab l Constants}
+  addUserKnob {7 c_a +DISABLED}
+  c_a 0.17883277
+  addUserKnob {7 c_b t 1.-4.*a +DISABLED}
+  c_b 0.28466892
+  addUserKnob {7 c_c t 0.5-a*log(4.*a) +DISABLED}
+  c_c 0.55991073
+ }
+ Expression {
+  temp_name0 Y_s
+  temp_expr0 "0.2627*r + 0.6780*g + 0.0593*b"
+  expr0 "c_alpha * pow( Y_s, c_gamma-1.) * r + c_beta"
+  expr1 "c_alpha * pow( Y_s, c_gamma-1.) * g + c_beta"
+  expr2 "c_alpha * pow( Y_s, c_gamma-1.) * b + c_beta"
+  name ST2084_2_HLG_1000nits_f3_1
+  label "ACESlib.Utilities_Color.ctl : 550\n// Scene-linear to display-linear"
+  xpos 5168
+  ypos -860
+  addUserKnob {20 Constants_tab l Constants}
+  addUserKnob {7 L_w +DISABLED}
+  L_w 1000
+  addUserKnob {7 L_b +DISABLED}
+  addUserKnob {7 c_alpha +DISABLED}
+  c_alpha {{L_w-L_b}}
+  addUserKnob {7 c_beta +DISABLED}
+  c_beta {{L_b}}
+  addUserKnob {7 c_gamma +DISABLED}
+  c_gamma 1.2
+ }
+ Expression {
+  temp_name0 Lm_r
+  temp_expr0 "pow((r / pq_C), pq_m1)"
+  temp_name1 Lm_g
+  temp_expr1 "pow((g / pq_C), pq_m1)"
+  temp_name2 Lm_b
+  temp_expr2 "pow((b / pq_C), pq_m1)"
+  expr0 "pow(( pq_c1 + pq_c2 * Lm_r ) / ( 1.0 + pq_c3 * Lm_r ), pq_m2)"
+  expr1 "pow(( pq_c1 + pq_c2 * Lm_g ) / ( 1.0 + pq_c3 * Lm_g ), pq_m2)"
+  expr2 "pow(( pq_c1 + pq_c2 * Lm_b ) / ( 1.0 + pq_c3 * Lm_b ), pq_m2)"
+  name Y_2_ST2084_1
+  label "ACESlib.OutputTransforms.ctl : 243 \nACESlib.Utilities_Color.ctl : 425"
+  xpos 5168
+  ypos -790
+  addUserKnob {20 SMPTE_ST2084-2014_Constants_tab l "Constants from SMPTE ST 2084-2014"}
+  addUserKnob {7 pq_m1 t " ( 2610.0 / 4096.0 ) / 4.0;" +DISABLED R 0 100}
+  pq_m1 0.1593017578
+  addUserKnob {7 pq_m2 t " ( 2523.0 / 4096.0 ) * 128.0;" +DISABLED R 0 100}
+  pq_m2 78.84375
+  addUserKnob {7 pq_c1 t " 3424.0 / 4096.0 or pq_c3 - pq_c2 + 1.0;" +DISABLED R 0 100}
+  pq_c1 0.8359375
+  addUserKnob {7 pq_c2 t " ( 2413.0 / 4096.0 ) * 32.0;" +DISABLED R 0 100}
+  pq_c2 18.8515625
+  addUserKnob {7 pq_c3 t " ( 2392.0 / 4096.0 ) * 32.0;" +DISABLED R 0 100}
+  pq_c3 18.6875
+  addUserKnob {7 pq_C +DISABLED R 0 100}
+  pq_C 10000
+ }
+ Expression {
+  temp_name0 Np_r
+  temp_expr0 "pow( r, 1.0 / pq_m2 )"
+  temp_name1 Np_g
+  temp_expr1 "pow( g, 1.0 / pq_m2 )"
+  temp_name2 Np_b
+  temp_expr2 "pow( b, 1.0 / pq_m2 )"
+  expr0 "r < 0 ? 0 : pow((Np_r - pq_c1) / ( pq_c2 - pq_c3 * Np_r ), 1.0/pq_m1) * pq_C"
+  expr1 "g < 0 ? 0 : pow((Np_g - pq_c1) / ( pq_c2 - pq_c3 * Np_g ), 1.0/pq_m1) * pq_C"
+  expr2 "b < 0 ? 0 : pow((Np_b - pq_c1) / ( pq_c2 - pq_c3 * Np_b ), 1.0/pq_m1) * pq_C"
+  name ST2084_2_Y_f3_2
+  label "ACESlib.Utilities_Color.ctl : 408\n// Converts from the non-linear perceptually quantized space to linear cd/m^2"
+  xpos 5168
+  ypos -740
+  addUserKnob {20 SMPTE_ST2084-2014_Constants_tab l "Constants from SMPTE ST 2084-2014"}
+  addUserKnob {7 pq_m1 t " ( 2610.0 / 4096.0 ) / 4.0;" +DISABLED R 0 100}
+  pq_m1 0.1593017578
+  addUserKnob {7 pq_m2 t " ( 2523.0 / 4096.0 ) * 128.0;" +DISABLED R 0 100}
+  pq_m2 78.84375
+  addUserKnob {7 pq_c1 t " 3424.0 / 4096.0 or pq_c3 - pq_c2 + 1.0;" +DISABLED R 0 100}
+  pq_c1 0.8359375
+  addUserKnob {7 pq_c2 t " ( 2413.0 / 4096.0 ) * 32.0;" +DISABLED R 0 100}
+  pq_c2 18.8515625
+  addUserKnob {7 pq_c3 t " ( 2392.0 / 4096.0 ) * 32.0;" +DISABLED R 0 100}
+  pq_c3 18.6875
+  addUserKnob {7 pq_C +DISABLED R 0 100}
+  pq_C 10000
+ }
+ Dot {
+  name Dot1
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 5202
+  ypos -678
+ }
+set N55837c0 [stack 0]
+ Expression {
+  expr0 "(r - Ymin) / (Ymax - Ymin)"
+  expr1 "(g - Ymin) / (Ymax - Ymin)"
+  expr2 "(b - Ymin) / (Ymax - Ymin)"
+  expr3 1
+  name Y_2_linCV_f3_4
+  label "stretch_black = True"
+  xpos 5058
+  ypos -640
+  addUserKnob {20 Luminance}
+  addUserKnob {7 Ymin R 0.0001 0.02}
+  addUserKnob {7 Ymax R 48 10000}
+  Ymax {{parent.lum.2}}
+ }
+push $N55837c0
+ Expression {
+  expr0 "(r - Ymin) / (Ymax - Ymin)"
+  expr1 "(g - Ymin) / (Ymax - Ymin)"
+  expr2 "(b - Ymin) / (Ymax - Ymin)"
+  expr3 1
+  name Y_2_linCV_f3_2
+  label "stretch_black = False"
+  xpos 5168
+  ypos -640
+  addUserKnob {20 Luminance}
+  addUserKnob {7 Ymin R 0.0001 0.02}
+  Ymin {{parent.lum.0}}
+  addUserKnob {7 Ymax R 48 10000}
+  Ymax {{parent.lum.2}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.stretch_black}}
+  name StretchBlacks_Switch3
+  xpos 5168
+  ypos -562
+ }
+push $N21b29890
+ Expression {
+  temp_name0 Np_r
+  temp_expr0 "pow( r, 1.0 / pq_m2 )"
+  temp_name1 Np_g
+  temp_expr1 "pow( g, 1.0 / pq_m2 )"
+  temp_name2 Np_b
+  temp_expr2 "pow( b, 1.0 / pq_m2 )"
+  expr0 "r < 0 ? 0 : pow((Np_r - pq_c1) / ( pq_c2 - pq_c3 * Np_r ), 1.0/pq_m1) * pq_C"
+  expr1 "g < 0 ? 0 : pow((Np_g - pq_c1) / ( pq_c2 - pq_c3 * Np_g ), 1.0/pq_m1) * pq_C"
+  expr2 "b < 0 ? 0 : pow((Np_b - pq_c1) / ( pq_c2 - pq_c3 * Np_b ), 1.0/pq_m1) * pq_C"
+  name ST2084_2_Y_f3_1
+  label "ACESlib.Utilities_Color.ctl : 408\n// Converts from the non-linear perceptually quantized space to linear cd/m^2"
+  xpos 4747
+  ypos -934
+  addUserKnob {20 SMPTE_ST2084-2014_Constants_tab l "Constants from SMPTE ST 2084-2014"}
+  addUserKnob {7 pq_m1 t " ( 2610.0 / 4096.0 ) / 4.0;" +DISABLED R 0 100}
+  pq_m1 0.1593017578
+  addUserKnob {7 pq_m2 t " ( 2523.0 / 4096.0 ) * 128.0;" +DISABLED R 0 100}
+  pq_m2 78.84375
+  addUserKnob {7 pq_c1 t " 3424.0 / 4096.0 or pq_c3 - pq_c2 + 1.0;" +DISABLED R 0 100}
+  pq_c1 0.8359375
+  addUserKnob {7 pq_c2 t " ( 2413.0 / 4096.0 ) * 32.0;" +DISABLED R 0 100}
+  pq_c2 18.8515625
+  addUserKnob {7 pq_c3 t " ( 2392.0 / 4096.0 ) * 32.0;" +DISABLED R 0 100}
+  pq_c3 18.6875
+  addUserKnob {7 pq_C +DISABLED R 0 100}
+  pq_C 10000
+ }
+ Dot {
+  name Dot46
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 4781
+  ypos -846
+ }
+set N1ca49ba0 [stack 0]
+ Expression {
+  expr0 "(r - Ymin) / (Ymax - Ymin)"
+  expr1 "(g - Ymin) / (Ymax - Ymin)"
+  expr2 "(b - Ymin) / (Ymax - Ymin)"
+  expr3 1
+  name Y_2_linCV_f3_5
+  label "stretch_black = True"
+  xpos 4637
+  ypos -808
+  addUserKnob {20 Luminance}
+  addUserKnob {7 Ymin R 0.0001 0.02}
+  addUserKnob {7 Ymax R 48 10000}
+  Ymax {{parent.lum.2}}
+ }
+push $N1ca49ba0
+ Expression {
+  expr0 "(r - Ymin) / (Ymax - Ymin)"
+  expr1 "(g - Ymin) / (Ymax - Ymin)"
+  expr2 "(b - Ymin) / (Ymax - Ymin)"
+  expr3 1
+  name Y_2_linCV_f3_1
+  label "stretch_black = False"
+  xpos 4747
+  ypos -808
+  addUserKnob {20 Luminance}
+  addUserKnob {7 Ymin R 0.0001 0.02}
+  Ymin {{parent.lum.0}}
+  addUserKnob {7 Ymax R 48 10000}
+  Ymax {{parent.lum.2}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.stretch_black}}
+  name StretchBlacks_Switch1
+  xpos 4747
+  ypos -730
+ }
+ Dot {
+  name Dot48
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 4781
+  ypos -630
+ }
+push $Nb272cf20
+ Expression {
+  expr0 "(52.37/48.0) * pow( r, 2.6)"
+  expr1 "(52.37/48.0) * pow( g, 2.6)"
+  expr2 "(52.37/48.0) * pow( b, 2.6)"
+  expr3 1
+  name dcdm_decode1
+  xpos 4140
+  ypos -874
+ }
+push $N16432550
+ Expression {
+  expr0 pow(r,1/gamma)
+  expr1 pow(g,1/gamma)
+  expr2 pow(b,1/gamma)
+  name pow_f3_gamma_26_1
+  label "ACESlib.Utilities_Color.ctl : 260\n// Gamma 2.6"
+  xpos 4030
+  ypos -886
+  addUserKnob {20 Gamma_tab l Gamma}
+  addUserKnob {7 gamma R 0 4}
+  gamma 0.3846153846
+ }
+push $Nf52f80f0
+ Expression {
+  expr0 pow(r,1/gamma)
+  expr1 pow(g,1/gamma)
+  expr2 pow(b,1/gamma)
+  name pow_f3_gamma_24_1
+  label "ACESlib.Utilities_Color.ctl : 260\n// Gamma 2.4"
+  xpos 3920
+  ypos -886
+  addUserKnob {20 Gamma_tab l Gamma}
+  addUserKnob {7 gamma R 0 4}
+  gamma 0.4166666667
+ }
+push $N1613f160
+ Expression {
+  expr0 pow(r,1/gamma)
+  expr1 pow(g,1/gamma)
+  expr2 pow(b,1/gamma)
+  name pow_f3_gamma_22_1
+  label "ACESlib.Utilities_Color.ctl : 260\n// Gamma 2.2"
+  xpos 3810
+  ypos -886
+  addUserKnob {20 Gamma_tab l Gamma}
+  addUserKnob {7 gamma R 0 4}
+  gamma 0.4545454545
+ }
+push $N9f0db310
+ Expression {
+  temp_name0 c_a
+  temp_expr0 "pow( pow( Lw, 1./gamma) - pow( Lb, 1./gamma), gamma)"
+  temp_name1 c_b
+  temp_expr1 "pow( Lb, 1./gamma) / ( pow( Lw, 1./gamma) - pow( Lb, 1./gamma))"
+  expr0 "c_a * pow( max( r + c_b, 0.), gamma)"
+  expr1 "c_a * pow( max( g + c_b, 0.), gamma)"
+  expr2 "c_a * pow( max( b + c_b, 0.), gamma)"
+  name bt1886_f_f3_1
+  label "ACESlib.Utilities_Color.ctl : 301\n// The reference EOTF specified in Rec. ITU-R BT.1886\n// L = a(max\[(V+b),0])^g"
+  xpos 3700
+  ypos -892
+  addUserKnob {20 Luminance}
+  addUserKnob {7 Lw R 48 10000}
+  Lw 1
+  addUserKnob {7 Lb R 0.0001 0.02}
+  addUserKnob {7 gamma R 1 4}
+  gamma 2.4
+ }
+push $Na06d1ac0
+ Expression {
+  temp_name0 fs
+  temp_expr0 "(( gamma - 1.0) / offs) * pow( offs * gamma / ( ( gamma - 1.0) * ( 1.0 + offs)), gamma)"
+  temp_name1 xb
+  temp_expr1 "offs / ( gamma - 1.0)"
+  expr0 "r >= xb ? pow( ( r + offs) / ( 1.0 + offs), gamma) : r * fs"
+  expr1 "g >= xb ? pow( ( g + offs) / ( 1.0 + offs), gamma) : g * fs"
+  expr2 "b >= xb ? pow( ( b + offs) / ( 1.0 + offs), gamma) : b * fs"
+  name moncurve_f_f3_1
+  label "ACESlib.Utilities_Color.ctl : 260\nmoncurve_f with gamma of 2.4 and offset of 0.055 matches the EOTF found in IEC 61966-2-1:1999 (sRGB)\n// Forward monitor curve"
+  xpos 3590
+  ypos -892
+  addUserKnob {20 Luminance}
+  addUserKnob {7 gamma R 0 4}
+  gamma 2.4
+  addUserKnob {7 offs}
+  offs 0.055
+ }
+ Switch {
+  inputs 9
+  which {{parent.eotf}}
+  name EOTF_Switch1
+  xpos 3480
+  ypos -562
+ }
+ Dot {
+  name Dot2
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3514
+  ypos -462
+ }
+set N1924a020 [stack 0]
+ Dot {
+  name Dot51
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3844
+  ypos -462
+ }
+ Expression {
+  temp_name0 SCALE
+  temp_expr0 0.96
+  temp_name1 NEW_WHT
+  temp_expr1 0.918
+  expr0 "r / SCALE"
+  expr1 "g / SCALE"
+  expr2 "b / SCALE"
+  name Expression4
+  label "// Scale and clamp white to avoid casted highlights due to D60 simulation"
+  xpos 3810
+  ypos -376
+ }
+ Expression {
+  temp_name0 tr
+  temp_expr0 "( 2. * (c_c + r)) / ( -(sqrt( c_b * c_b - 4. * c_a * (c_c + r))) - c_b)"
+  temp_name1 tg
+  temp_expr1 "( 2. * (c_c + g)) / ( -(sqrt( c_b * c_b - 4. * c_a * (c_c + g))) - c_b)"
+  temp_name2 tb
+  temp_expr2 "( 2. * (c_c + b)) / ( -(sqrt( c_b * c_b - 4. * c_a * (c_c + b))) - c_b)"
+  expr0 "-r < c_y0 ? -c_x0 : -r > c_y1 ? r : -(( tr * ( c_x1 - c_x0)) + c_x0)"
+  expr1 "-g < c_y0 ? -c_x0 : -g > c_y1 ? g : -(( tg * ( c_x1 - c_x0)) + c_x0)"
+  expr2 "-b < c_y0 ? -c_x0 : -b > c_y1 ? b : -(( tb * ( c_x1 - c_x0)) + c_x0)"
+  name roll_white_rev_2
+  xpos 3810
+  ypos -322
+  addUserKnob {20 Params}
+  addUserKnob {7 new_wht}
+  new_wht 0.918
+  addUserKnob {7 c_width}
+  c_width 0.5
+  addUserKnob {7 c_x0 +DISABLED}
+  c_x0 -1
+  addUserKnob {7 c_x1 +DISABLED}
+  c_x1 {{"c_x0 + c_width"}}
+  addUserKnob {7 c_y0 +DISABLED}
+  c_y0 {{-new_wht}}
+  addUserKnob {7 c_y1 +DISABLED}
+  c_y1 {{c_x1}}
+  addUserKnob {7 c_m1 +DISABLED}
+  c_m1 {{"(c_x1 - c_x0)"}}
+  addUserKnob {7 c_a +DISABLED}
+  c_a {{"c_y0 - c_y1 + c_m1"}}
+  addUserKnob {7 c_b +DISABLED}
+  c_b {{"2 * (c_y1 - c_y0) - c_m1"}}
+  addUserKnob {7 c_c +DISABLED}
+  c_c {{c_y0}}
+ }
+ Dot {
+  name Dot52
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3844
+  ypos -246
+ }
+push $N1924a020
+ Switch {
+  inputs 2
+  which {{"parent.display_pri == 3"}}
+  name switch_wp_is_dci_2
+  xpos 3480
+  ypos -250
+ }
+ Group {
+  name DISPLAY_PRI_to_XYZ
+  label "display encoding primaries to CIE XYZ"
+  xpos 3480
+  ypos -184
+  addUserKnob {20 XYZ_2_DISPLAY_PRI_tab l XYZ_2_DISPLAY_PRI}
+  addUserKnob {4 display_pri l "display pri" M {Rec709 Rec2020 P3D65 P3DCI P3D60 ACEScg ACES XYZ}}
+  display_pri {{parent.display_pri}}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -40
+   ypos -298
+  }
+  Dot {
+   name Dot1
+   label " XYZ to display primaries"
+   note_font "Helvetica Bold"
+   note_font_size 24
+   note_font_color 0xa5a5a501
+   xpos -6
+   ypos -198
+  }
+set N3b3c100 [stack 0]
+push $N3b3c100
+  ColorMatrix {
+   matrix {
+       {1.049811006 0 -9.748453158e-05}
+       {-0.4959030151 1.373313069 0.09824004024}
+       {4.020908051e-08 0 0.9912520051}
+     }
+   invert true
+   name ColorMatrix3
+   label "XYZ to ACES"
+   xpos 730
+   ypos -136
+  }
+push $N3b3c100
+  ColorMatrix {
+   matrix {
+       {1.641023397 -0.3248033226 -0.2364246994}
+       {-0.6636629701 1.615331769 0.01675636508}
+       {0.01172191743 -0.008284457959 0.9883947968}
+     }
+   invert true
+   name ColorMatrix21
+   label "XYZ to ACEScg"
+   xpos 620
+   ypos -136
+  }
+push $N3b3c100
+  ColorMatrix {
+   matrix {
+       {2.402741432 -0.8974840641 -0.3880533576}
+       {-0.8325796723 1.769231915 0.02371272631}
+       {0.03882339597 -0.08249972761 1.036368608}
+     }
+   invert true
+   name ColorMatrix15
+   label "XYZ to P3D60"
+   xpos 510
+   ypos -136
+  }
+push $N3b3c100
+  ColorMatrix {
+   matrix {
+       {2.725393534 -1.018002748 -0.4401631057}
+       {-0.795167923 1.689731717 0.02264718339}
+       {0.04124190658 -0.0876390487 1.100929499}
+     }
+   invert true
+   name ColorMatrix19
+   label "XYZ to P3DCI"
+   xpos 400
+   ypos -136
+  }
+push $N3b3c100
+  ColorMatrix {
+   matrix {
+       {2.493496418 -0.9313833117 -0.4027107358}
+       {-0.8294888139 1.762663841 0.02362467349}
+       {0.03584583849 -0.07617240399 0.9568845034}
+     }
+   invert true
+   name ColorMatrix17
+   label "XYZ to P3D65"
+   xpos 290
+   ypos -136
+  }
+push $N3b3c100
+  ColorMatrix {
+   matrix {
+       {1.71665132 -0.3556708097 -0.2533662617}
+       {-0.6666844487 1.616481304 0.01576855592}
+       {0.01763986237 -0.04277062416 0.9421030879}
+     }
+   invert true
+   name ColorMatrix12
+   label "XYZ to Rec2020"
+   xpos 180
+   ypos -136
+  }
+push $N3b3c100
+  ColorMatrix {
+   matrix {
+       {3.240970135 -1.537383318 -0.4986107945}
+       {-0.9692437053 1.875967622 0.04155509174}
+       {0.0556300357 -0.2039768547 1.056971431}
+     }
+   invert true
+   name ColorMatrix2
+   label "XYZ to Rec709"
+   xpos 70
+   ypos -136
+  }
+  Switch {
+   inputs 8
+   which {{parent.display_pri}}
+   name limiting_primary_switch
+   xpos -40
+   ypos -34
+  }
+  Output {
+   name Output
+   xpos -40
+   ypos 86
+  }
+ end_group
+ Dot {
+  name Dot19
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3514
+  ypos -126
+ }
+set Nfcff16b0 [stack 0]
+ Dot {
+  name Dot9
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3624
+  ypos -126
+ }
+set Nfcff6560 [stack 0]
+ ColorMatrix {
+  matrix {
+      {0.9872254133 -0.006114810705 0.01592640579}
+      {-0.007603884675 1.001874804 0.005322027951}
+      {0.003066040576 -0.005084238946 1.081519246}
+    }
+  invert true
+  name ColorMatrix2
+  label "CAT: Bradford\n D60 to D65"
+  xpos 3590
+  ypos -91
+ }
+set Nfcffb520 [stack 0]
+push $Nfcff6560
+ Dot {
+  name Dot10
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3734
+  ypos -126
+ }
+push $Nfcffb520
+ Switch {
+  inputs 2
+  which {{parent.d60_sim}}
+  name d60_sim_switch
+  xpos 3590
+  ypos -10
+ }
+push $Nfcff16b0
+ Switch {
+  inputs 2
+  which {{"parent.display_pri < 3"}}
+  name switch_wp_is_d65_1
+  xpos 3480
+  ypos -10
+ }
+ Switch {
+  inputs 2
+  which {{parent.force_d65_cat}}
+  name switch_force_d65_cat
+  xpos 3480
+  ypos 41
+ }
+ Dot {
+  name Dot39
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3514
+  ypos 107
+ }
+set N108fb580 [stack 0]
+ Colorspace {
+  colorspace_in CIE-XYZ
+  colorspace_out CIE-Yxy
+  name Colorspace2
+  label "\[value colorspace_in] -> \[value colorspace_out]"
+  xpos 3607
+  ypos 97
+ }
+ Clamp {
+  channels {rgba.red -rgba.green -rgba.blue none}
+  maximum_enable false
+  name ClampMin4
+  xpos 3607
+  ypos 154
+ }
+ Expression {
+  expr0 "pow(r, 1/DIM_SURROUND_GAMMA)"
+  expr1 g
+  expr2 b
+  channel3 none
+  name dim_to_dark
+  xpos 3607
+  ypos 180
+  addUserKnob {20 Params}
+  addUserKnob {7 DIM_SURROUND_GAMMA}
+  DIM_SURROUND_GAMMA 0.9811
+ }
+ Colorspace {
+  colorspace_in CIE-Yxy
+  colorspace_out CIE-XYZ
+  name Colorspace4
+  label "\[value colorspace_in] -> \[value colorspace_out]"
+  xpos 3607
+  ypos 217
+ }
+push $N108fb580
+ Switch {
+  inputs 2
+  which {{"(parent.eotf <= 4) ? parent.dark_to_dim : 0"}}
+  name DimToDark_Switch1
+  label "enable if sdr\nand dark_to_dim enabled"
+  xpos 3480
+  ypos 211
+ }
+ ColorMatrix {
+  matrix {
+      {1.641023397 -0.3248033226 -0.2364246994}
+      {-0.6636629701 1.615331769 0.01675636508}
+      {0.01172191743 -0.008284457959 0.9883947968}
+    }
+  name ColorMatrix10
+  label "XYZ to ACEScg"
+  xpos 3480
+  ypos 333
+ }
+ Dot {
+  name Dot38
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3514
+  ypos 415
+ }
+set N1814b0f0 [stack 0]
+ ColorMatrix {
+  matrix {
+      {{"(1.0 - sat) * rgb2Y.x + sat"} {"(1.0 - sat) * rgb2Y.y"} {"(1.0 - sat) * rgb2Y.z"}}
+      {{"(1.0 - sat) * rgb2Y.x"} {"(1.0 - sat) * rgb2Y.y + sat"} {"(1.0 - sat) * rgb2Y.z"}}
+      {{"(1.0 - sat) * rgb2Y.x"} {"(1.0 - sat) * rgb2Y.y"} {"(1.0 - sat) * rgb2Y.z + sat"}}
+    }
+  invert true
+  name ColorMatrix4
+  label "// Remove desaturation to compensate \nfor luminance difference"
+  xpos 3590
+  ypos 399
+  addUserKnob {20 params}
+  addUserKnob {13 rgb2Y}
+  rgb2Y {0.27222875 0.67408174 0.05368952}
+  addUserKnob {7 sat}
+  sat 0.93
+ }
+push $N1814b0f0
+ Switch {
+  inputs 2
+  which {{"parent.eotf < 5 && display_pri < 2"}}
+  name Switch_eotf
+  xpos 3480
+  ypos 476
+ }
+ Dot {
+  name Dot17
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3514
+  ypos 570
+ }
+set N394a380 [stack 0]
+ Dot {
+  name Dot49
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3624
+  ypos 570
+ }
+set N283fa40 [stack 0]
+ Dot {
+  name Dot50
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3734
+  ypos 570
+ }
+ Expression {
+  temp_name0 SCALE
+  temp_expr0 0.96362
+  expr0 "r / SCALE"
+  expr1 "g / SCALE"
+  expr2 "b / SCALE"
+  name mult_f_f3_
+  label D65
+  xpos 3700
+  ypos 608
+ }
+push $N283fa40
+ Switch {
+  inputs 2
+  which {{"parent.display_pri < 3"}}
+  name switch_wp_is_d65_
+  xpos 3590
+  ypos 638
+ }
+ Dot {
+  name Dot53
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3624
+  ypos 714
+ }
+push $N394a380
+ Switch {
+  inputs 2
+  which {{parent.d60_sim}}
+  name d60_sim_switch2
+  xpos 3480
+  ypos 710
+ }
+ Dot {
+  name Dot44
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3514
+  ypos 810
+ }
+ Expression {
+  expr0 "r * (Ymax - Ymin) + Ymin"
+  expr1 "g * (Ymax - Ymin) + Ymin"
+  expr2 "b * (Ymax - Ymin) + Ymin"
+  name linCV_2_Y_f3_
+  xpos 3480
+  ypos 854
+  addUserKnob {20 Luminance}
+  addUserKnob {7 Ymin R 0.0001 0.02}
+  Ymin {{parent.lum.0}}
+  addUserKnob {7 Ymax R 48 10000}
+  Ymax {{parent.lum.2}}
+ }
+ Dot {
+  name Dot55
+  label " "
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xa5a5a501
+  xpos 3514
+  ypos 938
+ }
+set Nfd2ff490 [stack 0]
+ Group {
+  name segmented_spline_c9_rev
+  xpos 3590
+  ypos 974
+  addUserKnob {20 segmented_spline_c9_rev_tab l segmented_spline_c9_rev}
+  addUserKnob {78 coefsLow n 10}
+  coefsLow {-1.698970004 -1.698970004 -1.4779 -1.2291 -0.8648 -0.448 0.00518 0.4511080334 0.9113744414 0.9113744414}
+  addUserKnob {78 coefsHigh n 10}
+  coefsHigh {0.5154386965 0.8470437783 1.1358 1.3802 1.5197 1.5985 1.6467 1.674609136 1.687873339 1.687873339}
+  addUserKnob {12 minPoint}
+  minPoint {0.0028799 0.02}
+  addUserKnob {12 midPoint}
+  midPoint {4.79999924 4.8}
+  addUserKnob {12 maxPoint}
+  maxPoint {1005.719116 48}
+  addUserKnob {7 slopeLow}
+  addUserKnob {7 slopeHigh}
+  slopeHigh 0.04
+  addUserKnob {3 N_KNOTS_LOW}
+  N_KNOTS_LOW 8
+  addUserKnob {3 N_KNOTS_HIGH}
+  N_KNOTS_HIGH 8
+  addUserKnob {7 KNOT_INC_LOW}
+  KNOT_INC_LOW {{"(log10(midPoint.x) - log10(minPoint.x)) / (N_KNOTS_LOW - 1)"}}
+  addUserKnob {7 KNOT_INC_HIGH}
+  KNOT_INC_HIGH {{"(log10(maxPoint.x) - log10(midPoint.x)) / (N_KNOTS_HIGH - 1)"}}
+  addUserKnob {78 KNOT_Y_LOW n 8}
+  KNOT_Y_LOW {{"(coefsLow.0 + coefsLow.1) / 2"} {"(coefsLow.1 + coefsLow.2)/2"} {"(coefsLow.2 + coefsLow.3)/2"} {"(coefsLow.3 + coefsLow.4)/2"} {"(coefsLow.4 + coefsLow.5)/2"} {"(coefsLow.5 + coefsLow.6)/2"} {"(coefsLow.6 + coefsLow.7)/2"} {"(coefsLow.7 + coefsLow.8)/2"}}
+  addUserKnob {78 KNOT_Y_HIGH n 8}
+  KNOT_Y_HIGH {{"(coefsHigh.0 + coefsHigh.1)/2"} {"(coefsHigh.1 + coefsHigh.2)/2"} {"(coefsHigh.2 + coefsHigh.3)/2"} {"(coefsHigh.3 + coefsHigh.4)/2"} {"(coefsHigh.4 + coefsHigh.5)/2"} {"(coefsHigh.5 + coefsHigh.6)/2"} {"(coefsHigh.6 + coefsHigh.7)/2"} {"(coefsHigh.7 + coefsHigh.8)/2"}}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -1030
+   ypos -634
+  }
+  Dot {
+   name Dot25
+   label " "
+   xpos -996
+   ypos -318
+  }
+set N3845f70 [stack 0]
+  Dot {
+   name Dot26
+   label " "
+   xpos -996
+   ypos 1506
+  }
+push $N3845f70
+  Dot {
+   name Dot4
+   label " "
+   xpos -886
+   ypos -318
+  }
+set N4044210 [stack 0]
+  Dot {
+   name Dot5
+   label " "
+   xpos -776
+   ypos -318
+  }
+set N4048e90 [stack 0]
+  Dot {
+   name Dot2
+   label " "
+   xpos -666
+   ypos -318
+  }
+set Nfc452ee0 [stack 0]
+  Dot {
+   name Dot3
+   label " "
+   xpos -556
+   ypos -318
+  }
+set Nfc457d10 [stack 0]
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   expr0 "logr <= log10(minPoint.y)"
+   expr1 "logg <= log10(minPoint.y)"
+   expr2 "logb <= log10(minPoint.y)"
+   name segment_bottom
+   xpos -590
+   ypos -178
+  }
+  Dot {
+   name Dot1
+   label " "
+   xpos -556
+   ypos 162
+  }
+push $Nfc457d10
+  Dot {
+   name Dot7
+   label " "
+   xpos -336
+   ypos -318
+  }
+set Nfc25fe90 [stack 0]
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   channel0 {rgba.red -rgba.green -rgba.blue none}
+   expr0 log10(minPoint.x)
+   expr1 log10(minPoint.x)
+   expr2 log10(minPoint.x)
+   expr3 1
+   name Expression
+   xpos -370
+   ypos -178
+  }
+  Merge2 {
+   inputs 2
+   operation multiply
+   also_merge all
+   name Multiply3
+   xpos -370
+   ypos 158
+  }
+  Dot {
+   name Dot27
+   label " "
+   xpos -336
+   ypos 786
+  }
+push $Nfc452ee0
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   expr0 "( logr > log10(minPoint.y) ) && ( logr < log10(midPoint.y) )"
+   expr1 "( logg > log10(minPoint.y) ) && ( logg < log10(midPoint.y) )"
+   expr2 "( logb > log10(minPoint.y) ) && ( logb < log10(midPoint.y) )"
+   name segment_low
+   xpos -700
+   ypos -178
+  }
+  Dot {
+   name Dot22
+   label " "
+   xpos -666
+   ypos 354
+  }
+push $Nfc25fe90
+  Dot {
+   name Dot9
+   label " "
+   xpos -6
+   ypos -318
+  }
+set Nfb95aee0 [stack 0]
+  Dot {
+   name Dot32
+   label " "
+   xpos -6
+   ypos -198
+  }
+set Nfb95fd60 [stack 0]
+  Dot {
+   name Dot30
+   label " "
+   xpos -6
+   ypos -102
+  }
+set Nfba54ce0 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "(log10( max(r, 1e-10 )))"
+   temp_name1 r0
+   temp_expr1 "( logy > KNOT_Y_LOW.0 && logy <= KNOT_Y_LOW.1)"
+   temp_name2 r1
+   temp_expr2 "( logy > KNOT_Y_LOW.1 && logy <= KNOT_Y_LOW.2)"
+   temp_name3 r2
+   temp_expr3 "( logy > KNOT_Y_LOW.2 && logy <= KNOT_Y_LOW.3)"
+   expr0 "r0 ? coefsLow.0 : r1 ? coefsLow.1 : r2 ? coefsLow.2 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.3 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.4 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.5 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.6 : 0"
+   expr1 "r0 ? coefsLow.1 : r1 ? coefsLow.2 : r2 ? coefsLow.3 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.4 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.5 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.6 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.7 : 0"
+   expr2 "r0 ? coefsLow.2 : r1 ? coefsLow.3 : r2 ? coefsLow.4 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.5 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.6 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.7 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.8 : 0"
+   expr3 "r0 ? 0 : r1 ? 1 : r2 ? 2 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? 3 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? 4 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? 5 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? 6 : 0"
+   name inv_cfLow12
+   xpos -150
+   ypos -106
+  }
+  ColorMatrix {
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name ColorMatrix2
+   label "mult_f3_f33( cf, M)"
+   xpos -150
+   ypos -64
+  }
+push $Nfba54ce0
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Br, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy6
+   xpos -40
+   ypos -58
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "( 2. * b) / ( -d - g)"
+   temp_name3 logx
+   temp_expr3 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+   expr0 "isinf(logx) ? 0 : logx"
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 0
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 0
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals6
+   xpos -40
+   ypos -10
+  }
+push 0
+push $Nfb95fd60
+  Dot {
+   name Dot33
+   label " "
+   xpos 214
+   ypos -198
+  }
+set N24842b90 [stack 0]
+  Dot {
+   name Dot34
+   label " "
+   xpos 434
+   ypos -198
+  }
+  Dot {
+   name Dot35
+   label " "
+   xpos 434
+   ypos -102
+  }
+set Nfc159ac0 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "(log10( max(b, 1e-10 )))"
+   temp_name1 r0
+   temp_expr1 "( logy > KNOT_Y_LOW.0 && logy <= KNOT_Y_LOW.1)"
+   temp_name2 r1
+   temp_expr2 "( logy > KNOT_Y_LOW.1 && logy <= KNOT_Y_LOW.2)"
+   temp_name3 r2
+   temp_expr3 "( logy > KNOT_Y_LOW.2 && logy <= KNOT_Y_LOW.3)"
+   expr0 "r0 ? coefsLow.0 : r1 ? coefsLow.1 : r2 ? coefsLow.2 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.3 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.4 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.5 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.6 : 0"
+   expr1 "r0 ? coefsLow.1 : r1 ? coefsLow.2 : r2 ? coefsLow.3 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.4 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.5 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.6 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.7 : 0"
+   expr2 "r0 ? coefsLow.2 : r1 ? coefsLow.3 : r2 ? coefsLow.4 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.5 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.6 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.7 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.8 : 0"
+   expr3 "r0 ? 0 : r1 ? 1 : r2 ? 2 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? 3 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? 4 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? 5 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? 6 : 0"
+   name inv_cfLow5
+   xpos 290
+   ypos -106
+  }
+  ColorMatrix {
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name ColorMatrix3
+   label "mult_f3_f33( cf, M)"
+   xpos 290
+   ypos -64
+  }
+push $Nfc159ac0
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Bb, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy8
+   xpos 400
+   ypos -58
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "( 2. * b) / ( -d - g)"
+   temp_name3 logx
+   temp_expr3 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+   expr0 0
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 0
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 "isinf(logx) ? 0 : logx"
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals8
+   xpos 400
+   ypos -10
+  }
+push $N24842b90
+  Dot {
+   name Dot31
+   label " "
+   xpos 214
+   ypos -102
+  }
+set N1f0a7110 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "(log10( max(g, 1e-10 )))"
+   temp_name1 r0
+   temp_expr1 "( logy > KNOT_Y_LOW.0 && logy <= KNOT_Y_LOW.1)"
+   temp_name2 r1
+   temp_expr2 "( logy > KNOT_Y_LOW.1 && logy <= KNOT_Y_LOW.2)"
+   temp_name3 r2
+   temp_expr3 "( logy > KNOT_Y_LOW.2 && logy <= KNOT_Y_LOW.3)"
+   expr0 "r0 ? coefsLow.0 : r1 ? coefsLow.1 : r2 ? coefsLow.2 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.3 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.4 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.5 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.6 : 0"
+   expr1 "r0 ? coefsLow.1 : r1 ? coefsLow.2 : r2 ? coefsLow.3 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.4 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.5 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.6 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.7 : 0"
+   expr2 "r0 ? coefsLow.2 : r1 ? coefsLow.3 : r2 ? coefsLow.4 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? coefsLow.5 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? coefsLow.6 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? coefsLow.7 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? coefsLow.8 : 0"
+   expr3 "r0 ? 0 : r1 ? 1 : r2 ? 2 : ( logy > KNOT_Y_LOW.3 && logy <= KNOT_Y_LOW.4) ? 3 : ( logy > KNOT_Y_LOW.4 && logy <= KNOT_Y_LOW.5) ? 4 : ( logy > KNOT_Y_LOW.5 && logy <= KNOT_Y_LOW.6) ? 5 : ( logy > KNOT_Y_LOW.6 && logy <= KNOT_Y_LOW.7) ? 6 : 0"
+   name inv_cfLow4
+   xpos 70
+   ypos -106
+  }
+  ColorMatrix {
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name ColorMatrix1
+   label "mult_f3_f33( cf, M)"
+   xpos 70
+   ypos -64
+  }
+push $N1f0a7110
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Bg, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy7
+   xpos 180
+   ypos -58
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "( 2. * b) / ( -d - g)"
+   temp_name3 logx
+   temp_expr3 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+   expr0 0
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 "isinf(logx) ? 0 : logx"
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 0
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals7
+   xpos 180
+   ypos -10
+  }
+  Merge2 {
+   inputs 3+1
+   operation plus
+   bbox B
+   output rgb
+   name Merge4
+   xpos 180
+   ypos 62
+  }
+  Merge2 {
+   inputs 2
+   operation multiply
+   also_merge all
+   name Multiply1
+   xpos 180
+   ypos 350
+  }
+  Dot {
+   name Dot28
+   label " "
+   xpos 214
+   ypos 786
+  }
+push 0
+push $N4048e90
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   expr0 "( logr >= log10(midPoint.y) ) && ( logr < log10(maxPoint.y) )"
+   expr1 "( logg >= log10(midPoint.y) ) && ( logg < log10(maxPoint.y) )"
+   expr2 "( logb >= log10(midPoint.y) ) && ( logb < log10(maxPoint.y) )"
+   name segment_high
+   xpos -810
+   ypos -178
+  }
+  Dot {
+   name Dot23
+   label " "
+   xpos -776
+   ypos 474
+  }
+push $Nfb95aee0
+  Dot {
+   name Dot14
+   label " "
+   xpos 764
+   ypos -318
+  }
+set N4744590 [stack 0]
+  Dot {
+   name Dot36
+   label " "
+   xpos 764
+   ypos -198
+  }
+set N4749100 [stack 0]
+  Dot {
+   name Dot37
+   label " "
+   xpos 764
+   ypos -102
+  }
+set Nfa5ac0c0 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "(log10( max(r, 1e-10 )))"
+   temp_name1 r0
+   temp_expr1 "( logy > KNOT_Y_HIGH.0 && logy <= KNOT_Y_HIGH.1)"
+   temp_name2 r1
+   temp_expr2 "( logy > KNOT_Y_HIGH.1 && logy <= KNOT_Y_HIGH.2)"
+   temp_name3 r2
+   temp_expr3 "( logy > KNOT_Y_HIGH.2 && logy <= KNOT_Y_HIGH.3)"
+   expr0 "r0 ? coefsHigh.0 : r1 ? coefsHigh.1 : r2 ? coefsHigh.2 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.3 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.6 : 0"
+   expr1 "r0 ? coefsHigh.1 : r1 ? coefsHigh.2 : r2 ? coefsHigh.3 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.6 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.7 : 0"
+   expr2 "r0 ? coefsHigh.2 : r1 ? coefsHigh.3 : r2 ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.6 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.7 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.8 : 0"
+   expr3 "r0 ? 0 : r1 ? 1 : r2 ? 2 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? 3 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? 4 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? 5 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? 6 : 0"
+   name inv_cfLow8
+   xpos 620
+   ypos -106
+  }
+  ColorMatrix {
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name ColorMatrix4
+   label "mult_f3_f33( cf, M)"
+   xpos 620
+   ypos -64
+  }
+push $Nfa5ac0c0
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Br, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy9
+   xpos 730
+   ypos -58
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "( 2. * b) / ( -d - g)"
+   temp_name3 logx
+   temp_expr3 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+   expr0 "isinf(logx) ? 0 : logx"
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 0
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 0
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals9
+   xpos 730
+   ypos -10
+  }
+push 0
+push $N4749100
+  Dot {
+   name Dot38
+   label " "
+   xpos 984
+   ypos -198
+  }
+set Nf9eb8400 [stack 0]
+  Dot {
+   name Dot39
+   label " "
+   xpos 1204
+   ypos -198
+  }
+  Dot {
+   name Dot40
+   label " "
+   xpos 1204
+   ypos -102
+  }
+set Nf9fb1ab0 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "(log10( max(b, 1e-10 )))"
+   temp_name1 r0
+   temp_expr1 "( logy > KNOT_Y_HIGH.0 && logy <= KNOT_Y_HIGH.1)"
+   temp_name2 r1
+   temp_expr2 "( logy > KNOT_Y_HIGH.1 && logy <= KNOT_Y_HIGH.2)"
+   temp_name3 r2
+   temp_expr3 "( logy > KNOT_Y_HIGH.2 && logy <= KNOT_Y_HIGH.3)"
+   expr0 "r0 ? coefsHigh.0 : r1 ? coefsHigh.1 : r2 ? coefsHigh.2 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.3 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.6 : 0"
+   expr1 "r0 ? coefsHigh.1 : r1 ? coefsHigh.2 : r2 ? coefsHigh.3 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.6 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.7 : 0"
+   expr2 "r0 ? coefsHigh.2 : r1 ? coefsHigh.3 : r2 ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.6 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.7 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.8 : 0"
+   expr3 "r0 ? 0 : r1 ? 1 : r2 ? 2 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? 3 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? 4 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? 5 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? 6 : 0"
+   name inv_cfLow10
+   xpos 1060
+   ypos -106
+  }
+  ColorMatrix {
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name ColorMatrix5
+   label "mult_f3_f33( cf, M)"
+   xpos 1060
+   ypos -64
+  }
+push $Nf9fb1ab0
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Bb, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy10
+   xpos 1170
+   ypos -58
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "( 2. * b) / ( -d - g)"
+   temp_name3 logx
+   temp_expr3 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+   expr0 0
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 0
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 "isinf(logx) ? 0 : logx"
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals10
+   xpos 1170
+   ypos -10
+  }
+push $Nf9eb8400
+  Dot {
+   name Dot41
+   label " "
+   xpos 984
+   ypos -102
+  }
+set Nfa6daac0 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "(log10( max(g, 1e-10 )))"
+   temp_name1 r0
+   temp_expr1 "( logy > KNOT_Y_HIGH.0 && logy <= KNOT_Y_HIGH.1)"
+   temp_name2 r1
+   temp_expr2 "( logy > KNOT_Y_HIGH.1 && logy <= KNOT_Y_HIGH.2)"
+   temp_name3 r2
+   temp_expr3 "( logy > KNOT_Y_HIGH.2 && logy <= KNOT_Y_HIGH.3)"
+   expr0 "r0 ? coefsHigh.0 : r1 ? coefsHigh.1 : r2 ? coefsHigh.2 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.3 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.6 : 0"
+   expr1 "r0 ? coefsHigh.1 : r1 ? coefsHigh.2 : r2 ? coefsHigh.3 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.6 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.7 : 0"
+   expr2 "r0 ? coefsHigh.2 : r1 ? coefsHigh.3 : r2 ? coefsHigh.4 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? coefsHigh.5 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? coefsHigh.6 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? coefsHigh.7 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? coefsHigh.8 : 0"
+   expr3 "r0 ? 0 : r1 ? 1 : r2 ? 2 : ( logy > KNOT_Y_HIGH.3 && logy <= KNOT_Y_HIGH.4) ? 3 : ( logy > KNOT_Y_HIGH.4 && logy <= KNOT_Y_HIGH.5) ? 4 : ( logy > KNOT_Y_HIGH.5 && logy <= KNOT_Y_HIGH.6) ? 5 : ( logy > KNOT_Y_HIGH.6 && logy <= KNOT_Y_HIGH.7) ? 6 : 0"
+   name inv_cfLow11
+   xpos 840
+   ypos -106
+  }
+  ColorMatrix {
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name ColorMatrix6
+   label "mult_f3_f33( cf, M)"
+   xpos 840
+   ypos -64
+  }
+push $Nfa6daac0
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Bg, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy11
+   xpos 950
+   ypos -58
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "( 2. * b) / ( -d - g)"
+   temp_name3 logx
+   temp_expr3 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+   expr0 0
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 "isinf(logx) ? 0 : logx"
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 0
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals11
+   xpos 950
+   ypos -10
+  }
+  Merge2 {
+   inputs 3+1
+   operation plus
+   bbox B
+   output rgb
+   name Merge5
+   xpos 950
+   ypos 62
+  }
+  Merge2 {
+   inputs 2
+   operation multiply
+   also_merge all
+   name Multiply2
+   xpos 950
+   ypos 470
+  }
+  Dot {
+   name Dot29
+   label " "
+   xpos 984
+   ypos 786
+  }
+push $N4044210
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   expr0 "logr >= log10(maxPoint.y) ? 1 : 0"
+   expr1 "logg >= log10(maxPoint.y) ? 1 : 0"
+   expr2 "logb >= log10(maxPoint.y) ? 1 : 0"
+   name segment_peak
+   xpos -920
+   ypos -178
+  }
+  Dot {
+   name Dot24
+   label " "
+   xpos -886
+   ypos 618
+  }
+push $N4744590
+  Dot {
+   name Dot21
+   label " "
+   xpos 1534
+   ypos -318
+  }
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   channel0 {rgba.red -rgba.green -rgba.blue none}
+   expr0 log10(maxPoint.x)
+   expr1 log10(maxPoint.x)
+   expr2 log10(maxPoint.x)
+   expr3 1
+   name proc_low1
+   label Expression
+   xpos 1500
+   ypos -202
+  }
+  Merge2 {
+   inputs 2
+   operation multiply
+   also_merge all
+   name Multiply4
+   xpos 1500
+   ypos 614
+  }
+  Merge2 {
+   inputs 4+1
+   operation plus
+   bbox B
+   output rgb
+   name Merge3
+   xpos 510
+   ypos 1118
+  }
+  Expression {
+   channel0 {rgba.red -rgba.green -rgba.blue none}
+   expr0 pow(10,r)
+   expr1 pow(10,g)
+   expr2 pow(10,b)
+   name Expression13
+   xpos 510
+   ypos 1238
+  }
+  Copy {
+   inputs 2
+   from0 rgba.alpha
+   to0 rgba.alpha
+   name Copy1
+   xpos 510
+   ypos 1496
+  }
+  Output {
+   name Output1
+   xpos 510
+   ypos 1814
+  }
+ end_group
+push $Nfd2ff490
+ Switch {
+  inputs 2
+  which {{parent.use_c9}}
+  name Switch_c1
+  xpos 3480
+  ypos 1022
+ }
+ ColorMatrix {
+  matrix {
+      {0.6954522133 0.1406786889 0.163869068}
+      {0.04479460046 0.8596710563 0.09553432465}
+      {-0.005525867455 0.004025223199 1.001500726}
+    }
+  name ColorMatrix11
+  label "ACEScg to ACES"
+  xpos 3480
+  ypos 1112
+ }
+ Switch {
+  inputs 2
+  which {{parent.eotf==9}}
+  name Switch_OCES
+  xpos 3480
+  ypos 1214
+ }
+ ColorMatrix {
+  matrix {
+      {1.451439381 -0.2365107685 -0.2149285674}
+      {-0.07655383646 1.176229835 -0.09967593104}
+      {0.008316127583 -0.0060324613 0.997716248}
+    }
+  name ColorMatrix9
+  label "ACES to ACEScg"
+  xpos 3480
+  ypos 1280
+ }
+ Dot {
+  name Dot3
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos 3514
+  ypos 1338
+ }
+set Nf30ed030 [stack 0]
+ Group {
+  name inv_ssts
+  selected true
+  xpos 3480
+  ypos 1382
+  addUserKnob {20 ssts_tab l ssts}
+  addUserKnob {78 lum l luminance t "<b>SSTS Display Luminance</b>: \ny_min y_mid y_max\n\nAccording to Zach Lewis's ACES_OT\nhttps://gist.github.com/zachlewis/786c0be941868644c993fde1c3515c2c\n\n<b>Standard Cinema</b>: \n0.02 4.8 48\n<b>Dolby Cinema</b>: \n0.0001 7.2 108\n<b>Dolby Pulsar</b>: \n0.005 15 4000\n<b>Dolby PRR-4220</b>: \n0.005 10 600\n<b>Sony BVM-X300</b>: \n0.0001 10 1000\n<b>ACES OCES</b>: \n0.0001 4.8 10000\n\n" n 3}
+  lum {{"use_c9 ? 0.0001 : parent.lum"} {parent.lum} {"use_c9 ? 10000 : parent.lum"}}
+  addUserKnob {6 override_ssts_params l "override ssts params" t "Enable overrides of SSTS params.\n\nOtherwise the values will be calculated automatically by the algorithm." +STARTLINE}
+  override_ssts_params {{parent.ACES_SSTS.AcesSSTSKernel_override_curve_params}}
+  addUserKnob {7 exposure R -5 5}
+  exposure {{parent.exposure}}
+  addUserKnob {7 knee}
+  knee {{parent.pctLow}}
+  addUserKnob {7 shoulder}
+  shoulder {{parent.pctHigh}}
+  addUserKnob {78 slope n 3}
+  slope {{parent.slope} {parent.slope} {parent.slope}}
+  addUserKnob {20 TsParams_tab l TsParams}
+  addUserKnob {7 mid_lum l "mid lum" R 0 20}
+  mid_lum {{parent.lum.1}}
+  addUserKnob {7 expShift R -4 4}
+  expShift {{"(parent.override_ssts_params ? exposure : 0) + (mid_lum<= 4.8 ? 0 : \[sample parent.expShift r 0 0] )"}}
+  addUserKnob {13 minPoint t "x;        // ACES\ny;        // luminance\nz;        // slope"}
+  minPoint {{"pow(2, log(0.18*pow(2, MIN_STOP_RRT+((MIN_STOP_SDR-MIN_STOP_RRT)/(log10(MIN_LUM_SDR)-log10(MIN_LUM_RRT)))*(log10(minPoint.y)-log10(MIN_LUM_RRT))))/log(2)-expShift)"} {lum.0} {override_ssts_params?slope.0:0}}
+  addUserKnob {13 midPoint t "x;        // ACES\ny;        // luminance\nz;        // slope"}
+  midPoint {{"pow(2, ((log(0.18)/log(2)-expShift)))"} 4.8 {override_ssts_params?slope.1:1.55}}
+  addUserKnob {13 maxPoint t "x;        // ACES\ny;        // luminance\nz;        // slope"}
+  maxPoint {{"pow(2, log(0.18*pow(2, (MAX_STOP_SDR+(MAX_STOP_RRT-MAX_STOP_SDR)/(log10(MAX_LUM_RRT)-log10(MAX_LUM_SDR))*(log10(maxPoint.y)-log10(MAX_LUM_SDR)))))/log(2)-expShift)"} {lum.2} {override_ssts_params?slope.2:0}}
+  addUserKnob {7 knotIncLow}
+  knotIncLow {{"(log10(midPoint.x) - log10(minPoint.x)) / 3.0"}}
+  addUserKnob {7 knotIncHigh}
+  knotIncHigh {{"(log10(maxPoint.x) - log10(midPoint.x)) / 3.0"}}
+  addUserKnob {7 pctLow}
+  pctLow {{0.18+(0.35-0.18)/(MIN_STOP_SDR-MIN_STOP_RRT)*(log(minPoint.x/0.18)/log(2)-MIN_STOP_RRT)}}
+  addUserKnob {7 pctHigh}
+  pctHigh {{0.89+(0.90-0.89)/(MAX_STOP_SDR-MAX_STOP_RRT)*(log(maxPoint.x/0.89)/log(2)-MAX_STOP_RRT)}}
+  addUserKnob {78 coefsLow n 5}
+  coefsLow {{"(minPoint.z * (log10(minPoint.x)-0.5*knotIncLow)) + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x))"} {"(minPoint.z * (log10(minPoint.x)+0.5*knotIncLow)) + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x))"} {log10(minPoint.y)+pctLow*(log10(midPoint.y)-log10(minPoint.y))} {"(midPoint.z * (log10(midPoint.x)-0.5*knotIncLow)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {"(midPoint.z * (log10(midPoint.x)+0.5*knotIncLow)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"}}
+  addUserKnob {78 coefsHigh n 5}
+  coefsHigh {{"(midPoint.z * (log10(midPoint.x)-0.5*knotIncHigh)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {"(midPoint.z * (log10(midPoint.x)+0.5*knotIncHigh)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {log10(midPoint.y)+pctHigh*(log10(maxPoint.y)-log10(midPoint.y))} {"(maxPoint.z * (log10(maxPoint.x)-0.5*knotIncHigh)) + ( log10(maxPoint.y) - maxPoint.z * log10(maxPoint.x))"} {"(maxPoint.z * (log10(maxPoint.x)+0.5*knotIncHigh)) + ( log10(maxPoint.y) - maxPoint.z * log10(maxPoint.x))"}}
+  addUserKnob {7 KNOT_INC_LOW}
+  KNOT_INC_LOW {{"(log10(midPoint.x) - log10(minPoint.x)) / (N_KNOTS_LOW - 1)"}}
+  addUserKnob {7 KNOT_INC_HIGH}
+  KNOT_INC_HIGH {{"(log10(maxPoint.x) - log10(midPoint.x)) / (N_KNOTS_HIGH - 1)"}}
+  addUserKnob {78 KNOT_Y_LOW n 4}
+  KNOT_Y_LOW {{"(coefsLow.0 + coefsLow.1) / 2"} {"(coefsLow.1 + coefsLow.2) / 2"} {"(coefsLow.2 + coefsLow.3) / 2"} {"(coefsLow.3 + coefsLow.4) / 2"}}
+  addUserKnob {78 KNOT_Y_HIGH n 4}
+  KNOT_Y_HIGH {{"(coefsHigh.0 + coefsHigh.1) / 2"} {"(coefsHigh.1 + coefsHigh.2) / 2"} {"(coefsHigh.2 + coefsHigh.3) / 2"} {"(coefsHigh.3 + coefsHigh.4) / 2"}}
+  addUserKnob {20 Constants_tab l const}
+  addUserKnob {3 N_KNOTS_LOW}
+  N_KNOTS_LOW 4
+  addUserKnob {3 N_KNOTS_HIGH}
+  N_KNOTS_HIGH 4
+  addUserKnob {7 MIN_STOP_SDR R -20 20}
+  MIN_STOP_SDR -6.5
+  addUserKnob {7 MAX_STOP_SDR R -20 20}
+  MAX_STOP_SDR 6.5
+  addUserKnob {7 MIN_STOP_RRT R -20 20}
+  MIN_STOP_RRT -15
+  addUserKnob {7 MAX_STOP_RRT R -20 20}
+  MAX_STOP_RRT 18
+  addUserKnob {7 MIN_LUM_SDR R 0 0.1}
+  MIN_LUM_SDR 0.02
+  addUserKnob {7 MAX_LUM_SDR R 0 100}
+  MAX_LUM_SDR 48
+  addUserKnob {7 MIN_LUM_RRT R 0 0.1}
+  MIN_LUM_RRT 0.0001
+  addUserKnob {7 MAX_LUM_RRT R 0 10000}
+  MAX_LUM_RRT 10000
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -1030
+   ypos -634
+  }
+  Dot {
+   name Dot25
+   label " "
+   xpos -996
+   ypos -318
+  }
+set Nf2c82840 [stack 0]
+  Dot {
+   name Dot26
+   label " "
+   xpos -996
+   ypos 1506
+  }
+push $Nf2c82840
+  Dot {
+   name Dot4
+   label " "
+   xpos -886
+   ypos -318
+  }
+set Nf91d6ab0 [stack 0]
+  Dot {
+   name Dot5
+   label " "
+   xpos -776
+   ypos -318
+  }
+set Nf91d1af0 [stack 0]
+  Dot {
+   name Dot2
+   label " "
+   xpos -666
+   ypos -318
+  }
+set Nf91d9f40 [stack 0]
+  Dot {
+   name Dot3
+   label " "
+   xpos -556
+   ypos -318
+  }
+set Nf30d3d00 [stack 0]
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   expr0 "logr <= log10(minPoint.y)"
+   expr1 "logg <= log10(minPoint.y)"
+   expr2 "logb <= log10(minPoint.y)"
+   name segment_bottom
+   xpos -590
+   ypos -202
+  }
+  Dot {
+   name Dot1
+   label " "
+   xpos -556
+   ypos 162
+  }
+push $Nf30d3d00
+  Dot {
+   name Dot7
+   label " "
+   xpos -336
+   ypos -318
+  }
+set Nf9198e80 [stack 0]
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   channel0 {rgba.red -rgba.green -rgba.blue none}
+   expr0 log10(minPoint.x)
+   expr1 log10(minPoint.x)
+   expr2 log10(minPoint.x)
+   expr3 1
+   name Expression
+   xpos -370
+   ypos -202
+  }
+  Merge2 {
+   inputs 2
+   operation multiply
+   also_merge all
+   name Multiply3
+   xpos -370
+   ypos 158
+  }
+  Dot {
+   name Dot27
+   label " "
+   xpos -336
+   ypos 786
+  }
+push $Nf91d9f40
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   expr0 "( logr > log10(minPoint.y) ) && ( logr <= log10(midPoint.y) )"
+   expr1 "( logg > log10(minPoint.y) ) && ( logg <= log10(midPoint.y) )"
+   expr2 "( logb > log10(minPoint.y) ) && ( logb <= log10(midPoint.y) )"
+   name segment_low
+   xpos -700
+   ypos -202
+  }
+  Dot {
+   name Dot22
+   label " "
+   xpos -666
+   ypos 354
+  }
+push $Nf9198e80
+  Dot {
+   name Dot9
+   label " "
+   xpos -6
+   ypos -318
+  }
+set Nf9270f50 [stack 0]
+  Dot {
+   name Dot6
+   label " "
+   xpos -6
+   ypos -174
+  }
+set Nf30f8490 [stack 0]
+  Dot {
+   name Dot8
+   label " "
+   xpos 214
+   ypos -174
+  }
+set Nf30fd4c0 [stack 0]
+  Dot {
+   name Dot13
+   label " "
+   xpos 434
+   ypos -174
+  }
+  Dot {
+   name Dot19
+   xpos 434
+   ypos -78
+  }
+set Nf3107410 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "log10( max(b, 1e-10 ))"
+   temp_name1 low
+   temp_expr1 "(logy > KNOT_Y_LOW.0) && (logy <= KNOT_Y_LOW.1)"
+   temp_name2 mid
+   temp_expr2 "(logy > KNOT_Y_LOW.1) && (logy <= KNOT_Y_LOW.2)"
+   temp_name3 high
+   temp_expr3 "(logy > KNOT_Y_LOW.2) && (logy <= KNOT_Y_LOW.3)"
+   expr0 "low ? coefsLow.0 : mid ? coefsLow.1 : coefsLow.2"
+   expr1 "low ? coefsLow.1 : mid ? coefsLow.2 : coefsLow.3"
+   expr2 "low ? coefsLow.2 : mid ? coefsLow.3 : coefsLow.4"
+   expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+   name inv_cfLow5
+   xpos 290
+   ypos -82
+  }
+  ColorMatrix {
+   channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name inv_basis_low5
+   xpos 290
+   ypos -34
+  }
+push $Nf3107410
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Bb, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy5
+   xpos 400
+   ypos -34
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "(2.*b)/(-sqrt(g*g - 4*r*b)-g)"
+   expr0 0
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 0
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals4
+   xpos 400
+   ypos 14
+   addUserKnob {20 User}
+   addUserKnob {7 knotIncLow}
+   knotIncLow {{parent.knotIncLow}}
+   addUserKnob {13 min l Min}
+   min {{parent.min.x} {parent.min.y} {parent.minSlope}}
+  }
+push 0
+push $Nf30f8490
+  Dot {
+   name Dot10
+   xpos -6
+   ypos -78
+  }
+set Nf3141d40 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 low
+   temp_expr1 "(logy > KNOT_Y_LOW.0) && (logy <= KNOT_Y_LOW.1)"
+   temp_name2 mid
+   temp_expr2 "(logy > KNOT_Y_LOW.1) && (logy <= KNOT_Y_LOW.2)"
+   temp_name3 high
+   temp_expr3 "(logy > KNOT_Y_LOW.2) && (logy <= KNOT_Y_LOW.3)"
+   expr0 "low ? coefsLow.0 : mid ? coefsLow.1 : coefsLow.2"
+   expr1 "low ? coefsLow.1 : mid ? coefsLow.2 : coefsLow.3"
+   expr2 "low ? coefsLow.2 : mid ? coefsLow.3 : coefsLow.4"
+   expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+   name inv_cfLow
+   xpos -150
+   ypos -82
+  }
+  ColorMatrix {
+   channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name inv_basis_low
+   xpos -150
+   ypos -34
+  }
+push $Nf3141d40
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Br, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy
+   xpos -40
+   ypos -34
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "(2.*b)/(-sqrt(g*g - 4*r*b)-g)"
+   expr0 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 0
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 0
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals
+   xpos -40
+   ypos 14
+   addUserKnob {20 User}
+   addUserKnob {7 knotIncLow}
+   knotIncLow {{parent.knotIncLow}}
+   addUserKnob {13 min l Min}
+   min {{parent.min.x} {parent.min.y} {parent.minSlope}}
+  }
+push $Nf30fd4c0
+  Dot {
+   name Dot18
+   xpos 214
+   ypos -78
+  }
+set Nf317dd00 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "log10( max(g, 1e-10 ))"
+   temp_name1 low
+   temp_expr1 "(logy > KNOT_Y_LOW.0) && (logy <= KNOT_Y_LOW.1)"
+   temp_name2 mid
+   temp_expr2 "(logy > KNOT_Y_LOW.1) && (logy <= KNOT_Y_LOW.2)"
+   temp_name3 high
+   temp_expr3 "(logy > KNOT_Y_LOW.2) && (logy <= KNOT_Y_LOW.3)"
+   expr0 "low ? coefsLow.0 : mid ? coefsLow.1 : coefsLow.2"
+   expr1 "low ? coefsLow.1 : mid ? coefsLow.2 : coefsLow.3"
+   expr2 "low ? coefsLow.2 : mid ? coefsLow.3 : coefsLow.4"
+   expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+   name inv_cfLow4
+   xpos 70
+   ypos -82
+  }
+  ColorMatrix {
+   channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name inv_basis_low4
+   xpos 70
+   ypos -34
+  }
+push $Nf317dd00
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Bg, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy4
+   xpos 180
+   ypos -34
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "(2.*b)/(-sqrt(g*g - 4*r*b)-g)"
+   expr0 0
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 0
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals5
+   xpos 180
+   ypos 14
+   addUserKnob {20 User}
+   addUserKnob {7 knotIncLow}
+   knotIncLow {{parent.knotIncLow}}
+   addUserKnob {13 min l Min}
+   min {{parent.min.x} {parent.min.y} {parent.minSlope}}
+  }
+  Merge2 {
+   inputs 3+1
+   operation plus
+   bbox B
+   name Merge2
+   xpos 180
+   ypos 134
+  }
+  Merge2 {
+   inputs 2
+   operation multiply
+   also_merge all
+   name Multiply1
+   xpos 180
+   ypos 350
+  }
+  Dot {
+   name Dot28
+   label " "
+   xpos 214
+   ypos 786
+  }
+push 0
+push $Nf91d1af0
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   expr0 "( logr >= log10(midPoint.y) ) && ( logr < log10(maxPoint.y) )"
+   expr1 "( logg >= log10(midPoint.y) ) && ( logg < log10(maxPoint.y) )"
+   expr2 "( logb >= log10(midPoint.y) ) && ( logb < log10(maxPoint.y) )"
+   name segment_high
+   xpos -810
+   ypos -202
+  }
+  Dot {
+   name Dot23
+   label " "
+   xpos -776
+   ypos 474
+  }
+push $Nf9270f50
+  Dot {
+   name Dot14
+   label " "
+   xpos 764
+   ypos -318
+  }
+set Nf321e720 [stack 0]
+  Dot {
+   name Dot15
+   label " "
+   xpos 764
+   ypos -174
+  }
+set Nf32232e0 [stack 0]
+  Dot {
+   name Dot17
+   label " "
+   xpos 984
+   ypos -174
+  }
+set Nf3228310 [stack 0]
+  Dot {
+   name Dot20
+   label " "
+   xpos 1204
+   ypos -174
+  }
+  Dot {
+   name Dot16
+   xpos 1204
+   ypos -78
+  }
+set Nf3232040 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "log10( max(b, 1e-10 ))"
+   temp_name1 low
+   temp_expr1 "(logy > KNOT_Y_HIGH.0) && (logy <= KNOT_Y_HIGH.1)"
+   temp_name2 mid
+   temp_expr2 "(logy > KNOT_Y_HIGH.1) && (logy <= KNOT_Y_HIGH.2)"
+   temp_name3 high
+   temp_expr3 "(logy > KNOT_Y_HIGH.2) && (logy <= KNOT_Y_HIGH.3)"
+   expr0 "low ? coefsHigh.0 : mid ? coefsHigh.1 : coefsHigh.2"
+   expr1 "low ? coefsHigh.1 : mid ? coefsHigh.2 : coefsHigh.3"
+   expr2 "low ? coefsHigh.2 : mid ? coefsHigh.3 : coefsHigh.4"
+   expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+   name inv_cfLow3
+   xpos 1060
+   ypos -82
+  }
+  ColorMatrix {
+   channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name inv_basis_low3
+   xpos 1060
+   ypos -34
+  }
+push $Nf3232040
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Bb, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy3
+   xpos 1170
+   ypos -34
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "(2.*b) / (-sqrt(g*g - 4*r*b) - g)"
+   expr0 0
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 0
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals3
+   xpos 1170
+   ypos 14
+  }
+push 0
+push $Nf32232e0
+  Dot {
+   name Dot11
+   xpos 764
+   ypos -78
+  }
+set Nf326d490 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 low
+   temp_expr1 "(logy > KNOT_Y_HIGH.0) && (logy <= KNOT_Y_HIGH.1)"
+   temp_name2 mid
+   temp_expr2 "(logy > KNOT_Y_HIGH.1) && (logy <= KNOT_Y_HIGH.2)"
+   temp_name3 high
+   temp_expr3 "(logy > KNOT_Y_HIGH.2) && (logy <= KNOT_Y_HIGH.3)"
+   expr0 "low ? coefsHigh.0 : mid ? coefsHigh.1 : coefsHigh.2"
+   expr1 "low ? coefsHigh.1 : mid ? coefsHigh.2 : coefsHigh.3"
+   expr2 "low ? coefsHigh.2 : mid ? coefsHigh.3 : coefsHigh.4"
+   expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+   name inv_cfLow1
+   xpos 620
+   ypos -82
+  }
+  ColorMatrix {
+   channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name inv_basis_low1
+   xpos 620
+   ypos -34
+  }
+push $Nf326d490
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Br, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy1
+   xpos 730
+   ypos -34
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "(2.*b) / (-sqrt(g*g - 4*r*b) - g)"
+   expr0 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 0
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 0
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals1
+   xpos 730
+   ypos 14
+  }
+push $Nf3228310
+  Dot {
+   name Dot12
+   xpos 984
+   ypos -78
+  }
+set Nf32a8ab0 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "log10( max(g, 1e-10 ))"
+   temp_name1 low
+   temp_expr1 "(logy > KNOT_Y_HIGH.0) && (logy <= KNOT_Y_HIGH.1)"
+   temp_name2 mid
+   temp_expr2 "(logy > KNOT_Y_HIGH.1) && (logy <= KNOT_Y_HIGH.2)"
+   temp_name3 high
+   temp_expr3 "(logy > KNOT_Y_HIGH.2) && (logy <= KNOT_Y_HIGH.3)"
+   expr0 "low ? coefsHigh.0 : mid ? coefsHigh.1 : coefsHigh.2"
+   expr1 "low ? coefsHigh.1 : mid ? coefsHigh.2 : coefsHigh.3"
+   expr2 "low ? coefsHigh.2 : mid ? coefsHigh.3 : coefsHigh.4"
+   expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+   name inv_cfLow2
+   xpos 840
+   ypos -82
+  }
+  ColorMatrix {
+   channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name inv_basis_low2
+   xpos 840
+   ypos -34
+  }
+push $Nf32a8ab0
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Bg, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy2
+   xpos 950
+   ypos -34
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "(2.*b) / (-sqrt(g*g - 4*r*b) - g)"
+   expr0 0
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 0
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals2
+   xpos 950
+   ypos 14
+  }
+  Merge2 {
+   inputs 3+1
+   operation plus
+   bbox B
+   output rgb
+   name Merge1
+   xpos 950
+   ypos 134
+  }
+  Merge2 {
+   inputs 2
+   operation multiply
+   also_merge all
+   name Multiply2
+   xpos 950
+   ypos 470
+  }
+  Dot {
+   name Dot29
+   label " "
+   xpos 984
+   ypos 786
+  }
+push $Nf91d6ab0
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   expr0 "logr >= log10(maxPoint.y) ? 1 : 0"
+   expr1 "logg >= log10(maxPoint.y) ? 1 : 0"
+   expr2 "logb >= log10(maxPoint.y) ? 1 : 0"
+   name segment_peak
+   xpos -920
+   ypos -202
+  }
+  Dot {
+   name Dot24
+   label " "
+   xpos -886
+   ypos 618
+  }
+push $Nf321e720
+  Dot {
+   name Dot21
+   label " "
+   xpos 1534
+   ypos -318
+  }
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   channel0 {rgba.red -rgba.green -rgba.blue none}
+   expr0 log10(maxPoint.x)
+   expr1 log10(maxPoint.x)
+   expr2 log10(maxPoint.x)
+   expr3 1
+   name proc_low1
+   label Expression
+   xpos 1500
+   ypos -208
+  }
+  Merge2 {
+   inputs 2
+   operation multiply
+   also_merge all
+   name Multiply4
+   xpos 1500
+   ypos 614
+  }
+  Merge2 {
+   inputs 4+1
+   operation plus
+   bbox B
+   output rgb
+   name Merge3
+   xpos 510
+   ypos 1118
+  }
+  Expression {
+   channel0 {rgba.red -rgba.green -rgba.blue none}
+   expr0 pow(10,r)
+   expr1 pow(10,g)
+   expr2 pow(10,b)
+   name Expression13
+   xpos 510
+   ypos 1238
+  }
+  Copy {
+   inputs 2
+   from0 rgba.alpha
+   to0 rgba.alpha
+   name Copy1
+   xpos 510
+   ypos 1496
+  }
+  Output {
+   name Output1
+   xpos 510
+   ypos 1814
+  }
+ end_group
+ ColorMatrix {
+  matrix {
+      {{"(1.0 - sat) * rgb2Y.x + sat"} {"(1.0 - sat) * rgb2Y.y"} {"(1.0 - sat) * rgb2Y.z"}}
+      {{"(1.0 - sat) * rgb2Y.x"} {"(1.0 - sat) * rgb2Y.y + sat"} {"(1.0 - sat) * rgb2Y.z"}}
+      {{"(1.0 - sat) * rgb2Y.x"} {"(1.0 - sat) * rgb2Y.y"} {"(1.0 - sat) * rgb2Y.z + sat"}}
+    }
+  invert true
+  name ColorMatrix5
+  label "// --- Global desaturation --- //\nrgbPost = mult_f3_f33( rgbPost, invert_f33(RRT_SAT_MAT));"
+  xpos 3480
+  ypos 1442
+  addUserKnob {20 params}
+  addUserKnob {13 rgb2Y}
+  rgb2Y {0.27222875 0.67408174 0.05368952}
+  addUserKnob {7 sat}
+  sat 0.96
+ }
+ ColorMatrix {
+  matrix {
+      {0.6954522133 0.1406786889 0.163869068}
+      {0.04479460046 0.8596710563 0.09553432465}
+      {-0.005525867455 0.004025223199 1.001500726}
+    }
+  name ColorMatrix14
+  label "ACEScg to ACES"
+  xpos 3480
+  ypos 1544
+ }
+ Group {
+  name red_modifier
+  note_font Helvetica
+  xpos 3480
+  ypos 1664
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 RRT_RED_SCALE}
+  RRT_RED_SCALE 0.82
+  addUserKnob {7 RRT_RED_PIVOT}
+  RRT_RED_PIVOT 0.03
+  addUserKnob {7 RRT_RED_HUE}
+  addUserKnob {7 RRT_RED_WIDTH R 0 360}
+  RRT_RED_WIDTH 135
+  addUserKnob {6 invert +STARTLINE}
+  invert true
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -40
+   ypos -10
+  }
+  Dot {
+   name Dot1
+   xpos -6
+   ypos 42
+  }
+set Nf48e3bc0 [stack 0]
+  Dot {
+   name Dot2
+   xpos -226
+   ypos 42
+  }
+set Nf48e8910 [stack 0]
+  Expression {
+   temp_name0 TINY
+   temp_expr0 1e-10
+   temp_name1 min_f3
+   temp_expr1 min(r,min(g,b))
+   temp_name2 max_f3
+   temp_expr2 max(r,max(g,b))
+   channel0 rgb
+   expr0 "(max( max_f3, TINY) - max( min_f3, TINY)) / max( max_f3, 1e-2)"
+   channel1 none
+   expr1 0
+   channel2 none
+   expr2 0
+   name rgb_2_saturation
+   xpos -260
+   ypos 86
+  }
+push $Nf48e8910
+  Dot {
+   name Dot3
+   xpos -336
+   ypos 42
+  }
+  Expression {
+   temp_name0 hue
+   temp_expr0 "(r==g&&g==b)?0:(180/pi) * atan2( sqrt(3)*(g-b), 2*r-g-b)"
+   channel0 {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+   expr0 "hue < 0 ? hue + 360 : hue"
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 0
+   expr2 0
+   name rgb_2_hue
+   xpos -370
+   ypos 86
+  }
+  Expression {
+   temp_name0 hue
+   temp_expr0 r
+   temp_name1 centerH
+   temp_expr1 RRT_RED_HUE
+   temp_name2 hueCentered
+   temp_expr2 hue-centerH
+   channel0 {-rgba.red rgba.green -rgba.blue -rgba.alpha}
+   expr0 "hueCentered < -180.0 ? hueCentered + 360.0 : (hueCentered > 180.0) ? hueCentered - 360.0 : hueCentered"
+   name center_hue
+   xpos -370
+   ypos 134
+  }
+  Expression {
+   temp_name0 centeredHue
+   temp_expr0 g
+   temp_name1 knot_coord
+   temp_expr1 "(centeredHue - knots.0) * 4.0/w"
+   temp_name2 j
+   temp_expr2 int(knot_coord)
+   temp_name3 t
+   temp_expr3 "knot_coord - j"
+   channel0 {rgba.red -rgba.green -rgba.blue -rgba.alpha}
+   expr0 "(min((centeredHue > knots.0?1:0) , (centeredHue < knots.4?1:0)) ? j == 3 ? t*t*t * -1./6 + t*t * 3./6 +  t * -3./6 + 1 * 1./6 : j == 2 ? t*t*t * 3./6 + t*t * -6./6 + t * 0./6 + 1. *4./6 : j == 1 ? t*t*t * -3./6 + t*t * 3./6 + t * 3./6 + 1. * 1./6 : j == 0 ? t*t*t * 1./6 + t*t * 0./6 + t * 0./6 + 1. * 0./6 : 0 : 0) * 3/2"
+   channel1 none
+   channel2 none
+   name cubic_basis_shaper
+   xpos -370
+   ypos 182
+   addUserKnob {20 param}
+   addUserKnob {7 w R 0 360}
+   w {{parent.RRT_RED_WIDTH}}
+   addUserKnob {78 knots n 5}
+   knots {{-w/2} {-w/4} 0 {w/4} {w/2}}
+  }
+  Dot {
+   name Dot4
+   xpos -336
+   ypos 234
+  }
+  Copy {
+   inputs 2
+   from0 rgba.blue
+   to0 rgba.blue
+   name Copy4
+   note_font Helvetica
+   xpos -260
+   ypos 226
+  }
+  Dot {
+   name Dot6
+   label " r : hueWeight\n g : centeredHue\n b : saturation"
+   note_font "Helvetica \[pyrs]"
+   note_font_size 12
+   note_font_color 0xff
+   xpos -226
+   ypos 282
+  }
+  Dot {
+   name Dot7
+   xpos -226
+   ypos 330
+  }
+set Nf5614120 [stack 0]
+push $Nf48e3bc0
+  Dot {
+   name Dot8
+   xpos -6
+   ypos 258
+  }
+set Nf5619100 [stack 0]
+  MergeExpression {
+   inputs 2
+   temp_name0 minChan
+   temp_expr0 "Ag < 0 ? Bg : Bb"
+   temp_name1 a_
+   temp_expr1 "Ar * (1. - RRT_RED_SCALE) - 1."
+   temp_name2 b
+   temp_expr2 "Br - Ar* (RRT_RED_PIVOT + minChan) * (1. - RRT_RED_SCALE)"
+   temp_name3 c
+   temp_expr3 "Ar * RRT_RED_PIVOT * minChan * (1. - RRT_RED_SCALE)"
+   expr0 "( -b - sqrt( b * b - 4. * a_ * c)) / ( 2. * a_)"
+   name red_modifier_rev
+   note_font Helvetica
+   xpos -150
+   ypos 351
+  }
+push $Nf5614120
+push $Nf5619100
+  MergeExpression {
+   inputs 2
+   expr0 "r + Ar * Ab * (RRT_RED_PIVOT - r) * (1. - RRT_RED_SCALE)"
+   name red_modifier_fwd
+   note_font Helvetica
+   xpos -40
+   ypos 327
+  }
+  Switch {
+   inputs 2
+   which {{parent.invert}}
+   name Switch_direction
+   note_font Helvetica
+   xpos -40
+   ypos 423
+  }
+  Output {
+   name Output
+   xpos -40
+   ypos 494
+  }
+ end_group
+ Group {
+  name glow_module
+  note_font Helvetica
+  xpos 3480
+  ypos 1760
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 RRT_GLOW_GAIN}
+  RRT_GLOW_GAIN 0.05
+  addUserKnob {7 RRT_GLOW_MID}
+  RRT_GLOW_MID 0.08
+  addUserKnob {6 invert +STARTLINE}
+  invert true
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -40
+   ypos -562
+  }
+  Dot {
+   name Dot2
+   xpos -6
+   ypos -510
+  }
+set Nf56548f0 [stack 0]
+  Dot {
+   name Dot4
+   xpos -116
+   ypos -510
+  }
+set Nf56597f0 [stack 0]
+  Expression {
+   temp_name0 chroma
+   temp_expr0 sqrt(b*(b-g)+g*(g-r)+r*(r-b))
+   temp_name1 ycRadiusWeight
+   temp_expr1 1.75
+   channel0 {-rgba.red rgba.green -rgba.blue none}
+   expr0 "( b + g + r + ycRadiusWeight * chroma) / 3.0"
+   channel1 {rgba.red -rgba.green -rgba.blue none}
+   expr1 0
+   expr2 0
+   name rgb_2_yc1
+   xpos -150
+   ypos -466
+  }
+push 0
+push $Nf56597f0
+  Dot {
+   name Dot3
+   xpos -226
+   ypos -510
+  }
+  Expression {
+   temp_name0 TINY
+   temp_expr0 1e-10
+   temp_name1 min_f3
+   temp_expr1 min(r,min(g,b))
+   temp_name2 max_f3
+   temp_expr2 max(r,max(g,b))
+   expr0 "(max( max_f3, TINY) - max( min_f3, TINY)) / max( max_f3, 1e-2)"
+   expr1 0
+   expr2 0
+   name rgb_2_saturation1
+   xpos -260
+   ypos -466
+  }
+set Nf5671700 [stack 0]
+  Expression {
+   channel0 {rgba.red rgba.green rgba.blue none}
+   expr0 "(r - 0.4) / 0.2"
+   name Expression1
+   xpos -370
+   ypos -466
+  }
+  Expression {
+   temp_name0 t
+   temp_expr0 "max( 1.0 - fabs( r / 2.0), 0.0)"
+   temp_name1 sign
+   temp_expr1 r>0?1:r<0?-1:0
+   temp_name2 valy
+   temp_expr2 "1.0 + sign * (1.0 - t * t)"
+   channel0 {-rgba.red -rgba.green rgba.blue none}
+   expr0 "valy / 2"
+   channel1 {rgba.red rgba.green -rgba.blue none}
+   expr1 0
+   channel2 {-rgba.red rgba.green rgba.blue none}
+   expr2 0
+   name sigmoid_shaper1
+   xpos -370
+   ypos -442
+  }
+push $Nf5671700
+  Merge2 {
+   inputs 3+1
+   operation plus
+   bbox B
+   output rgb
+   name Merge2
+   note_font Helvetica
+   xpos -260
+   ypos -393
+  }
+set Nf7401050 [stack 0]
+  Expression {
+   temp_name0 ycOut
+   temp_expr0 g
+   temp_name1 glowGainIn
+   temp_expr1 "RRT_GLOW_GAIN * b"
+   temp_name2 glowMid
+   temp_expr2 RRT_GLOW_MID
+   channel0 rgb
+   expr0 "1 + ((ycOut <= ((1 + glowGainIn) * 2./3. * glowMid)) ? -glowGainIn / (1 + glowGainIn) : ( ycOut >= (2. * glowMid)) ? 0 : glowGainIn * (glowMid / ycOut - 1./2.) / (glowGainIn / 2. - 1.))"
+   channel1 none
+   channel2 none
+   name glow_inv
+   xpos -150
+   ypos -346
+  }
+push $Nf7401050
+  Expression {
+   temp_name0 ycIn
+   temp_expr0 g
+   temp_name1 glowGainIn
+   temp_expr1 "RRT_GLOW_GAIN * b"
+   temp_name2 glowMid
+   temp_expr2 RRT_GLOW_MID
+   channel0 rgb
+   expr0 "1 + ( ycIn <= 2./3. * glowMid ? glowGainIn : ycIn >= 2. * glowMid ? 0 : glowGainIn * (glowMid / ycIn - 1./2.) )"
+   channel1 none
+   channel2 none
+   name glow_fwd
+   xpos -370
+   ypos -346
+  }
+  Switch {
+   inputs 2
+   which {{parent.invert}}
+   name Switch_direction
+   note_font Helvetica
+   xpos -260
+   ypos -297
+  }
+  Dot {
+   name Dot5
+   xpos -226
+   ypos -246
+  }
+push $Nf56548f0
+  Merge2 {
+   inputs 2
+   operation multiply
+   bbox B
+   output rgb
+   name Merge3
+   note_font Helvetica
+   xpos -40
+   ypos -249
+  }
+  Output {
+   name Output
+   xpos -40
+   ypos -178
+  }
+ end_group
+ Output {
+  name Output
+  xpos 3480
+  ypos 1994
+ }
+push $Nf30ed030
+ Reformat {
+  type "to box"
+  box_width 4
+  box_height 4
+  box_fixed true
+  name Reformat1
+  note_font Helvetica
+  xpos 3590
+  ypos 1335
+ }
+ Fill {
+  output rgb
+  color {{parent.inv_ssts.mid_lum}}
+  name Fill1
+  note_font Helvetica
+  xpos 3590
+  ypos 1359
+ }
+ Group {
+  name inv_ssts1
+  xpos 3590
+  ypos 1382
+  addUserKnob {20 ssts_tab l ssts}
+  addUserKnob {78 lum l luminance t "<b>SSTS Display Luminance</b>: \ny_min y_mid y_max\n\nAccording to Zach Lewis's ACES_OT\nhttps://gist.github.com/zachlewis/786c0be941868644c993fde1c3515c2c\n\n<b>Standard Cinema</b>: \n0.02 4.8 48\n<b>Dolby Cinema</b>: \n0.0001 7.2 108\n<b>Dolby Pulsar</b>: \n0.005 15 4000\n<b>Dolby PRR-4220</b>: \n0.005 10 600\n<b>Sony BVM-X300</b>: \n0.0001 10 1000\n<b>ACES OCES</b>: \n0.0001 4.8 10000\n\n" n 3}
+  lum {{"use_c9 ? 0.0001 : parent.lum"} 4.8 {"use_c9 ? 10000 : parent.lum"}}
+  addUserKnob {6 override_ssts_params l "override ssts params" t "Enable overrides of SSTS params.\n\nOtherwise the values will be calculated automatically by the algorithm." +STARTLINE}
+  override_ssts_params {{parent.ACES_SSTS.AcesSSTSKernel_override_curve_params}}
+  addUserKnob {7 exposure R -5 5}
+  exposure {{parent.exposure}}
+  addUserKnob {7 knee}
+  knee {{parent.pctLow}}
+  addUserKnob {7 shoulder}
+  shoulder {{parent.pctHigh}}
+  addUserKnob {78 slope n 3}
+  slope {{parent.slope} {parent.slope} {parent.slope}}
+  addUserKnob {20 TsParams_tab l TsParams}
+  addUserKnob {7 expShift R -4 4}
+  expShift {{"override_ssts_params ? exposure : 0"}}
+  addUserKnob {13 minPoint t "x;        // ACES\ny;        // luminance\nz;        // slope"}
+  minPoint {{"pow(2, log(0.18*pow(2, MIN_STOP_RRT+((MIN_STOP_SDR-MIN_STOP_RRT)/(log10(MIN_LUM_SDR)-log10(MIN_LUM_RRT)))*(log10(minPoint.y)-log10(MIN_LUM_RRT))))/log(2)-expShift)"} {lum.0} {override_ssts_params?slope.0:0}}
+  addUserKnob {13 midPoint t "x;        // ACES\ny;        // luminance\nz;        // slope"}
+  midPoint {{"pow(2, ((log(0.18)/log(2)-expShift)))"} {lum.1} {override_ssts_params?slope.1:1.55}}
+  addUserKnob {13 maxPoint t "x;        // ACES\ny;        // luminance\nz;        // slope"}
+  maxPoint {{"pow(2, log(0.18*pow(2, (MAX_STOP_SDR+(MAX_STOP_RRT-MAX_STOP_SDR)/(log10(MAX_LUM_RRT)-log10(MAX_LUM_SDR))*(log10(maxPoint.y)-log10(MAX_LUM_SDR)))))/log(2)-expShift)"} {lum.2} {override_ssts_params?slope.2:0}}
+  addUserKnob {7 knotIncLow}
+  knotIncLow {{"(log10(midPoint.x) - log10(minPoint.x)) / 3.0"}}
+  addUserKnob {7 knotIncHigh}
+  knotIncHigh {{"(log10(maxPoint.x) - log10(midPoint.x)) / 3.0"}}
+  addUserKnob {7 pctLow}
+  pctLow {{0.18+(0.35-0.18)/(MIN_STOP_SDR-MIN_STOP_RRT)*(log(minPoint.x/0.18)/log(2)-MIN_STOP_RRT)}}
+  addUserKnob {7 pctHigh}
+  pctHigh {{0.89+(0.90-0.89)/(MAX_STOP_SDR-MAX_STOP_RRT)*(log(maxPoint.x/0.89)/log(2)-MAX_STOP_RRT)}}
+  addUserKnob {78 coefsLow n 5}
+  coefsLow {{"(minPoint.z * (log10(minPoint.x)-0.5*knotIncLow)) + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x))"} {"(minPoint.z * (log10(minPoint.x)+0.5*knotIncLow)) + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x))"} {log10(minPoint.y)+pctLow*(log10(midPoint.y)-log10(minPoint.y))} {"(midPoint.z * (log10(midPoint.x)-0.5*knotIncLow)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {"(midPoint.z * (log10(midPoint.x)+0.5*knotIncLow)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"}}
+  addUserKnob {78 coefsHigh n 5}
+  coefsHigh {{"(midPoint.z * (log10(midPoint.x)-0.5*knotIncHigh)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {"(midPoint.z * (log10(midPoint.x)+0.5*knotIncHigh)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {log10(midPoint.y)+pctHigh*(log10(maxPoint.y)-log10(midPoint.y))} {"(maxPoint.z * (log10(maxPoint.x)-0.5*knotIncHigh)) + ( log10(maxPoint.y) - maxPoint.z * log10(maxPoint.x))"} {"(maxPoint.z * (log10(maxPoint.x)+0.5*knotIncHigh)) + ( log10(maxPoint.y) - maxPoint.z * log10(maxPoint.x))"}}
+  addUserKnob {7 KNOT_INC_LOW}
+  KNOT_INC_LOW {{"(log10(midPoint.x) - log10(minPoint.x)) / (N_KNOTS_LOW - 1)"}}
+  addUserKnob {7 KNOT_INC_HIGH}
+  KNOT_INC_HIGH {{"(log10(maxPoint.x) - log10(midPoint.x)) / (N_KNOTS_HIGH - 1)"}}
+  addUserKnob {78 KNOT_Y_LOW n 4}
+  KNOT_Y_LOW {{"(coefsLow.0 + coefsLow.1) / 2"} {"(coefsLow.1 + coefsLow.2) / 2"} {"(coefsLow.2 + coefsLow.3) / 2"} {"(coefsLow.3 + coefsLow.4) / 2"}}
+  addUserKnob {78 KNOT_Y_HIGH n 4}
+  KNOT_Y_HIGH {{"(coefsHigh.0 + coefsHigh.1) / 2"} {"(coefsHigh.1 + coefsHigh.2) / 2"} {"(coefsHigh.2 + coefsHigh.3) / 2"} {"(coefsHigh.3 + coefsHigh.4) / 2"}}
+  addUserKnob {20 Constants_tab l const}
+  addUserKnob {3 N_KNOTS_LOW}
+  N_KNOTS_LOW 4
+  addUserKnob {3 N_KNOTS_HIGH}
+  N_KNOTS_HIGH 4
+  addUserKnob {7 MIN_STOP_SDR R -20 20}
+  MIN_STOP_SDR -6.5
+  addUserKnob {7 MAX_STOP_SDR R -20 20}
+  MAX_STOP_SDR 6.5
+  addUserKnob {7 MIN_STOP_RRT R -20 20}
+  MIN_STOP_RRT -15
+  addUserKnob {7 MAX_STOP_RRT R -20 20}
+  MAX_STOP_RRT 18
+  addUserKnob {7 MIN_LUM_SDR R 0 0.1}
+  MIN_LUM_SDR 0.02
+  addUserKnob {7 MAX_LUM_SDR R 0 100}
+  MAX_LUM_SDR 48
+  addUserKnob {7 MIN_LUM_RRT R 0 0.1}
+  MIN_LUM_RRT 0.0001
+  addUserKnob {7 MAX_LUM_RRT R 0 10000}
+  MAX_LUM_RRT 10000
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -1030
+   ypos -634
+  }
+  Dot {
+   name Dot25
+   label " "
+   xpos -996
+   ypos -318
+  }
+set Nf33ab3d0 [stack 0]
+  Dot {
+   name Dot26
+   label " "
+   xpos -996
+   ypos 1506
+  }
+push $Nf33ab3d0
+  Dot {
+   name Dot4
+   label " "
+   xpos -886
+   ypos -318
+  }
+set Nf33b4fd0 [stack 0]
+  Dot {
+   name Dot5
+   label " "
+   xpos -776
+   ypos -318
+  }
+set Nf33b9e50 [stack 0]
+  Dot {
+   name Dot2
+   label " "
+   xpos -666
+   ypos -318
+  }
+set Nf33bec00 [stack 0]
+  Dot {
+   name Dot3
+   label " "
+   xpos -556
+   ypos -318
+  }
+set Nf33c3c20 [stack 0]
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   expr0 "logr <= log10(minPoint.y)"
+   expr1 "logg <= log10(minPoint.y)"
+   expr2 "logb <= log10(minPoint.y)"
+   name segment_bottom
+   xpos -590
+   ypos -202
+  }
+  Dot {
+   name Dot1
+   label " "
+   xpos -556
+   ypos 162
+  }
+push $Nf33c3c20
+  Dot {
+   name Dot7
+   label " "
+   xpos -336
+   ypos -318
+  }
+set Nf33dbdd0 [stack 0]
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   channel0 {rgba.red -rgba.green -rgba.blue none}
+   expr0 log10(minPoint.x)
+   expr1 log10(minPoint.x)
+   expr2 log10(minPoint.x)
+   expr3 1
+   name Expression
+   xpos -370
+   ypos -202
+  }
+  Merge2 {
+   inputs 2
+   operation multiply
+   also_merge all
+   name Multiply3
+   xpos -370
+   ypos 158
+  }
+  Dot {
+   name Dot27
+   label " "
+   xpos -336
+   ypos 786
+  }
+push $Nf33bec00
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   expr0 "( logr > log10(minPoint.y) ) && ( logr <= log10(midPoint.y) )"
+   expr1 "( logg > log10(minPoint.y) ) && ( logg <= log10(midPoint.y) )"
+   expr2 "( logb > log10(minPoint.y) ) && ( logb <= log10(midPoint.y) )"
+   name segment_low
+   xpos -700
+   ypos -202
+  }
+  Dot {
+   name Dot22
+   label " "
+   xpos -666
+   ypos 354
+  }
+push $Nf33dbdd0
+  Dot {
+   name Dot9
+   label " "
+   xpos -6
+   ypos -318
+  }
+set Nf34173d0 [stack 0]
+  Dot {
+   name Dot6
+   label " "
+   xpos -6
+   ypos -174
+  }
+set Nf341bf90 [stack 0]
+  Dot {
+   name Dot8
+   label " "
+   xpos 214
+   ypos -174
+  }
+set Nf3420fc0 [stack 0]
+  Dot {
+   name Dot13
+   label " "
+   xpos 434
+   ypos -174
+  }
+  Dot {
+   name Dot19
+   xpos 434
+   ypos -78
+  }
+set Nf342af10 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "log10( max(b, 1e-10 ))"
+   temp_name1 low
+   temp_expr1 "(logy > KNOT_Y_LOW.0) && (logy <= KNOT_Y_LOW.1)"
+   temp_name2 mid
+   temp_expr2 "(logy > KNOT_Y_LOW.1) && (logy <= KNOT_Y_LOW.2)"
+   temp_name3 high
+   temp_expr3 "(logy > KNOT_Y_LOW.2) && (logy <= KNOT_Y_LOW.3)"
+   expr0 "low ? coefsLow.0 : mid ? coefsLow.1 : coefsLow.2"
+   expr1 "low ? coefsLow.1 : mid ? coefsLow.2 : coefsLow.3"
+   expr2 "low ? coefsLow.2 : mid ? coefsLow.3 : coefsLow.4"
+   expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+   name inv_cfLow5
+   xpos 290
+   ypos -82
+  }
+  ColorMatrix {
+   channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name inv_basis_low5
+   xpos 290
+   ypos -34
+  }
+push $Nf342af10
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Bb, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy5
+   xpos 400
+   ypos -34
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "(2.*b)/(-sqrt(g*g - 4*r*b)-g)"
+   expr0 0
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 0
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals4
+   xpos 400
+   ypos 14
+   addUserKnob {20 User}
+   addUserKnob {7 knotIncLow}
+   knotIncLow {{parent.knotIncLow}}
+   addUserKnob {13 min l Min}
+   min {{parent.min.x} {parent.min.y} {parent.minSlope}}
+  }
+push 0
+push $Nf341bf90
+  Dot {
+   name Dot10
+   xpos -6
+   ypos -78
+  }
+set Nf3467320 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 low
+   temp_expr1 "(logy > KNOT_Y_LOW.0) && (logy <= KNOT_Y_LOW.1)"
+   temp_name2 mid
+   temp_expr2 "(logy > KNOT_Y_LOW.1) && (logy <= KNOT_Y_LOW.2)"
+   temp_name3 high
+   temp_expr3 "(logy > KNOT_Y_LOW.2) && (logy <= KNOT_Y_LOW.3)"
+   expr0 "low ? coefsLow.0 : mid ? coefsLow.1 : coefsLow.2"
+   expr1 "low ? coefsLow.1 : mid ? coefsLow.2 : coefsLow.3"
+   expr2 "low ? coefsLow.2 : mid ? coefsLow.3 : coefsLow.4"
+   expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+   name inv_cfLow
+   xpos -150
+   ypos -82
+  }
+  ColorMatrix {
+   channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name inv_basis_low
+   xpos -150
+   ypos -34
+  }
+push $Nf3467320
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Br, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy
+   xpos -40
+   ypos -34
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "(2.*b)/(-sqrt(g*g - 4*r*b)-g)"
+   expr0 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 0
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 0
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals
+   xpos -40
+   ypos 14
+   addUserKnob {20 User}
+   addUserKnob {7 knotIncLow}
+   knotIncLow {{parent.knotIncLow}}
+   addUserKnob {13 min l Min}
+   min {{parent.min.x} {parent.min.y} {parent.minSlope}}
+  }
+push $Nf3420fc0
+  Dot {
+   name Dot18
+   xpos 214
+   ypos -78
+  }
+set Nf34a3c20 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "log10( max(g, 1e-10 ))"
+   temp_name1 low
+   temp_expr1 "(logy > KNOT_Y_LOW.0) && (logy <= KNOT_Y_LOW.1)"
+   temp_name2 mid
+   temp_expr2 "(logy > KNOT_Y_LOW.1) && (logy <= KNOT_Y_LOW.2)"
+   temp_name3 high
+   temp_expr3 "(logy > KNOT_Y_LOW.2) && (logy <= KNOT_Y_LOW.3)"
+   expr0 "low ? coefsLow.0 : mid ? coefsLow.1 : coefsLow.2"
+   expr1 "low ? coefsLow.1 : mid ? coefsLow.2 : coefsLow.3"
+   expr2 "low ? coefsLow.2 : mid ? coefsLow.3 : coefsLow.4"
+   expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+   name inv_cfLow4
+   xpos 70
+   ypos -82
+  }
+  ColorMatrix {
+   channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name inv_basis_low4
+   xpos 70
+   ypos -34
+  }
+push $Nf34a3c20
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Bg, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy4
+   xpos 180
+   ypos -34
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "(2.*b)/(-sqrt(g*g - 4*r*b)-g)"
+   expr0 0
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 "log10(minPoint.x) + (t +j) * KNOT_INC_LOW"
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 0
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals5
+   xpos 180
+   ypos 14
+   addUserKnob {20 User}
+   addUserKnob {7 knotIncLow}
+   knotIncLow {{parent.knotIncLow}}
+   addUserKnob {13 min l Min}
+   min {{parent.min.x} {parent.min.y} {parent.minSlope}}
+  }
+  Merge2 {
+   inputs 3+1
+   operation plus
+   bbox B
+   name Merge2
+   xpos 180
+   ypos 134
+  }
+  Merge2 {
+   inputs 2
+   operation multiply
+   also_merge all
+   name Multiply1
+   xpos 180
+   ypos 350
+  }
+  Dot {
+   name Dot28
+   label " "
+   xpos 214
+   ypos 786
+  }
+push 0
+push $Nf33b9e50
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   expr0 "( logr >= log10(midPoint.y) ) && ( logr < log10(maxPoint.y) )"
+   expr1 "( logg >= log10(midPoint.y) ) && ( logg < log10(maxPoint.y) )"
+   expr2 "( logb >= log10(midPoint.y) ) && ( logb < log10(maxPoint.y) )"
+   name segment_high
+   xpos -810
+   ypos -202
+  }
+  Dot {
+   name Dot23
+   label " "
+   xpos -776
+   ypos 474
+  }
+push $Nf34173d0
+  Dot {
+   name Dot14
+   label " "
+   xpos 764
+   ypos -318
+  }
+set Nf35194c0 [stack 0]
+  Dot {
+   name Dot15
+   label " "
+   xpos 764
+   ypos -174
+  }
+set Nf351e080 [stack 0]
+  Dot {
+   name Dot17
+   label " "
+   xpos 984
+   ypos -174
+  }
+set Nf35230b0 [stack 0]
+  Dot {
+   name Dot20
+   label " "
+   xpos 1204
+   ypos -174
+  }
+  Dot {
+   name Dot16
+   xpos 1204
+   ypos -78
+  }
+set Nf352cde0 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "log10( max(b, 1e-10 ))"
+   temp_name1 low
+   temp_expr1 "(logy > KNOT_Y_HIGH.0) && (logy <= KNOT_Y_HIGH.1)"
+   temp_name2 mid
+   temp_expr2 "(logy > KNOT_Y_HIGH.1) && (logy <= KNOT_Y_HIGH.2)"
+   temp_name3 high
+   temp_expr3 "(logy > KNOT_Y_HIGH.2) && (logy <= KNOT_Y_HIGH.3)"
+   expr0 "low ? coefsHigh.0 : mid ? coefsHigh.1 : coefsHigh.2"
+   expr1 "low ? coefsHigh.1 : mid ? coefsHigh.2 : coefsHigh.3"
+   expr2 "low ? coefsHigh.2 : mid ? coefsHigh.3 : coefsHigh.4"
+   expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+   name inv_cfLow3
+   xpos 1060
+   ypos -82
+  }
+  ColorMatrix {
+   channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name inv_basis_low3
+   xpos 1060
+   ypos -34
+  }
+push $Nf352cde0
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Bb, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy3
+   xpos 1170
+   ypos -34
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "(2.*b) / (-sqrt(g*g - 4*r*b) - g)"
+   expr0 0
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 0
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals3
+   xpos 1170
+   ypos 14
+  }
+push 0
+push $Nf351e080
+  Dot {
+   name Dot11
+   xpos 764
+   ypos -78
+  }
+set Nf3568230 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 low
+   temp_expr1 "(logy > KNOT_Y_HIGH.0) && (logy <= KNOT_Y_HIGH.1)"
+   temp_name2 mid
+   temp_expr2 "(logy > KNOT_Y_HIGH.1) && (logy <= KNOT_Y_HIGH.2)"
+   temp_name3 high
+   temp_expr3 "(logy > KNOT_Y_HIGH.2) && (logy <= KNOT_Y_HIGH.3)"
+   expr0 "low ? coefsHigh.0 : mid ? coefsHigh.1 : coefsHigh.2"
+   expr1 "low ? coefsHigh.1 : mid ? coefsHigh.2 : coefsHigh.3"
+   expr2 "low ? coefsHigh.2 : mid ? coefsHigh.3 : coefsHigh.4"
+   expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+   name inv_cfLow1
+   xpos 620
+   ypos -82
+  }
+  ColorMatrix {
+   channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name inv_basis_low1
+   xpos 620
+   ypos -34
+  }
+push $Nf3568230
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Br, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy1
+   xpos 730
+   ypos -34
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "(2.*b) / (-sqrt(g*g - 4*r*b) - g)"
+   expr0 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 0
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 0
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals1
+   xpos 730
+   ypos 14
+  }
+push $Nf35230b0
+  Dot {
+   name Dot12
+   xpos 984
+   ypos -78
+  }
+set Nf35a3850 [stack 0]
+  Expression {
+   temp_name0 logy
+   temp_expr0 "log10( max(g, 1e-10 ))"
+   temp_name1 low
+   temp_expr1 "(logy > KNOT_Y_HIGH.0) && (logy <= KNOT_Y_HIGH.1)"
+   temp_name2 mid
+   temp_expr2 "(logy > KNOT_Y_HIGH.1) && (logy <= KNOT_Y_HIGH.2)"
+   temp_name3 high
+   temp_expr3 "(logy > KNOT_Y_HIGH.2) && (logy <= KNOT_Y_HIGH.3)"
+   expr0 "low ? coefsHigh.0 : mid ? coefsHigh.1 : coefsHigh.2"
+   expr1 "low ? coefsHigh.1 : mid ? coefsHigh.2 : coefsHigh.3"
+   expr2 "low ? coefsHigh.2 : mid ? coefsHigh.3 : coefsHigh.4"
+   expr3 "low ? 0 : mid ? 1 : high ? 2 : 0"
+   name inv_cfLow2
+   xpos 840
+   ypos -82
+  }
+  ColorMatrix {
+   channels {rgba.red rgba.green rgba.blue -rgba.alpha}
+   matrix {
+       {0.5 -1 0.5}
+       {-1 1 0}
+       {0.5 0.5 0}
+     }
+   name inv_basis_low2
+   xpos 840
+   ypos -34
+  }
+push $Nf35a3850
+  MergeExpression {
+   inputs 2
+   temp_name0 logy
+   temp_expr0 "log10(max(Bg, 1e-10))"
+   expr0 Ar
+   expr1 Ag
+   expr2 Ab-logy
+   expr3 Aa
+   name c_minus_logy2
+   xpos 950
+   ypos -34
+  }
+  Expression {
+   temp_name0 j
+   temp_expr0 a
+   temp_name1 d
+   temp_expr1 "sqrt(g*g - 4*r*b)"
+   temp_name2 t
+   temp_expr2 "(2.*b) / (-sqrt(g*g - 4*r*b) - g)"
+   expr0 0
+   channel1 {-rgba.red rgba.green -rgba.blue none}
+   expr1 "log10(midPoint.x) + (t +j) * KNOT_INC_HIGH"
+   channel2 {-rgba.red -rgba.green rgba.blue none}
+   expr2 0
+   expr3 1
+   maskChannelInput -rgba.alpha
+   unpremult -rgba.alpha
+   name inv_knot_vals2
+   xpos 950
+   ypos 14
+  }
+  Merge2 {
+   inputs 3+1
+   operation plus
+   bbox B
+   output rgb
+   name Merge1
+   xpos 950
+   ypos 134
+  }
+  Merge2 {
+   inputs 2
+   operation multiply
+   also_merge all
+   name Multiply2
+   xpos 950
+   ypos 470
+  }
+  Dot {
+   name Dot29
+   label " "
+   xpos 984
+   ypos 786
+  }
+push $Nf33b4fd0
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   expr0 "logr >= log10(maxPoint.y) ? 1 : 0"
+   expr1 "logg >= log10(maxPoint.y) ? 1 : 0"
+   expr2 "logb >= log10(maxPoint.y) ? 1 : 0"
+   name segment_peak
+   xpos -920
+   ypos -202
+  }
+  Dot {
+   name Dot24
+   label " "
+   xpos -886
+   ypos 618
+  }
+push $Nf35194c0
+  Dot {
+   name Dot21
+   label " "
+   xpos 1534
+   ypos -318
+  }
+  Expression {
+   temp_name0 logr
+   temp_expr0 "log10( max(r, 1e-10 ))"
+   temp_name1 logg
+   temp_expr1 "log10( max(g, 1e-10 ))"
+   temp_name2 logb
+   temp_expr2 "log10( max(b, 1e-10 ))"
+   channel0 {rgba.red -rgba.green -rgba.blue none}
+   expr0 log10(maxPoint.x)
+   expr1 log10(maxPoint.x)
+   expr2 log10(maxPoint.x)
+   expr3 1
+   name proc_low1
+   label Expression
+   xpos 1500
+   ypos -208
+  }
+  Merge2 {
+   inputs 2
+   operation multiply
+   also_merge all
+   name Multiply4
+   xpos 1500
+   ypos 614
+  }
+  Merge2 {
+   inputs 4+1
+   operation plus
+   bbox B
+   output rgb
+   name Merge3
+   xpos 510
+   ypos 1118
+  }
+  Expression {
+   channel0 {rgba.red -rgba.green -rgba.blue none}
+   expr0 pow(10,r)
+   expr1 pow(10,g)
+   expr2 pow(10,b)
+   name Expression13
+   xpos 510
+   ypos 1238
+  }
+  Copy {
+   inputs 2
+   from0 rgba.alpha
+   to0 rgba.alpha
+   name Copy1
+   xpos 510
+   ypos 1496
+  }
+  Output {
+   name Output1
+   xpos 510
+   ypos 1814
+  }
+ end_group
+ Expression {
+  channel0 rgb
+  expr0 log(r)/log(2)-log(0.18)/log(2)
+  name expShift
+  note_font Helvetica
+  xpos 3590
+  ypos 1407
+ }
+end_group
