@@ -1,12 +1,15 @@
 # Nuke Color Tools
-A collection of tools for Nuke related to color science and the Academy Color Encoding System (ACES). 
-- **[ACES Output Transform](/toolsets/ACES_OutputTransform.nk)** - A Nuke node to apply the [ACES](https://github.com/ampas/aces-dev) output transform, matching ACES v1.2.
-- **[ACES 103 Output Transform](/toolsets/ACES_103_OutputTransform.nk)** - A Nuke node to apply the ACES output transform matching ACES v1.0.3.
+A collection of Nuke tools related to color science and the Academy Color Encoding System (ACES).
+- **[ACES Output Transform v1.2](/toolsets/ACES_OutputTransform_v1.2.nk)** - A Nuke node to apply [ACES](https://github.com/ampas/aces-dev) output transforms, matching ACES v1.2 CTL. This node is compatible with Nuke Non-Commercial. There is also [a blinkscript version](toolsets/ACES_OutputTransform_v1.2_blink.nk).
+- **[ACES Output Transform v1.0.3](/toolsets/ACES_OutputTransform_v1.0.3.nk)** - A Nuke node to apply [ACES](https://github.com/ampas/aces-dev) output transforms, matching ACES v1.0.3 CTL. This node is compatible with Nuke Non-Commercial. There is also [a blinkscript version](toolsets/ACES_OutputTransform_v1.0.3_blink.nk).
+- **ACES Inverse Output Transforms** are also available as separate nodes: [ACES_InvOutputTransform_v1.0.3](/toolsets/ACES_InvOutputTransform_v1.0.3.nk) (with [blink version](/toolsets/ACES_InvOutputTransform_v1.0.3_blink.nk)), [ACES_InvOutputTransform_v1.2](/toolsets/ACES_InvOutputTransform_v1.2.nk) (with with [blink version](/toolsets/ACES_InvOutputTransform_v1.2_blink.nk)).
+- **[ACES expression nodes](/toolsets/ACES_expression_nodes.nk)** - A Nuke node implementation of rrt algorithms: segmented_spline_c5, segmented_spline_c9, ssts, glow_module, red_modifier. No blinkscript, compatible with Nuke Non-Commercial.
+- **[Chromaticity Converter](/toolsets/ChromaticityConverter.nk)** - Calculate a 3x3 matrix to convert from one colorspace to another, given the chromaticity coordinates of the source and destination colorspaces, and a chromatic adapaptation method if the whitepoints are different. There is also [a live version](/toolsets/ChromaticityConverter_live.nk) which calculates using a python knobChanged callback, if this behavior is needed.
 - **[Chromatic Adaptation](/toolsets/ChromaticAdaptation.nk)** - Calculate a chromatic adaptation matrix given a source and a destination whitepoint as CIE xy chromaticity coordinates. Supports blackbody color temperature and input image sampling.
 - **[RGB to XYZ](/toolsets/RGBtoXYZ.nk)** - Calculate a 3x3 matrix to convert an RGB colorspace to CIE XYZ, given the chromaticities of the color gamut - (the rgb primaries and whitepoint as xy coordinates).
-- **[Chromaticity Converter](/toolsets/ChromaticityConverter.nk)** - Calculate a 3x3 matrix to convert from one colorspace to another, given the chromaticity coordinates of the source and destination colorspaces, and a chromatic adapaptation method if the whitepoints are different.
-- **[Plot Chromaticity](/toolsets/PlotChromaticity.nk)** - A tool for plotting an image on a chromaticity diagram. Supports overlays for the spectral locus, pointer's gamut, and a specified rgb gamut.
-- **[segmented_spline_c5_c9](/toolsets/segmented_spline_c5_c9_nuke_only.nk)** - A pure Nuke node implementation (no BlinkScript) of the segmented_spline_c5 and segmented_spline_c9 algorithms.
+- **[Plot Chromaticity](/toolsets/PlotChromaticity.nk)** - A blinkscript tool for plotting an image on a chromaticity diagram. Supports overlays for the spectral locus, pointer's gamut, and a specified rgb gamut.
+- **[Plot Points](/toolsets/PlotPoints.nk)** - Same as PlotChromaticity above, but uses a Nuke 3D PositionToPoints method instead of blinkscript. Works in Nuke Non-Commercial, and is useful if you want to view the 3 dimensional gamut volume.
+- **[Plot Waveform](/toolsets/PlotWaveform.nk)** - Blinkscript tool to plot the waveform of an input image.
 
 For more specific information on each tool go to the [toolsets folder](/toolsets) and check out the README.
 
