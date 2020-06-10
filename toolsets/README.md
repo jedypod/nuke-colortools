@@ -73,7 +73,9 @@ The node also supports calculating an xy coordinate from a blackbody color tempe
 
 Similar to RGBtoXYZ, but supports an arbitrary output color gamut and chromatic adaptation to convert between different whitepoints. 
 
-ChromaticityConverter calculates a 3x3 matrix given the xy chromaticity coordinates of the R G and B primaries and whitepoints of a source and target color gamut. It also provides the option of calculating a chromatic adaptation transform. Basically the above two tools in one. Many common colorspaces are provided as presets but you can enter your own chromaticity coordinates if you have a colorspace that is missing.
+ChromaticityConverter calculates a 3x3 matrix given the xy chromaticity coordinates of the R G and B primaries and whitepoints of a source and target color gamut. It also provides the option of calculating a chromatic adaptation transform. Basically the above two tools in one. Many common colorspaces are provided as presets but you can enter your own chromaticity coordinates if you have a colorspace that is missing. 
+
+There is also [a live version](/toolsets/ChromaticityConverter_live.nk) which calculates automatically using a knobChanged python callback if you need this functionality.
 
 
 
@@ -131,10 +133,12 @@ A note of interest: the `48nits shaper acescc` preset is the new shaper used in 
 
 A node implementation of the alternative Dolby PQ / ST.2084 log shaper function, which can be used in the ACES OCIO configs. 
 
-## Soft Compress
-A couple of useful tonemapping operations which might serve you better than the `SoftClip` node. Both curve types have the same controls.
+
+## Compress Shoulder
+A couple of useful tonemapping operations which might serve you better than the `SoftClip` node. All curve types have the same controls:
 - threshold: only values above this threshold will be affected.
 - limit: the value which infinity is remapped to.
+
 
 ## Gamut Compress
 This tool compresses out of gamut colors back into gamut.
