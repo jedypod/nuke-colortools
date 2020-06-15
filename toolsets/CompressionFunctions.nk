@@ -1,0 +1,253 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name CompressionFunctions
+ addUserKnob {20 CompressionFunctions_tab l CompressionFunctions}
+ addUserKnob {4 method t "The type of compression function to use. " M {log reinhard power exp arctan tanh}}
+ method power
+ addUserKnob {7 threshold t "The minimum threshold. Values below this number will not be affected." R 0 6}
+ threshold 1
+ addUserKnob {7 limit t "The asymptotic maximum value. For example, the value that inf becomes." R 1 10}
+ limit 5
+ addUserKnob {7 power t "adjust slope of power function (power method only)" R 0 4}
+ power 1.2
+ addUserKnob {4 direction M {forward inverse}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -610
+ }
+ Dot {
+  name Dot6
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -6
+  ypos -510
+ }
+set Nd21feb20 [stack 0]
+ Dot {
+  name Dot5
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos 654
+  ypos -510
+ }
+set N1f8d5490 [stack 0]
+ Expression {
+  expr0 "r < t ? r : t+(l-t)*log((1+(r/(l-t)-t/(l-t)))/(1-(r/(l-t)-t/(l-t))))/2"
+  expr1 "g < t ? g : t+(l-t)*log((1+(g/(l-t)-t/(l-t)))/(1-(g/(l-t)-t/(l-t))))/2"
+  expr2 "b < t ? b : t+(l-t)*log((1+(b/(l-t)-t/(l-t)))/(1-(b/(l-t)-t/(l-t))))/2"
+  name uncompress_tanh
+  xpos 1170
+  ypos -442
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{"min(parent.threshold, parent.limit)"}}
+  addUserKnob {7 l R 1 2}
+  l {{max(this.t,parent.limit)}}
+ }
+push $N1f8d5490
+ Expression {
+  temp_name0 pi
+  temp_expr0 3.14159265359
+  expr0 "r < t ? r : t+(l-t)*2/pi*tan(pi/2*(r-t)/(l-t))"
+  expr1 "g < t ? g : t+(l-t)*2/pi*tan(pi/2*(g-t)/(l-t))"
+  expr2 "b < t ? b : t+(l-t)*2/pi*tan(pi/2*(b-t)/(l-t))"
+  name uncompress_atan
+  xpos 1060
+  ypos -442
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{"min(parent.threshold, parent.limit)"}}
+  addUserKnob {7 l R 1 2}
+  l {{max(this.t,parent.limit)}}
+ }
+push $N1f8d5490
+ Expression {
+  expr0 "r < t ? r : -log( (r-l)/(t-l))*(-t+l)/s+t"
+  expr1 "g < t ? g : -log( (g-l)/(t-l))*(-t+l)/s+t"
+  expr2 "b < t ? b : -log( (b-l)/(t-l))*(-t+l)/s+t"
+  name uncompress_exp
+  xpos 950
+  ypos -442
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{"min(parent.threshold, parent.limit)"}}
+  addUserKnob {7 l R 1 2}
+  l {{max(this.t,parent.limit)}}
+  addUserKnob {7 s}
+  s 1
+ }
+push $N1f8d5490
+ Expression {
+  expr0 r<t?r:t+(l-t)*pow(-pow((r-t)/(l-t),p)/(pow((r-t)/(l-t),p)-1),1/p)
+  expr1 g<t?g:t+(l-t)*pow(-pow((g-t)/(l-t),p)/(pow((g-t)/(l-t),p)-1),1/p)
+  expr2 b<t?b:t+(l-t)*pow(-pow((b-t)/(l-t),p)/(pow((b-t)/(l-t),p)-1),1/p)
+  name uncompress_power
+  xpos 840
+  ypos -442
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{parent.threshold}}
+  addUserKnob {7 l}
+  l {{parent.limit}}
+  addUserKnob {7 p R 1 5}
+  p {{parent.power}}
+ }
+push $N1f8d5490
+ Expression {
+  expr0 "r < t ? r : t+1/(1/(r-t)-1/(l-t))"
+  expr1 "g < t ? g : t+1/(1/(g-t)-1/(l-t))"
+  expr2 "b < t ? b : t+1/(1/(b-t)-1/(l-t))"
+  name uncompress_reinhard
+  xpos 730
+  ypos -442
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{"min(parent.threshold, parent.limit)"}}
+  addUserKnob {7 l R 1 2}
+  l {{parent.limit}}
+ }
+push $N1f8d5490
+ Expression {
+  expr0 r<t?r:exp((r-t+t*log(1-l)-l*t*log(1-l))/(t*(1-l)))*t+l*t
+  expr1 "g<t?g:exp((g-t+t*log(1-l)-l*t*log(1-l))/(t*(1-l)))*t+l*t\n"
+  expr2 b<t?b:exp((b-t+t*log(1-l)-l*t*log(1-l))/(t*(1-l)))*t+l*t
+  name uncompress_log
+  xpos 620
+  ypos -441
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{parent.threshold}}
+  addUserKnob {7 l}
+  l {{"min(0.999999, (1-parent.limit)+1)"}}
+ }
+ Switch {
+  inputs 6
+  which {{parent.method}}
+  name switch_method1
+  xpos 620
+  ypos -345
+ }
+ Dot {
+  name Dot2
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos 654
+  ypos -198
+ }
+push $Nd21feb20
+ Expression {
+  expr0 "r < t ? r : t+(l-t)*tanh( ( (r-t)/( l-t)))"
+  expr1 "g < t ? g : t+(l-t)*tanh( ( (g-t)/( l-t)))"
+  expr2 "b < t ? b : t+(l-t)*tanh( ( (b-t)/( l-t)))"
+  name compress_tanh
+  xpos 510
+  ypos -442
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{"min(parent.threshold, parent.limit)"}}
+  addUserKnob {7 l R 1 2}
+  l {{max(this.t,parent.limit)}}
+ }
+push $Nd21feb20
+ Expression {
+  temp_name0 pi
+  temp_expr0 3.14159265359
+  expr0 "r < t ? r : t+(l-t)*2/pi*atan(pi/2*(r-t)/(l-t))"
+  expr1 "g < t ? g : t+(l-t)*2/pi*atan(pi/2*(g-t)/(l-t))"
+  expr2 "b < t ? b : t+(l-t)*2/pi*atan(pi/2*(b-t)/(l-t))"
+  name compress_atan
+  xpos 400
+  ypos -442
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{"min(parent.threshold, parent.limit)"}}
+  addUserKnob {7 l R 1 2}
+  l {{max(this.t,parent.limit)}}
+ }
+push $Nd21feb20
+ Expression {
+  expr0 "r < t ? r : l-(l-t)*exp(-(((r-t)*((s*l)/(l-t))/l)))"
+  expr1 "g < t ? g :  l-(l-t)*exp(-(((g-t)*((s*l)/(l-t))/l)))"
+  expr2 "b < t ? b :  l-(l-t)*exp(-(((b-t)*((s*l)/(l-t))/l)))"
+  name compress_exp
+  xpos 290
+  ypos -442
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{"min(parent.threshold, parent.limit)"}}
+  addUserKnob {7 l R 1 2}
+  l {{max(this.t,parent.limit)}}
+  addUserKnob {7 s}
+  s 1
+ }
+push $Nd21feb20
+ Expression {
+  expr0 r<t?r:t+((r-t)*(l-t))/pow(pow((l-t),p)+pow((r-t),p),1/p)
+  expr1 g<t?g:t+((g-t)*(l-t))/pow(pow((l-t),p)+pow((g-t),p),1/p)
+  expr2 b<t?b:t+((b-t)*(l-t))/pow(pow((l-t),p)+pow((b-t),p),1/p)
+  name compress_power
+  xpos 180
+  ypos -442
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{parent.threshold}}
+  addUserKnob {7 l}
+  l {{parent.limit}}
+  addUserKnob {7 p R 1 5}
+  p {{parent.power}}
+ }
+push $Nd21feb20
+ Expression {
+  expr0 "r < t ? r : t+1/(1/(r-t)+1/(l-t))"
+  expr1 "g < t ? g : t+1/(1/(g-t)+1/(l-t))"
+  expr2 "b < t ? b : t+1/(1/(b-t)+1/(l-t))"
+  name compress_reinhard
+  xpos 70
+  ypos -442
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{"min(parent.threshold, parent.limit)"}}
+  addUserKnob {7 l R 1 2}
+  l {{parent.limit}}
+ }
+push $Nd21feb20
+ Expression {
+  expr0 r<t?r:t*log(r/t-l)-l*t*log(r/t-l)+t-t*log(1-l)+l*t*log(1-l)
+  expr1 g<t?g:t*log(g/t-l)-l*t*log(g/t-l)+t-t*log(1-l)+l*t*log(1-l)
+  expr2 b<t?b:t*log(b/t-l)-l*t*log(b/t-l)+t-t*log(1-l)+l*t*log(1-l)
+  name compress_log
+  xpos -40
+  ypos -441
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t}
+  t {{parent.threshold}}
+  addUserKnob {7 l}
+  l {{"min(0.999999, (1-parent.limit)+1)"}}
+ }
+ Switch {
+  inputs 6
+  which {{parent.method}}
+  name switch_method
+  xpos -40
+  ypos -345
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name switch_reverse
+  xpos -40
+  ypos -202
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos -106
+ }
+end_group
