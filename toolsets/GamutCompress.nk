@@ -2,17 +2,16 @@ set cut_paste_input [stack 0]
 push $cut_paste_input
 Group {
  name GamutCompress
- label "\[value method]: \[value direction]"
  addUserKnob {20 GamutCompress}
- addUserKnob {41 method T compress.method}
- addUserKnob {22 reset t "Reset knobs to default values. Distance limits are calculated based on an the average of a selection of digital cinema cameras." -STARTLINE T "n = nuke.thisNode()\nnuke.root().begin()\ndefaults = \{\n    'threshold': 0.2,\n    'shd_rolloff': 0.03,\n    'cyan': 0.09,\n    'magenta':0.24,\n    'yellow': 0.12,\n\}\nfor k, v in defaults.items():\n    n\[k].setValue(v)"}
  addUserKnob {41 threshold t "Percentage of the outer gamut boundary to affect. A value of 0.2 means 20% of the outer gamut will be utilized for gamut compression." T compress.threshold}
+ addUserKnob {41 power T compress.power}
  addUserKnob {7 shd_rolloff l "shd rolloff" t "Shadow rolloff reduces the gamut compression effect below the specified pixel value. This reduces invertability issues with negative pixels in shadow grain." R 0 0.1}
  shd_rolloff 0.03
- addUserKnob {26 distance_limit_label l " " t "Specifies the distance beyond the gamut boundary to map to the gamut boundary for each color component." T "<b>distance limit"}
+ addUserKnob {26 distance_limit_label l " " t "Specifies the maximum distance beyond the gamut boundary to map to the gamut boundary for each color component." T "<b>max distance limit"}
  addUserKnob {41 cyan t "Maximum distance beyond the green-blue gamut boundary to compress to the gamut boundary." T compress.cyan}
  addUserKnob {41 magenta t "Maximum distance beyond the blue-red gamut boundary to compress to the gamut boundary." T compress.magenta}
  addUserKnob {41 yellow t "Maximum distance beyond the red-green gamut boundary to compress to the gamut boundary." T compress.yellow}
+ addUserKnob {22 reset t "Reset knobs to default values. Distance limits are calculated based on an the average of a selection of digital cinema cameras." T "n = nuke.thisNode()\nnuke.root().begin()\ndefaults = \{\n    'threshold': 0.2,\n    'power': 1.2,\n    'shd_rolloff': 0.03,\n    'cyan': 0.09,\n    'magenta':0.24,\n    'yellow': 0.12,\n\}\nfor k, v in defaults.items():\n    n\[k].setValue(v)" +STARTLINE}
  addUserKnob {26 ""}
  addUserKnob {26 calculate_distance_limit_label l " " T "<b>calculate distance limit"}
  addUserKnob {41 gamut t "The current gamut in which we are working." T Gamut.gamut_in}
@@ -25,7 +24,7 @@ Group {
  addUserKnob {26 info_label l " " T "<style> a:link \{ color: #ccc \}</style>\n<font color=#ccc>\n<b>GamutCompress</b><br>\nmaps out of gamut colors back into gamut.\n<br><br><a href=https://github.com/jedypod/gamut-compress>Documentation</a>"}
  addUserKnob {20 doc_grp l "" +STARTLINE n 1}
  doc_grp 0
- addUserKnob {26 doc_label l " " T "<style> a:link \{ color: #ccc \}</style>\n<font color=#ccc>\n<b>Method</b><br>\nSpecify the tone compression curve to use when <br>\nmapping out of gamut colors into the boundary threshold.<br>\n<a href=https://www.desmos.com/calculator/hmzirlw7tj>log</a>\n<a href=https://www.desmos.com/calculator/lkhdtjbodx>reinhard</a>\n<a href=https://www.desmos.com/calculator/s2adnicmmr>exp</a>\n<a href=https://www.desmos.com/calculator/h96qmnozpo>atan</a>\n<a href=https://www.desmos.com/calculator/xiwliws24x>tanh</a>\n<br><br>\nThese curves are sorted by slope. Log is less steep and doesn't get as flat,<br>\nwhich results in more desaturation in compressed colors <br>\nat the same threshold. Tanh is more steep and gets flatter sooner<br>\nwhich causes colors to be more saturated at the same threshold. <br>\nYou may need to boost the threshold to get the desired color appearance with tanh.<br><br>\n\n<b>Threshold</b><br>\nPercentage of the gamut to affect. If threshold is 0.2, <br>\nthe inner 80% of the gamut will be unaffected and <br>\nout of gamut values will be compressed into <br>\nthe outer 20% of the gamut's color volume.<br><br>\n\n<b>Shadow Rolloff</b><br>\nReduce gamut compression in dark areas below specified value.<br>\nHelps reduce invertability issues in negative values from grain.<br><br>\n\n<b>Max Distance</b><br>\nPer color component control to specify what distance will be <br>\ncompressed to the gamut boundary. For example, <br>\na value of cyan=0.2 will map colors with a distance of red=1.2 from <br>\nthe achromatic axis to red=1.0, which is the gamut boundary.<br><br>\n\n<b>Calculate Max Distance</b><br>\nA helper to calculate the max distance that might occur when <br>\nmapping from a particular source color gamut. For example <br>\nwhen mapping from AlexaWideGamut to ACEScg, the max distance<br>\nof magenta will be highest and the other two components will be lower.<br>\nSetting these distance values according to the likely distances in the <br>\nsource gamut helps avoid unwanted shifts in color. The default is set to<br>\na good average among many digital cinema camera gamuts, but you may<br>\nwant to tweak these values for your needs.<br><br>\n<b>Direction</b><br>\nSpecifies whether to apply or inverse the gamut compression operation.<br><br>"}
+ addUserKnob {26 doc_label l " " T "<style> a:link \{ color: #ccc \}</style>\n<font color=#ccc>\n\n<b>Threshold</b><br>\nPercentage of the gamut to affect. If threshold is 0.2, <br>\nthe inner 80% of the gamut will be unaffected and <br>\nout of gamut values will be compressed into <br>\nthe outer 20% of the gamut's color volume.<br><br>\n\n<b>Power</b><br>\nAdjust the exponent of the compression function. 1 = Reinhard. <br>\nHigher values have C2 continuity and result in a more <br>\n\"aggressive\" curve, which preserves more color purity or saturation.<br>\nBe wary of high values if accurate inversion is important to you.<br><br>\n\n<b>Shadow Rolloff</b><br>\nReduce gamut compression in dark areas below specified value.<br>\nHelps reduce invertability issues in negative values from grain.<br><br>\n\n<b>Max Distance</b><br>\nPer color component control to specify what distance will be <br>\ncompressed to the gamut boundary. For example, <br>\na value of cyan=0.2 will map colors with a distance of red=1.2 from <br>\nthe achromatic axis to red=1.0, which is the gamut boundary.<br><br>\n\n<b>Calculate Max Distance</b><br>\nA helper to calculate the max distance that might occur when <br>\nmapping from a particular source color gamut. For example <br>\nwhen mapping from AlexaWideGamut to ACEScg, the max distance<br>\nof magenta will be highest and the other two components will be lower.<br>\nSetting these distance values according to the likely distances in the <br>\nsource gamut helps avoid unwanted shifts in color. The default is set to<br>\na good average among many digital cinema camera gamuts, but you may<br>\nwant to tweak these values for your needs.<br><br>\n<b>Direction</b><br>\nSpecifies whether to apply or inverse the gamut compression operation.<br><br>"}
  addUserKnob {20 endGroup n -1}
  addUserKnob {26 about_label l " " T "<style> a:link \{ color: #ccc \}</style>\n<font color=#ccc>\nWritten by <a href=https://github.com/jedypod color=red>Jed Smith</a> with <a href=https://community.acescentral.com/t/rgb-saturation-gamut-mapping-approach-and-a-comp-vfx-perspective>help</a> from the <a href=https://community.acescentral.com/c/aces-development-acesnext/vwg-aces-gamut-mapping-working-group>ACES Gamut Mapping VWG</a>"}
 }
@@ -40,7 +39,7 @@ Group {
   xpos -6
   ypos -174
  }
-set N187c5bf0 [stack 0]
+set N9c7479a0 [stack 0]
  Dot {
   name Dot2
   xpos -226
@@ -51,21 +50,21 @@ set N187c5bf0 [stack 0]
   expr0 max(r,g,b)
   name achromatic
   xpos -260
-  ypos -129
+  ypos -130
  }
-set N174e2340 [stack 0]
+set Ncce13bb0 [stack 0]
  Dot {
   name Dot1
   xpos -226
   ypos -78
  }
-set N1caaa7d0 [stack 0]
+set Ne37b8840 [stack 0]
  Dot {
   name Dot3
   xpos -226
   ypos 114
  }
-push $N1caaa7d0
+push $Ne37b8840
  Expression {
   temp_name0 c_r
   temp_expr0 1-r
@@ -78,20 +77,20 @@ push $N1caaa7d0
   expr2 1-(c_b<(1-thr)?c_b:(1-thr)+thr*tanh(((c_b-(1-thr))/thr)))
   name toe
   xpos -150
-  ypos -81
+  ypos -82
   disable {{parent.shd_rolloff==0}}
   addUserKnob {20 Params_tab l Params}
   addUserKnob {7 thr t "complement of threshold"}
   thr {{parent.shd_rolloff}}
  }
-set N3f808d10 [stack 0]
+set N880f8d60 [stack 0]
  Dot {
   name Dot7
   xpos -116
   ypos 66
  }
-push $N174e2340
-push $N187c5bf0
+push $Ncce13bb0
+push $N9c7479a0
  Merge2 {
   inputs 2
   operation minus
@@ -101,9 +100,9 @@ push $N187c5bf0
   output rgb
   name Merge1
   xpos -40
-  ypos -129
+  ypos -130
  }
-push $N3f808d10
+push $N880f8d60
  Merge2 {
   inputs 2
   operation divide
@@ -113,19 +112,18 @@ push $N3f808d10
   output rgb
   name Merge2
   xpos -40
-  ypos -81
+  ypos -82
  }
  Group {
   name compress
-  knobChanged "from math import (pow, exp, log, tan, atan, atanh, cos, pi, fabs)\n\ndef i_log(x):\n    return (exp((1-t+t*log(1-x)-x*t*log(1-x))/(t*(1-x))))*t+x*t-k\ndef i_exp(x):\n    return -log((-x+1)/(t-x))*(-t+x)+t-k\ndef i_atan(x):\n    return (2*tan((pi*(1-t))/(2*(x-t)))*(x-t))/pi+t-k\ndef i_tanh(x):\n    return atanh((1-t)/(x-t))*(x-t)+t-k\ndef sign(x):\n    return 0 if x == 0 else 1 if x > 0 else -1\n\ndef bisect(f, a, b):\n    if sign(f(a)) == sign(f(b)): \n        # bad estimate. return something close to linear\n        if method == 'exp' or method == 'log':\n            return -100\n        else: \n            return 1.99999\n    c = (a+b)/2.0\n    y = f(c)\n    if fabs(y) <= tol:\n        return c # lucky guess\n    n = 1\n    while fabs(y) > tol and n <= nmax:\n        if sign(y) == sign(f(a)):\n            a = c\n        else:\n            b = c\n        c = (a+b)/2.0\n        y = f(c)\n        n += 1\n    return c\n\ndef calc():\n    a = 1.0001\n    b = 5\n    if method == 'log':\n        f = i_log\n        a = -50\n        b = 0.98\n    elif method == 'exp':\n        f = i_exp\n    elif method == 'atan':\n        f = i_atan\n    elif method == 'tanh':\n        f = i_tanh\n        a = 1.000001\n    lim = bisect(f, a, b)\n    return lim\n\nn = nuke.thisNode()\nknob = nuke.thisKnob()\n\nn.begin()\nif n\['method'].value() != 'reinhard':\n    tol = 1e-3\n    nmax = 100\n    \n    tk = n\['threshold']\n    if tk.singleValue():\n        thr = \[1-tk.getValue()]*3\n    else:\n        thr = \[1-v for v in tk.getValue()]\n\n    method = n\['method'].value()\n\n    k_knobs = \['cyan', 'magenta', 'yellow']\n    lim_knobs = \['lim_x', 'lim_y', 'lim_z']\n    if knob.name() in k_knobs:\n        i = k_knobs.index(knob.name())\n        lim_knob = lim_knobs\[i]\n        t = thr\[i]\n        k = knob.getValue()+1\n        lim = calc()\n        n\[lim_knob].setValue(lim)\n    elif knob.name() == 'method' or knob.name() == 'threshold':\n        for i, lknob in enumerate(lim_knobs):\n            k = n\[k_knobs\[i]].getValue()+1\n            t = thr\[i]\n            lim = calc()\n            n\[lknob].setValue(lim)\nn.end()"
-  selected true
   xpos -40
-  ypos -25
+  ypos -10
   addUserKnob {20 compress}
-  addUserKnob {4 method M {log reinhard exp atan tanh ""}}
   addUserKnob {18 threshold}
   threshold 0.2
   addUserKnob {6 threshold_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {7 power R 1 5}
+  power 1.2
   addUserKnob {7 cyan}
   cyan 0.09
   addUserKnob {7 magenta}
@@ -133,234 +131,29 @@ push $N3f808d10
   addUserKnob {7 yellow}
   yellow 0.12
   addUserKnob {26 ""}
-  addUserKnob {7 lim_x R -5 2}
-  lim_x 0.6439501953
-  addUserKnob {7 lim_y R -5 2}
-  lim_y 0.8228656006
-  addUserKnob {7 lim_z R -5 2}
-  lim_z 0.7155163574
-  addUserKnob {26 ""}
   addUserKnob {6 invert +STARTLINE}
   invert {{parent.direction}}
  }
   Input {
    inputs 0
    name Input
-   xpos -40
-   ypos -202
-  }
-  Dot {
-   name Dot2
-   xpos -6
-   ypos -102
-  }
-set N403f1300 [stack 0]
-  Dot {
-   name Dot1
-   xpos 324
-   ypos -30
-  }
-set Nc9543590 [stack 0]
-  Expression {
-   expr0 r<thr_x?r:thr_x+(lim_x-thr_x)*log((1+(r/(lim_x-thr_x)-thr_x/(lim_x-thr_x)))/(1-(r/(lim_x-thr_x)-thr_x/(lim_x-thr_x))))/2
-   expr1 g<thr_y?g:thr_y+(lim_y-thr_y)*log((1+(g/(lim_y-thr_y)-thr_y/(lim_y-thr_y)))/(1-(g/(lim_y-thr_y)-thr_y/(lim_y-thr_y))))/2
-   expr2 b<thr_z?b:thr_z+(lim_z-thr_z)*log((1+(b/(lim_z-thr_z)-thr_z/(lim_z-thr_z)))/(1-(b/(lim_z-thr_z)-thr_z/(lim_z-thr_z))))/2
-   name uncompress_tanh
-   xpos 510
-   ypos 39
-   addUserKnob {20 Params_tab l Params}
-   addUserKnob {7 thr_x}
-   thr_x {{1-parent.threshold.r}}
-   addUserKnob {7 thr_y}
-   thr_y {{1-parent.threshold.g}}
-   addUserKnob {7 thr_z}
-   thr_z {{1-parent.threshold.b}}
-   addUserKnob {7 lim_x}
-   lim_x {{parent.lim_x}}
-   addUserKnob {7 lim_y}
-   lim_y {{parent.lim_y}}
-   addUserKnob {7 lim_z}
-   lim_z {{parent.lim_z}}
-  }
-push $Nc9543590
-  Expression {
-   temp_name0 pi
-   temp_expr0 3.14159265359
-   expr0 r<thr_x?r:thr_x+(lim_x-thr_x)*2/pi*tan(pi/2*(r-thr_x)/(lim_x-thr_x))
-   expr1 g<thr_y?g:thr_y+(lim_y-thr_y)*2/pi*tan(pi/2*(g-thr_y)/(lim_y-thr_y))
-   expr2 b<thr_z?b:thr_z+(lim_z-thr_z)*2/pi*tan(pi/2*(b-thr_z)/(lim_z-thr_z))
-   name uncompress_atan
-   xpos 400
-   ypos 38
-   addUserKnob {20 Params_tab l Params}
-   addUserKnob {7 thr_x}
-   thr_x {{1-parent.threshold.r}}
-   addUserKnob {7 thr_y}
-   thr_y {{1-parent.threshold.g}}
-   addUserKnob {7 thr_z}
-   thr_z {{1-parent.threshold.b}}
-   addUserKnob {7 lim_x}
-   lim_x {{parent.lim_x}}
-   addUserKnob {7 lim_y}
-   lim_y {{parent.lim_y}}
-   addUserKnob {7 lim_z}
-   lim_z {{parent.lim_z}}
-  }
-push $Nc9543590
-  Expression {
-   expr0 r<thr_x?r:-log((r-lim_x)/(thr_x-lim_x))*(-thr_x+lim_x)+thr_x
-   expr1 g<thr_y?g:-log((g-lim_y)/(thr_y-lim_y))*(-thr_y+lim_y)+thr_y
-   expr2 b<thr_z?b:-log((b-lim_z)/(thr_z-lim_z))*(-thr_z+lim_z)+thr_z
-   name uncompress_exp
-   xpos 290
-   ypos 39
-   addUserKnob {20 Params_tab l Params}
-   addUserKnob {7 thr_x}
-   thr_x {{1-parent.threshold.r}}
-   addUserKnob {7 thr_y}
-   thr_y {{1-parent.threshold.g}}
-   addUserKnob {7 thr_z}
-   thr_z {{1-parent.threshold.b}}
-   addUserKnob {7 lim_x}
-   lim_x {{parent.lim_x}}
-   addUserKnob {7 lim_y}
-   lim_y {{parent.lim_y}}
-   addUserKnob {7 lim_z}
-   lim_z {{parent.lim_z}}
-  }
-push $Nc9543590
-  Expression {
-   expr0 r<thr_x?r:(thr_x+1/(1/(r-thr_x)-1/(1-thr_x)+1/(lim_x-thr_x)))
-   expr1 g<thr_y?g:(thr_y+1/(1/(g-thr_y)-1/(1-thr_y)+1/(lim_y-thr_y)))
-   expr2 b<thr_z?b:(thr_z+1/(1/(b-thr_z)-1/(1-thr_z)+1/(lim_z-thr_z)))
-   name uncompress_reinhard
-   xpos 180
-   ypos 39
-   addUserKnob {20 Params_tab l Params}
-   addUserKnob {7 thr_x}
-   thr_x {{1-parent.threshold.r}}
-   addUserKnob {7 thr_y}
-   thr_y {{1-parent.threshold.g}}
-   addUserKnob {7 thr_z}
-   thr_z {{1-parent.threshold.b}}
-   addUserKnob {7 lim_x}
-   lim_x {{parent.compress_reinhard.lim_x}}
-   addUserKnob {7 lim_y}
-   lim_y {{parent.compress_reinhard.lim_y}}
-   addUserKnob {7 lim_z}
-   lim_z {{parent.compress_reinhard.lim_z}}
-  }
-push $Nc9543590
-  Expression {
-   expr0 r<thr_x?r:exp((r-thr_x+thr_x*log(1-lim_x)-lim_x*thr_x*log(1-lim_x))/(thr_x*(1-lim_x)))*thr_x+lim_x*thr_x
-   expr1 "g<thr_y?g:exp((g-thr_y+thr_y*log(1-lim_y)-lim_y*thr_y*log(1-lim_y))/(thr_y*(1-lim_y)))*thr_y+lim_y*thr_y\n"
-   expr2 b<thr_z?b:exp((b-thr_z+thr_z*log(1-lim_z)-lim_z*thr_z*log(1-lim_z))/(thr_z*(1-lim_z)))*thr_z+lim_z*thr_z
-   name uncompress_log
-   xpos 70
-   ypos 39
-   addUserKnob {20 Params_tab l Params}
-   addUserKnob {7 thr_x}
-   thr_x {{1-parent.threshold.r}}
-   addUserKnob {7 thr_y}
-   thr_y {{1-parent.threshold.g}}
-   addUserKnob {7 thr_z}
-   thr_z {{1-parent.threshold.b}}
-   addUserKnob {7 lim_x}
-   lim_x {{parent.lim_x}}
-   addUserKnob {7 lim_y}
-   lim_y {{parent.lim_y}}
-   addUserKnob {7 lim_z}
-   lim_z {{parent.lim_z}}
-  }
-  Switch {
-   inputs 5
-   which {{parent.method}}
-   name switch_method1
-   xpos 290
-   ypos 135
-  }
-push $N403f1300
-  Dot {
-   name Dot6
-   xpos -336
-   ypos -30
-  }
-set N1c24e270 [stack 0]
-  Expression {
-   expr0 r<thr_x?r:thr_x+(lim_x-thr_x)*tanh(((r-thr_x)/(lim_x-thr_x)))
-   expr1 g<thr_y?g:thr_y+(lim_y-thr_y)*tanh(((g-thr_y)/(lim_y-thr_y)))
-   expr2 b<thr_z?b:thr_z+(lim_z-thr_z)*tanh(((b-thr_z)/(lim_z-thr_z)))
-   name compress_tanh
-   xpos -150
-   ypos 39
-   addUserKnob {20 Params_tab l Params}
-   addUserKnob {7 thr_x}
-   thr_x {{1-parent.threshold.r}}
-   addUserKnob {7 thr_y}
-   thr_y {{1-parent.threshold.g}}
-   addUserKnob {7 thr_z}
-   thr_z {{1-parent.threshold.b}}
-   addUserKnob {7 lim_x}
-   lim_x {{parent.lim_x}}
-   addUserKnob {7 lim_y}
-   lim_y {{parent.lim_y}}
-   addUserKnob {7 lim_z}
-   lim_z {{parent.lim_z}}
-  }
-push $N1c24e270
-  Expression {
-   temp_name0 pi
-   temp_expr0 3.14159265359
-   expr0 r<thr_x?r:thr_x+(lim_x-thr_x)*2/pi*atan(pi/2*(r-thr_x)/(lim_x-thr_x))
-   expr1 g<thr_y?g:thr_y+(lim_y-thr_y)*2/pi*atan(pi/2*(g-thr_y)/(lim_y-thr_y))
-   expr2 b<thr_z?b:thr_z+(lim_z-thr_z)*2/pi*atan(pi/2*(b-thr_z)/(lim_z-thr_z))
-   name compress_atan
    xpos -260
-   ypos 38
-   addUserKnob {20 Params_tab l Params}
-   addUserKnob {7 thr_x}
-   thr_x {{1-parent.threshold.r}}
-   addUserKnob {7 thr_y}
-   thr_y {{1-parent.threshold.g}}
-   addUserKnob {7 thr_z}
-   thr_z {{1-parent.threshold.b}}
-   addUserKnob {7 lim_x}
-   lim_x {{parent.lim_x}}
-   addUserKnob {7 lim_y}
-   lim_y {{parent.lim_y}}
-   addUserKnob {7 lim_z}
-   lim_z {{parent.lim_z}}
+   ypos -250
   }
-push $N1c24e270
+set N84fcb640 [stack 0]
   Expression {
-   expr0 r<thr_x?r:lim_x-(lim_x-thr_x)*exp(-(((r-thr_x)*((lim_x)/(lim_x-thr_x))/lim_x)))
-   expr1 g<thr_y?g:lim_y-(lim_y-thr_y)*exp(-(((g-thr_y)*((lim_y)/(lim_y-thr_y))/lim_y)))
-   expr2 b<thr_z?b:lim_z-(lim_z-thr_z)*exp(-(((b-thr_z)*((lim_z)/(lim_z-thr_z))/lim_z)))
-   name compress_exp
-   xpos -370
-   ypos 39
-   addUserKnob {20 Params_tab l Params}
-   addUserKnob {7 thr_x}
-   thr_x {{1-parent.threshold.r}}
-   addUserKnob {7 thr_y}
-   thr_y {{1-parent.threshold.g}}
-   addUserKnob {7 thr_z}
-   thr_z {{1-parent.threshold.b}}
-   addUserKnob {7 lim_x}
-   lim_x {{parent.lim_x}}
-   addUserKnob {7 lim_y}
-   lim_y {{parent.lim_y}}
-   addUserKnob {7 lim_z}
-   lim_z {{parent.lim_z}}
-  }
-push $N1c24e270
-  Expression {
-   expr0 r<thr_x?r:(thr_x+1/(1/(r-thr_x)+1/(1-thr_x)-1/(lim_x-thr_x)))
-   expr1 g<thr_y?g:(thr_y+1/(1/(g-thr_y)+1/(1-thr_y)-1/(lim_y-thr_y)))
-   expr2 b<thr_z?b:(thr_z+1/(1/(b-thr_z)+1/(1-thr_z)-1/(lim_z-thr_z)))
-   name compress_reinhard
-   xpos -480
-   ypos 39
+   temp_name0 s_x
+   temp_expr0 (lim_x-thr_x)/pow(pow((1-thr_x)/(lim_x-thr_x),-p)-1,1/p)
+   temp_name1 s_y
+   temp_expr1 (lim_y-thr_y)/pow(pow((1-thr_y)/(lim_y-thr_y),-p)-1,1/p)
+   temp_name2 s_z
+   temp_expr2 (lim_z-thr_z)/pow(pow((1-thr_z)/(lim_z-thr_z),-p)-1,1/p)
+   expr0 r<thr_x||lim_x<1.0001?r:r>(thr_x+s_x)?r:thr_x+s_x*pow(-(pow((r-thr_x)/s_x,p)/(pow((r-thr_x)/s_x,p)-1)),1/p)
+   expr1 g<thr_y||lim_y<1.0001?g:g>(thr_y+s_y)?g:thr_y+s_y*pow(-(pow((g-thr_y)/s_y,p)/(pow((g-thr_y)/s_y,p)-1)),1/p)
+   expr2 b<thr_z||lim_z<1.0001?b:b>(thr_z+s_z)?b:thr_z+s_z*pow(-(pow((b-thr_z)/s_z,p)/(pow((b-thr_z)/s_z,p)-1)),1/p)
+   name uncompress
+   xpos -150
+   ypos -202
    addUserKnob {20 Params_tab l Params}
    addUserKnob {7 thr_x}
    thr_x {{1-parent.threshold.r}}
@@ -374,15 +167,23 @@ push $N1c24e270
    lim_y {{parent.magenta+1}}
    addUserKnob {7 lim_z}
    lim_z {{parent.yellow+1}}
+   addUserKnob {7 p R 1 5}
+   p {{parent.power}}
   }
-push $N1c24e270
+push $N84fcb640
   Expression {
-   expr0 r<thr_x?r:thr_x*log(r/thr_x-lim_x)-lim_x*thr_x*log(r/thr_x-lim_x)+thr_x-thr_x*log(1-lim_x)+lim_x*thr_x*log(1-lim_x)
-   expr1 g<thr_y?g:thr_y*log(g/thr_y-lim_y)-lim_y*thr_y*log(g/thr_y-lim_y)+thr_y-thr_y*log(1-lim_y)+lim_y*thr_y*log(1-lim_y)
-   expr2 b<thr_z?b:thr_z*log(b/thr_z-lim_z)-lim_z*thr_z*log(b/thr_z-lim_z)+thr_z-thr_z*log(1-lim_z)+lim_z*thr_z*log(1-lim_z)
-   name compress_log
-   xpos -590
-   ypos 39
+   temp_name0 s_x
+   temp_expr0 (lim_x-thr_x)/pow(pow((1-thr_x)/(lim_x-thr_x),-p)-1,1/p)
+   temp_name1 s_y
+   temp_expr1 (lim_y-thr_y)/pow(pow((1-thr_y)/(lim_y-thr_y),-p)-1,1/p)
+   temp_name2 s_z
+   temp_expr2 (lim_z-thr_z)/pow(pow((1-thr_z)/(lim_z-thr_z),-p)-1,1/p)
+   expr0 r<thr_x||lim_x<1.0001?r:thr_x+s_x*((r-thr_x)/s_x)/(pow(1+pow((r-thr_x)/s_x,p),1/p))
+   expr1 g<thr_y||lim_y<1.0001?g:thr_y+s_y*((g-thr_y)/s_y)/(pow(1+pow((g-thr_y)/s_y,p),1/p))
+   expr2 b<thr_z||lim_z<1.0001?b:thr_z+s_z*((b-thr_z)/s_z)/(pow(1+pow((b-thr_z)/s_z,p),1/p))
+   name compress
+   xpos -370
+   ypos -202
    addUserKnob {20 Params_tab l Params}
    addUserKnob {7 thr_x}
    thr_x {{1-parent.threshold.r}}
@@ -391,30 +192,25 @@ push $N1c24e270
    addUserKnob {7 thr_z}
    thr_z {{1-parent.threshold.b}}
    addUserKnob {7 lim_x}
-   lim_x {{parent.lim_x}}
+   lim_x {{parent.cyan+1}}
    addUserKnob {7 lim_y}
-   lim_y {{parent.lim_y}}
+   lim_y {{parent.magenta+1}}
    addUserKnob {7 lim_z}
-   lim_z {{parent.lim_z}}
-  }
-  Switch {
-   inputs 5
-   which {{parent.method}}
-   name switch_method
-   xpos -370
-   ypos 135
+   lim_z {{parent.yellow+1}}
+   addUserKnob {7 p R 1 5}
+   p {{parent.power}}
   }
   Switch {
    inputs 2
    which {{parent.invert}}
-   name switch_reverse
-   xpos -40
-   ypos 278
+   name switch_direction
+   xpos -260
+   ypos -154
   }
   Output {
    name Output
-   xpos -40
-   ypos 422
+   xpos -260
+   ypos -106
   }
  end_group
  Merge2 {
@@ -426,7 +222,7 @@ push $N1c24e270
   output rgb
   name Merge3
   xpos -40
-  ypos 63
+  ypos 62
  }
  Merge2 {
   inputs 2
@@ -437,14 +233,14 @@ push $N1c24e270
   output rgb
   name Merge5
   xpos -40
-  ypos 111
+  ypos 110
  }
  Output {
   name Output
   xpos -40
   ypos 182
  }
-push $N187c5bf0
+push $N9c7479a0
  Group {
   inputs 0
   name RGB
@@ -523,7 +319,7 @@ push $N187c5bf0
    xpos -6
    ypos -78
   }
-set Nf835ba20 [stack 0]
+set N64fff1d0 [stack 0]
   ColorMatrix {
    matrix {
        {{parent.mtx.matrix(which)} {parent.mtx.matrix(which)} {parent.mtx.matrix(which)}}
@@ -582,7 +378,7 @@ set Nf835ba20 [stack 0]
    addUserKnob {12 wxy}
    wxy {{parent.mtx.wxy(which)} {parent.mtx.wxy(which)}}
   }
-push $Nf835ba20
+push $N64fff1d0
   ColorMatrix {
    matrix {
        {{parent.mtx.matrix(which)} {parent.mtx.matrix(which)} {parent.mtx.matrix(which)}}
@@ -651,7 +447,7 @@ push $Nf835ba20
    xpos -40
    ypos 374
   }
-push $Nf835ba20
+push $N64fff1d0
   ColorMatrix {
    matrix {
        {{curve 0.9525524378 0.6624541879 0.7053968906 0.4123907983 0.6369580626 0.5049495697 0.4865709841 0.6380076408 0.7352752686 0.5022571683 0.7160496712 0.7064827085 0.5990839601 0.6796444654 0.6481720209 0.6065810919 0.7165006995 0.7976718545} {curve 0 0.1340042055 0.1640413404 0.3575843275 0.1446169019 0.2646814585 0.2656676769 0.2147038579 0.06860940903 0.2929667532 0.1296834797 0.1288010478 0.2489254922 0.1522114277 0.1940581352 0.2203479856 0.1010205746 0.1351878047} {curve 9.367863095e-05 0.1561876982 0.08101774752 0.180480808 0.1688809693 0.1830150485 0.1982172877 0.09774444997 0.1465712637 0.1552320272 0.1047228053 0.1151721701 0.1024464965 0.1186000481 0.108225815 0.123526901 0.1467743814 0.03133957833}}
@@ -678,7 +474,7 @@ push $Nf835ba20
   which {{parent.use_input_image}}
   name Switch_distance_source
   xpos 180
-  ypos -177
+  ypos -178
  }
  Group {
   name ColorDistance
@@ -699,7 +495,7 @@ push $Nf835ba20
    xpos -6
    ypos -222
   }
-set Ne0113b30 [stack 0]
+set N517f8440 [stack 0]
   Dot {
    name Dot1
    xpos -116
@@ -712,8 +508,8 @@ set Ne0113b30 [stack 0]
    xpos -150
    ypos -177
   }
-set Ne011d9a0 [stack 0]
-push $Ne0113b30
+set N47bf35f0 [stack 0]
+push $N517f8440
   Merge2 {
    inputs 2
    operation minus
@@ -725,7 +521,7 @@ push $Ne0113b30
    xpos -40
    ypos -177
   }
-push $Ne011d9a0
+push $N47bf35f0
   Expression {
    temp_name0 c_r
    temp_expr0 1-r
@@ -773,7 +569,7 @@ push $Ne011d9a0
   name RMAX
   tile_color 0x84000000
   xpos 180
-  ypos -81
+  ypos -82
  }
  CurveTool {
   operation "Max Luma Pixel"
@@ -787,7 +583,7 @@ push $Ne011d9a0
   name GMAX
   tile_color 0x84000000
   xpos 180
-  ypos -57
+  ypos -58
  }
  CurveTool {
   operation "Max Luma Pixel"
@@ -801,6 +597,6 @@ push $Ne011d9a0
   name BMAX
   tile_color 0x84000000
   xpos 180
-  ypos -33
+  ypos -34
  }
 end_group
