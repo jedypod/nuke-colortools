@@ -2,267 +2,153 @@ set cut_paste_input [stack 0]
 push $cut_paste_input
 Group {
  name CompressShoulder
- label "\[knob method]: \[knob direction]"
  addUserKnob {20 CompressShoulder_tab l CompressShoulder}
  addUserKnob {41 channels T NodeWrapper1.channels}
- addUserKnob {4 method t "The type of compression function to use. " M {log reinhard exp arctan tanh "" "" "" "" ""}}
- method tanh
- addUserKnob {7 threshold t "The minimum threshold. Values below this number will not be affected." R 0 6}
+ addUserKnob {18 threshold t "The minimum threshold. Values below this number will not be affected." R 0 6}
  threshold 1
- addUserKnob {7 limit t "The asymptotic maximum value. For example, the value that inf becomes." R 1 10}
+ addUserKnob {6 threshold_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {18 limit t "The asymptotic maximum value. For example, the value that inf becomes." R 1 10}
  limit 5
+ addUserKnob {6 limit_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {18 power t "The steepness of the curve. Lower values have a more gentle slope. 0 is a linear break. 1 is equal to Reinhard. Higher values have C2 continuity." R 1 4}
+ power 1.2
+ addUserKnob {6 power_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {4 direction M {forward inverse}}
 }
  Input {
   inputs 0
-  name Inputmask
-  xpos -920
-  ypos 1214
-  number 1
- }
- Input {
-  inputs 0
   name Input
   xpos -1140
-  ypos 542
+  ypos 638
  }
  Dot {
   name Dot4
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
-  xpos -1106
-  ypos 618
- }
-set N5c1ef5a0 [stack 0]
- Dot {
-  name Dot6
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
   xpos -1106
   ypos 714
  }
-set N960542d0 [stack 0]
- Dot {
-  name Dot5
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
-  xpos -556
-  ypos 714
- }
-set N9474bf80 [stack 0]
+set Nb3465440 [stack 0]
  Expression {
-  expr0 "r < t ? r : t+(l-t)*log((1+(r/(l-t)-t/(l-t)))/(1-(r/(l-t)-t/(l-t))))/2"
-  expr1 "g < t ? g : t+(l-t)*log((1+(g/(l-t)-t/(l-t)))/(1-(g/(l-t)-t/(l-t))))/2"
-  expr2 "b < t ? b : t+(l-t)*log((1+(b/(l-t)-t/(l-t)))/(1-(b/(l-t)-t/(l-t))))/2"
-  name uncompress_tanh
-  xpos -150
+  expr0 r<t.r?r:t.r+(l.r-t.r)*pow(-pow((r-t.r)/(l.r-t.r),p.r)/(pow((r-t.r)/(l.r-t.r),p.r)-1),1/p.r)
+  expr1 g<t.g?g:t.g+(l.g-t.g)*pow(-pow((g-t.g)/(l.g-t.g),p.g)/(pow((g-t.g)/(l.g-t.g),p.g)-1),1/p.g)
+  expr2 b<t.b?b:t.b+(l.b-t.b)*pow(-pow((b-t.b)/(l.b-t.b),p.b)/(pow((b-t.b)/(l.b-t.b),p.b)-1),1/p.b)
+  name uncompress_power
+  xpos -1030
   ypos 782
   addUserKnob {20 Params_tab l Params}
-  addUserKnob {7 t}
-  t {{"min(parent.threshold, parent.limit)"}}
-  addUserKnob {7 l R 1 2}
-  l {{max(this.t,parent.limit)}}
+  addUserKnob {18 t}
+  t {{parent.threshold} {parent.threshold} {parent.threshold}}
+  addUserKnob {6 t_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 l}
+  l {{parent.limit} {parent.limit} {parent.limit}}
+  addUserKnob {6 l_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 p R 1 5}
+  p {{parent.power} {parent.power} {parent.power}}
+  addUserKnob {6 p_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  }
-push $N9474bf80
+push $Nb3465440
  Expression {
-  temp_name0 pi
-  temp_expr0 3.14159265359
-  expr0 "r < t ? r : t+(l-t)*2/pi*tan(pi/2*(r-t)/(l-t))"
-  expr1 "g < t ? g : t+(l-t)*2/pi*tan(pi/2*(g-t)/(l-t))"
-  expr2 "b < t ? b : t+(l-t)*2/pi*tan(pi/2*(b-t)/(l-t))"
-  name uncompress_atan
-  xpos -260
+  expr0 r<t.r?r:t.r+((r-t.r)*(l.r-t.r))/pow(pow((l.r-t.r),p.r)+pow((r-t.r),p.r),1/p.r)
+  expr1 g<t.g?g:t.g+((g-t.g)*(l.g-t.g))/pow(pow((l.g-t.g),p.g)+pow((g-t.g),p.g),1/p.g)
+  expr2 b<t.b?b:t.b+((b-t.b)*(l.b-t.b))/pow(pow((l.b-t.b),p.b)+pow((b-t.b),p.b),1/p.b)
+  name compress_power
+  xpos -1250
   ypos 782
   addUserKnob {20 Params_tab l Params}
-  addUserKnob {7 t}
-  t {{"min(parent.threshold, parent.limit)"}}
-  addUserKnob {7 l R 1 2}
-  l {{max(this.t,parent.limit)}}
+  addUserKnob {18 t}
+  t {{parent.threshold} {parent.threshold} {parent.threshold}}
+  addUserKnob {6 t_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 l}
+  l {{parent.limit} {parent.limit} {parent.limit}}
+  addUserKnob {6 l_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 p R 1 5}
+  p {{parent.power} {parent.power} {parent.power}}
+  addUserKnob {6 p_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  }
-push $N9474bf80
- Expression {
-  expr0 "r < t ? r : -log( (r-l)/(t-l))*(-t+l)/s+t"
-  expr1 "g < t ? g : -log( (g-l)/(t-l))*(-t+l)/s+t"
-  expr2 "b < t ? b : -log( (b-l)/(t-l))*(-t+l)/s+t"
-  name uncompress_exp
-  xpos -370
-  ypos 782
-  addUserKnob {20 Params_tab l Params}
-  addUserKnob {7 t}
-  t {{"min(parent.threshold, parent.limit)"}}
-  addUserKnob {7 l R 1 2}
-  l {{max(this.t,parent.limit)}}
-  addUserKnob {7 s}
-  s 1
+ Input {
+  inputs 0
+  name Inputmask
+  xpos -920
+  ypos 926
+  number 1
  }
-push $N9474bf80
- Expression {
-  expr0 "r < t ? r : t+1/(1/(r-t)-1/(l-t))"
-  expr1 "g < t ? g : t+1/(1/(g-t)-1/(l-t))"
-  expr2 "b < t ? b : t+1/(1/(b-t)-1/(l-t))"
-  name uncompress_reinhard
-  xpos -480
-  ypos 782
-  addUserKnob {20 Params_tab l Params}
-  addUserKnob {7 t}
-  t {{"min(parent.threshold, parent.limit)"}}
-  addUserKnob {7 l R 1 2}
-  l {{parent.limit}}
- }
-push $N9474bf80
- Expression {
-  expr0 r<t?r:exp((r-t+t*log(1-l)-l*t*log(1-l))/(t*(1-l)))*t+l*t
-  expr1 "g<t?g:exp((g-t+t*log(1-l)-l*t*log(1-l))/(t*(1-l)))*t+l*t\n"
-  expr2 b<t?b:exp((b-t+t*log(1-l)-l*t*log(1-l))/(t*(1-l)))*t+l*t
-  name uncompress_log
-  note_font Helvetica
-  xpos -590
-  ypos 783
-  addUserKnob {20 Params_tab l Params}
-  addUserKnob {7 t}
-  t {{parent.threshold}}
-  addUserKnob {7 l}
-  l {{"min(0.999999, (1-parent.limit)+1)"}}
- }
- Switch {
-  inputs 5
-  which {{parent.method}}
-  name switch_method1
-  note_font Helvetica
-  xpos -590
-  ypos 879
- }
+push $Nb3465440
  Dot {
   name Dot1
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xff
-  xpos -556
-  ypos 1122
+  xpos -831
+  ypos 723
  }
-push $N960542d0
+set Nc6af8ca0 [stack 0]
  Expression {
-  expr0 "r < t ? r : t+(l-t)*tanh( ( (r-t)/( l-t)))"
-  expr1 "g < t ? g : t+(l-t)*tanh( ( (g-t)/( l-t)))"
-  expr2 "b < t ? b : t+(l-t)*tanh( ( (b-t)/( l-t)))"
-  name compress_tanh
-  xpos -700
-  ypos 782
+  expr0 r<t.r||x0.r<1.0001?r:r>(t.r+s.r)?r+t.r+s.r:t.r+s.r*pow(-(pow((r-t.r)/s.r,p)/(pow((r-t.r)/s.r,p)-1)),1/p)
+  expr1 g<t.g||x0.g<1.0001?g:g>(t.g+s.g)?g+t.g+s.g:t.g+s.g*pow(-(pow((g-t.g)/s.g,p)/(pow((g-t.g)/s.g,p)-1)),1/p)
+  expr2 b<t.b||x0.b<1.0001?b:b>(t.b+s.b)?b+t.b+s.b:t.b+s.b*pow(-(pow((b-t.b)/s.b,p)/(pow((b-t.b)/s.b,p)-1)),1/p)
+  name uncompress
+  xpos -755
+  ypos 743
   addUserKnob {20 Params_tab l Params}
-  addUserKnob {7 t}
-  t {{"min(parent.threshold, parent.limit)"}}
-  addUserKnob {7 l R 1 2}
-  l {{max(this.t,parent.limit)}}
+  addUserKnob {18 t}
+  t {{parent.compress.t} {parent.compress.t} {parent.compress.t}}
+  addUserKnob {6 t_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 x0}
+  x0 {{parent.compress.x0} {parent.compress.x0} {parent.compress.x0}}
+  addUserKnob {6 x0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 y0}
+  y0 {{parent.compress.y0} {parent.compress.y0} {parent.compress.y0}}
+  addUserKnob {6 y0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 p R 1 5}
+  p {{parent.compress.p} {parent.compress.p} {parent.compress.p}}
+  addUserKnob {6 p_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 s}
+  s {{parent.compress.s} {parent.compress.s} {parent.compress.s}}
+  addUserKnob {6 s_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  }
-push $N960542d0
+push $Nc6af8ca0
  Expression {
-  temp_name0 pi
-  temp_expr0 3.14159265359
-  expr0 "r < t ? r : t+(l-t)*2/pi*atan(pi/2*(r-t)/(l-t))"
-  expr1 "g < t ? g : t+(l-t)*2/pi*atan(pi/2*(g-t)/(l-t))"
-  expr2 "b < t ? b : t+(l-t)*2/pi*atan(pi/2*(b-t)/(l-t))"
-  name compress_atan
-  xpos -810
-  ypos 782
-  addUserKnob {20 Params_tab l Params}
-  addUserKnob {7 t}
-  t {{"min(parent.threshold, parent.limit)"}}
-  addUserKnob {7 l R 1 2}
-  l {{max(this.t,parent.limit)}}
- }
-push $N960542d0
- Expression {
-  expr0 "r < t ? r : l-(l-t)*exp(-(((r-t)*((s*l)/(l-t))/l)))"
-  expr1 "g < t ? g :  l-(l-t)*exp(-(((g-t)*((s*l)/(l-t))/l)))"
-  expr2 "b < t ? b :  l-(l-t)*exp(-(((b-t)*((s*l)/(l-t))/l)))"
-  name compress_exp
-  xpos -920
-  ypos 782
-  addUserKnob {20 Params_tab l Params}
-  addUserKnob {7 t}
-  t {{"min(parent.threshold, parent.limit)"}}
-  addUserKnob {7 l R 1 2}
-  l {{max(this.t,parent.limit)}}
-  addUserKnob {7 s}
-  s 1
- }
-push $N960542d0
- Expression {
-  expr0 "r < t ? r : t+1/(1/(r-t)+1/(l-t))"
-  expr1 "g < t ? g : t+1/(1/(g-t)+1/(l-t))"
-  expr2 "b < t ? b : t+1/(1/(b-t)+1/(l-t))"
-  name compress_reinhard
-  xpos -1030
-  ypos 782
-  addUserKnob {20 Params_tab l Params}
-  addUserKnob {7 t}
-  t {{"min(parent.threshold, parent.limit)"}}
-  addUserKnob {7 l R 1 2}
-  l {{parent.limit}}
- }
-push $N960542d0
- Expression {
-  expr0 r<t?r:t*log(r/t-l)-l*t*log(r/t-l)+t-t*log(1-l)+l*t*log(1-l)
-  expr1 g<t?g:t*log(g/t-l)-l*t*log(g/t-l)+t-t*log(1-l)+l*t*log(1-l)
-  expr2 b<t?b:t*log(b/t-l)-l*t*log(b/t-l)+t-t*log(1-l)+l*t*log(1-l)
-  name compress_log
-  note_font Helvetica
+  expr0 r<t.r||x0.r<1.0001?r:t.r+s.r*((r-t.r)/s.r)/(pow(1+pow((r-t.r)/s.r,p),1/p))
+  expr1 g<t.g||x0.g<1.0001?g:t.g+s.g*((g-t.g)/s.g)/(pow(1+pow((g-t.g)/s.g,p),1/p))
+  expr2 b<t.b||x0.b<1.0001?b:t.b+s.b*((b-t.b)/s.b)/(pow(1+pow((b-t.b)/s.b,p),1/p))
+  name compress
   selected true
-  xpos -1140
-  ypos 790
+  xpos -995
+  ypos 740
   addUserKnob {20 Params_tab l Params}
-  addUserKnob {7 t}
+  addUserKnob {18 t R 0 5}
   t {{parent.threshold}}
-  addUserKnob {7 l}
-  l {{"min(0.999999, (1-parent.limit)+1)"}}
- }
- Switch {
-  inputs 5
-  which {{parent.method}}
-  name switch_method
-  note_font Helvetica
-  xpos -1140
-  ypos 879
+  addUserKnob {6 t_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 x0 R 0 5}
+  x0 1000
+  addUserKnob {6 x0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 y0 R 0 5}
+  y0 {{parent.limit}}
+  addUserKnob {6 y0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 p R 1 5}
+  p {{"parent.power < 0.1 ? 0.1 : parent.power"}}
+  addUserKnob {6 p_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 s}
+  s {{(x0-this.t)/pow(pow((y0-this.t)/(x0-this.t),-p)-1,1/p)}}
+  addUserKnob {6 s_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  }
  Switch {
   inputs 2
   which {{parent.direction}}
   name switch_reverse
   xpos -1140
-  ypos 1118
+  ypos 854
  }
-push $N5c1ef5a0
- Dot {
-  name Dot2
-  label " "
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xa5a5a501
-  xpos -1436
-  ypos 618
- }
- Dot {
-  name Dot3
-  label " "
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xa5a5a501
-  xpos -1436
-  ypos 1218
- }
+push $Nb3465440
  NodeWrapper {
   inputs 2+1
   channels rgb
   name NodeWrapper1
   xpos -1140
-  ypos 1214
+  ypos 926
  }
  Output {
   name Output
   xpos -1140
-  ypos 1310
+  ypos 1022
  }
 end_group
