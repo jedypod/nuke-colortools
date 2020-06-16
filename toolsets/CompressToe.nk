@@ -10,12 +10,12 @@ Group {
  addUserKnob {18 lift t "Amount to lift the toe. 0 is no change. 1 is lifted to the value of pivot."}
  lift 0.6
  addUserKnob {6 lift_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {18 power t "The slope of the curve, or how far below 0 the curve intersects 0 on the x axis. 0 is a linear break. 1 is equal to Reinhard. Higher values have C2 continuity." R 1 4}
+ power 1.2
+ addUserKnob {6 power_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {18 slope t "The slope of the curve. In most cases this can be left at the default of 0.8"}
  slope 0.8
  addUserKnob {6 slope_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
- addUserKnob {18 power t "The steepness of the curve. Lower values have a more gentle slope. 0 is a linear break. 1 is equal to Reinhard. Higher values have C2 continuity." R 1 4}
- power 1.2
- addUserKnob {6 power_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {6 reverse t "Invert the operation." +STARTLINE}
 }
  Input {
@@ -48,13 +48,12 @@ Group {
   xpos -1106
   ypos 714
  }
-set N8a92b270 [stack 0]
+set Nb0b3040 [stack 0]
  Expression {
   expr0 r<t.r||x0.r<1.0001?r:r>(t.r+s.r)?r+t.r+s.r:t.r+s.r*pow(-(pow((r-t.r)/s.r,p)/(pow((r-t.r)/s.r,p)-1)),1/p)
   expr1 g<t.g||x0.g<1.0001?g:g>(t.g+s.g)?g+t.g+s.g:t.g+s.g*pow(-(pow((g-t.g)/s.g,p)/(pow((g-t.g)/s.g,p)-1)),1/p)
   expr2 b<t.b||x0.b<1.0001?b:b>(t.b+s.b)?b+t.b+s.b:t.b+s.b*pow(-(pow((b-t.b)/s.b,p)/(pow((b-t.b)/s.b,p)-1)),1/p)
   name uncompress
-  selected true
   xpos -1030
   ypos 734
   addUserKnob {20 Params_tab l Params}
@@ -74,7 +73,7 @@ set N8a92b270 [stack 0]
   s {{parent.compress.s} {parent.compress.s} {parent.compress.s}}
   addUserKnob {6 s_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  }
-push $N8a92b270
+push $Nb0b3040
  Expression {
   expr0 r<t.r||x0.r<1.0001?r:t.r+s.r*((r-t.r)/s.r)/(pow(1+pow((r-t.r)/s.r,p),1/p))
   expr1 g<t.g||x0.g<1.0001?g:t.g+s.g*((g-t.g)/s.g)/(pow(1+pow((g-t.g)/s.g,p),1/p))
@@ -84,19 +83,19 @@ push $N8a92b270
   ypos 734
   addUserKnob {20 Params_tab l Params}
   addUserKnob {18 t}
-  t {{1-parent.pivot} {1-parent.pivot} {1-parent.pivot}}
+  t {{1-max(0.01,parent.pivot)} {1-max(0.01,parent.pivot)} {1-max(0.01,parent.pivot)}}
   addUserKnob {6 t_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
   addUserKnob {18 x0}
   x0 {{1/(min(0.999,max(0.0001,parent.slope)))} {1/(min(0.999,max(0.0001,parent.slope)))} {1/(min(0.999,max(0.0001,parent.slope)))}}
   addUserKnob {6 x0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
   addUserKnob {18 y0}
-  y0 {{this.t+0.001+((1-parent.lift)*(x0-this.t))*.99} {this.t+0.001+((1-parent.lift)*(x0-this.t))*.99} {this.t+0.001+((1-parent.lift)*(x0-this.t))*.99}}
+  y0 {{this.t+((1-min(0.999,max(0.0001,parent.lift)))*(x0-this.t))} {this.t+((1-min(0.999,max(0.0001,parent.lift)))*(x0-this.t))} {this.t+((1-min(0.999,max(0.0001,parent.lift)))*(x0-this.t))}}
   addUserKnob {6 y0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
   addUserKnob {18 p R 1 5}
   p {{"parent.power < 0.1 ? 0.1 : parent.power"} {"parent.power < 0.1 ? 0.1 : parent.power"} {"parent.power < 0.1 ? 0.1 : parent.power"}}
   addUserKnob {6 p_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
   addUserKnob {18 s}
-  s {{(x0-this.t)/pow(pow((y0-this.t)/(x0-this.t),-p)-1,1/p)} {(x0-this.t)/pow(pow((y0-this.t)/(x0-this.t),-p)-1,1/p)} {(x0-this.t)/pow(pow((y0-this.t)/(x0-this.t),-p)-1,1/p)}}
+  s {{min(100000,(x0-this.t)/pow(pow((y0-this.t)/(x0-this.t),-p)-1,1/p))} {min(100000,(x0-this.t)/pow(pow((y0-this.t)/(x0-this.t),-p)-1,1/p))} {min(100000,(x0-this.t)/pow(pow((y0-this.t)/(x0-this.t),-p)-1,1/p))}}
   addUserKnob {6 s_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  }
  Switch {
@@ -115,142 +114,7 @@ push $N8a92b270
   xpos -1140
   ypos 831
  }
-push $N8a92b270
- NodeWrapper {
-  inputs 2+1
-  channels rgb
-  name NodeWrapper
-  xpos -1140
-  ypos 878
- }
- Output {
-  name Output
-  xpos -1140
-  ypos 974
- }
-end_group
-set cut_paste_input [stack 0]
-version 12.1 v3
-push $cut_paste_input
-Group {
- name CompressToe3
- selected true
- xpos 11626
- ypos 9508
- addUserKnob {20 CompressToe_tab l CompressToe}
- addUserKnob {41 channels T NodeWrapper.channels}
- addUserKnob {18 pivot t "The minimum pivot. Values above this number will not be affected."}
- pivot 0.18
- addUserKnob {6 pivot_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
- addUserKnob {18 lift t "Amount to lift the toe. 0 is no change. 1 is lifted to the value of pivot."}
- lift 0.6
- addUserKnob {6 lift_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
- addUserKnob {18 slope t "The slope of the curve. In most cases this can be left at the default of 0.8"}
- slope 0.8
- addUserKnob {6 slope_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
- addUserKnob {18 power t "The steepness of the curve. Lower values have a more gentle slope. 0 is a linear break. 1 is equal to Reinhard. Higher values have C2 continuity." R 1 4}
- power 1.2
- addUserKnob {6 power_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
- addUserKnob {6 reverse t "Invert the operation." +STARTLINE}
-}
- Input {
-  inputs 0
-  name Inputmask
-  xpos -920
-  ypos 878
-  number 1
- }
- Input {
-  inputs 0
-  name Input
-  xpos -1140
-  ypos 614
- }
- Expression {
-  expr0 1-r
-  expr1 1-g
-  expr2 1-b
-  name Complement
-  note_font Helvetica
-  xpos -1140
-  ypos 663
- }
- Dot {
-  name Dot1
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
-  xpos -1106
-  ypos 714
- }
-set N8a92b270 [stack 0]
- Expression {
-  expr0 r<t.r||x0.r<1.0001?r:r>(t.r+s.r)?r+t.r+s.r:t.r+s.r*pow(-(pow((r-t.r)/s.r,p)/(pow((r-t.r)/s.r,p)-1)),1/p)
-  expr1 g<t.g||x0.g<1.0001?g:g>(t.g+s.g)?g+t.g+s.g:t.g+s.g*pow(-(pow((g-t.g)/s.g,p)/(pow((g-t.g)/s.g,p)-1)),1/p)
-  expr2 b<t.b||x0.b<1.0001?b:b>(t.b+s.b)?b+t.b+s.b:t.b+s.b*pow(-(pow((b-t.b)/s.b,p)/(pow((b-t.b)/s.b,p)-1)),1/p)
-  name uncompress
-  selected true
-  xpos -1030
-  ypos 734
-  addUserKnob {20 Params_tab l Params}
-  addUserKnob {18 t}
-  t {{parent.compress.t} {parent.compress.t} {parent.compress.t}}
-  addUserKnob {6 t_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
-  addUserKnob {18 x0}
-  x0 {{parent.compress.x0} {parent.compress.x0} {parent.compress.x0}}
-  addUserKnob {6 x0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
-  addUserKnob {18 y0}
-  y0 {{parent.compress.y0} {parent.compress.y0} {parent.compress.y0}}
-  addUserKnob {6 y0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
-  addUserKnob {18 p R 1 5}
-  p {{parent.compress.p} {parent.compress.p} {parent.compress.p}}
-  addUserKnob {6 p_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
-  addUserKnob {18 s}
-  s {{parent.compress.s} {parent.compress.s} {parent.compress.s}}
-  addUserKnob {6 s_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
- }
-push $N8a92b270
- Expression {
-  expr0 r<t.r||x0.r<1.0001?r:t.r+s.r*((r-t.r)/s.r)/(pow(1+pow((r-t.r)/s.r,p),1/p))
-  expr1 g<t.g||x0.g<1.0001?g:t.g+s.g*((g-t.g)/s.g)/(pow(1+pow((g-t.g)/s.g,p),1/p))
-  expr2 b<t.b||x0.b<1.0001?b:t.b+s.b*((b-t.b)/s.b)/(pow(1+pow((b-t.b)/s.b,p),1/p))
-  name compress
-  xpos -1250
-  ypos 734
-  addUserKnob {20 Params_tab l Params}
-  addUserKnob {18 t}
-  t {{1-parent.pivot} {1-parent.pivot} {1-parent.pivot}}
-  addUserKnob {6 t_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
-  addUserKnob {18 x0}
-  x0 {{1/(min(0.999,max(0.0001,parent.slope)))} {1/(min(0.999,max(0.0001,parent.slope)))} {1/(min(0.999,max(0.0001,parent.slope)))}}
-  addUserKnob {6 x0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
-  addUserKnob {18 y0}
-  y0 {{this.t+0.001+((1-parent.lift)*(x0-this.t))*.99} {this.t+0.001+((1-parent.lift)*(x0-this.t))*.99} {this.t+0.001+((1-parent.lift)*(x0-this.t))*.99}}
-  addUserKnob {6 y0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
-  addUserKnob {18 p R 1 5}
-  p {{"parent.power < 0.1 ? 0.1 : parent.power"} {"parent.power < 0.1 ? 0.1 : parent.power"} {"parent.power < 0.1 ? 0.1 : parent.power"}}
-  addUserKnob {6 p_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
-  addUserKnob {18 s}
-  s {{(x0-this.t)/pow(pow((y0-this.t)/(x0-this.t),-p)-1,1/p)} {(x0-this.t)/pow(pow((y0-this.t)/(x0-this.t),-p)-1,1/p)} {(x0-this.t)/pow(pow((y0-this.t)/(x0-this.t),-p)-1,1/p)}}
-  addUserKnob {6 s_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
- }
- Switch {
-  inputs 2
-  which {{parent.reverse}}
-  name switch_reverse
-  xpos -1140
-  ypos 795
- }
- Expression {
-  expr0 1-r
-  expr1 1-g
-  expr2 1-b
-  name Complement1
-  note_font Helvetica
-  xpos -1140
-  ypos 831
- }
-push $N8a92b270
+push $Nb0b3040
  NodeWrapper {
   inputs 2+1
   channels rgb
