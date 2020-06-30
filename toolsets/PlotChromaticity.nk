@@ -156,7 +156,7 @@ Group {
   xpos 654
   ypos 162
  }
-set N18a83d30 [stack 0]
+set N5f69c4a0 [stack 0]
  Dot {
   name Dot1
   label " "
@@ -246,8 +246,8 @@ set N18a83d30 [stack 0]
   xpos 764
   ypos 618
  }
-set N2112b110 [stack 0]
-push $N18a83d30
+set N547cf830 [stack 0]
+push $N5f69c4a0
  Dot {
   name Dot16
   label " Col"
@@ -257,7 +257,7 @@ push $N18a83d30
   xpos 654
   ypos 522
  }
-set N15e5ee20 [stack 0]
+set N73ffe650 [stack 0]
  Group {
   inputs 2
   name PlotPoints2
@@ -467,7 +467,7 @@ add_layer {pos pos.red pos.green pos.blue pos.alpha}
   xpos -776
   ypos 402
  }
-set N2243eb90 [stack 0]
+set Nc8905080 [stack 0]
  Constant {
   inputs 0
   format "256 256 0 0 256 256 1 square_256"
@@ -496,7 +496,7 @@ set N2243eb90 [stack 0]
   xpos -700
   ypos -26
  }
-set N22882a90 [stack 0]
+set Nc7c026f0 [stack 0]
  Dot {
   name Dot9
   note_font "Bitstream Vera Sans"
@@ -533,7 +533,7 @@ set N22882a90 [stack 0]
   xpos -556
   ypos 194
  }
-push $N22882a90
+push $Nc7c026f0
  Expression {
   temp_name0 start
   temp_expr0 360
@@ -623,7 +623,7 @@ push $N22882a90
   xpos -666
   ypos 378
  }
-set N18ada3b0 [stack 0]
+set N253a9120 [stack 0]
  Dot {
   name Dot5
   label " "
@@ -659,8 +659,8 @@ set N18ada3b0 [stack 0]
   xpos -556
   ypos 609
  }
-set N261acae0 [stack 0]
-push $N2243eb90
+set N8f89bc20 [stack 0]
+push $Nc8905080
  Colorspace {
   colorspace_in CIE-Yxy
   primary_in "Adobe (1998)"
@@ -691,7 +691,7 @@ push $N2243eb90
   ypos 575
   disable {{!parent.colorize_pointers_gamut x1 1}}
  }
-push $N18ada3b0
+push $N253a9120
  Colorspace {
   colorspace_in CIE-Yxy
   primary_in "Adobe (1998)"
@@ -729,7 +729,7 @@ push $N18ada3b0
   ypos 581
   disable {{!parent.enable_pointers_gamut}}
  }
-set N22b0d0a0 [stack 0]
+set N67037af0 [stack 0]
  Group {
   inputs 2
   name PlotPoints1
@@ -828,8 +828,8 @@ set N22b0d0a0 [stack 0]
    xpos -260
    ypos 110
   }
-set N2fb35be0 [stack 0]
-push $N2fb35be0
+set N24777db0 [stack 0]
+push $N24777db0
   ContactSheet {
    inputs 2
    width {{width*columns}}
@@ -903,7 +903,7 @@ push $N2fb35be0
    xpos -40
    ypos -341
   }
-set N18a1eea0 [stack 0]
+set N382365a0 [stack 0]
   Dot {
    name Dot2
    label " "
@@ -936,7 +936,7 @@ set N18a1eea0 [stack 0]
    addUserKnob {12 white}
    white {{"parent.distribution ? 4*parent.wxy.x / ( -2 * parent.wxy.x + 12 * parent.wxy.y + 3) : parent.wxy"} {"parent.distribution ? 9*parent.wxy.y / ( -2*parent.wxy.x + 12*parent.wxy.y + 3) : parent.wxy"}}
   }
-set N22b53e60 [stack 0]
+set Nabdf1b0 [stack 0]
   Posterize {
    channels rgb
    Colors {{rint(parent.density/3*2)}}
@@ -945,8 +945,8 @@ set N22b53e60 [stack 0]
    xpos -590
    ypos -194
   }
-set N211b0530 [stack 0]
-push $N22b53e60
+set N196d4350 [stack 0]
+push $Nabdf1b0
   Dot {
    name Dot15
    note_font "Bitstream Vera Sans"
@@ -961,8 +961,8 @@ push $N22b53e60
    xpos -480
    ypos -154
   }
-push $N211b0530
-push $N22b53e60
+push $N196d4350
+push $Nabdf1b0
   Dot {
    name Dot16
    note_font "Bitstream Vera Sans"
@@ -1078,8 +1078,8 @@ push $N22b53e60
    xpos -556
    ypos 378
   }
-push $N2fb35be0
-push $N18a1eea0
+push $N24777db0
+push $N382365a0
   Expression {
    expr0 r
    expr1 "4*g / ( -2*g + 12*b + 3)"
@@ -1288,7 +1288,7 @@ push $N18a1eea0
   xpos -1876
   ypos 450
  }
-set N221ae830 [stack 0]
+set N58201e10 [stack 0]
  Colorspace {
   colorspace_in CIE-XYZ
   primary_in "Adobe (1998)"
@@ -1317,8 +1317,8 @@ set N221ae830 [stack 0]
   xpos -1766
   ypos 570
  }
-set N2a9d3fa0 [stack 0]
-push $N221ae830
+set N246ddfc0 [stack 0]
+push $N58201e10
  ColorMatrix {
   matrix {
       {{parent.GamutToXYZ.ColorMatrix.matrix} {parent.GamutToXYZ.ColorMatrix.matrix} {parent.GamutToXYZ.ColorMatrix.matrix}}
@@ -1339,7 +1339,7 @@ push $N221ae830
   ypos 521
   disable {{!parent.colorize_gamut_boundary}}
  }
-set N22794ae0 [stack 0]
+set N27aa2830 [stack 0]
  Group {
   inputs 2
   name PlotPoints
@@ -1406,8 +1406,8 @@ set N22794ae0 [stack 0]
   xpos -580
   ypos 1242
  }
-push $N2112b110
-push $N15e5ee20
+push $N547cf830
+push $N73ffe650
  BlinkScript {
   inputs 2
   recompileCount 2
@@ -1426,7 +1426,7 @@ push $N15e5ee20
   xpos 620
   ypos 608
  }
-set N219f4d20 [stack 0]
+set N343fc810 [stack 0]
  Fill {
   color 0
   name Fill4
@@ -1456,8 +1456,8 @@ set N219f4d20 [stack 0]
   xpos -556
   ypos 1482
  }
-push $N2a9d3fa0
-push $N22794ae0
+push $N246ddfc0
+push $N27aa2830
  BlinkScript {
   inputs 2
   recompileCount 2
@@ -1502,8 +1502,8 @@ push $N22794ae0
   xpos -1876
   ypos 834
  }
-push $N261acae0
-push $N22b0d0a0
+push $N8f89bc20
+push $N67037af0
  BlinkScript {
   inputs 2
   recompileCount 5
@@ -1544,7 +1544,7 @@ push $N22b0d0a0
   xpos -666
   ypos 762
  }
-push $N18a83d30
+push $N5f69c4a0
  Constant {
   inputs 0
   channels rgb
@@ -1584,7 +1584,7 @@ push $N18a83d30
   xpos 290
   ypos 278
  }
-set N44fef2c0 [stack 0]
+set N2a5a9790 [stack 0]
  ColorMatrix {
   matrix {
       {{parent.GamutToXYZ.ColorMatrix.matrix} {parent.GamutToXYZ.ColorMatrix.matrix} {parent.GamutToXYZ.ColorMatrix.matrix}}
@@ -1615,7 +1615,7 @@ set N44fef2c0 [stack 0]
   ypos 368
   disable {{!parent.diagram}}
  }
-push $N44fef2c0
+push $N2a5a9790
  BlinkScript {
   inputs 2
   recompileCount 2
@@ -1627,7 +1627,7 @@ push $N44fef2c0
   plot_cie_xy_padding {{parent.Plot_Input.plot_cie_xy_padding}}
   plot_cie_xy_left_margin {{parent.Plot_Input.plot_cie_xy_left_margin}}
   plot_cie_xy_process_input true
-  format "2048 2048 0 0 2048 2048 1 square_2K"
+  format {{{parent.Plot_Input.format}}}
   specifiedFormat true
   rebuild_finalise ""
   name Plot_SampledColor
@@ -1640,54 +1640,46 @@ push $N44fef2c0
   note_font_size 24
   note_font_color 0xff
   xpos 324
-  ypos 426
+  ypos 450
  }
-set N709f7d20 [stack 0]
+set N81816bd0 [stack 0]
  Dilate {
   channels rgba
-  size 2
+  size {{Output.width/2048}}
   name Dilate1
   label "\[value size]"
   xpos 290
   ypos 488
  }
-set N706ee270 [stack 0]
+set N83f4c9b0 [stack 0]
  Dilate {
   channels rgba
-  size 2
+  size {{Output.width/2048*2}}
   name Dilate2
   label "\[value size]"
   xpos 180
   ypos 488
  }
-push $N709f7d20
+push $N81816bd0
  Dot {
   name Dot21
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xff
   xpos -6
-  ypos 426
- }
- Dilate {
-  channels rgba
-  size 1
-  name Dilate5
-  label "\[value size]"
-  xpos -40
-  ypos 464
+  ypos 450
  }
  FilterErode {
   channels rgba
-  size -0.5
-  filter gaussian
+  size {{-Output.width/2048/5}}
+  filter triangle
   name FilterErode1
   label "\[value size]"
   note_font Helvetica
   xpos -40
-  ypos 514
+  ypos 489
  }
-set N705f4340 [stack 0]
+set N5ca07bd0 [stack 0]
  Dilate {
   channels rgba
   size {0 {parent.Dilate3.size.w}}
@@ -1696,14 +1688,14 @@ set N705f4340 [stack 0]
   xpos -40
   ypos 584
  }
-push $N705f4340
+push $N5ca07bd0
  Dilate {
   channels rgba
   size {{Output.width*plus_size/100} 0}
   name Dilate3
   label "\[value size]"
   xpos 70
-  ypos 512
+  ypos 488
   addUserKnob {20 User}
   addUserKnob {7 plus_size R 0 4}
   plus_size 0.8
@@ -1736,13 +1728,13 @@ push $N705f4340
    inputs 0
    name Input
    xpos -40
-   ypos 14
+   ypos -24
   }
   Unpremult {
    name Unpremult1
    note_font Helvetica
    xpos -40
-   ypos 39
+   ypos 15
   }
   Colorspace {
    colorspace_out HSV
@@ -1757,7 +1749,14 @@ push $N705f4340
    name Add1
    note_font Helvetica
    xpos -40
-   ypos 125
+   ypos 111
+  }
+  Fill {
+   output {-rgba.red -rgba.green rgba.blue none}
+   name Fill1
+   note_font Helvetica
+   xpos -40
+   ypos 147
   }
   Colorspace {
    colorspace_in HSV
@@ -1770,7 +1769,7 @@ push $N705f4340
    name Premult1
    note_font Helvetica
    xpos -40
-   ypos 235
+   ypos 231
   }
   Output {
    name Output1
@@ -1778,7 +1777,7 @@ push $N705f4340
    ypos 302
   }
  end_group
-push $N706ee270
+push $N83f4c9b0
  Merge2 {
   inputs 2
   bbox B
@@ -1795,7 +1794,7 @@ push $N706ee270
   xpos 324
   ypos 690
  }
-push $N219f4d20
+push $N343fc810
  Merge2 {
   inputs 2
   bbox B
