@@ -8,12 +8,12 @@ Group {
  pivot 0.18
  addUserKnob {6 pivot_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {18 lift t "Amount to lift the toe. 0 is no change. 1 is lifted to the value of pivot."}
- lift 0.6
+ lift {0 0 0}
  addUserKnob {6 lift_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {18 power t "The slope of the curve, or how far below 0 the curve intersects 0 on the x axis. 0 is a linear break. 1 is equal to Reinhard. Higher values have C2 continuity." R 1 4}
- power 1.2
+ power 2
  addUserKnob {6 power_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
- addUserKnob {18 slope t "The slope of the curve. In most cases this can be left at the default of 0.8"}
+ addUserKnob {18 slope t "The slope of the curve. In most cases this can be left at the default of 0.8" +INVISIBLE}
  slope 0.8
  addUserKnob {6 slope_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {6 reverse t "Invert the operation." +STARTLINE}
@@ -48,7 +48,7 @@ Group {
   xpos -1106
   ypos 714
  }
-set Nb0b3040 [stack 0]
+set N1956f7b0 [stack 0]
  Expression {
   expr0 r<t.r||x0.r<1.0001?r:r>(t.r+s.r)?r+t.r+s.r:t.r+s.r*pow(-(pow((r-t.r)/s.r,p)/(pow((r-t.r)/s.r,p)-1)),1/p)
   expr1 g<t.g||x0.g<1.0001?g:g>(t.g+s.g)?g+t.g+s.g:t.g+s.g*pow(-(pow((g-t.g)/s.g,p)/(pow((g-t.g)/s.g,p)-1)),1/p)
@@ -73,7 +73,7 @@ set Nb0b3040 [stack 0]
   s {{parent.compress.s} {parent.compress.s} {parent.compress.s}}
   addUserKnob {6 s_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  }
-push $Nb0b3040
+push $N1956f7b0
  Expression {
   expr0 r<t.r||x0.r<1.0001?r:t.r+s.r*((r-t.r)/s.r)/(pow(1+pow((r-t.r)/s.r,p),1/p))
   expr1 g<t.g||x0.g<1.0001?g:t.g+s.g*((g-t.g)/s.g)/(pow(1+pow((g-t.g)/s.g,p),1/p))
@@ -86,7 +86,7 @@ push $Nb0b3040
   t {{1-max(0.01,parent.pivot)} {1-max(0.01,parent.pivot)} {1-max(0.01,parent.pivot)}}
   addUserKnob {6 t_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
   addUserKnob {18 x0}
-  x0 {{1/(min(0.999,max(0.0001,parent.slope)))} {1/(min(0.999,max(0.0001,parent.slope)))} {1/(min(0.999,max(0.0001,parent.slope)))}}
+  x0 {{1/(min(0.999,max(0.0001,parent.slope)))}}
   addUserKnob {6 x0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
   addUserKnob {18 y0}
   y0 {{this.t+((1-min(0.999,max(0.0001,parent.lift)))*(x0-this.t))} {this.t+((1-min(0.999,max(0.0001,parent.lift)))*(x0-this.t))} {this.t+((1-min(0.999,max(0.0001,parent.lift)))*(x0-this.t))}}
@@ -114,7 +114,7 @@ push $Nb0b3040
   xpos -1140
   ypos 831
  }
-push $Nb0b3040
+push $N1956f7b0
  NodeWrapper {
   inputs 2+1
   channels rgb
