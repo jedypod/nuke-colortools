@@ -4,25 +4,24 @@ Group {
  name PlotSlice
  addUserKnob {20 PlotSlice_tab l PlotSlice}
  addUserKnob {4 plot M {replace over right bottom}}
- addUserKnob {7 thickness}
- thickness 0.1
  addUserKnob {7 max_value l "max value" R 1 10}
- max_value 1.2
+ max_value 1.1
  addUserKnob {7 min_value l "min value" R -1 0}
+ min_value -0.05
  addUserKnob {12 pos1 l p1}
  addUserKnob {12 pos2 l p2 -STARTLINE}
- pos2 {342 335}
- addUserKnob {6 draw_line l "draw line" +STARTLINE}
- draw_line true
- addUserKnob {7 line_width l "line width" R 0.5 3}
- line_width 1
- addUserKnob {41 color T Constant5.color}
+ pos2 {1044 16}
+ addUserKnob {6 draw_lines l "draw lines" t "draw horizontal lines every whole number" +STARTLINE}
+ draw_lines true
+ addUserKnob {18 lines_color l "lines color"}
+ lines_color 0.1
+ addUserKnob {6 lines_color_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
 }
  Input {
   inputs 0
   name Input
   xpos -810
-  ypos -898
+  ypos -658
  }
  Dot {
   name Dot13
@@ -31,7 +30,7 @@ Group {
   xpos -776
   ypos -558
  }
-set N11718250 [stack 0]
+set Ne168d210 [stack 0]
  Dot {
   name Dot12
   note_font_size 42
@@ -39,7 +38,7 @@ set N11718250 [stack 0]
   xpos -556
   ypos -558
  }
-set N1181efb0 [stack 0]
+set Ne32f980 [stack 0]
  Transform {
   translate {{-parent.pos1} {-parent.pos1}}
   black_outside false
@@ -54,7 +53,7 @@ set N1181efb0 [stack 0]
   name Transform5
   label "R\n"
   xpos -590
-  ypos -448
+  ypos -472
  }
  Transform {
   scale {{"width / sqrt(pow(parent.pos2.x-parent.pos1.x,2) + pow(parent.pos2.y-parent.pos1.y,2))"}}
@@ -62,226 +61,57 @@ set N1181efb0 [stack 0]
   name Transform6
   label S
   xpos -590
-  ypos -400
- }
- Crop {
-  box {0 0 {Input.width} 1}
-  reformat true
-  crop false
-  name Crop1
-  xpos -590
-  ypos -322
+  ypos -424
  }
  Reformat {
   type "to box"
-  box_width {{Input.width}}
-  box_height {{Input.height}}
+  box_width {{"\[exists input] ? input.width : root.width"}}
+  box_height {{"\[exists input] ? input.height : root.height"}}
   box_fixed true
-  resize distort
-  filter impulse
-  name Reformat1
+  box_pixel_aspect {{"\[exists input] ? input.pixel_aspect : root.pixel_aspect"}}
+  resize none
+  black_outside true
+  name BboxRemove
   xpos -590
-  ypos -274
+  ypos -370
  }
- Expression {
-  expr0 r/(max_value-min_value)-min_value
-  expr1 g/(max_value-min_value)-min_value
-  expr2 b/(max_value-min_value)-min_value
-  expr3 a/(max_value-min_value)-min_value
-  name Expression1
-  note_font Helvetica
+ BlinkScript {
+  recompileCount 284
+  ProgramGroup 1
+  KernelDescription "2 \"plot_slice\" iterate pixelWise 2f609c75c49dc0fd508857159951e9c14bbb0a4557e59c646ff19df60d2a2ca4 2 \"src\" Read Random \"dst\" Write Random 4 \"max_val\" Float 1 AAAAAA== \"min_val\" Float 1 AAAAAA== \"draw_lines\" Bool 1 AA== \"lines_color\" Float 3 AAAAAAAAAAAAAAAAAAAAAA== 4 \"max_val\" 1 1 \"min_val\" 1 1 \"draw_lines\" 1 1 \"lines_color\" 3 1 0"
+  kernelSource "kernel plot_slice : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> src;\n  Image<eWrite, eAccessRandom> dst;\n\n  param:\n    float max_val;\n    float min_val;\n    bool draw_lines;\n    float3 lines_color;\n\n  float cubic(float x) \{\n    x /= 1.414;\n    x = fabs(x);\n    return x < 1.0f ? 2.0f*x*x*x-3.0f*x*x+1 : 0.0f;\n  \}\n\n  void write(float x, float y, int k, float c) \{\n    // Write cubic antialiased pixel value c in channel k at continuous float position x, y\n    int u0 = round(x);\n    int v0 = round(y);\n    int u, v = 0;\n    for (int j = 0; j <= 2; j++) \{\n      v = v0 + j - 1;\n      for (int i = 0; i <= 2; i++) \{\n        u = u0 + i - 1;\n        if ( dst.bounds.inside(u, v)) \{\n          float d = sqrt(pow(u-x, 2)+pow(v-y, 2));\n          float s = dst(u, v, k);\n          float w = cubic(d);\n          dst(u, v, k) = s+c*w;\n        \}\n      \}\n    \}\n  \}\n\n  float scale(float x) \{\n    return (x*dst.bounds.height())/(max_val)-(min_val*dst.bounds.height());\n  \}\n\n  void process(int2 pos) \{\n    if (pos.y == 0) \{\n      float4 source = src(pos.x, pos.y);\n      for (int i = 0; i < 3; i++)\{\n        write(pos.x, scale(source\[i]), i, source\[i]);\n      \}\n      if (draw_lines) \{\n        for (int i = 0; i < 10; i++) \{\n          for (int k = 0; k < 3; k++) \{\n            write(pos.x, scale(i), k, lines_color\[k]);\n          \}\n        \}\n      \}\n    \}\n  \}\n\};"
+  rebuild ""
+  plot_slice_max_val {{parent.max_value}}
+  plot_slice_min_val {{parent.min_value}}
+  plot_slice_draw_lines {{parent.draw_lines}}
+  plot_slice_lines_color {{parent.lines_color.r} {parent.lines_color.g} {parent.lines_color.b}}
+  rebuild_finalise ""
+  name PlotSlice
   xpos -590
-  ypos -225
+  ypos -327
  }
-set N1180d2b0 [stack 0]
- Fill {
-  color {1 -10 0 1}
-  name Fill1
-  note_font Helvetica
-  xpos -480
-  ypos -225
- }
- Expression {
-  expr0 r/(max_value-min_value)-min_value
-  expr1 g/(max_value-min_value)-min_value
-  expr2 b/(max_value-min_value)-min_value
-  expr3 a/(max_value-min_value)-min_value
-  name Expression2
-  note_font Helvetica
-  xpos -480
-  ypos -201
- }
- Expression {
-  expr0 "fabs((y/height)-r)<=tolerance ? 1 : 0"
-  expr1 "fabs((y/height)-g)<=tolerance ? 1 : 0"
-  expr2 "fabs((y/height)-b)<=tolerance ? 1 : 0"
-  expr3 "fabs((y/height)-a)<=tolerance ? 1 : 0"
-  name Expression4
-  xpos -480
-  ypos -154
-  addUserKnob {20 User}
-  addUserKnob {7 tolerance}
-  tolerance {{parent.thickness/100}}
- }
- Multiply {
-  channels rgba
-  value 0.25
-  name Multiply1
-  note_font Helvetica
-  xpos -480
-  ypos -129
- }
-push $N1180d2b0
- Expression {
-  expr0 "fabs((y/height)-r)<=tolerance ? 1 : 0"
-  expr1 "fabs((y/height)-g)<=tolerance ? 1 : 0"
-  expr2 "fabs((y/height)-b)<=tolerance ? 1 : 0"
-  expr3 "fabs((y/height)-a)<=tolerance ? 1 : 0"
-  name Expression3
+ Keyer {
+  operation "luminance key"
+  name Keyer1
   xpos -590
-  ypos -130
-  addUserKnob {20 User}
-  addUserKnob {7 tolerance}
-  tolerance {{parent.thickness/100}}
+  ypos -255
  }
- Merge2 {
-  inputs 2
-  operation plus
-  bbox B
-  output rgb
-  name Merge2
-  note_font Helvetica
-  xpos -590
-  ypos -57
- }
- Dot {
-  name Dot14
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
-  xpos -556
-  ypos -6
- }
-set N11b2ce40 [stack 0]
- Rectangle {
-  opacity 0.395
-  area {{width/2-swidth/2} 0 {width/2+swidth/2} {height}}
-  color {1 0 0 1}
-  name Rectangle1
-  label 0.5
-  xpos -370
-  ypos -40
-  addUserKnob {20 User}
-  addUserKnob {7 swidth}
-  swidth 3
- }
- Dot {
-  name Dot3
-  xpos -226
-  ypos -54
- }
-set N11b42570 [stack 0]
- Dot {
-  name Dot9
-  xpos -6
-  ypos -54
- }
- Constant {
-  inputs 0
-  color {1 0 0 1}
-  format "256 256 0 0 256 256 1 square_256"
-  name Constant5
-  xpos -480
-  ypos -826
-  postage_stamp false
- }
- NoOp {
-  name Line
-  xpos -480
-  ypos -778
-  addUserKnob {20 User}
-  addUserKnob {12 pt1}
-  pt1 {{parent.pos1} {parent.pos1}}
-  addUserKnob {12 pt2}
-  pt2 {{parent.pos2} {parent.pos2}}
-  addUserKnob {7 Radius R 1 15}
-  Radius {{parent.line_width}}
-  addUserKnob {7 angle}
-  angle {{"(pt1.x<pt2.x)? (int( atan( (pt1.y - pt2.y) / (pt1.x - pt2.x)) * (180/pi) * 1000) / 1000) :  (int( atan( (pt1.y - pt2.y) / (pt1.x - pt2.x)) * (180/pi) * 1000) / 1000)+180"}}
- }
- Reformat {
-  type "to box"
-  box_width {{"sqrt( pow(parent.Line.pt2.x - parent.Line.pt1.x, 2) + pow(parent.Line.pt2.y - parent.Line.pt1.y, 2) )"}}
-  box_height {{parent.Line.Radius*2}}
-  box_fixed true
-  resize fill
-  filter impulse
-  name Reformat3
-  xpos -480
-  ypos -730
- }
- Crop {
-  box {0 0 {width} {height}}
-  name Crop2
-  xpos -480
-  ypos -682
- }
- Transform {
-  translate {{parent.pt1.x x1 66} {parent.pt1.y-(parent.Tickness) x1 174}}
-  rotate {{parent.Line.angle}}
-  center {0 {parent.Tickness}}
-  filter Parzen
-  name Transform2
-  xpos -480
-  ypos -634
- }
-push $N1181efb0
- Merge2 {
-  inputs 2
-  bbox B
-  name Merge3
-  note_font Helvetica
-  xpos -480
-  ypos -561
-  disable {{!parent.draw_line x1 1}}
- }
- Dot {
-  name Dot2
-  xpos -336
-  ypos -558
- }
- Dot {
-  name Dot1
-  xpos -116
-  ypos -558
- }
-set N11b5aff0 [stack 0]
- Dot {
-  name Dot7
-  xpos 104
-  ypos -558
- }
+set N1ecaf6a0 [stack 0]
+push $Ne32f980
  ContactSheet {
   inputs 2
-  width {{Input.width i}}
-  height {{Input.height*2 i}}
+  width {{Input.width}}
+  height {{Input.height*2}}
   rows 2
   columns 1
   roworder TopBottom
   name ContactSheet2
   label Bottom
-  xpos 70
-  ypos -16
+  xpos -370
+  ypos -256
  }
- Dot {
-  name Dot11
-  note_font_size 42
-  note_font_color 0x7f7f7f01
-  xpos 104
-  ypos 282
- }
-push $N11b42570
-push $N11b5aff0
+push $N1ecaf6a0
+push $Ne32f980
  ContactSheet {
   inputs 2
   width {{Input.width*2}}
@@ -290,63 +120,28 @@ push $N11b5aff0
   columns 2
   name ContactSheet1
   label Right
-  xpos -150
-  ypos -16
+  xpos -480
+  ypos -256
  }
- Dot {
-  name Dot15
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
-  xpos -116
-  ypos 282
- }
-push $N11b2ce40
-push $N11b2ce40
- ChannelMerge {
-  inputs 2
-  A rgba.red
-  B rgba.green
-  name ChannelMerge1
-  xpos -590
-  ypos 98
- }
-set N11ba68c0 [stack 0]
-push $N11ba68c0
- ChannelMerge {
-  inputs 2
-  B rgba.blue
-  name ChannelMerge2
-  xpos -590
-  ypos 170
- }
- Dot {
-  name Dot17
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
-  xpos -556
-  ypos 282
- }
-set N11c0e2a0 [stack 0]
-push $N11718250
+push $N1ecaf6a0
+push $Ne168d210
  Merge2 {
   inputs 2
   name Merge1
   xpos -810
-  ypos 278
+  ypos -250
  }
-push $N11c0e2a0
+push $N1ecaf6a0
  Switch {
   inputs 4
   which {{parent.plot}}
   name switch_plot_type
   xpos -810
-  ypos 422
+  ypos -178
  }
  Output {
-  name Output1
+  name Output
   xpos -810
-  ypos 662
+  ypos -34
  }
 end_group

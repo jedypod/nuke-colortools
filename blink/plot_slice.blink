@@ -1,0 +1,56 @@
+kernel plot_slice : public ImageComputationKernel<ePixelWise>
+{
+  Image<eRead, eAccessRandom, eEdgeClamped> src;
+  Image<eWrite, eAccessRandom> dst;
+
+  param:
+    float max_val;
+    float min_val;
+    bool draw_lines;
+    float3 lines_color;
+
+  float cubic(float x) {
+    x /= 1.414;
+    x = fabs(x);
+    return x < 1.0f ? 2.0f*x*x*x-3.0f*x*x+1 : 0.0f;
+  }
+
+  void write(float x, float y, int k, float c) {
+    // Write cubic antialiased pixel value c in channel k at continuous float position x, y
+    int u0 = round(x);
+    int v0 = round(y);
+    int u, v = 0;
+    for (int j = 0; j <= 2; j++) {
+      v = v0 + j - 1;
+      for (int i = 0; i <= 2; i++) {
+        u = u0 + i - 1;
+        if ( dst.bounds.inside(u, v)) {
+          float d = sqrt(pow(u-x, 2)+pow(v-y, 2));
+          float s = dst(u, v, k);
+          float w = cubic(d);
+          dst(u, v, k) = s+c*w;
+        }
+      }
+    }
+  }
+
+  float scale(float x) {
+    return (x*dst.bounds.height())/(max_val)-(min_val*dst.bounds.height());
+  }
+
+  void process(int2 pos) {
+    if (pos.y == 0) {
+      float4 source = src(pos.x, pos.y);
+      for (int i = 0; i < 3; i++){
+        write(pos.x, scale(source[i]), i, source[i]);
+      }
+      if (draw_lines) {
+        for (int i = 0; i < 10; i++) {
+          for (int k = 0; k < 3; k++) {
+            write(pos.x, scale(i), k, lines_color[k]);
+          }
+        }
+      }
+    }
+  }
+};
