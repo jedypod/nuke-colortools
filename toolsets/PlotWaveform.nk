@@ -40,30 +40,30 @@ Group {
   xpos 104
   ypos -241
  }
-set Nae2dfa80 [stack 0]
+set Nafb8280 [stack 0]
  Reformat {
   format {{{parent.WaveForm.format}}}
   resize distort
-  filter Impulse
+  filter impulse
   name ReScale
   xpos 70
   ypos -203
   disable {{!parent.specifiedFormat}}
  }
-set N8760820 [stack 0]
+set Nafbd350 [stack 0]
  CurveTool {
   operation "Max Luma Pixel"
   ROI {0 0 {input.width} {input.height}}
   autocropdata {0 0 {input.width} {input.height}}
-  maxlumapixdata {{curve x1 1034 x14 1800} {curve x1 1202 x14 436}}
-  maxlumapixvalue {{curve x1 35.84375 x14 3.869687557} {curve x1 35.84375 x14 4.130000114} {curve x1 35.84375 x14 3.160937548}}
-  minlumapixdata {{curve x1 695 x14 380} {curve x1 1775 x14 0}}
-  minlumapixvalue {{curve x1 -0.006042480469 x14 0} {curve x1 -0.006591796875 x14 0} {curve x1 0.003295898438 x14 0}}
+  maxlumapixdata {{curve x1 1047 x14 1800} {curve x1 2212 x14 436}}
+  maxlumapixvalue {{curve x1 5.210135937 x14 3.869687557} {curve x1 10.19536495 x14 4.130000114} {curve x1 9.513872147 x14 3.160937548}}
+  minlumapixdata {{curve x1 0 x14 380} {curve x1 26 x14 0}}
+  minlumapixvalue {{curve x1 0.01240783278 x14 0} {curve x1 0.00967685692 x14 0} {curve x1 0.02308944985 x14 0}}
   name CT
   xpos -40
   ypos -197
  }
-push $N8760820
+push $Nafbd350
  Expression {
   temp_name0 mid_grey
   temp_expr0 0.18
@@ -76,30 +76,26 @@ push $N8760820
   expr2 "b > 0 ? (log( b / mid_grey)/log(2) - min_exp) / (max_exp - min_exp) : b"
   name lin_to_log
   xpos 70
-  ypos -149
+  ypos -154
   disable {{!parent.log}}
  }
  BlinkScript {
-  kernelSourceFile /cave/dev/tool/nuke/nuketools/blink/plot_cie_xy/blink/plot_waveform.cpp
-  recompileCount 97
-  ProgramGroup 1
-  KernelDescription "2 \"plot_waveform\" iterate pixelWise 45070952ac0926881985c9bfa2a7208c154c2e13a3467c3cdcac0900d545bd4a 2 \"src\" Read Random \"dst\" Write Random 3 \"max_val\" Float 1 AAAAAA== \"weight\" Float 1 AAAAAA== \"offset\" Float 1 AAAAAA== 3 \"max_val\" 1 1 \"weight\" 1 1 \"offset\" 1 1 1 \"yscale\" Float 1 1 AAAAAA=="
-  kernelSource "kernel plot_waveform : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> src;\n  Image<eWrite, eAccessRandom> dst;\n\n  param:\n    float max_val; // This value in scene linear maps to the top of the frame\n    float weight;\n    float offset;\n\n  local:\n    float yscale;\n\n  void init() \{\n    yscale = dst.bounds.height() / max_val;\n  \}\n\n  void write(float posx, float posy, int channel, float color, float weight=1.0f) \{\n    if ( dst.bounds.inside(posx, posy)) \{\n      float dst_sample = dst(posx, posy, channel)+(color*weight);\n      dst(posx, posy, channel) = dst_sample;\n    \}\n  \}\n\n  void process(int2 pos) \{\n    float4 source = src(pos.x, pos.y);\n    float4 source_scaled = (source+offset) * yscale;\n    write(pos.x, source_scaled.x, 0, source.x, weight);\n    write(pos.x, source_scaled.y, 1, source.y, weight);\n    write(pos.x, source_scaled.z, 2, source.z, weight);\n  \}\n\};"
+  recompileCount 2
+  KernelDescription "2 \"plot_waveform\" iterate pixelWise 9b6c4c1d244d941f81b90eb5f3589efbd3598e5006ac5926bddbe80677a9d050 2 \"src\" Read Random \"dst\" Write Random 3 \"max_val\" Float 1 AAAAAA== \"weight\" Float 1 AAAAAA== \"offset\" Float 1 AAAAAA== 3 \"max_val\" 1 1 \"weight\" 1 1 \"offset\" 1 1 1 \"yscale\" Float 1 1 AAAAAA=="
+  kernelSource "kernel plot_waveform : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> src;\n  Image<eWrite, eAccessRandom> dst;\n\n  param:\n    float max_val; // This value in scene linear maps to the top of the frame\n    float weight;\n    float offset;\n\n  local:\n    float yscale;\n\n  void init() \{\n    yscale = dst.bounds.height() / max_val;\n  \}\n\n  float cubic(float x) \{\n    x /= 1.414;\n    x = fabs(x);\n    return x < 1.0f ? 2.0f*x*x*x-3.0f*x*x+1 : 0.0f;\n  \}\n\n  float write(float x, float y, int k, float c) \{\n    // Write cubic antialiased pixel value c in channel k at continuous float position x, y\n    int u0 = round(x);\n    int v0 = round(y);\n    int u, v = 0;\n    for (int j = 0; j <= 2; j++) \{\n      v = v0 + j - 1;\n      for (int i = 0; i <= 2; i++) \{\n        u = u0 + i - 1;\n        if ( dst.bounds.inside(u, v)) \{\n          float d = sqrt(pow(u-x, 2)+pow(v-y, 2));\n          c*=weight;\n          dst(u, v, k) = dst(u, v, k)+c*cubic(d);\n        \}\n      \}\n    \}\n  \}\n\n  void process(int2 pos) \{\n    float4 source = src(pos.x, pos.y);\n    float4 source_scaled = (source+offset) * yscale;\n    // for (int i = 0; i <= 3; i++) \{\n    write(pos.x, source_scaled.x, 0, source.x);\n    write(pos.x, source_scaled.y, 1, source.y);\n    write(pos.x, source_scaled.z, 2, source.z);\n    // \}\n  \}\n\};"
   rebuild ""
   plot_waveform_max_val {{"parent.log ? 1.01 : (parent.max+parent.plot_waveform_offset)"}}
-  plot_waveform_weight 0.3
+  plot_waveform_weight 0.6
   plot_waveform_offset 0.03
-  format "2048 1024 0 0 2048 1024 1 2K_LatLong"
-  specifiedFormat true
   rebuild_finalise ""
   name WaveForm
   xpos 70
-  ypos -106
+  ypos -111
  }
  Group {
   name RGB_Split
   xpos 70
-  ypos -41
+  ypos -43
   disable {{!parent.split_rgb}}
  }
   Input {
@@ -127,7 +123,7 @@ push $N8760820
    xpos 79
    ypos 53
   }
-set Naf5d940 [stack 0]
+set Nb020c80 [stack 0]
   Dot {
    name Dot19
    label " "
@@ -146,7 +142,7 @@ set Naf5d940 [stack 0]
    xpos 155
    ypos 97
   }
-push $Naf5d940
+push $Nb020c80
   Expression {
    expr0 0
    expr1 g
@@ -156,7 +152,7 @@ push $Naf5d940
    xpos 45
    ypos 97
   }
-push $Naf5d940
+push $Nb020c80
   Dot {
    name Dot17
    label " "
@@ -208,21 +204,15 @@ push $Naf5d940
   color {0.5 0.5 0.5 1}
   name MiddleGrey
   xpos 70
-  ypos 125
+  ypos 120
   disable {{!parent.guides}}
- }
- Blur {
-  channels rgba
-  size 1.5
-  name Blur
-  xpos 70
-  ypos 173
  }
  Keyer {
   operation "luminance key"
   name Keyer1
+  selected true
   xpos 70
-  ypos 199
+  ypos 176
  }
  Dot {
   name Dot5
@@ -233,7 +223,7 @@ push $Naf5d940
   xpos 104
   ypos 234
  }
-set Ndc5e1a0 [stack 0]
+set Nb09ff20 [stack 0]
  Dot {
   name Dot3
   label " Fill"
@@ -252,7 +242,7 @@ set Ndc5e1a0 [stack 0]
   xpos 104
   ypos 444
  }
-set N7cf44870 [stack 0]
+set Nb0a9b00 [stack 0]
  Shuffle {
   alpha white
   name Shuffle1
@@ -264,7 +254,7 @@ set N7cf44870 [stack 0]
   type "to box"
   box_width {{"min(input.width, parent.Input.width*box_size)"}}
   scale 0.5
-  filter Notch
+  filter notch
   black_outside true
   pbb true
   name Reformat3
@@ -274,7 +264,7 @@ set N7cf44870 [stack 0]
   addUserKnob {7 box_size R 0.05 0.6}
   box_size 0.3
  }
-push $Nae2dfa80
+push $Nafb8280
  Dot {
   name Dot8
   label " "
@@ -284,7 +274,7 @@ push $Nae2dfa80
   xpos 324
   ypos -241
  }
-set Ne9d2d4c0 [stack 0]
+set Nb0cf900 [stack 0]
  Dot {
   name Dot2
   label " "
@@ -299,7 +289,7 @@ set Ne9d2d4c0 [stack 0]
   xpos 510
   ypos -125
  }
-set N4893d6a0 [stack 0]
+set Nb0d96a0 [stack 0]
  Dot {
   name Dot7
   label " "
@@ -309,7 +299,7 @@ set N4893d6a0 [stack 0]
   xpos 764
   ypos -121
  }
-set Ne311eec0 [stack 0]
+set Nb0e1140 [stack 0]
  Dot {
   name Dot14
   label " "
@@ -335,7 +325,7 @@ set Ne311eec0 [stack 0]
   xpos 874
   ypos 570
  }
-push $Ndc5e1a0
+push $Nb09ff20
  Dot {
   name Dot9
   label " "
@@ -345,7 +335,7 @@ push $Ndc5e1a0
   xpos 214
   ypos 234
  }
-set N5dcfee40 [stack 0]
+set Nb100810 [stack 0]
  Reformat {
   type "to box"
   box_width {{parent.Input.width}}
@@ -363,7 +353,7 @@ set N5dcfee40 [stack 0]
   xpos 400
   ypos 254
  }
-set Nb40ed370 [stack 0]
+set Nb114ca0 [stack 0]
  Position {
   translate {0 {-parent.input.height}}
   name MoveDown
@@ -371,7 +361,7 @@ set Nb40ed370 [stack 0]
   ypos 254
   disable true
  }
-push $Ne311eec0
+push $Nb0e1140
  Crop {
   box {0 {-parent.input.height} {input.width} {input.height}}
   reformat true
@@ -395,14 +385,14 @@ push $Ne311eec0
   xpos 764
   ypos 378
  }
-push $Nb40ed370
+push $Nb114ca0
  Position {
   translate {{parent.input.width} 0}
   name MoveRight
   xpos 400
   ypos 278
  }
-push $N4893d6a0
+push $Nb0d96a0
  Crop {
   box {0 0 {parent.MoveRight.bbox.r} {input.height}}
   reformat true
@@ -426,7 +416,7 @@ push $N4893d6a0
   xpos 544
   ypos 378
  }
-push $N5dcfee40
+push $Nb100810
  Reformat {
   type "to box"
   box_width {{parent.input.width}}
@@ -439,7 +429,7 @@ push $N5dcfee40
   xpos 180
   ypos 279
  }
-push $Ne9d2d4c0
+push $Nb0cf900
  Dot {
   name Dot12
   label " "
@@ -465,7 +455,7 @@ push $Ne9d2d4c0
   xpos 324
   ypos 378
  }
-push $N7cf44870
+push $Nb0a9b00
  Switch {
   inputs 5
   which {{parent.style}}
@@ -475,7 +465,6 @@ push $N7cf44870
  }
  Output {
   name Output
-  selected true
   xpos 70
   ypos 710
  }

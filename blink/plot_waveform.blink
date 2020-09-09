@@ -15,18 +15,35 @@ kernel plot_waveform : public ImageComputationKernel<ePixelWise>
     yscale = dst.bounds.height() / max_val;
   }
 
-  void write(float posx, float posy, int channel, float color, float weight=1.0f) {
-    if ( dst.bounds.inside(posx, posy)) {
-      float dst_sample = dst(posx, posy, channel)+(color*weight);
-      dst(posx, posy, channel) = dst_sample;
+  float cubic(float x) {
+    x /= 1.414;
+    x = fabs(x);
+    return x < 1.0f ? 2.0f*x*x*x-3.0f*x*x+1 : 0.0f;
+  }
+
+  float write(float x, float y, int k, float c) {
+    // Write cubic antialiased pixel value c in channel k at continuous float position x, y
+    int u0 = round(x);
+    int v0 = round(y);
+    int u, v = 0;
+    for (int j = 0; j <= 2; j++) {
+      v = v0 + j - 1;
+      for (int i = 0; i <= 2; i++) {
+        u = u0 + i - 1;
+        if ( dst.bounds.inside(u, v)) {
+          float d = sqrt(pow(u-x, 2)+pow(v-y, 2));
+          c*=weight;
+          dst(u, v, k) = dst(u, v, k)+c*cubic(d);
+        }
+      }
     }
   }
 
   void process(int2 pos) {
     float4 source = src(pos.x, pos.y);
     float4 source_scaled = (source+offset) * yscale;
-    write(pos.x, source_scaled.x, 0, source.x, weight);
-    write(pos.x, source_scaled.y, 1, source.y, weight);
-    write(pos.x, source_scaled.z, 2, source.z, weight);
+    write(pos.x, source_scaled.x, 0, source.x);
+    write(pos.x, source_scaled.y, 1, source.y);
+    write(pos.x, source_scaled.z, 2, source.z);
   }
 };
