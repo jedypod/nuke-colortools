@@ -1,4 +1,4 @@
-kernel plot_cie_xy : public ImageComputationKernel<ePixelWise>
+kernel PlotChromaticity : public ImageComputationKernel<ePixelWise>
 {
   Image<eRead, eAccessRandom, eEdgeClamped> col;
   Image<eRead, eAccessRandom, eEdgeClamped> Yxy;
@@ -7,14 +7,10 @@ kernel plot_cie_xy : public ImageComputationKernel<ePixelWise>
 param:
   float padding;
   float left_margin;
-  bool draw_axes;
-  float grid_hatch_length;
-  float4 axis_color;
-  float4 axis_hatch_color;
+  float tolerance;
   bool antialias;
-  bool process_input;
-  float add_samples;
-
+  bool draw_axes;
+  float4 grid_color;
 
 local:
   float outsize;
@@ -27,83 +23,110 @@ local:
     offset = dst.bounds.height()*left_margin;
   }
 
-  void write(float posx, float posy, float4 color, float weight=1.0f) {
-    // Check if we are inside the bounds of the output image
-    if ( dst.bounds.inside(posx, posy)) {
-      float4 dst_sample = (float4)dst(posx, posy);
-      float4 out = dst_sample*add_samples + (color * weight);
-      out.w = min(1.0f, out.w);
-      dst(posx, posy) = out;
-    }
-  }
-  
-  void bilin(float2 tpos, float4 color) {
-    float2 p;
-    p.x = tpos.x - floor(tpos.x);
-    p.y = tpos.y - floor(tpos.y);
-    float weights[] = {(1.0f-p.x)*(1.0f-p.y), p.x*(1.0f-p.y), (1.0f-p.x)*p.y, p.x*p.y};
-    int2 _position = int2(floor(tpos.x)-0,floor(tpos.y)-0);
-    write(_position.x, _position.y, color, weights[0]);
-    write(_position.x+1, _position.y, color, weights[1]);
-    write(_position.x, _position.y+1, color, weights[2]);
-    write(_position.x+1, _position.y+1, color, weights[3]);
+  float gaussian(float d, float a, float expv) {
+    return max(0.0f, exp(-a*d*d)-expv);
   }
 
+  float gaussian_filter(float x, float y, float r) {
+    // return gaussian weighted distance from origin (0, 0)
+    // given coordinate (x, y) and radius r
+    float a = 1.5f; // rate falloff
+    float expv = exp(-a*r*r);
+    return gaussian(x, a, expv) * gaussian(y, a, expv);
+  }
+
+  void write_aa(float x, float y, float4 rgb) {
+    // skip black pixels
+    if (rgb.x == 0.0f && rgb.y == 0.0f && rgb.z == 0.0f) return;
+    
+    // size of pixel neighborhood = n*2+1 by n*2+1
+    int n = 2;
+
+    // center of neighborhood
+    int u0 = round(x);
+    int v0 = round(y);
+
+    // skip if center pixel weight is greater than tolerance
+    if ( dst.bounds.inside(u0, v0)) {
+      if (dst(u0, v0, 3) >= tolerance) return;
+    }
+
+    // loop over neighborhood
+    for (int j = -n; j <= n; j++) {
+      int v = v0 + j;
+      for (int i = -n; i <= n; i++) {
+        int u = u0 + i;
+        if ( dst.bounds.inside(u, v)) {
+          // get filter weight for coord (u,v)
+          float w = gaussian_filter(u-x, v-y, float(n));
+          float4 c0 = dst(u, v); // existing color
+
+          // merge current color sample over existing color sample
+          for (int k=0; k<3; k++) {
+            dst(u, v, k) = rgb[k]*w+c0[k]*(1-w); 
+          }
+
+          // merge current weight over existing weight
+          float w0 = dst(u, v, 3);
+          dst(u, v, 3) = w+w0*(1-w);
+        }
+      }
+    }
+  }
 
   void draw_grid() {
     // grid width in pixels. expresses a 0 to 1 range in CIE xy
     float grid_width = 1.0f * outsize + offset;
-    // hatch interval gives us cross-hatching at specified interval in pixels. defaults to 0.1
-    int hatch_int = int(round(grid_width - offset) * 0.1f);
-    float hatchw = outsize * grid_hatch_length; // The width of the cross-hatch: 1% of grid width
-
-    int hatch_ct = 0;
-    for ( int i = offset; i < grid_width; i++ ) {
-      // draw vertical axis
-      bilin( float2(offset, i), axis_color);
-      // draw horizontal axis
-      bilin( float2(i, offset), axis_color);
-      // draw cross hatches at every 
-      if (hatch_ct == hatch_int) {
-        hatch_ct = 0;
-        for ( int j = -outsize*0.01; j < hatchw; j++) {
-          bilin(float2(round(offset + j), i), axis_hatch_color);
-          bilin(float2(i+ (offset-offset), round(offset + j)), axis_hatch_color);
-        }
+    // draw grid lines
+    float i = offset;
+    while (i <= grid_width && i > 0.0f) {
+      write_aa(offset, i, grid_color);
+      write_aa(i, offset, grid_color);
+      i += 1.0;
+    }
+    // cross-hatching interval in pixels
+    float hatch_interval = (grid_width - offset) * 0.1f;
+    // cross-hatch length in pixels
+    float hatch_width = outsize * 0.01f;
+    i = offset;
+    while (i <= grid_width) {
+      i += hatch_interval;
+      float j = 0.0;
+      while (j <= hatch_width/2) {
+        write_aa(offset+j, i, grid_color);
+        write_aa(offset-j, i, grid_color);
+        write_aa(i, offset+j, grid_color);
+        write_aa(i, offset-j, grid_color);
+        j += 1.0;
       }
-      hatch_ct++;
     }
   }
 
   void process(int2 pos) {
-    // All the work will be done in the first pixel of the iteration. Essentially a single thread.
-    if ( pos.x > 1 || pos.y > 1) { return; }
-    // Loop over all pixels in input Yxy
-    if (process_input) {
-      for ( int j = Yxy.bounds.y1; j < Yxy.bounds.y2; j++) {
-        for ( int i = Yxy.bounds.x1; i < Yxy.bounds.x2; i++) {
+    float4 rgba = col(pos.x, pos.y);
+    
+    // Get CIE xy position from Yxy input for current pixel
+    float2 xy = float2(Yxy(pos.x, pos.y, 1), Yxy(pos.x, pos.y, 2));
+    
+    // Find output pixel coordinate for this CIE xy pixel value
+    float2 out_coord = float2(xy.x * outsize + offset, xy.y * outsize + offset);
 
-          // sample Yxy pixel at position i, j
-          float2 xy = float2(Yxy(i, j, 1), Yxy(i, j, 2));
-          // don't process black pixels
-          if( xy.x == 0.0f && xy.y == 0.0f) { continue; }
-          // calculate output position: xy chromaticity coordinates at centered output pixel position
-          float2 out_pos = float2(xy.x * outsize + offset, xy.y * outsize + offset);
-          // Write color value to xy sample position in dst
-          if (antialias) {
-            bilin(out_pos, bilinear(col, i, j));
-          } else {
-            // Remember there is a bug: no keyword arguments inside process()
-            // write(out_pos.x, out_pos.y, col(i, j), 1.0f);
-            if ( dst.bounds.inside(out_pos.x, out_pos.y)) {
-              dst(out_pos.x, out_pos.y) = col(i, j);
-            }
-          }
+    // For each RGB component, write value from color input to output coordinate
+    if (antialias) {
+      write_aa(out_coord.x, out_coord.y, rgba);
+    } else {
+      // For each RGB component, write value from color input to output coordinate
+      int2 p = int2(round(out_coord.x), round(out_coord.y));
+      if (dst.bounds.inside(p.x, p.y)) {
+        for (int k=0; k<3; k++) {
+          dst(p.x, p.y, k) = col(pos.x, pos.y, k);
         }
+        dst(p.x, p.y, 3) = 1.0f;
       }
     }
-    // Draw axes if enabled
-    if (draw_axes) {
+
+    // draw CIExy coordinate system axes
+    if (draw_axes && pos.x == 0 && pos.y == 0) {
       draw_grid();
     }
   }
