@@ -3,6 +3,7 @@ push $cut_paste_input
 Group {
  name PlotSlice
  addUserKnob {20 PlotSlice_tab l PlotSlice}
+ addUserKnob {41 useGPUIfAvailable l "Use GPU if available" T PlotSlice.useGPUIfAvailable}
  addUserKnob {4 plot M {replace over right bottom}}
  addUserKnob {7 max_value l "max value" R 1 10}
  max_value 1.1
@@ -10,7 +11,7 @@ Group {
  min_value -0.05
  addUserKnob {12 pos1 l p1}
  addUserKnob {12 pos2 l p2 -STARTLINE}
- pos2 {1044 16}
+ pos2 {256 256}
  addUserKnob {6 draw_lines l "draw lines" t "draw horizontal lines every whole number" +STARTLINE}
  draw_lines true
  addUserKnob {18 lines_color l "lines color"}
@@ -30,7 +31,7 @@ Group {
   xpos -776
   ypos -558
  }
-set Ne168d210 [stack 0]
+set N128af000 [stack 0]
  Dot {
   name Dot12
   note_font_size 42
@@ -38,7 +39,7 @@ set Ne168d210 [stack 0]
   xpos -556
   ypos -558
  }
-set Ne32f980 [stack 0]
+set N12f38000 [stack 0]
  Transform {
   translate {{-parent.pos1} {-parent.pos1}}
   black_outside false
@@ -76,19 +77,18 @@ set Ne32f980 [stack 0]
   ypos -370
  }
  BlinkScript {
-  recompileCount 284
-  ProgramGroup 1
-  KernelDescription "2 \"plot_slice\" iterate pixelWise 2f609c75c49dc0fd508857159951e9c14bbb0a4557e59c646ff19df60d2a2ca4 2 \"src\" Read Random \"dst\" Write Random 4 \"max_val\" Float 1 AAAAAA== \"min_val\" Float 1 AAAAAA== \"draw_lines\" Bool 1 AA== \"lines_color\" Float 3 AAAAAAAAAAAAAAAAAAAAAA== 4 \"max_val\" 1 1 \"min_val\" 1 1 \"draw_lines\" 1 1 \"lines_color\" 3 1 0"
-  kernelSource "kernel plot_slice : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> src;\n  Image<eWrite, eAccessRandom> dst;\n\n  param:\n    float max_val;\n    float min_val;\n    bool draw_lines;\n    float3 lines_color;\n\n  float cubic(float x) \{\n    x /= 1.414;\n    x = fabs(x);\n    return x < 1.0f ? 2.0f*x*x*x-3.0f*x*x+1 : 0.0f;\n  \}\n\n  void write(float x, float y, int k, float c) \{\n    // Write cubic antialiased pixel value c in channel k at continuous float position x, y\n    int u0 = round(x);\n    int v0 = round(y);\n    int u, v = 0;\n    for (int j = 0; j <= 2; j++) \{\n      v = v0 + j - 1;\n      for (int i = 0; i <= 2; i++) \{\n        u = u0 + i - 1;\n        if ( dst.bounds.inside(u, v)) \{\n          float d = sqrt(pow(u-x, 2)+pow(v-y, 2));\n          float s = dst(u, v, k);\n          float w = cubic(d);\n          dst(u, v, k) = s+c*w;\n        \}\n      \}\n    \}\n  \}\n\n  float scale(float x) \{\n    return (x*dst.bounds.height())/(max_val)-(min_val*dst.bounds.height());\n  \}\n\n  void process(int2 pos) \{\n    if (pos.y == 0) \{\n      float4 source = src(pos.x, pos.y);\n      for (int i = 0; i < 3; i++)\{\n        write(pos.x, scale(source\[i]), i, source\[i]);\n      \}\n      if (draw_lines) \{\n        for (int i = 0; i < 10; i++) \{\n          for (int k = 0; k < 3; k++) \{\n            write(pos.x, scale(i), k, lines_color\[k]);\n          \}\n        \}\n      \}\n    \}\n  \}\n\};"
+  KernelDescription "2 \"PlotSlice\" iterate pixelWise 2a54f8da265309d9cd41c40f991f98e4a7d2404799a15d54ae1e8504c6642078 2 \"src\" Read Random \"dst\" Write Random 5 \"max_val\" Float 1 AAAAAA== \"min_val\" Float 1 AAAAAA== \"draw_lines\" Bool 1 AA== \"tolerance\" Float 1 AAAAAA== \"lines_color\" Float 3 AAAAAAAAAAAAAAAAAAAAAA== 5 \"max_val\" 1 1 \"min_val\" 1 1 \"draw_lines\" 1 1 \"tolerance\" 1 1 \"lines_color\" 3 1 0"
+  kernelSource "kernel PlotSlice : public ImageComputationKernel<ePixelWise>\n\{\n  Image<eRead, eAccessRandom, eEdgeClamped> src;\n  Image<eWrite, eAccessRandom> dst;\n\n  param:\n    float max_val;\n    float min_val;\n    bool draw_lines;\n    float tolerance;\n    float3 lines_color;\n\n  float gaussian(float d, float a, float expv) \{\n    return max(0.0f, exp(-a*d*d)-expv);\n  \}\n\n  float gaussian_filter(float x, float y, float r) \{\n    // return gaussian weighted distance from origin (0, 0)\n    // given coordinate (x, y) and radius r\n    float a = 1.5f; // rate falloff\n    float expv = exp(-a*r*r);\n    return gaussian(x, a, expv) * gaussian(y, a, expv);\n  \}\n\n  void write(float x, float y, int k, float c) \{\n    int n = 2;\n    int u0 = round(x);\n    int v0 = round(y);\n    // skip if center pixel weight is greater than tolerance\n    if ( dst.bounds.inside(u0, v0)) \{\n      if (dst(u0, v0, 3) >= tolerance) return;\n    \}\n    // loop over neighborhood\n    for (int j = -n; j <= n; j++) \{\n      int v = v0 + j;\n      for (int i = -n; i <= n; i++) \{\n        int u = u0 + i;\n        if ( dst.bounds.inside(u, v)) \{\n          // get filter weight for coord (u,v)\n          float w = gaussian_filter(u-x, v-y, float(n));\n          float c0 = dst(u, v, k); // existing color\n          // merge current color sample over existing color sample\n          dst(u, v, k) = c*w+c0*(1-w);\n          // merge current weight over existing weight\n          float w0 = dst(u, v, 3);\n          dst(u, v, 3) = w+w0*(1-w);\n        \}\n      \}\n    \}\n  \}\n\n  float scale(float x) \{\n    return (x*dst.bounds.height())/(max_val)-(min_val*dst.bounds.height());\n  \}\n\n  void process(int2 pos) \{\n    if (pos.y == 0) \{\n      float4 source = src(pos.x, pos.y);\n      for (int i = 0; i < 3; i++)\{\n        write(pos.x, scale(source\[i]), i, source\[i]);\n      \}\n      if (draw_lines) \{\n        for (int i = 0; i < 10; i++) \{\n          for (int k = 0; k < 3; k++) \{\n            write(pos.x, scale(i), k, lines_color\[k]);\n          \}\n        \}\n      \}\n    \}\n  \}\n\};"
   rebuild ""
-  plot_slice_max_val {{parent.max_value}}
-  plot_slice_min_val {{parent.min_value}}
-  plot_slice_draw_lines {{parent.draw_lines}}
-  plot_slice_lines_color {{parent.lines_color.r} {parent.lines_color.g} {parent.lines_color.b}}
+  PlotSlice_max_val {{parent.max_value}}
+  PlotSlice_min_val {{parent.min_value}}
+  PlotSlice_draw_lines {{parent.draw_lines}}
+  PlotSlice_tolerance 1
+  PlotSlice_lines_color {{parent.lines_color.r} {parent.lines_color.g} {parent.lines_color.b}}
   rebuild_finalise ""
   name PlotSlice
   xpos -590
-  ypos -327
+  ypos -328
  }
  Keyer {
   operation "luminance key"
@@ -96,8 +96,8 @@ set Ne32f980 [stack 0]
   xpos -590
   ypos -255
  }
-set N1ecaf6a0 [stack 0]
-push $Ne32f980
+set N1291dbb0 [stack 0]
+push $N12f38000
  ContactSheet {
   inputs 2
   width {{Input.width}}
@@ -110,8 +110,8 @@ push $Ne32f980
   xpos -370
   ypos -256
  }
-push $N1ecaf6a0
-push $Ne32f980
+push $N1291dbb0
+push $N12f38000
  ContactSheet {
   inputs 2
   width {{Input.width*2}}
@@ -123,15 +123,15 @@ push $Ne32f980
   xpos -480
   ypos -256
  }
-push $N1ecaf6a0
-push $Ne168d210
+push $N1291dbb0
+push $N128af000
  Merge2 {
   inputs 2
   name Merge1
   xpos -810
   ypos -250
  }
-push $N1ecaf6a0
+push $N1291dbb0
  Switch {
   inputs 4
   which {{parent.plot}}
