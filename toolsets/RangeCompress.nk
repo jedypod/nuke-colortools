@@ -1,0 +1,67 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name RangeCompress
+ help "<b>RangeCompress</b>\nLogarithmically compress values above 0.18 and below -0.18.\n\nInspired by the rangecompress function in OpenImageIO\nhttps://github.com/OpenImageIO/oiio/blob/master/src/libOpenImageIO/imagebufalgo_pixelmath.cpp\n"
+ addUserKnob {20 RangeCompress}
+ addUserKnob {4 direction t "compress or expand" M {forward reverse}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -370
+  ypos -466
+ }
+ Dot {
+  name Dot1
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -336
+  ypos -396
+ }
+set N23344020 [stack 0]
+ Expression {
+  temp_name0 _a
+  temp_expr0 -0.54576885700225830078
+  temp_name1 _b
+  temp_expr1 0.18351669609546661377
+  temp_name2 _c
+  temp_expr2 284.3577880859375
+  expr0 fabs(r)<=0.18?r:(exp((fabs(r)-_a)/_b)-1)/_c<0.18?(-exp((fabs(r)-_a)/_b)-1)/_c*sign(r):(exp((fabs(r)-_a)/_b)-1)/_c*sign(r)
+  expr1 fabs(g)<=0.18?g:(exp((fabs(g)-_a)/_b)-1)/_c<0.18?(-exp((fabs(g)-_a)/_b)-1)/_c*sign(g):(exp((fabs(g)-_a)/_b)-1)/_c*sign(g)
+  expr2 fabs(b)<=0.18?b:(exp((fabs(b)-_a)/_b)-1)/_c<0.18?(-exp((fabs(b)-_a)/_b)-1)/_c*sign(b):(exp((fabs(b)-_a)/_b)-1)/_c*sign(b)
+  channel3 none
+  name RangeExpand
+  xpos -260
+  ypos -369
+ }
+push $N23344020
+ Expression {
+  temp_name0 _a
+  temp_expr0 -0.54576885700225830078
+  temp_name1 _b
+  temp_expr1 0.18351669609546661377
+  temp_name2 _c
+  temp_expr2 284.3577880859375
+  expr0 fabs(r)<=0.18?r:(_a+_b*log(fabs(_c*fabs(r)+1.0)))*sign(r)
+  expr1 fabs(g)<=0.18?g:(_a+_b*log(fabs(_c*fabs(g)+1.0)))*sign(g)
+  expr2 fabs(b)<=0.18?b:(_a+_b*log(fabs(_c*fabs(b)+1.0)))*sign(b)
+  channel3 none
+  name RangeCompress
+  xpos -480
+  ypos -369
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name SwitchDirection
+  xpos -370
+  ypos -297
+ }
+ Output {
+  name Output1
+  xpos -370
+  ypos -226
+ }
+end_group
