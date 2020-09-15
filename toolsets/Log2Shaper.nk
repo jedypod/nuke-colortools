@@ -30,20 +30,20 @@ Group {
   xpos -6
   ypos 42
  }
-set N7b5fe930 [stack 0]
+set N650450e0 [stack 0]
  Expression {
-  expr0 "r > 0 ? (log( r / mid_grey)/log(2) - min_exp) / (max_exp - min_exp) : r"
-  expr1 "g > 0 ? (log( g / mid_grey)/log(2) - min_exp) / (max_exp - min_exp) : g"
-  expr2 "b > 0 ? (log( b / mid_grey)/log(2) - min_exp) / (max_exp - min_exp) : b"
+  expr0 fabs(r)<1e-6?0:(log(fabs(r)/mid_grey)/log(2)-min_exp)/(max_exp-min_exp)*sign(r)
+  expr1 fabs(g)<1e-6?0:(log(fabs(g)/mid_grey)/log(2)-min_exp)/(max_exp-min_exp)*sign(g)
+  expr2 fabs(b)<1e-6?0:(log(fabs(b)/mid_grey)/log(2)-min_exp)/(max_exp-min_exp)*sign(b)
   name lin_to_log2
   xpos 70
   ypos 86
  }
-push $N7b5fe930
+push $N650450e0
  Expression {
-  expr0 "r > 0 ? pow(2, ( r * (max_exp - min_exp) + min_exp)) * mid_grey : r"
-  expr1 "g > 0 ? pow(2, ( g * (max_exp - min_exp) + min_exp)) * mid_grey : g"
-  expr2 "b > 0 ? pow(2, ( b * (max_exp - min_exp) + min_exp)) * mid_grey : b"
+  expr0 pow(2,(fabs(r)*(max_exp-min_exp)+min_exp))*mid_grey*sign(r)
+  expr1 pow(2,(fabs(g)*(max_exp-min_exp)+min_exp))*mid_grey*sign(g)
+  expr2 pow(2,(fabs(b)*(max_exp-min_exp)+min_exp))*mid_grey*sign(b)
   name log2_to_lin
   xpos -150
   ypos 86
