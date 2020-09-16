@@ -14,6 +14,8 @@ Group {
  min_exp -6.5
  addUserKnob {7 max_exp l "max exp" R 0 12}
  max_exp 6.5
+ addUserKnob {7 cut t "Transition from log curve to linear extension at cut value." R 0 0.1}
+ cut 0.008
 }
  Input {
   inputs 0
@@ -23,27 +25,37 @@ Group {
  }
  Dot {
   name Dot
-  label " "
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xa5a5a501
   xpos -6
   ypos 42
  }
-set N650450e0 [stack 0]
+set Ncd4ab120 [stack 0]
  Expression {
-  expr0 fabs(r)<1e-6?0:(log(fabs(r)/mid_grey)/log(2)-min_exp)/(max_exp-min_exp)*sign(r)
-  expr1 fabs(g)<1e-6?0:(log(fabs(g)/mid_grey)/log(2)-min_exp)/(max_exp-min_exp)*sign(g)
-  expr2 fabs(b)<1e-6?0:(log(fabs(b)/mid_grey)/log(2)-min_exp)/(max_exp-min_exp)*sign(b)
+  temp_name0 c
+  temp_expr0 max(1e-8,cut)
+  temp_name1 offset
+  temp_expr1 (log(c/mid_grey)/log(2)-min_exp)/(max_exp-min_exp)
+  temp_name2 s
+  temp_expr2 1/(log(2)*c*(max_exp-min_exp))
+  expr0 r>=c?(log(r/mid_grey)/log(2)-min_exp)/(max_exp-min_exp):s*(r-c)+offset
+  expr1 g>=c?(log(g/mid_grey)/log(2)-min_exp)/(max_exp-min_exp):s*(g-c)+offset
+  expr2 b>=c?(log(b/mid_grey)/log(2)-min_exp)/(max_exp-min_exp):s*(b-c)+offset
+  channel3 none
   name lin_to_log2
   xpos 70
   ypos 86
  }
-push $N650450e0
+push $Ncd4ab120
  Expression {
-  expr0 pow(2,(fabs(r)*(max_exp-min_exp)+min_exp))*mid_grey*sign(r)
-  expr1 pow(2,(fabs(g)*(max_exp-min_exp)+min_exp))*mid_grey*sign(g)
-  expr2 pow(2,(fabs(b)*(max_exp-min_exp)+min_exp))*mid_grey*sign(b)
+  temp_name0 c
+  temp_expr0 max(1e-8,cut)
+  temp_name1 offset
+  temp_expr1 (log(c/mid_grey)/log(2)-min_exp)/(max_exp-min_exp)
+  temp_name2 s
+  temp_expr2 1/(log(2)*c*(max_exp-min_exp))
+  expr0 r>=offset?pow(2,(r*(max_exp-min_exp)+min_exp))*mid_grey:(r-offset)/s+c
+  expr1 g>=offset?pow(2,(g*(max_exp-min_exp)+min_exp))*mid_grey:(g-offset)/s+c
+  expr2 b>=offset?pow(2,(b*(max_exp-min_exp)+min_exp))*mid_grey:(b-offset)/s+c
+  channel3 none
   name log2_to_lin
   xpos -150
   ypos 86
