@@ -4,6 +4,7 @@ kernel PlotSlice : public ImageComputationKernel<ePixelWise>
   Image<eWrite, eAccessRandom> dst;
 
   param:
+    bool plot_input;
     float color;
     float max_val;
     float min_val;
@@ -63,9 +64,11 @@ kernel PlotSlice : public ImageComputationKernel<ePixelWise>
           }
         }
       }
-      float4 source = src(pos.x, pos.y);
-      for (int i = 0; i < 3; i++){
-        write(pos.x, scale(source[i]), i, color);
+      if (plot_input) {
+        float4 source = src(pos.x, pos.y);
+        for (int i = 0; i < 3; i++){
+          write(pos.x, scale(source[i]), i, color);
+        }
       }
     }
   }
