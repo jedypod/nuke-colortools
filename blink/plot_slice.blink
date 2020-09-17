@@ -4,6 +4,7 @@ kernel PlotSlice : public ImageComputationKernel<ePixelWise>
   Image<eWrite, eAccessRandom> dst;
 
   param:
+    float color;
     float max_val;
     float min_val;
     bool draw_lines;
@@ -27,9 +28,9 @@ kernel PlotSlice : public ImageComputationKernel<ePixelWise>
     int u0 = round(x);
     int v0 = round(y);
     // skip if center pixel weight is greater than tolerance
-    if ( dst.bounds.inside(u0, v0)) {
-      if (dst(u0, v0, 3) >= tolerance) return;
-    }
+    // if ( dst.bounds.inside(u0, v0)) {
+    //   if (dst(u0, v0, 3) >= tolerance) return;
+    // }
     // loop over neighborhood
     for (int j = -n; j <= n; j++) {
       int v = v0 + j;
@@ -39,10 +40,10 @@ kernel PlotSlice : public ImageComputationKernel<ePixelWise>
           // get filter weight for coord (u,v)
           float w = gaussian_filter(u-x, v-y, float(n));
           float c0 = dst(u, v, k); // existing color
+          float w0 = dst(u, v, 3); // existing alpha
           // merge current color sample over existing color sample
           dst(u, v, k) = c*w+c0*(1-w);
           // merge current weight over existing weight
-          float w0 = dst(u, v, 3);
           dst(u, v, 3) = w+w0*(1-w);
         }
       }
@@ -55,16 +56,16 @@ kernel PlotSlice : public ImageComputationKernel<ePixelWise>
 
   void process(int2 pos) {
     if (pos.y == 0) {
-      float4 source = src(pos.x, pos.y);
-      for (int i = 0; i < 3; i++){
-        write(pos.x, scale(source[i]), i, source[i]);
-      }
       if (draw_lines) {
         for (int i = 0; i < 10; i++) {
           for (int k = 0; k < 3; k++) {
             write(pos.x, scale(i), k, lines_color[k]);
           }
         }
+      }
+      float4 source = src(pos.x, pos.y);
+      for (int i = 0; i < 3; i++){
+        write(pos.x, scale(source[i]), i, color);
       }
     }
   }
