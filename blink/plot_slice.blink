@@ -52,7 +52,7 @@ kernel PlotSlice : public ImageComputationKernel<ePixelWise>
   }
 
   float scale(float x) {
-    return (x*dst.bounds.height())/(max_val)-(min_val*dst.bounds.height());
+    return (x*dst.bounds.height())/(max_val)-((min_val/max_val)*dst.bounds.height());
   }
 
   void process(int2 pos) {
