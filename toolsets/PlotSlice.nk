@@ -74,14 +74,19 @@ set N33c73a50 [stack 0]
   xpos -700
   ypos -418
  }
- Expression {
-  expr0 r/max_value-(min_value/max_value)
-  expr1 g/max_value-(min_value/max_value)
-  expr2 b/max_value-(min_value/max_value)
-  expr3 a/max_value-(min_value/max_value)
+Expression {
+  expr0 r/max_val-(min_val/max_val)
+  expr1 g/max_val-(min_val/max_val)
+  expr2 b/max_val-(min_val/max_val)
+  expr3 a/max_val-(min_val/max_val)
   name Fit
   xpos -700
-  ypos -392
+  ypos -394
+  addUserKnob {20 Param}
+  addUserKnob {7 max_val R 1 10}
+  max_val {{parent.max_value+fabs(parent.min_value)}}
+  addUserKnob {7 min_val R -1 0}
+  min_val {{parent.min_value}}
  }
  Reformat {
   type "to box"
@@ -108,18 +113,6 @@ set N33c73a50 [stack 0]
   addUserKnob {20 User}
   addUserKnob {7 tolerance}
   tolerance 0.0007
- }
- Matrix {
-  channels rgba
-  matrix {
-      {1 2 1}
-      {2 4 2}
-      {1 2 1}
-    }
-  normalize true
-  name Antialias
-  xpos -700
-  ypos -274
  }
 push $N33c73a50
  Reformat {
@@ -158,6 +151,18 @@ push $N33c73a50
   xpos -590
   ypos -273
   disable {{parent.antialias}}
+ }
+ Matrix {
+  channels rgba
+  matrix {
+      {1 2 1}
+      {2 4 2}
+      {1 2 1}
+    }
+  normalize true
+  name Antialias
+  xpos -590
+  ypos -226
  }
  Keyer {
   operation "luminance key"
