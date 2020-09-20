@@ -58,7 +58,7 @@ kernel PlotSlice : public ImageComputationKernel<ePixelWise>
   void process(int2 pos) {
     if (pos.y == 0) {
       if (draw_lines) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < max_val; i++) {
           for (int k = 0; k < 3; k++) {
             write(pos.x, scale(i), k, lines_color[k]);
           }
