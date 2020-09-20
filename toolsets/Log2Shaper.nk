@@ -2,12 +2,14 @@ set cut_paste_input [stack 0]
 push $cut_paste_input
 Group {
  name Log2Shaper
- label "48nits shaper"
  addUserKnob {20 log2_to_lin_tab l "log2 to lin"}
  addUserKnob {35 presets l preset t "Presets for the exposure domain. \n\n48nits shaper small domain matches the log2 shaper used in the ACES 1.0.3 config. \n\nThe new 48nits shaper was expanded to match the acescc curve to reduce artifacts." M {"curve/48nits shaper" "knobs this \{mid_grey 0.18 min_exp -6.5 max_exp 6.5 label \"48nits shaper\"\}" "curve/48nits shaper acescc" "knobs this \{mid_grey 0.18 min_exp -7.246068811667588 max_exp 10.273931188332412 label \"48nits shaper acescc\"\}" "curve/LMT shaper" "knobs this \{mid_grey 0.18 min_exp -10 max_exp 6.5 label \"LMT shaper\"\}" "curve/108nits shaper" "knobs this \{mid_grey 0.18 min_exp -12 max_exp 8 label \"108nits shaper\"\}" "curve/1000nits shaper" "knobs this \{mid_grey 0.18 min_exp -12 max_exp 10 label \"1000nits shaper\"\}" "curve/2000nits shaper" "knobs this \{mid_grey 0.18 min_exp -12 max_exp 11 label \"2000nits shaper\"\}" "curve/4000nits shaper" "knobs this \{mid_grey 0.18 min_exp -12 max_exp 12 label \"4000nits shaper\"\}"}}
  addUserKnob {26 ""}
  addUserKnob {4 direction M {forward inverse}}
  direction inverse
+ addUserKnob {4 negatives t "how to handle negative values.\n\nclamp does not modify the log curve near black. negative values will clip to 0.0\n\nlinear extension will multiply negatives with a linear extension below cut.\n\nreflect will compress or expand negative values with the mirror of the positive log function." -STARTLINE M {clamp "linear extension" reflect "" ""}}
+ negatives "linear extension"
+ addUserKnob {26 graph_link l "" -STARTLINE T " <style> a:link \{ color: #ccc \}</style><a href=https://www.desmos.com/calculator/on4cq2xj9g>graph</a>"}
  addUserKnob {7 mid_grey l "mid grey" R 0.1 0.2}
  mid_grey 0.18
  addUserKnob {7 min_exp l "min exp" R -12 0}
@@ -21,55 +23,153 @@ Group {
   inputs 0
   name Input
   xpos -40
-  ypos -12
+  ypos -82
  }
  Dot {
   name Dot
   xpos -6
+  ypos -6
+ }
+set N863a16b0 [stack 0]
+ Dot {
+  name Dot2
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos 104
   ypos 42
  }
-set Ncd4ab120 [stack 0]
+set N680dde20 [stack 0]
+ Expression {
+  temp_name0 o_r
+  temp_expr0 sign(r)<0?r0*2+add:sign(r)==0?r0+add:add
+  temp_name1 o_g
+  temp_expr1 sign(g)<0?r0*2+add:sign(g)==0?r0+add:add
+  temp_name2 o_b
+  temp_expr2 sign(b)<0?r0*2+add:sign(b)==0?r0+add:add
+  expr0 fabs(r)<=c?(s*(fabs(r)-c)+o)*sign(r)+o_r:(log(fabs(r)/mid_grey)/log(p)-min_exp)/(max_exp-min_exp)*sign(r)+o_r
+  expr1 fabs(g)<=c?(s*(fabs(g)-c)+o)*sign(g)+o_g:(log(fabs(g)/mid_grey)/log(p)-min_exp)/(max_exp-min_exp)*sign(g)+o_g
+  expr2 fabs(b)<=c?(s*(fabs(b)-c)+o)*sign(b)+o_b:(log(fabs(b)/mid_grey)/log(p)-min_exp)/(max_exp-min_exp)*sign(b)+o_b
+  channel3 none
+  name lin_to_log_reflect
+  xpos 290
+  ypos 86
+  addUserKnob {20 User}
+  addUserKnob {7 c l cut R 0 0.2}
+  c {{max(1e-8,cut)}}
+  addUserKnob {7 o l offset}
+  o {{(log(c/mid_grey)/log(p)-min_exp)/(max_exp-min_exp)}}
+  addUserKnob {7 s l slope}
+  s {{1/(log(p)*c*(max_exp-min_exp))}}
+  addUserKnob {7 r0 l root t "zero crossing for linear segment"}
+  r0 {{-c*s+o}}
+  addUserKnob {7 add}
+ }
+push $N680dde20
  Expression {
   temp_name0 c
   temp_expr0 max(1e-8,cut)
   temp_name1 offset
-  temp_expr1 (log(c/mid_grey)/log(2)-min_exp)/(max_exp-min_exp)
+  temp_expr1 (log(c/mid_grey)/log(p)-min_exp)/(max_exp-min_exp)
   temp_name2 s
-  temp_expr2 1/(log(2)*c*(max_exp-min_exp))
-  expr0 r>=c?(log(r/mid_grey)/log(2)-min_exp)/(max_exp-min_exp):s*(r-c)+offset
-  expr1 g>=c?(log(g/mid_grey)/log(2)-min_exp)/(max_exp-min_exp):s*(g-c)+offset
-  expr2 b>=c?(log(b/mid_grey)/log(2)-min_exp)/(max_exp-min_exp):s*(b-c)+offset
+  temp_expr2 1/(log(p)*c*(max_exp-min_exp))
+  expr0 r>=c?(log(r/mid_grey)/log(p)-min_exp)/(max_exp-min_exp):s*(r-c)+offset
+  expr1 g>=c?(log(g/mid_grey)/log(p)-min_exp)/(max_exp-min_exp):s*(g-c)+offset
+  expr2 b>=c?(log(b/mid_grey)/log(p)-min_exp)/(max_exp-min_exp):s*(b-c)+offset
   channel3 none
-  name lin_to_log2
+  name lin_to_log_extension
+  xpos 180
+  ypos 86
+ }
+push $N680dde20
+ Expression {
+  expr0 "r > 0 ? (log( r / mid_grey)/log(2) - min_exp) / (max_exp - min_exp) : 0"
+  expr1 "g > 0 ? (log( g / mid_grey)/log(2) - min_exp) / (max_exp - min_exp) : 0"
+  expr2 "b > 0 ? (log( b / mid_grey)/log(2) - min_exp) / (max_exp - min_exp) : 0"
+  name lin_to_log_clamp
   xpos 70
   ypos 86
  }
-push $Ncd4ab120
+ Switch {
+  inputs 3
+  which {{parent.negatives}}
+  name switch_negatives1
+  note_font Helvetica
+  xpos 70
+  ypos 135
+ }
+push $N863a16b0
+ Dot {
+  name Dot1
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -116
+  ypos 42
+ }
+set N22ca5ae0 [stack 0]
+ Expression {
+  expr0 r>=o?pow(p,(r*(max_exp-min_exp)+min_exp))*mid_grey:(r<o&&r>=-o+2*r0)?(r-o)/s+c:-(pow(p,(-r+2*r0)*(max_exp-min_exp)+min_exp))*mid_grey
+  expr1 g>=o?pow(p,(g*(max_exp-min_exp)+min_exp))*mid_grey:(g<o&&g>=-o+2*r0)?(g-o)/s+c:-(pow(p,(-g+2*r0)*(max_exp-min_exp)+min_exp))*mid_grey
+  expr2 b>=o?pow(p,(b*(max_exp-min_exp)+min_exp))*mid_grey:(b<o&&b>=-o+2*r0)?(b-o)/s+c:-(pow(p,(-b+2*r0)*(max_exp-min_exp)+min_exp))*mid_grey
+  channel3 none
+  name log2_to_lin_reflect
+  xpos -150
+  ypos 86
+  addUserKnob {20 User}
+  addUserKnob {7 c l cut R 0 0.2}
+  c {{max(1e-8,cut)}}
+  addUserKnob {7 o l offset}
+  o {{(log(c/mid_grey)/log(p)-min_exp)/(max_exp-min_exp)}}
+  addUserKnob {7 s l slope}
+  s {{1/(log(p)*c*(max_exp-min_exp))}}
+  addUserKnob {7 r0 l root t "zero crossing for linear segment"}
+  r0 {{-c*s+o}}
+  addUserKnob {7 add}
+ }
+push $N22ca5ae0
  Expression {
   temp_name0 c
   temp_expr0 max(1e-8,cut)
   temp_name1 offset
-  temp_expr1 (log(c/mid_grey)/log(2)-min_exp)/(max_exp-min_exp)
+  temp_expr1 (log(c/mid_grey)/log(p)-min_exp)/(max_exp-min_exp)
   temp_name2 s
-  temp_expr2 1/(log(2)*c*(max_exp-min_exp))
-  expr0 r>=offset?pow(2,(r*(max_exp-min_exp)+min_exp))*mid_grey:(r-offset)/s+c
-  expr1 g>=offset?pow(2,(g*(max_exp-min_exp)+min_exp))*mid_grey:(g-offset)/s+c
-  expr2 b>=offset?pow(2,(b*(max_exp-min_exp)+min_exp))*mid_grey:(b-offset)/s+c
+  temp_expr2 1/(log(p)*c*(max_exp-min_exp))
+  expr0 r>=offset?pow(p,(r*(max_exp-min_exp)+min_exp))*mid_grey:(r-offset)/s+c
+  expr1 g>=offset?pow(p,(g*(max_exp-min_exp)+min_exp))*mid_grey:(g-offset)/s+c
+  expr2 b>=offset?pow(p,(b*(max_exp-min_exp)+min_exp))*mid_grey:(b-offset)/s+c
   channel3 none
-  name log2_to_lin
-  xpos -150
+  name log_to_lin_extension
+  xpos -260
   ypos 86
+ }
+push $N22ca5ae0
+ Expression {
+  expr0 "r > 0 ? pow(2, ( r * (max_exp - min_exp) + min_exp)) * mid_grey : 0"
+  expr1 "g > 0 ? pow(2, ( g * (max_exp - min_exp) + min_exp)) * mid_grey : 0"
+  expr2 "b > 0 ? pow(2, ( b * (max_exp - min_exp) + min_exp)) * mid_grey : 0"
+  name log_to_lin_clamp
+  xpos -370
+  ypos 86
+ }
+ Switch {
+  inputs 3
+  which {{parent.negatives}}
+  name switch_negatives
+  note_font Helvetica
+  xpos -150
+  ypos 135
  }
  Switch {
   inputs 2
   which {{parent.direction}}
   name switch_direction
   xpos -40
-  ypos 158
+  ypos 206
  }
  Output {
   name Output
   xpos -40
-  ypos 236
+  ypos 278
  }
 end_group
