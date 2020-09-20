@@ -8,7 +8,7 @@ Group {
  addUserKnob {4 direction M {forward inverse}}
  direction inverse
  addUserKnob {4 negatives t "how to handle negative values.\n\nclamp does not modify the log curve near black. negative values will clip to 0.0\n\nlinear extension will multiply negatives with a linear extension below cut.\n\nreflect will compress or expand negative values with the mirror of the positive log function." -STARTLINE M {clamp "linear extension" reflect "" ""}}
- negatives reflect
+ negatives "linear extension"
  addUserKnob {26 graph_link l "" -STARTLINE T " <style> a:link \{ color: #ccc \}</style><a href=https://www.desmos.com/calculator/on4cq2xj9g>graph</a>"}
  addUserKnob {7 mid_grey l "mid grey" R 0.1 0.2}
  mid_grey 0.18
@@ -17,7 +17,7 @@ Group {
  addUserKnob {7 max_exp l "max exp" R 0 12}
  max_exp 6.5
  addUserKnob {7 cut t "Transition from log curve to linear extension at cut value." R 0 0.1}
- cut 0.5
+ cut 0.008
 }
  Input {
   inputs 0
