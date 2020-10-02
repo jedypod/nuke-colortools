@@ -1,11 +1,7 @@
 set cut_paste_input [stack 0]
-version 12.1 v4
 push $cut_paste_input
 Group {
- name PlotChromaticity1
- selected true
- xpos -114
- ypos 92
+ name PlotChromaticity
  addUserKnob {20 PlotChromaticity_tab l PlotChromaticity}
  addUserKnob {6 use_gpu l "Use GPU if available" +STARTLINE}
  use_gpu true
@@ -92,7 +88,7 @@ Group {
    type scale
    scale {{max(parent.density/50,0.25)}}
    resize distort
-   filter impulse
+   filter Impulse
    pbb true
    name Reformat3
    xpos -260
@@ -134,7 +130,7 @@ push $N3dffbb20
    type scale
    scale {{max(parent.density/50,0.25)}}
    resize distort
-   filter impulse
+   filter Impulse
    pbb true
    name Reformat1
    xpos -40
@@ -746,7 +742,7 @@ push $Nb47adc20
   type scale
   scale 0.8
   turn true
-  filter impulse
+  filter Impulse
   black_outside true
   name Reformat2
   xpos -920
@@ -808,7 +804,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -853,7 +849,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -898,7 +894,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -943,7 +939,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -988,7 +984,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
     xpos 262
@@ -1031,7 +1027,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
     xpos 290
@@ -1078,7 +1074,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1123,7 +1119,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1168,7 +1164,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1213,7 +1209,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1258,7 +1254,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1303,7 +1299,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1348,7 +1344,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1393,7 +1389,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1438,7 +1434,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
     xpos 262
@@ -1485,7 +1481,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1530,7 +1526,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1575,7 +1571,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1620,7 +1616,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
     xpos 262
@@ -1667,7 +1663,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1712,7 +1708,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1757,7 +1753,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1802,7 +1798,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
    }
@@ -1847,7 +1843,7 @@ push $Nb47adc20
     box_width {{parent.resolution}}
     box_height {{parent.resolution}}
     box_fixed true
-    filter impulse
+    filter Impulse
     black_outside true
     name Reformat1
     xpos 262
@@ -2450,7 +2446,7 @@ push $N2aba0320
   box_fixed true
   box_pixel_aspect {{input.pixel_aspect}}
   resize distort
-  filter impulse
+  filter Impulse
   name OutputFormat
   xpos 620
   ypos -1282
@@ -2490,7 +2486,7 @@ set N2fb03860 [stack 0]
   box_fixed true
   box_pixel_aspect {{input.pixel_aspect}}
   resize distort
-  filter impulse
+  filter Impulse
   name OutputFormat1
   xpos 400
   ypos 64
