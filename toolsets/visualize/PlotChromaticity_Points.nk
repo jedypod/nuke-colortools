@@ -4,21 +4,20 @@ CMSTestPattern {
  cube_size 15
  name CMSTestPattern
  selected true
- xpos 5466
- ypos 4022
- postage_stamp false
+ xpos 277
+ ypos 1507
 }
 Group {
- name PlotPoints
+ name PlotChromaticity_Points
  selected true
- xpos 5466
- ypos 4143
- addUserKnob {20 PlotPoints_tab l PlotPoints}
+ xpos 277
+ ypos 1628
+ addUserKnob {20 PlotChromaticity_Points_tab l PlotChromaticity_Points}
  addUserKnob {6 plot_input l "plot input" +STARTLINE}
+ plot_input true
  addUserKnob {6 plot_spectral_locus l "plot spectral locus" -STARTLINE}
  plot_spectral_locus true
  addUserKnob {6 plot_pointers_gamut l "plot pointers gamut" -STARTLINE}
- plot_pointers_gamut true
  addUserKnob {41 gamut T GamutToXYZ.gamut}
  addUserKnob {4 transform M {none XYZ Yxy}}
  transform Yxy
@@ -192,7 +191,7 @@ Group {
   xpos -1903
   ypos -28
  }
-set N24ee3430 [stack 0]
+set N9e0fc100 [stack 0]
  Constant {
   inputs 0
   format "256 256 0 0 256 256 1 square_256"
@@ -221,7 +220,7 @@ set N24ee3430 [stack 0]
   xpos -1827
   ypos -456
  }
-set Nd88161e0 [stack 0]
+set N9e0d6400 [stack 0]
  Dot {
   name Dot9
   note_font "Bitstream Vera Sans"
@@ -258,7 +257,7 @@ set Nd88161e0 [stack 0]
   xpos -1683
   ypos -236
  }
-push $Nd88161e0
+push $N9e0d6400
  Expression {
   temp_name0 start
   temp_expr0 360
@@ -348,7 +347,7 @@ push $Nd88161e0
   xpos -1793
   ypos -52
  }
-set N246f9840 [stack 0]
+set N9e279600 [stack 0]
  Dot {
   name Dot5
   label " "
@@ -384,7 +383,7 @@ set N246f9840 [stack 0]
   xpos -1683
   ypos 179
  }
-push $N24ee3430
+push $N9e0fc100
  Colorspace {
   colorspace_in CIE-Yxy
   primary_in "Adobe (1998)"
@@ -394,7 +393,7 @@ push $N24ee3430
   xpos -1937
   ypos -1
  }
-push $N246f9840
+push $N9e279600
  Colorspace {
   colorspace_in CIE-Yxy
   primary_in "Adobe (1998)"
@@ -489,11 +488,10 @@ add_layer {pos pos.red pos.green pos.blue pos.alpha}
   xpos -1216
   ypos 42
  }
-set Nc89da720 [stack 0]
+set N9e216400 [stack 0]
  Group {
   name GamutToXYZ
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
-  selected true
   xpos -1140
   ypos 32
   addUserKnob {20 GamutToXYZ_tab l GamutToXYZ}
@@ -552,7 +550,7 @@ set Nc89da720 [stack 0]
   xpos -1106
   ypos 90
  }
-set Nd882faf0 [stack 0]
+set N9e214100 [stack 0]
  Colorspace {
   colorspace_in CIE-XYZ
   colorspace_out CIE-Yxy
@@ -571,8 +569,8 @@ set Nd882faf0 [stack 0]
   ypos 127
   disable {{"!(parent.diagram == 1)"}}
  }
-push $Nd882faf0
-push $Nc89da720
+push $N9e214100
+push $N9e216400
  Switch {
   inputs 3
   which {{parent.transform}}
@@ -580,7 +578,7 @@ push $Nc89da720
   xpos -1140
   ypos 183
  }
-push $Nc89da720
+push $N9e216400
  Group {
   inputs 2
   name PositionToPoints1
