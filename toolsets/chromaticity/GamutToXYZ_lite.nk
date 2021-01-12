@@ -1,9 +1,9 @@
 set cut_paste_input [stack 0]
 push $cut_paste_input
 Group {
- name GamutToXYZ
+ name GamutToXYZ_lite
  label "\[if \{\[value invert]\} \{return \"XYZ to \[value gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
- addUserKnob {20 GamutToXYZ_tab l GamutToXYZ}
+ addUserKnob {20 GamutToXYZ_lite_tab l GamutToXYZ_lite}
  addUserKnob {4 gamut t "Choose gamut" M {XYZ ACES ACEScg "Filmlight E-Gamut" "DaVinci WG" Rec709 Rec2020 P3D60 P3D65 P3DCI "Arri AlexaWideGamut" REDDRAGONcolor REDDRAGONcolor2 REDcolor REDcolor2 REDcolor3 REDcolor4 REDWideGamutRGB "GoPro Protune Native" CanonCinemaGamut SonySGamut SonySGamut3Cine PanasonicVGamut "DJI D-Gamut" "Fujifilm F-Gamut" BMDFilmV1 BMD4kFilmV1 BMD4kFilmV3 BMD46kFilmV1 BMD46kFilmV3 BMDWideGamutV4 "AdobeRGB\t" AdobeWideGamutRGB ROMM RIMM ERIMM ProPhotoRGB RusselRGB SharpRGB AppleRGB BestRGB}}
  addUserKnob {6 invert +STARTLINE}
  addUserKnob {26 ""}
