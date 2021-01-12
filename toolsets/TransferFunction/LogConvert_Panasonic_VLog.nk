@@ -1,0 +1,98 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_Panasonic_VLog
+ addUserKnob {20 RedLog_tab l RedLog}
+ addUserKnob {4 operation M {log2lin lin2log}}
+ operation lin2log
+ addUserKnob {6 normalised_code_values l "normalised code values" t "Whether the non-linear *Panasonic V-Log* data :math:`V_\{out\}` is\n        encoded as normalised code values." +STARTLINE}
+ addUserKnob {6 reflection t "Whether the light level :math`L_\{in\}` to a camera is reflection." +STARTLINE}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 74
+ }
+set N46e3900 [stack 0]
+ Multiply {
+  channels rgb
+  value 1.111111111
+  name Multiply2
+  note_font Helvetica
+  xpos 80
+  ypos 71
+  disable {{!parent.reflection}}
+ }
+ Expression {
+  expr0 r<0.01?5.6*r+0.125:p.1*log10(r+p.0)+p.2
+  expr1 g<0.01?5.6*g+0.125:p.1*log10(g+p.0)+p.2
+  expr2 b<0.01?5.6*b+0.125:p.1*log10(b+p.0)+p.2
+  channel3 none
+  name lin2log
+  xpos 80
+  ypos 110
+  addUserKnob {20 Params}
+  addUserKnob {78 p n 3}
+  p {0.00873 0.241514 0.598206}
+ }
+ Expression {
+  expr0 r*(940/1023-64/1023)+64/1023
+  expr1 g*(940/1023-64/1023)+64/1023
+  expr2 b*(940/1023-64/1023)+64/1023
+  name full_to_legal
+  note_font Helvetica
+  xpos 80
+  ypos 151
+  disable {{!parent.normalised_code_values}}
+ }
+push $N46e3900
+ Expression {
+  expr0 (r-64/1023)/(940/1023-64/1023)
+  expr1 (g-64/1023)/(940/1023-64/1023)
+  expr2 (b-64/1023)/(940/1023-64/1023)
+  name legal_to_full
+  note_font Helvetica
+  xpos -160
+  ypos 71
+  disable {{!parent.normalised_code_values}}
+ }
+ Expression {
+  expr0 r<0.181?(r-0.125)/5.6:pow(10,((r-p.2)/p.1))-p.0
+  expr1 g<0.181?(g-0.125)/5.6:pow(10,((g-p.2)/p.1))-p.0
+  expr2 b<0.181?(b-0.125)/5.6:pow(10,((b-p.2)/p.1))-p.0
+  channel3 none
+  name log2lin
+  xpos -160
+  ypos 110
+  addUserKnob {20 Params}
+  addUserKnob {78 p n 3}
+  p {0.00873 0.241514 0.598206}
+ }
+ Multiply {
+  channels rgb
+  value 0.9
+  name Multiply1
+  note_font Helvetica
+  xpos -160
+  ypos 152
+  disable {{!parent.reflection}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation}}
+  name Operation
+  xpos -40
+  ypos 190
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 310
+ }
+end_group

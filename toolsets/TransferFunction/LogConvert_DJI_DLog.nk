@@ -1,0 +1,52 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_DJI_DLog
+ addUserKnob {20 DLog_tab l DLog}
+ addUserKnob {4 operation M {log2lin lin2log}}
+ operation lin2log
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 114
+ }
+set N869f4100 [stack 0]
+ Expression {
+  expr0 r<=0.0078?6.025*r+0.0929:(log10(r*0.9892+0.0108))*0.256663+0.584555
+  expr1 g<=0.0078?6.025*g+0.0929:(log10(g*0.9892+0.0108))*0.256663+0.584555
+  expr2 b<=0.0078?6.025*b+0.0929:(log10(b*0.9892+0.0108))*0.256663+0.584555
+  channel3 none
+  name lin2log
+  xpos 80
+  ypos 110
+ }
+push $N869f4100
+ Expression {
+  expr0 r<=0.14?(r-0.0929)/6.025:(pow(10,(3.89616*r-2.27752))-0.0108)/0.9892
+  expr1 g<=0.14?(g-0.0929)/6.025:(pow(10,(3.89616*g-2.27752))-0.0108)/0.9892
+  expr2 b<=0.14?(b-0.0929)/6.025:(pow(10,(3.89616*b-2.27752))-0.0108)/0.9892
+  channel3 none
+  name log2lin
+  xpos -160
+  ypos 110
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation}}
+  name Operation
+  xpos -40
+  ypos 189
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 310
+ }
+end_group

@@ -1,0 +1,106 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_Red_Log
+ xpos 200
+ ypos -449
+ addUserKnob {20 RedLog_tab l RedLog}
+ addUserKnob {4 operation M {log2lin lin2log}}
+ operation lin2log
+ addUserKnob {4 type M {RedLog3G10 RedLog3G12}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 74
+ }
+set N21d43200 [stack 0]
+ Dot {
+  name Dot2
+  xpos 234
+  ypos 74
+ }
+set N21d42b00 [stack 0]
+ Expression {
+  expr0 sign(r)*0.184904*log10((fabs(r)*347.189667)+1)
+  expr1 sign(g)*0.184904*log10((fabs(g)*347.189667)+1)
+  expr2 sign(b)*0.184904*log10((fabs(b)*347.189667)+1)
+  channel3 none
+  name lin2log1
+  label RedLog3G12
+  xpos 200
+  ypos 104
+ }
+push $N21d42b00
+ Expression {
+  expr0 sign(r)*(pow(10.0,(fabs(r)/0.184904))-1)/347.189667
+  expr1 sign(g)*(pow(10.0,(fabs(g)/0.184904))-1)/347.189667
+  expr2 sign(b)*(pow(10.0,(fabs(b)/0.184904))-1)/347.189667
+  channel3 none
+  name log2lin1
+  label RedLog3G12
+  xpos 80
+  ypos 104
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation}}
+  name Operation1
+  xpos 200
+  ypos 190
+ }
+push $N21d43200
+ Expression {
+  expr0 r>-p.2?p.0*log10(((r+p.2)*p.1)+1):(r+p.2)*p.3
+  expr1 g>-p.2?p.0*log10(((g+p.2)*p.1)+1):(g+p.2)*p.3
+  expr2 b>-p.2?p.0*log10(((b+p.2)*p.1)+1):(b+p.2)*p.3
+  channel3 none
+  name lin2log
+  label RedLog3G10
+  xpos -40
+  ypos 104
+  addUserKnob {20 Params}
+  addUserKnob {78 p n 4}
+  p {0.224282 155.975327 0.01 15.1927}
+ }
+push $N21d43200
+ Expression {
+  expr0 r>0?(pow(10,r/p.0)-1)/p.1-p.2:(r/p.3)-p.2
+  expr1 g>0?(pow(10,g/p.0)-1)/p.1-p.2:(g/p.3)-p.2
+  expr2 b>0?(pow(10,b/p.0)-1)/p.1-p.2:(b/p.3)-p.2
+  channel3 none
+  name log2lin
+  label RedLog3G10
+  selected true
+  xpos -159
+  ypos 104
+  addUserKnob {20 Params}
+  addUserKnob {78 p n 4}
+  p {0.224282 155.975327 0.01 15.1927}
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation}}
+  name Operation
+  xpos -40
+  ypos 190
+ }
+ Switch {
+  inputs 2
+  which {{parent.type}}
+  name Type
+  xpos -40
+  ypos 310
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 430
+ }
+end_group

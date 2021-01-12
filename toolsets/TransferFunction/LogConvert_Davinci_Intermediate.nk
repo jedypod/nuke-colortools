@@ -1,0 +1,80 @@
+set cut_paste_input [stack 0]
+version 12.2 v4
+push $cut_paste_input
+Group {
+ name LogConvert_Davinci_Intermediate
+ addUserKnob {20 Intermediate_tab l Intermediate}
+ addUserKnob {4 operation M {log2lin lin2log}}
+ operation lin2log
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 114
+ }
+set N302a4f00 [stack 0]
+ Expression {
+  expr0 r<=DI_LIN_CUT?r*DI_M:(log(r+DI_A)/log(2)+DI_B)*DI_C
+  expr1 g<=DI_LIN_CUT?g*DI_M:(log(g+DI_A)/log(2)+DI_B)*DI_C
+  expr2 b<=DI_LIN_CUT?b*DI_M:(log(b+DI_A)/log(2)+DI_B)*DI_C
+  channel3 none
+  name lin2log
+  xpos 80
+  ypos 110
+  addUserKnob {20 Params}
+  addUserKnob {7 DI_A}
+  DI_A 0.0075
+  addUserKnob {7 DI_B}
+  DI_B 7
+  addUserKnob {7 DI_C}
+  DI_C 0.07329248
+  addUserKnob {7 DI_M}
+  DI_M 10.44426855
+  addUserKnob {7 DI_LIN_CUT}
+  DI_LIN_CUT 0.00262409
+  addUserKnob {7 DI_LOG_CUT}
+  DI_LOG_CUT 0.02740668
+ }
+push $N302a4f00
+ Expression {
+  expr0 r<=DI_LOG_CUT?r/DI_M:pow(2.0,(r/DI_C)-DI_B)-DI_A
+  expr1 g<=DI_LOG_CUT?g/DI_M:pow(2.0,(g/DI_C)-DI_B)-DI_A
+  expr2 b<=DI_LOG_CUT?b/DI_M:pow(2.0,(b/DI_C)-DI_B)-DI_A
+  channel3 none
+  name log2lin
+  selected true
+  xpos -160
+  ypos 110
+  addUserKnob {20 Params}
+  addUserKnob {7 DI_A}
+  DI_A 0.0075
+  addUserKnob {7 DI_B}
+  DI_B 7
+  addUserKnob {7 DI_C}
+  DI_C 0.07329248
+  addUserKnob {7 DI_M}
+  DI_M 10.44426855
+  addUserKnob {7 DI_LIN_CUT}
+  DI_LIN_CUT 0.00262409
+  addUserKnob {7 DI_LOG_CUT}
+  DI_LOG_CUT 0.02740668
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation}}
+  name Operation
+  xpos -40
+  ypos 190
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 310
+ }
+end_group

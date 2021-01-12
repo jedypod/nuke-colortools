@@ -1,0 +1,56 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_Kodak_CineonLog
+ addUserKnob {20 CineonLog_tab l CineonLog}
+ addUserKnob {4 operation M {log2lin lin2log}}
+ operation lin2log
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 114
+ }
+set N78d18f00 [stack 0]
+ Expression {
+  temp_name0 offset
+  temp_expr0 pow(10,((95-685)/300))
+  expr0 ((685+300*log10(r*(1-offset)+offset))/1023)
+  expr1 ((685+300*log10(g*(1-offset)+offset))/1023)
+  expr2 ((685+300*log10(b*(1-offset)+offset))/1023)
+  channel3 none
+  name lin2log
+  xpos 80
+  ypos 110
+ }
+push $N78d18f00
+ Expression {
+  temp_name0 offset
+  temp_expr0 pow(10,((95-685)/300))
+  expr0 ((pow(10,((1023*r-685)/300))-offset)/(1-offset))
+  expr1 ((pow(10,((1023*g-685)/300))-offset)/(1-offset))
+  expr2 ((pow(10,((1023*b-685)/300))-offset)/(1-offset))
+  channel3 none
+  name log2lin
+  xpos -160
+  ypos 110
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation}}
+  name Operation
+  xpos -40
+  ypos 189
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 310
+ }
+end_group

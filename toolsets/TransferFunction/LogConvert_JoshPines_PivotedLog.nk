@@ -1,0 +1,53 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_JoshPines_PivotedLog
+ addUserKnob {20 PivotedLog_tab l PivotedLog}
+ addUserKnob {4 operation M {log2lin lin2log}}
+ operation lin2log
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 74
+ }
+set Nced50f00 [stack 0]
+ Expression {
+  expr0 (445+log10(r/0.18)/(0.002/0.6))/1023
+  expr1 (445+log10(g/0.18)/(0.002/0.6))/1023
+  expr2 (445+log10(b/0.18)/(0.002/0.6))/1023
+  channel3 none
+  name lin2log
+  xpos 81
+  ypos 108
+ }
+push $Nced50f00
+ Expression {
+  expr0 pow(10,((r*1023-445)*(0.002/0.6)))*0.18
+  expr1 pow(10,((g*1023-445)*(0.002/0.6)))*0.18
+  expr2 pow(10,((b*1023-445)*(0.002/0.6)))*0.18
+  channel3 none
+  name log2lin
+  xpos -160
+  ypos 110
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation}}
+  name Operation
+  xpos -40
+  ypos 189
+ }
+ Output {
+  name Output1
+  selected true
+  xpos -40
+  ypos 310
+ }
+end_group

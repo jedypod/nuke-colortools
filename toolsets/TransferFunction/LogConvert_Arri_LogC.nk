@@ -1,0 +1,61 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_Arri_LogC
+ addUserKnob {20 LogC_tab l LogC}
+ addUserKnob {4 operation M {log2lin lin2log}}
+ operation lin2log
+ addUserKnob {4 iso M {160 200 250 320 400 500 640 800 1000 1280 1600}}
+ iso 800
+ addUserKnob {6 normalized_sensor_signal l "normalized sensor signal" t "normalized sensor signal input, instead of the default: linear scene exposure factors" -STARTLINE}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 114
+ }
+set N21ce6b00 [stack 0]
+ Expression {
+  expr0 (r>p.0)?p.3*log10(p.1*r+p.2)+p.4:p.5*r+p.6
+  expr1 (g>p.0)?p.3*log10(p.1*g+p.2)+p.4:p.5*g+p.6
+  expr2 (b>p.0)?p.3*log10(p.1*b+p.2)+p.4:p.5*b+p.6
+  channel3 none
+  name lin2log
+  xpos 80
+  ypos 110
+  addUserKnob {20 Params}
+  addUserKnob {78 p n 8}
+  p {{parent.log2lin.p} {parent.log2lin.p} {parent.log2lin.p} {parent.log2lin.p} {parent.log2lin.p} {parent.log2lin.p} {parent.log2lin.p} {parent.log2lin.p}}
+ }
+push $N21ce6b00
+ Expression {
+  expr0 (r>p.7)?(pow(10,(r-p.4)/p.3)-p.2)/p.1:(r-p.6)/p.5
+  expr1 (g>p.7)?(pow(10,(g-p.4)/p.3)-p.2)/p.1:(g-p.6)/p.5
+  expr2 (b>p.7)?(pow(10,(b-p.4)/p.3)-p.2)/p.1:(b-p.6)/p.5
+  channel3 none
+  name log2lin
+  xpos -160
+  ypos 110
+  addUserKnob {20 Params}
+  addUserKnob {78 p n 8}
+  p {{normalized_sensor_signal?curve(iso+11):curve(iso) 0.005561 0.006208 0.006871 0.007622 0.008318 0.009031 0.00984 0.010591 0.011361 0.012235 0.013047 0.00468 0.004597 0.004518 0.004436 0.004369 0.004309 0.004249 0.004201 0.00416 0.00412 0.004088} {normalized_sensor_signal?curve(iso+11):curve(iso) 5.555556 5.555556 5.555556 5.555556 5.555556 5.555556 5.555556 5.555556 5.555556 5.555556 5.555556 40 50 62.5 80 100 125 160 200 250 320 400} {normalized_sensor_signal?curve(iso+11):curve(iso) 0.080216 0.076621 0.072941 0.068768 0.064901 0.060939 0.056443 0.052272 0.047996 0.043137 0.038625 -0.076072 -0.11874 -0.17126 -0.243808 -0.32582 -0.427461 -0.568709 -0.729169 -0.928805 -1.207168 -1.524256} {normalized_sensor_signal?curve(iso+11):curve(iso) 0.269036 0.266007 0.262978 0.259627 0.256598 0.253569 0.250219 0.24719 0.244161 0.24081 0.237781 0.269036 0.266007 0.262978 0.259627 0.256598 0.253569 0.250219 0.24719 0.244161 0.24081 0.237781} {normalized_sensor_signal?curve(iso+11):curve(iso) 0.381991 0.382478 0.382966 0.383508 0.383999 0.384493 0.38504 0.385537 0.386036 0.38659 0.387093 0.381991 0.382478 0.382966 0.383508 0.383999 0.384493 0.38504 0.385537 0.386036 0.38659 0.387093} {normalized_sensor_signal?curve(iso+11):curve(iso) 5.842037 5.776265 5.710494 5.637732 5.57196 5.506188 5.433426 5.367655 5.301883 5.229121 5.16335 42.062665 51.986387 64.243053 81.183335 100.29528 123.889239 156.48268 193.235573 238.584745 301.19738 371.761171} {normalized_sensor_signal?curve(iso+11):curve(iso) 0.092778 0.092782 0.092786 0.092791 0.092795 0.0928 0.092805 0.092809 0.092814 0.092819 0.092824 -0.071569 -0.110339 -0.158224 -0.224409 -0.299079 -0.391261 -0.518605 -0.662201 -0.839385 -1.08402 -1.359723} {normalized_sensor_signal?curve(iso+11):curve(iso) 0.125266 0.128643 0.132021 0.135761 0.139142 0.142526 0.146271 0.149658 0.153047 0.156799 0.160192 0.125266 0.128643 0.132021 0.135761 0.139142 0.142526 0.146271 0.149658 0.153047 0.156799 0.160192}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation}}
+  name Operation
+  xpos -40
+  ypos 190
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 310
+ }
+end_group

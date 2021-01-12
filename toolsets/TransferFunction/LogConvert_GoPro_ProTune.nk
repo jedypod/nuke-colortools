@@ -1,0 +1,54 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_GoPro_ProTune
+ addUserKnob {20 CineonLog_tab l CineonLog}
+ addUserKnob {4 operation M {log2lin lin2log}}
+ operation lin2log
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 74
+ }
+set Nadf71d00 [stack 0]
+ Expression {
+  expr0 log(r*112+1)/log(113)
+  expr1 log(g*112+1)/log(113)
+  expr2 log(b*112+1)/log(113)
+  channel3 none
+  name lin2log
+  xpos 81
+  ypos 111
+ }
+push $Nadf71d00
+ Expression {
+  temp_name0 offset
+  temp_expr0 pow(10,((95-685)/300))
+  expr0 (pow(113,r)-1)/112
+  expr1 (pow(113,g)-1)/112
+  expr2 (pow(113,b)-1)/112
+  channel3 none
+  name log2lin
+  xpos -160
+  ypos 110
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation}}
+  name Operation
+  xpos -40
+  ypos 189
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 310
+ }
+end_group

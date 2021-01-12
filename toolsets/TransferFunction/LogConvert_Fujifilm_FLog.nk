@@ -1,0 +1,86 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_Fujifilm_FLog
+ addUserKnob {20 FLog_tab l FLog}
+ addUserKnob {4 operation M {log2lin lin2log}}
+ operation lin2log
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 114
+ }
+set N300e0100 [stack 0]
+ Expression {
+  expr0 r>=cut1?this.c*log10(this.a*r+this.b)+this.d:this.e*r+this.f
+  expr1 g>=cut1?this.c*log10(this.a*g+this.b)+this.d:this.e*g+this.f
+  expr2 b>=cut1?this.c*log10(this.a*b+this.b)+this.d:this.e*b+this.f
+  channel3 none
+  name lin2log
+  xpos 80
+  ypos 110
+  addUserKnob {20 Params}
+  addUserKnob {7 a R 0 10}
+  a 0.555556
+  addUserKnob {7 b R 0 10}
+  b 0.009468
+  addUserKnob {7 c R 0 10}
+  c 0.344676
+  addUserKnob {7 d R 0 10}
+  d 0.790453
+  addUserKnob {7 e R 0 10}
+  e 8.735631
+  addUserKnob {7 f R 0 10}
+  f 0.092864
+  addUserKnob {7 cut1 R 0 10}
+  cut1 0.00089
+  addUserKnob {7 cut2 R 0 10}
+  cut2 0.1005377752
+ }
+push $N300e0100
+ Expression {
+  expr0 r>=cut2?(pow(10,((r-this.d)/this.c))/this.a-this.b/this.a):(r-this.f)/this.e
+  expr1 g>=cut2?(pow(10,((g-this.d)/this.c))/this.a-this.b/this.a):(g-this.f)/this.e
+  expr2 b>=cut2?(pow(10,((b-this.d)/this.c))/this.a-this.b/this.a):(b-this.f)/this.e
+  channel3 none
+  name log2lin
+  xpos -160
+  ypos 110
+  addUserKnob {20 Params}
+  addUserKnob {7 a R 0 10}
+  a 0.555556
+  addUserKnob {7 b R 0 10}
+  b 0.009468
+  addUserKnob {7 c R 0 10}
+  c 0.344676
+  addUserKnob {7 d R 0 10}
+  d 0.790453
+  addUserKnob {7 e R 0 10}
+  e 8.735631
+  addUserKnob {7 f R 0 10}
+  f 0.092864
+  addUserKnob {7 cut1 R 0 10}
+  cut1 0.00089
+  addUserKnob {7 cut2 R 0 10}
+  cut2 0.1005377752
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation}}
+  name Inverse
+  xpos -40
+  ypos 190
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 310
+ }
+end_group

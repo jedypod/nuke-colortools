@@ -1,0 +1,103 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_FilmlightTLog
+ addUserKnob {20 TLog}
+ addUserKnob {4 operation M {log2lin lin2log}}
+ operation lin2log
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 114
+ }
+set N21d11d00 [stack 0]
+ Expression {
+  expr0 r<0.0?c_G*r+c_o:log(r+c_C)*c_B+c_A
+  expr1 g<0.0?c_G*g+c_o:log(g+c_C)*c_B+c_A
+  expr2 b<0.0?c_G*b+c_o:log(b+c_C)*c_B+c_A
+  channel3 none
+  name lin2log
+  selected true
+  xpos 80
+  ypos 110
+  addUserKnob {20 Params}
+  addUserKnob {7 c_w R 0 100}
+  c_w 128
+  addUserKnob {7 c_g R 0 20}
+  c_g 16
+  addUserKnob {7 c_o}
+  c_o 0.075
+  addUserKnob {7 c_b R 0 10}
+  c_b {{1.0/(0.7107+1.2359*log(c_w*c_g))}}
+  addUserKnob {7 c_gs R 0 10}
+  c_gs {{c_g/(1.0-c_o)}}
+  addUserKnob {7 c_C R 0 10}
+  c_C {{c_b/c_gs}}
+  addUserKnob {7 c_a R 0 10}
+  c_a {{1.0-c_b*log(c_w+c_C)}}
+  addUserKnob {7 c_y0 R 0 10}
+  c_y0 {{c_a+c_b*log(c_C)}}
+  addUserKnob {7 c_s R 0 10}
+  c_s {{(1.0-c_o)/(1.0-c_y0)}}
+  addUserKnob {7 c_A R 0 10}
+  c_A {{1.0+(c_a-1.0)*c_s}}
+  addUserKnob {7 c_B R 0 10}
+  c_B {{c_b*c_s}}
+  addUserKnob {7 c_G R 0 10}
+  c_G {{c_gs*c_s}}
+ }
+push $N21d11d00
+ Expression {
+  expr0 r<c_o?(r-c_o)/c_G:exp((r-c_A)/c_B)-c_C
+  expr1 g<c_o?(g-c_o)/c_G:exp((g-c_A)/c_B)-c_C
+  expr2 b<c_o?(b-c_o)/c_G:exp((b-c_A)/c_B)-c_C
+  channel3 none
+  name log2lin
+  xpos -160
+  ypos 110
+  addUserKnob {20 Params}
+  addUserKnob {7 c_w R 0 100}
+  c_w 128
+  addUserKnob {7 c_g R 0 20}
+  c_g 16
+  addUserKnob {7 c_o}
+  c_o 0.075
+  addUserKnob {7 c_b R 0 10}
+  c_b {{1.0/(0.7107+1.2359*log(c_w*c_g))}}
+  addUserKnob {7 c_gs R 0 10}
+  c_gs {{c_g/(1.0-c_o)}}
+  addUserKnob {7 c_C R 0 10}
+  c_C {{c_b/c_gs}}
+  addUserKnob {7 c_a R 0 10}
+  c_a {{1.0-c_b*log(c_w+c_C)}}
+  addUserKnob {7 c_y0 R 0 10}
+  c_y0 {{c_a+c_b*log(c_C)}}
+  addUserKnob {7 c_s R 0 10}
+  c_s {{(1.0-c_o)/(1.0-c_y0)}}
+  addUserKnob {7 c_A R 0 10}
+  c_A {{1.0+(c_a-1.0)*c_s}}
+  addUserKnob {7 c_B R 0 10}
+  c_B {{c_b*c_s}}
+  addUserKnob {7 c_G R 0 10}
+  c_G {{c_gs*c_s}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation}}
+  name Operation
+  xpos -40
+  ypos 189
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 310
+ }
+end_group
