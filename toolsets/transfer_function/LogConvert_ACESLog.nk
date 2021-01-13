@@ -1,0 +1,165 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_ACESLog
+ addUserKnob {20 ACESLog_tab l ACESLog}
+ addUserKnob {4 operation M {log2lin lin2log}}
+ operation lin2log
+ addUserKnob {4 type M {ACEScct ACEScc ACESproxy}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 74
+ }
+set N7c8d9d00 [stack 0]
+ Dot {
+  name Dot2
+  xpos 234
+  ypos 74
+ }
+set N7c8d9600 [stack 0]
+ Dot {
+  name Dot3
+  xpos 474
+  ypos 74
+ }
+set Ne820f200 [stack 0]
+ Expression {
+  expr0 r<0?0:((log(r)/log(2)+2.5)*50+425)/1023
+  expr1 g<0?0:((log(g)/log(2)+2.5)*50+425)/1023
+  expr2 b<0?0:((log(b)/log(2)+2.5)*50+425)/1023
+  channel3 none
+  name lin2log3
+  label ACESproxy
+  xpos 440
+  ypos 108
+ }
+push $Ne820f200
+ Expression {
+  expr0 pow(2,((r*1023)-425)/50-2.5)
+  expr1 pow(2,((g*1023)-425)/50-2.5)
+  expr2 pow(2,((b*1023)-425)/50-2.5)
+  channel3 none
+  name log2lin2
+  label ACESproxy
+  xpos 322
+  ypos 107
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation}}
+  name Operation2
+  xpos 440
+  ypos 190
+ }
+push $N7c8d9600
+ Expression {
+  expr0 r<0?(log(pow(2,-16))/log(2)+9.72)/17.52:r<pow(2,-15)?(log(pow(2,-16)+r*0.5)/log(2)+9.72)/17.52:(log(r)/log(2)+9.72)/17.52
+  expr1 g<0?(log(pow(2,-16))/log(2)+9.72)/17.52:g<pow(2,-15)?(log(pow(2,-16)+g*0.5)/log(2)+9.72)/17.52:(log(r)/log(2)+9.72)/17.52
+  expr2 b<0?(log(pow(2,-16))/log(2)+9.72)/17.52:b<pow(2,-15)?(log(pow(2,-16)+b*0.5)/log(2)+9.72)/17.52:(log(r)/log(2)+9.72)/17.52
+  channel3 none
+  name lin2log1
+  label ACEScc
+  xpos 200
+  ypos 104
+ }
+push $N7c8d9600
+ Expression {
+  expr0 r<(9.72-15)/17.52?(pow(2,(r*17.52-9.72))-pow(2,-16))*2:pow(2,(r*17.52-9.72))
+  expr1 g<(9.72-15)/17.52?(pow(2,(g*17.52-9.72))-pow(2,-16))*2:pow(2,(g*17.52-9.72))
+  expr2 b<(9.72-15)/17.52?(pow(2,(b*17.52-9.72))-pow(2,-16))*2:pow(2,(b*17.52-9.72))
+  channel3 none
+  name log2lin1
+  label ACEScc
+  xpos 80
+  ypos 104
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation}}
+  name Operation1
+  xpos 200
+  ypos 190
+ }
+push $N7c8d9d00
+ Expression {
+  temp_name0 cut_lin
+  temp_expr0 0.0078125
+  temp_name1 cut_log
+  temp_expr1 0.155251141552511
+  temp_name2 A
+  temp_expr2 10.5402377416545
+  temp_name3 B
+  temp_expr3 0.0729055341958355
+  expr0 r<=cut_lin?A*r+B:(log(r)/log(2)+9.72)/17.52
+  expr1 g<=cut_lin?A*g+B:(log(g)/log(2)+9.72)/17.52
+  expr2 b<=cut_lin?A*b+B:(log(b)/log(2)+9.72)/17.52
+  channel3 none
+  name lin2log
+  label ACEScct
+  xpos -40
+  ypos 108
+ }
+push $N7c8d9d00
+ Expression {
+  temp_name0 cut_lin
+  temp_expr0 0.0078125
+  temp_name1 cut_log
+  temp_expr1 0.155251141552511
+  temp_name2 A
+  temp_expr2 10.5402377416545
+  temp_name3 B
+  temp_expr3 0.0729055341958355
+  expr0 r<=cut_log?(r-B)/A:pow(2,r*17.52-9.72)
+  expr1 g<=cut_log?(g-B)/A:pow(2,g*17.52-9.72)
+  expr2 b<=cut_log?(b-B)/A:pow(2,b*17.52-9.72)
+  channel3 none
+  name log2lin
+  label ACEScct
+  xpos -158
+  ypos 105
+ }
+ Switch {
+  inputs 2
+  which {{parent.operation}}
+  name Operation
+  xpos -40
+  ypos 190
+ }
+ Switch {
+  inputs 3
+  which {{parent.type}}
+  name Type
+  xpos -40
+  ypos 312
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 430
+ }
+push $Ne820f200
+ Expression {
+  temp_name0 StepsPerStop
+  temp_expr0 50
+  temp_name1 MidCVoffset
+  temp_expr1 425
+  temp_name2 CVmin
+  temp_expr2 64
+  temp_name3 CVmax
+  temp_expr3 940
+  expr0 (r<=pow(2,-9.72)?CVmin:max(CVmin,min(CVmax,rint(((log(r)/log(2)+2.5)*StepsPerStop+MidCVoffset)))))/1023
+  channel3 none
+  name lin2log2
+  label "ACESproxy Matching CTL"
+  xpos 557
+  ypos 104
+ }
+end_group
