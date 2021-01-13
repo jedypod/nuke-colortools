@@ -15,7 +15,7 @@
   - [DolbyPQ Shaper](#dolbypq-shaper)
   - [Compress Shoulder](#compress-shoulder)
   - [Gamut Compress](#gamut-compress)
-  - [Misc Conversions](#misc-conversions)
+  - [Colorspaces](#colorspaces)
 
 
 ## ACES Output Transform
@@ -51,7 +51,7 @@ This node is the same idea as the ACES_OutputTransform but matches the ACES 1.0.
 
 
 ## Gamut to XYZ
-![GamuttoXYZ](/images/RGBtoXYZ.png)
+![GamuttoXYZ](/images/GamutToXYZ_ui.png)
 
 Calculates a 3x3 matrix for converting from a source colorspace to CIE XYZ or the inverse. The source colorspace is specified by supplying xy chromaticity coordinates for the R, G, and B primaries as well as the whitepoint. A number of common colorspaces are included in the presets, but you could theoretically make your own!
 
@@ -60,7 +60,7 @@ I coded this based on the AMPAS CTL for purposes of learning. It is similar to t
 
 
 ## Whitepoint
-![Whitepoint](/images/ChromaticAdaptation.png)
+![Whitepoint](/images/Whitepoint_ui.png)
 
 Chromatic adaptation is the ability of the human eye to achieve constant color appearance under different illumination conditions. A Chromatic Adaptation (CAT) function tries to simulate this behavior by shifting colors to perceptually match under a new color of light.
 
@@ -71,7 +71,7 @@ The node also supports calculating an xy coordinate from a blackbody color tempe
 
 
 ## Gamut Convert
-![Gamut Convert](/images/ChromaticityConverter.png)
+![Gamut Convert](/images/GamutConvert_ui.png)
 
 Similar to GamuttoXYZ, but supports an arbitrary output color gamut and chromatic adaptation to convert between different whitepoints. 
 
@@ -143,7 +143,8 @@ A couple of useful tonemapping operations which might serve you better than the 
 
 
 ## Gamut Compress
-This tool compresses out of gamut colors back into gamut.
+![Gamut Compress](/images/GamutCompress_ui.png)
+This tool compresses out of gamut colors back into gamut. See the [full github repo here](https://github.com/jedypod/gamut-compress).
 
 **Background**
 
@@ -166,7 +167,6 @@ Inverting the gamut compression is also possible but should be used with an exce
 
 This tool was [built with help](https://community.acescentral.com/t/rgb-saturation-gamut-mapping-approach-and-a-comp-vfx-perspective) from the [ACES Gamut Mapping Virtual Working Group](https://community.acescentral.com/c/aces-development-acesnext/vwg-aces-gamut-mapping-working-group)
 
-## Misc Conversions
-![Misc Conversins](/images/cie_conversions.png)
+## Colorspaces
 
 A few node implmentations for miscelaneous colorspace conversions. CIE XYZ to CIE Yxy to CIE Luv and back are now possible! There is also [a node](/toolsets/colorspace/Colorspace_IHLS.nk) implementing the [IHLS colorspace](https://www.researchgate.net/publication/243602454_A_3D-Polar_Coordinate_Colour_Representation_Suitable_for_Image_Analysis) which has a reprsentation of saturation more useful for scene linear images.
