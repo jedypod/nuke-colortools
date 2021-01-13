@@ -1,19 +1,21 @@
 # Documentation
 
 ## Overview
-- [ACES Output Transform](#aces-output-transform)
-- [ACES 1.0.3 OutputTransform](#aces-103-outputtransform)
-- [RGB to XYZ](#rgb-to-xyz)
-- [Chromatic Adaptation](#chromatic-adaptation)
-- [Chromaticity Converter](#chromaticity-converter)
-- [Plot Chromaticity](#plot-chromaticity)
-- [Plot Waveform](#plot-waveform)
-- [Matrix Tools](#matrix-tools)
-- [Log2 Shaper](#log2-shaper)
-- [DolbyPQ Shaper](#dolbypq-shaper)
-- [Soft Compress](#soft-compress)
-- [Gamut Compress](#gamut-compress)
-- [Misc Conversions](#misc-conversions)
+- [Documentation](#documentation)
+  - [Overview](#overview)
+  - [ACES Output Transform](#aces-output-transform)
+  - [ACES 1.0.3 OutputTransform](#aces-103-outputtransform)
+  - [Gamut to XYZ](#gamut-to-xyz)
+  - [Whitepoint](#whitepoint)
+  - [Gamut Convert](#gamut-convert)
+  - [Plot Chromaticity](#plot-chromaticity)
+  - [Plot Waveform](#plot-waveform)
+  - [Matrix Tools](#matrix-tools)
+  - [Log2 Shaper](#log2-shaper)
+  - [DolbyPQ Shaper](#dolbypq-shaper)
+  - [Compress Shoulder](#compress-shoulder)
+  - [Gamut Compress](#gamut-compress)
+  - [Misc Conversions](#misc-conversions)
 
 
 ## ACES Output Transform
@@ -48,8 +50,8 @@ The ACES_103_OutputTransform node applies the ACES output transform, matching th
 This node is the same idea as the ACES_OutputTransform but matches the ACES 1.0.3 config. It has a more limited set of HDR output transforms, and does not use the SSTS algorithm. It is provided for compatibility.
 
 
-## RGB to XYZ
-![RGBtoXYZ](/images/RGBtoXYZ.png)
+## Gamut to XYZ
+![GamuttoXYZ](/images/RGBtoXYZ.png)
 
 Calculates a 3x3 matrix for converting from a source colorspace to CIE XYZ or the inverse. The source colorspace is specified by supplying xy chromaticity coordinates for the R, G, and B primaries as well as the whitepoint. A number of common colorspaces are included in the presets, but you could theoretically make your own!
 
@@ -57,25 +59,25 @@ I coded this based on the AMPAS CTL for purposes of learning. It is similar to t
 
 
 
-## Chromatic Adaptation
-![ChromaticAdaptation](/images/ChromaticAdaptation.png)
+## Whitepoint
+![Whitepoint](/images/ChromaticAdaptation.png)
 
 Chromatic adaptation is the ability of the human eye to achieve constant color appearance under different illumination conditions. A Chromatic Adaptation (CAT) function tries to simulate this behavior by shifting colors to perceptually match under a new color of light.
 
-This node calculates a 3x3 CAT matrix given a source and target whitepoint as xy chromaticity coordinates. A number of different chromatic adaptation methods are provided, such as Bradford, Cat02, CmcCat2000, Sharp, and vonKries.
+Whitepoint calculates a 3x3 CAT matrix given a source and target whitepoint as xy chromaticity coordinates. A number of different chromatic adaptation methods are provided, such as Bradford, Cat02, CmcCat2000, Sharp, and vonKries.
 
 The node also supports calculating an xy coordinate from a blackbody color temperature on the planckian locus, and also sampling an arbitrary color from an input image. (Hopefully something resembling a neutral color or your results may vary!)
 
 
 
-## Chromaticity Converter
-![Chromaticity Converter](/images/ChromaticityConverter.png)
+## Gamut Convert
+![Gamut Convert](/images/ChromaticityConverter.png)
 
-Similar to RGBtoXYZ, but supports an arbitrary output color gamut and chromatic adaptation to convert between different whitepoints. 
+Similar to GamuttoXYZ, but supports an arbitrary output color gamut and chromatic adaptation to convert between different whitepoints. 
 
-ChromaticityConverter calculates a 3x3 matrix given the xy chromaticity coordinates of the R G and B primaries and whitepoints of a source and target color gamut. It also provides the option of calculating a chromatic adaptation transform. Basically the above two tools in one. Many common colorspaces are provided as presets but you can enter your own chromaticity coordinates if you have a colorspace that is missing. 
+GamutConvert calculates a 3x3 matrix given the xy chromaticity coordinates of the R G and B primaries and whitepoints of a source and target color gamut. It also provides the option of calculating a chromatic adaptation transform. Basically the above two tools in one. Many common colorspaces are provided as presets but you can enter your own chromaticity coordinates if you have a colorspace that is missing. 
 
-There is also [a live version](/toolsets/ChromaticityConverter_live.nk) which calculates automatically using a knobChanged python callback if you need this functionality.
+There is also [a live version](/toolsets/chromaticity/GamutConvert_live.nk) which calculates automatically using a knobChanged python callback if you need this functionality.
 
 
 
@@ -167,4 +169,4 @@ This tool was [built with help](https://community.acescentral.com/t/rgb-saturati
 ## Misc Conversions
 ![Misc Conversins](/images/cie_conversions.png)
 
-A few node implmentations for miscelaneous colorspace conversions. CIE XYZ to CIE Yxy to CIE Luv and back are now possible! There is also [a node](/toolsets/IHLS.nk) implementing the [IHLS colorspace](https://www.researchgate.net/publication/243602454_A_3D-Polar_Coordinate_Colour_Representation_Suitable_for_Image_Analysis) which has a reprsentation of saturation more useful for scene linear images.
+A few node implmentations for miscelaneous colorspace conversions. CIE XYZ to CIE Yxy to CIE Luv and back are now possible! There is also [a node](/toolsets/colorspace/Colorspace_IHLS.nk) implementing the [IHLS colorspace](https://www.researchgate.net/publication/243602454_A_3D-Polar_Coordinate_Colour_Representation_Suitable_for_Image_Analysis) which has a reprsentation of saturation more useful for scene linear images.
