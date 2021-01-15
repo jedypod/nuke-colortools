@@ -4,8 +4,9 @@ Group {
  name ACES_InvOutputTransform_v1_0_3_
  tile_color 0xa57aaaff
  addUserKnob {20 ACES_ODT_OutputTransform_tab l "ACES ODT OutputTransform"}
- addUserKnob {35 presets t "display output presets." M {display/sRGB "knobs this \{SegmentedSplineParams_c9 0 display_pri 0 limiting_pri 0 eotf 0 dark_to_dim 1 d60_sim 0 legal_range 0 label \"sRGB\"\}" "display/sRGB D60 sim." "knobs this \{SegmentedSplineParams_c9 0 display_pri 0 limiting_pri 0 eotf 0 dark_to_dim 1 d60_sim 1 legal_range 0 label \"sRGB D60 sim.\"\}" display/Rec.709 "knobs this \{SegmentedSplineParams_c9 0 display_pri 0 limiting_pri 0 eotf 1 dark_to_dim 1 d60_sim 0 legal_range 0 label \"Rec.709\"\}" "display/Rec.709 D60 sim." "knobs this \{SegmentedSplineParams_c9 0 display_pri 0 limiting_pri 0 eotf 1 dark_to_dim 1 d60_sim 1 legal_range 0 label \"Rec.709 D60 sim.\"\}" display/Rec.2020 "knobs this \{SegmentedSplineParams_c9 0 display_pri 1 limiting_pri 1 eotf 1 dark_to_dim 1 d60_sim 0 legal_range 0 label \"Rec.2020\"\}" "display/Rec.2020 ST2084 1000nits" "knobs this \{SegmentedSplineParams_c9 1 display_pri 1 limiting_pri 1 eotf 6 dark_to_dim 1 d60_sim 0 legal_range 0 label \"Rec.2020 ST2084 1000nits\"\}" display/P3-D60 "knobs this \{SegmentedSplineParams_c9 0 display_pri 4 limiting_pri 4 eotf 4 dark_to_dim 0 d60_sim 0 legal_range 0 label \"P3-D60\"\}" "display/P3-D60 ST2084 1000nits" "knobs this \{SegmentedSplineParams_c9 1 display_pri 4 limiting_pri 4 eotf 6 dark_to_dim 0 d60_sim 0 legal_range 0 label \"P3-D60 ST2084 1000nits\"\}" "display/P3-D60 ST2084 2000nits" "knobs this \{SegmentedSplineParams_c9 2 display_pri 4 limiting_pri 4 eotf 6 dark_to_dim 0 d60_sim 0 legal_range 0 label \"P3-D60 ST2084 2000nits\"\}" "display/P3-D60 ST2084 4000nits" "knobs this \{SegmentedSplineParams_c9 3 display_pri 4 limiting_pri 4 eotf 6 dark_to_dim 0 d60_sim 0 legal_range 0 label \"P3-D60 ST2084 4000nits\"\}" display/P3-DCI "knobs this \{SegmentedSplineParams_c9 0 display_pri 3 limiting_pri 3 eotf 4 dark_to_dim 0 d60_sim 0 legal_range 0 label \"P3-DCI\"\}" display/DCDM "knobs this \{SegmentedSplineParams_c9 0 display_pri 7 limiting_pri 7 eotf 5 dark_to_dim 0 d60_sim 0 legal_range 0 label \"DCDM\"\}" "display/DCDM P3 gamut clip" "knobs this \{SegmentedSplineParams_c9 0 display_pri 7 limiting_pri 3 eotf 5 dark_to_dim 0 d60_sim 0 legal_range 0 label \"DCDM P3 gamut clip\"\}" ""}}
+ addUserKnob {41 gamut l "out gamut" T GamutToXYZ_lite.gamut}
  addUserKnob {26 ""}
+ addUserKnob {35 presets t "display output presets." M {display/sRGB "knobs this \{SegmentedSplineParams_c9 0 display_pri 0 limiting_pri 0 eotf 0 dark_to_dim 1 d60_sim 0 legal_range 0 label \"sRGB\"\}" "display/sRGB D60 sim." "knobs this \{SegmentedSplineParams_c9 0 display_pri 0 limiting_pri 0 eotf 0 dark_to_dim 1 d60_sim 1 legal_range 0 label \"sRGB D60 sim.\"\}" display/Rec.709 "knobs this \{SegmentedSplineParams_c9 0 display_pri 0 limiting_pri 0 eotf 1 dark_to_dim 1 d60_sim 0 legal_range 0 label \"Rec.709\"\}" "display/Rec.709 D60 sim." "knobs this \{SegmentedSplineParams_c9 0 display_pri 0 limiting_pri 0 eotf 1 dark_to_dim 1 d60_sim 1 legal_range 0 label \"Rec.709 D60 sim.\"\}" display/Rec.2020 "knobs this \{SegmentedSplineParams_c9 0 display_pri 1 limiting_pri 1 eotf 1 dark_to_dim 1 d60_sim 0 legal_range 0 label \"Rec.2020\"\}" "display/Rec.2020 ST2084 1000nits" "knobs this \{SegmentedSplineParams_c9 1 display_pri 1 limiting_pri 1 eotf 6 dark_to_dim 1 d60_sim 0 legal_range 0 label \"Rec.2020 ST2084 1000nits\"\}" display/P3-D60 "knobs this \{SegmentedSplineParams_c9 0 display_pri 4 limiting_pri 4 eotf 4 dark_to_dim 0 d60_sim 0 legal_range 0 label \"P3-D60\"\}" "display/P3-D60 ST2084 1000nits" "knobs this \{SegmentedSplineParams_c9 1 display_pri 4 limiting_pri 4 eotf 6 dark_to_dim 0 d60_sim 0 legal_range 0 label \"P3-D60 ST2084 1000nits\"\}" "display/P3-D60 ST2084 2000nits" "knobs this \{SegmentedSplineParams_c9 2 display_pri 4 limiting_pri 4 eotf 6 dark_to_dim 0 d60_sim 0 legal_range 0 label \"P3-D60 ST2084 2000nits\"\}" "display/P3-D60 ST2084 4000nits" "knobs this \{SegmentedSplineParams_c9 3 display_pri 4 limiting_pri 4 eotf 6 dark_to_dim 0 d60_sim 0 legal_range 0 label \"P3-D60 ST2084 4000nits\"\}" display/P3-DCI "knobs this \{SegmentedSplineParams_c9 0 display_pri 3 limiting_pri 3 eotf 4 dark_to_dim 0 d60_sim 0 legal_range 0 label \"P3-DCI\"\}" display/DCDM "knobs this \{SegmentedSplineParams_c9 0 display_pri 7 limiting_pri 7 eotf 5 dark_to_dim 0 d60_sim 0 legal_range 0 label \"DCDM\"\}" "display/DCDM P3 gamut clip" "knobs this \{SegmentedSplineParams_c9 0 display_pri 7 limiting_pri 3 eotf 5 dark_to_dim 0 d60_sim 0 legal_range 0 label \"DCDM P3 gamut clip\"\}" ""}}
  addUserKnob {26 display_label l " " T "<b>Display Settings</b>"}
  addUserKnob {4 SegmentedSplineParams_c9 l "c9 params" M {ODT_48nits ODT_1000nits ODT_2000nits ODT_4000nits ""}}
  addUserKnob {26 ""}
@@ -62,7 +63,7 @@ Group {
   xpos 2964
   ypos -918
  }
-set Nbb9b1860 [stack 0]
+set N408e9d00 [stack 0]
  Dot {
   name Dot1
   label " "
@@ -81,7 +82,7 @@ set Nbb9b1860 [stack 0]
   xpos 2744
   ypos 1626
  }
-push $Nbb9b1860
+push $N408e9d00
  Expression {
   temp_name0 REFBLACK
   temp_expr0 "64 / 1023"
@@ -114,7 +115,7 @@ push $Nbb9b1860
   xpos 3074
   ypos -582
  }
-set Nc80829e0 [stack 0]
+set N408cb900 [stack 0]
  Dot {
   name Dot14
   label " "
@@ -124,7 +125,7 @@ set Nc80829e0 [stack 0]
   xpos 3184
   ypos -582
  }
-set Nc8312170 [stack 0]
+set N408cb200 [stack 0]
  Dot {
   name Dot16
   label " "
@@ -134,7 +135,7 @@ set Nc8312170 [stack 0]
   xpos 3294
   ypos -582
  }
-set Nbb95fc60 [stack 0]
+set N408cab00 [stack 0]
  Dot {
   name Dot17
   label " "
@@ -144,7 +145,7 @@ set Nbb95fc60 [stack 0]
   xpos 3404
   ypos -582
  }
-set Nc8373ec0 [stack 0]
+set N408ca400 [stack 0]
  Dot {
   name Dot28
   label " "
@@ -154,7 +155,7 @@ set Nc8373ec0 [stack 0]
   xpos 3514
   ypos -582
  }
-set Nbbebaba0 [stack 0]
+set N408c9d00 [stack 0]
  Dot {
   name Dot29
   label " "
@@ -164,7 +165,7 @@ set Nbbebaba0 [stack 0]
   xpos 3624
   ypos -582
  }
-set Nbb9bb3b0 [stack 0]
+set N408c9600 [stack 0]
  Dot {
   name Dot40
   label " "
@@ -202,7 +203,7 @@ set Nbb9bb3b0 [stack 0]
   addUserKnob {7 pq_C +DISABLED R 0 100}
   pq_C 10000
  }
-push $Nbb9bb3b0
+push $N408c9600
  Expression {
   expr0 "(52.37/48.0) * pow( r, 2.6)"
   expr1 "(52.37/48.0) * pow( g, 2.6)"
@@ -212,7 +213,7 @@ push $Nbb9bb3b0
   xpos 3590
   ypos -466
  }
-push $Nbbebaba0
+push $N408c9d00
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -225,7 +226,7 @@ push $Nbbebaba0
   addUserKnob {7 gamma R 0 4}
   gamma 0.3846153846
  }
-push $Nc8373ec0
+push $N408ca400
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -238,7 +239,7 @@ push $Nc8373ec0
   addUserKnob {7 gamma R 0 4}
   gamma 0.4166666667
  }
-push $Nbb95fc60
+push $N408cab00
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -251,7 +252,7 @@ push $Nbb95fc60
   addUserKnob {7 gamma R 0 4}
   gamma 0.4545454545
  }
-push $Nc8312170
+push $N408cb200
  Expression {
   temp_name0 c_a
   temp_expr0 "pow( pow( Lw, 1./gamma) - pow( Lb, 1./gamma), gamma)"
@@ -271,7 +272,7 @@ push $Nc8312170
   addUserKnob {7 gamma R 1 4}
   gamma 2.4
  }
-push $Nc80829e0
+push $N408cb900
  Expression {
   temp_name0 fs
   temp_expr0 "(( gamma - 1.0) / offs) * pow( offs * gamma / ( ( gamma - 1.0) * ( 1.0 + offs)), gamma)"
@@ -321,8 +322,8 @@ push $Nc80829e0
    xpos -6
    ypos -198
   }
-set Nbba1f970 [stack 0]
-push $Nbba1f970
+set N408a4100 [stack 0]
+push $N408a4100
   ColorMatrix {
    matrix {
        {1.049811006 0 -9.748453158e-05}
@@ -335,7 +336,7 @@ push $Nbba1f970
    xpos 730
    ypos -136
   }
-push $Nbba1f970
+push $N408a4100
   ColorMatrix {
    matrix {
        {1.641023397 -0.3248033226 -0.2364246994}
@@ -348,7 +349,7 @@ push $Nbba1f970
    xpos 620
    ypos -136
   }
-push $Nbba1f970
+push $N408a4100
   ColorMatrix {
    matrix {
        {2.402741432 -0.8974840641 -0.3880533576}
@@ -361,7 +362,7 @@ push $Nbba1f970
    xpos 510
    ypos -136
   }
-push $Nbba1f970
+push $N408a4100
   ColorMatrix {
    matrix {
        {2.725393534 -1.018002748 -0.4401631057}
@@ -374,7 +375,7 @@ push $Nbba1f970
    xpos 400
    ypos -136
   }
-push $Nbba1f970
+push $N408a4100
   ColorMatrix {
    matrix {
        {2.493496418 -0.9313833117 -0.4027107358}
@@ -387,7 +388,7 @@ push $Nbba1f970
    xpos 290
    ypos -136
   }
-push $Nbba1f970
+push $N408a4100
   ColorMatrix {
    matrix {
        {1.71665132 -0.3556708097 -0.2533662617}
@@ -400,7 +401,7 @@ push $Nbba1f970
    xpos 180
    ypos -136
   }
-push $Nbba1f970
+push $N408a4100
   ColorMatrix {
    matrix {
        {3.240970135 -1.537383318 -0.4986107945}
@@ -436,7 +437,7 @@ push $Nbba1f970
   xpos 2964
   ypos 114
  }
-set Nbb9dda50 [stack 0]
+set N40837900 [stack 0]
  ColorMatrix {
   matrix {
       {0.9872254133 -0.006114810705 0.01592640579}
@@ -449,7 +450,7 @@ set Nbb9dda50 [stack 0]
   xpos 3040
   ypos 146
  }
-push $Nbb9dda50
+push $N40837900
  Switch {
   inputs 2
   which {{"d60_sim ? 0 : parent.display_pri < 3"}}
@@ -467,7 +468,7 @@ push $Nbb9dda50
   xpos 2964
   ypos 293
  }
-set Nc80eab80 [stack 0]
+set N40836400 [stack 0]
  Colorspace {
   colorspace_in CIE-XYZ
   colorspace_out CIE-Yxy
@@ -503,7 +504,7 @@ set Nc80eab80 [stack 0]
   xpos 3040
   ypos 403
  }
-push $Nc80eab80
+push $N40836400
  Switch {
   inputs 2
   which {{"(parent.eotf <= 4) ? parent.dark_to_dim : 0"}}
@@ -532,7 +533,7 @@ push $Nc80eab80
   xpos 2964
   ypos 654
  }
-set Nc80eb900 [stack 0]
+set N40811600 [stack 0]
  ColorMatrix {
   matrix {
       {{"(1.0 - sat) * rgb2Y.x + sat"} {"(1.0 - sat) * rgb2Y.y"} {"(1.0 - sat) * rgb2Y.z"}}
@@ -550,7 +551,7 @@ set Nc80eb900 [stack 0]
   addUserKnob {7 sat}
   sat 0.93
  }
-push $Nc80eb900
+push $N40811600
  Switch {
   inputs 2
   which {{"parent.eotf < 5 && display_pri < 2"}}
@@ -567,7 +568,7 @@ push $Nc80eb900
   xpos 2964
   ypos 810
  }
-set Nbb9576c0 [stack 0]
+set N40810100 [stack 0]
  Dot {
   name Dot36
   label " "
@@ -625,7 +626,7 @@ set Nbb9576c0 [stack 0]
   addUserKnob {7 c_c +DISABLED}
   c_c {{c_y0}}
  }
-push $Nbb9576c0
+push $N40810100
  Switch {
   inputs 2
   which {{"parent.display_pri == 3"}}
@@ -642,7 +643,7 @@ push $Nbb9576c0
   xpos 2964
   ypos 1064
  }
-set Nbb822dc0 [stack 0]
+set N409d9d00 [stack 0]
  Expression {
   temp_name0 SCALE
   temp_expr0 0.955
@@ -654,7 +655,7 @@ set Nbb822dc0 [stack 0]
   xpos 3040
   ypos 1078
  }
-push $Nbb822dc0
+push $N409d9d00
  Switch {
   inputs 2
   which {{parent.d60_sim}}
@@ -671,7 +672,7 @@ push $Nbb822dc0
   xpos 2964
   ypos 1218
  }
-set Nc8951610 [stack 0]
+set N409d8800 [stack 0]
  Add {
   channels rgb
   value {{pow(10,-4.4550166483)}}
@@ -680,7 +681,7 @@ set Nc8951610 [stack 0]
   xpos 3040
   ypos 1256
  }
-push $Nc8951610
+push $N409d8800
  Expression {
   expr0 "r * (Ymax - Ymin) + Ymin"
   expr1 "g * (Ymax - Ymin) + Ymin"
@@ -747,42 +748,42 @@ push $Nc8951610
    xpos -996
    ypos -318
   }
-set Nb75c1330 [stack 0]
+set N409a9600 [stack 0]
   Dot {
    name Dot26
    label " "
    xpos -996
    ypos 1506
   }
-push $Nb75c1330
+push $N409a9600
   Dot {
    name Dot4
    label " "
    xpos -886
    ypos -318
   }
-set Nb757d710 [stack 0]
+set N409a8800 [stack 0]
   Dot {
    name Dot5
    label " "
    xpos -776
    ypos -318
   }
-set Nb7581d40 [stack 0]
+set N409a8100 [stack 0]
   Dot {
    name Dot2
    label " "
    xpos -666
    ypos -318
   }
-set Nb7586a90 [stack 0]
+set N40983900 [stack 0]
   Dot {
    name Dot3
    label " "
    xpos -556
    ypos -318
   }
-set Nb758b9e0 [stack 0]
+set N40983200 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -803,14 +804,14 @@ set Nb758b9e0 [stack 0]
    xpos -556
    ypos 162
   }
-push $Nb758b9e0
+push $N40983200
   Dot {
    name Dot7
    label " "
    xpos -336
    ypos -318
   }
-set Nb70dd440 [stack 0]
+set N40981d00 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -841,7 +842,7 @@ set Nb70dd440 [stack 0]
    xpos -336
    ypos 786
   }
-push $Nb7586a90
+push $N40983900
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -862,28 +863,28 @@ push $Nb7586a90
    xpos -666
    ypos 354
   }
-push $Nb70dd440
+push $N40981d00
   Dot {
    name Dot9
    label " "
    xpos -6
    ypos -318
   }
-set Nb7118460 [stack 0]
+set N40957200 [stack 0]
   Dot {
    name Dot32
    label " "
    xpos -6
    ypos -198
   }
-set Nb711d6a0 [stack 0]
+set N40956b00 [stack 0]
   Dot {
    name Dot30
    label " "
    xpos -6
    ypos -102
   }
-set Nb7122930 [stack 0]
+set N40956400 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "(log10( max(r, 1e-10 )))"
@@ -912,7 +913,7 @@ set Nb7122930 [stack 0]
    xpos -150
    ypos -64
   }
-push $Nb7122930
+push $N40956400
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -947,14 +948,14 @@ push $Nb7122930
    ypos -10
   }
 push 0
-push $Nb711d6a0
+push $N40956b00
   Dot {
    name Dot33
    label " "
    xpos 214
    ypos -198
   }
-set Nb715e970 [stack 0]
+set N40954100 [stack 0]
   Dot {
    name Dot34
    label " "
@@ -967,7 +968,7 @@ set Nb715e970 [stack 0]
    xpos 434
    ypos -102
   }
-set Nb7166e50 [stack 0]
+set N40923200 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "(log10( max(b, 1e-10 )))"
@@ -996,7 +997,7 @@ set Nb7166e50 [stack 0]
    xpos 290
    ypos -64
   }
-push $Nb7166e50
+push $N40923200
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -1030,14 +1031,14 @@ push $Nb7166e50
    xpos 400
    ypos -10
   }
-push $Nb715e970
+push $N40954100
   Dot {
    name Dot31
    label " "
    xpos 214
    ypos -102
   }
-set Nb71a33a0 [stack 0]
+set N40920f00 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "(log10( max(g, 1e-10 )))"
@@ -1066,7 +1067,7 @@ set Nb71a33a0 [stack 0]
    xpos 70
    ypos -64
   }
-push $Nb71a33a0
+push $N40920f00
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -1124,7 +1125,7 @@ push $Nb71a33a0
    ypos 786
   }
 push 0
-push $Nb7581d40
+push $N409a8100
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -1145,28 +1146,28 @@ push $Nb7581d40
    xpos -776
    ypos 474
   }
-push $Nb7118460
+push $N40957200
   Dot {
    name Dot14
    label " "
    xpos 764
    ypos -318
   }
-set Nba125420 [stack 0]
+set N40ae4800 [stack 0]
   Dot {
    name Dot36
    label " "
    xpos 764
    ypos -198
   }
-set Nba12a660 [stack 0]
+set N40ae4100 [stack 0]
   Dot {
    name Dot37
    label " "
    xpos 764
    ypos -102
   }
-set Nba12f8f0 [stack 0]
+set N40ab7900 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "(log10( max(r, 1e-10 )))"
@@ -1195,7 +1196,7 @@ set Nba12f8f0 [stack 0]
    xpos 620
    ypos -64
   }
-push $Nba12f8f0
+push $N40ab7900
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -1230,14 +1231,14 @@ push $Nba12f8f0
    ypos -10
   }
 push 0
-push $Nba12a660
+push $N40ae4100
   Dot {
    name Dot38
    label " "
    xpos 984
    ypos -198
   }
-set Nba16c070 [stack 0]
+set N40ab5600 [stack 0]
   Dot {
    name Dot39
    label " "
@@ -1250,7 +1251,7 @@ set Nba16c070 [stack 0]
    xpos 1204
    ypos -102
   }
-set Nba175250 [stack 0]
+set N40ab4800 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "(log10( max(b, 1e-10 )))"
@@ -1279,7 +1280,7 @@ set Nba175250 [stack 0]
    xpos 1060
    ypos -64
   }
-push $Nba175250
+push $N40ab4800
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -1313,14 +1314,14 @@ push $Nba175250
    xpos 1170
    ypos -10
   }
-push $Nba16c070
+push $N40ab5600
   Dot {
    name Dot41
    label " "
    xpos 984
    ypos -102
   }
-set Nba1b1980 [stack 0]
+set N40a82400 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "(log10( max(g, 1e-10 )))"
@@ -1349,7 +1350,7 @@ set Nba1b1980 [stack 0]
    xpos 840
    ypos -64
   }
-push $Nba1b1980
+push $N40a82400
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -1406,7 +1407,7 @@ push $Nba1b1980
    xpos 984
    ypos 786
   }
-push $Nb757d710
+push $N409a8800
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -1427,7 +1428,7 @@ push $Nb757d710
    xpos -886
    ypos 618
   }
-push $Nba125420
+push $N40ae4800
   Dot {
    name Dot21
    label " "
@@ -1562,42 +1563,42 @@ push $Nba125420
    xpos -996
    ypos -318
   }
-set Nd8974ab0 [stack 0]
+set N40a0c800 [stack 0]
   Dot {
    name Dot26
    label " "
    xpos -996
    ypos 1506
   }
-push $Nd8974ab0
+push $N40a0c800
   Dot {
    name Dot4
    label " "
    xpos -886
    ypos -318
   }
-set Nd88dfc80 [stack 0]
+set N407df900 [stack 0]
   Dot {
    name Dot5
    label " "
    xpos -776
    ypos -318
   }
-set Nd88f7010 [stack 0]
+set N407df200 [stack 0]
   Dot {
    name Dot2
    label " "
    xpos -666
    ypos -318
   }
-set Nd8946df0 [stack 0]
+set N407deb00 [stack 0]
   Dot {
    name Dot3
    label " "
    xpos -556
    ypos -318
   }
-set Nd88f8510 [stack 0]
+set N407de400 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -1618,14 +1619,14 @@ set Nd88f8510 [stack 0]
    xpos -556
    ypos 162
   }
-push $Nd88f8510
+push $N407de400
   Dot {
    name Dot7
    label " "
    xpos -336
    ypos -318
   }
-set Nc709ce30 [stack 0]
+set N407dcf00 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -1656,7 +1657,7 @@ set Nc709ce30 [stack 0]
    xpos -336
    ypos 786
   }
-push $Nd8946df0
+push $N407deb00
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -1677,28 +1678,28 @@ push $Nd8946df0
    xpos -666
    ypos 354
   }
-push $Nc709ce30
+push $N407dcf00
   Dot {
    name Dot9
    label " "
    xpos -6
    ypos -318
   }
-set Nd88ab490 [stack 0]
+set N407aa400 [stack 0]
   Dot {
    name Dot6
    label " "
    xpos -6
    ypos -198
   }
-set Nac3d5100 [stack 0]
+set N407a9d00 [stack 0]
   Dot {
    name Dot8
    label " "
    xpos 214
    ypos -198
   }
-set Nb97f7550 [stack 0]
+set N407a9600 [stack 0]
   Dot {
    name Dot13
    label " "
@@ -1710,7 +1711,7 @@ set Nb97f7550 [stack 0]
    xpos 436
    ypos -102
   }
-set Nd88bb130 [stack 0]
+set N407a8800 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(b, 1e-10 ))"
@@ -1739,7 +1740,7 @@ set Nd88bb130 [stack 0]
    xpos 292
    ypos -58
   }
-push $Nd88bb130
+push $N407a8800
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -1777,13 +1778,13 @@ push $Nd88bb130
    min {{parent.min.x} {parent.min.y} {parent.minSlope}}
   }
 push 0
-push $Nac3d5100
+push $N407a9d00
   Dot {
    name Dot10
    xpos -6
    ypos -102
   }
-set Nbbe9b240 [stack 0]
+set N4078a400 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -1812,7 +1813,7 @@ set Nbbe9b240 [stack 0]
    xpos -150
    ypos -58
   }
-push $Nbbe9b240
+push $N4078a400
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -1850,13 +1851,13 @@ push $Nbbe9b240
    addUserKnob {13 min l Min}
    min {{parent.min.x} {parent.min.y} {parent.minSlope}}
   }
-push $Nb97f7550
+push $N407a9600
   Dot {
    name Dot18
    xpos 214
    ypos -102
   }
-set Nac49de40 [stack 0]
+set N40788100 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(g, 1e-10 ))"
@@ -1885,7 +1886,7 @@ set Nac49de40 [stack 0]
    xpos 70
    ypos -58
   }
-push $Nac49de40
+push $N40788100
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -1945,7 +1946,7 @@ push $Nac49de40
    ypos 786
   }
 push 0
-push $Nd88f7010
+push $N407df200
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -1966,28 +1967,28 @@ push $Nd88f7010
    xpos -776
    ypos 474
   }
-push $Nd88ab490
+push $N407aa400
   Dot {
    name Dot14
    label " "
    xpos 764
    ypos -318
   }
-set Nac4b9740 [stack 0]
+set N40713900 [stack 0]
   Dot {
    name Dot15
    label " "
    xpos 764
    ypos -198
   }
-set Ncc535260 [stack 0]
+set N40713200 [stack 0]
   Dot {
    name Dot17
    label " "
    xpos 984
    ypos -198
   }
-set Ncc53a240 [stack 0]
+set N40712b00 [stack 0]
   Dot {
    name Dot20
    label " "
@@ -1999,7 +2000,7 @@ set Ncc53a240 [stack 0]
    xpos 1206
    ypos -102
   }
-set Nac453a60 [stack 0]
+set N40711d00 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(b, 1e-10 ))"
@@ -2028,7 +2029,7 @@ set Nac453a60 [stack 0]
    xpos 1064
    ypos -58
   }
-push $Nac453a60
+push $N40711d00
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -2061,13 +2062,13 @@ push $Nac453a60
    ypos -10
   }
 push 0
-push $Ncc535260
+push $N40713200
   Dot {
    name Dot11
    xpos 762
    ypos -102
   }
-set Nd88c6780 [stack 0]
+set N404db900 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -2096,7 +2097,7 @@ set Nd88c6780 [stack 0]
    xpos 620
    ypos -58
   }
-push $Nd88c6780
+push $N404db900
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -2128,13 +2129,13 @@ push $Nd88c6780
    xpos 726
    ypos -10
   }
-push $Ncc53a240
+push $N40712b00
   Dot {
    name Dot12
    xpos 986
    ypos -102
   }
-set Ncc58a5e0 [stack 0]
+set N404d9600 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(g, 1e-10 ))"
@@ -2163,7 +2164,7 @@ set Ncc58a5e0 [stack 0]
    xpos 844
    ypos -58
   }
-push $Ncc58a5e0
+push $N404d9600
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -2218,7 +2219,7 @@ push $Ncc58a5e0
    xpos 984
    ypos 786
   }
-push $Nd88dfc80
+push $N407df900
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -2239,7 +2240,7 @@ push $Nd88dfc80
    xpos -886
    ypos 618
   }
-push $Nac4b9740
+push $N40713900
   Dot {
    name Dot21
    label " "
@@ -2365,13 +2366,13 @@ push $Nac4b9740
    xpos -6
    ypos 42
   }
-set N88ef1840 [stack 0]
+set N4044dd00 [stack 0]
   Dot {
    name Dot2
    xpos -226
    ypos 42
   }
-set N88f06de0 [stack 0]
+set N4044d600 [stack 0]
   Expression {
    temp_name0 TINY
    temp_expr0 1e-10
@@ -2389,7 +2390,7 @@ set N88f06de0 [stack 0]
    xpos -260
    ypos 86
   }
-push $N88f06de0
+push $N4044d600
   Dot {
    name Dot3
    xpos -336
@@ -2470,14 +2471,14 @@ push $N88f06de0
    xpos -226
    ypos 330
   }
-set Ncc57a760 [stack 0]
-push $N88ef1840
+set N40419600 [stack 0]
+push $N4044dd00
   Dot {
    name Dot8
    xpos -6
    ypos 258
   }
-set Ncc57f740 [stack 0]
+set N40418f00 [stack 0]
   MergeExpression {
    inputs 2
    temp_name0 minChan
@@ -2494,8 +2495,8 @@ set Ncc57f740 [stack 0]
    xpos -150
    ypos 351
   }
-push $Ncc57a760
-push $Ncc57f740
+push $N40419600
+push $N40418f00
   MergeExpression {
    inputs 2
    expr0 "r + Ar * Ab * (RRT_RED_PIVOT - r) * (1. - RRT_RED_SCALE)"
@@ -2542,13 +2543,13 @@ push $Ncc57f740
    xpos -6
    ypos -510
   }
-set Nb9750790 [stack 0]
+set N405ddd00 [stack 0]
   Dot {
    name Dot4
    xpos -116
    ypos -510
   }
-set Nb9755690 [stack 0]
+set N405dd600 [stack 0]
   Expression {
    temp_name0 chroma
    temp_expr0 sqrt(b*(b-g)+g*(g-r)+r*(r-b))
@@ -2564,7 +2565,7 @@ set Nb9755690 [stack 0]
    ypos -466
   }
 push 0
-push $Nb9755690
+push $N405dd600
   Dot {
    name Dot3
    xpos -226
@@ -2584,7 +2585,7 @@ push $Nb9755690
    xpos -260
    ypos -466
   }
-set Nb976d5a0 [stack 0]
+set N405dc100 [stack 0]
   Expression {
    channel0 {rgba.red rgba.green rgba.blue none}
    expr0 "(r - 0.4) / 0.2"
@@ -2609,7 +2610,7 @@ set Nb976d5a0 [stack 0]
    xpos -370
    ypos -442
   }
-push $Nb976d5a0
+push $N405dc100
   Merge2 {
    inputs 3+1
    operation plus
@@ -2620,7 +2621,7 @@ push $Nb976d5a0
    xpos -260
    ypos -393
   }
-set Nb97984e0 [stack 0]
+set N405b2b00 [stack 0]
   Expression {
    temp_name0 ycOut
    temp_expr0 g
@@ -2636,7 +2637,7 @@ set Nb97984e0 [stack 0]
    xpos -150
    ypos -346
   }
-push $Nb97984e0
+push $N405b2b00
   Expression {
    temp_name0 ycIn
    temp_expr0 g
@@ -2666,7 +2667,7 @@ push $Nb97984e0
    xpos -226
    ypos -246
   }
-push $Nb9750790
+push $N405ddd00
   Merge2 {
    inputs 2
    operation multiply
@@ -2681,6 +2682,72 @@ push $Nb9750790
    name Output
    xpos -40
    ypos -178
+  }
+ end_group
+ ColorMatrix {
+  matrix {
+      {0.9525523186 0 9.367861639e-05}
+      {0.3439664245 0.7281660438 -0.07213255018}
+      {-3.863926779e-08 0 1.008825183}
+    }
+  name ColorMatrix1
+  label "ACES to XYZ"
+  note_font Helvetica
+  xpos 2930
+  ypos 2211
+ }
+ Group {
+  name GamutToXYZ_lite
+  xpos 2930
+  ypos 2256
+  addUserKnob {20 GamutToXYZ_lite_tab l GamutToXYZ_lite}
+  addUserKnob {4 gamut t "Choose gamut" M {XYZ ACES ACEScg "Filmlight E-Gamut" "DaVinci WG" Rec709 Rec2020 P3D60 P3D65 P3DCI "Arri AlexaWideGamut" REDDRAGONcolor REDDRAGONcolor2 REDcolor REDcolor2 REDcolor3 REDcolor4 REDWideGamutRGB "GoPro Protune Native" CanonCinemaGamut SonySGamut SonySGamut3Cine PanasonicVGamut "DJI D-Gamut" "Fujifilm F-Gamut" BMDFilmV1 BMD4kFilmV1 BMD4kFilmV3 BMD46kFilmV1 BMD46kFilmV3 BMDWideGamutV4 "AdobeRGB\t" AdobeWideGamutRGB ROMM RIMM ERIMM ProPhotoRGB RusselRGB SharpRGB AppleRGB BestRGB}}
+  gamut ACEScg
+  addUserKnob {6 invert +STARTLINE}
+  invert true
+  addUserKnob {26 ""}
+  addUserKnob {26 chromaticity_coordinates_label l " " T "<b>Chromaticity Coordinates</b>"}
+  addUserKnob {20 chromaticities_grp l "" +STARTLINE n 1}
+  addUserKnob {41 rxy T ColorMatrix.rxy}
+  addUserKnob {41 gxy T ColorMatrix.gxy}
+  addUserKnob {41 bxy T ColorMatrix.bxy}
+  addUserKnob {41 wxy T ColorMatrix.wxy}
+  addUserKnob {41 matrix T ColorMatrix.matrix}
+  addUserKnob {20 endGroup n -1}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -40
+   ypos -10
+  }
+  ColorMatrix {
+   matrix {
+       {{curve(which) 1 0.9525524378 0.6624541879 0.7053968906 0.4123907983 0.6369580626 0.5049495697 0.4865709841 0.4451698363 0.6380076408 0.5070186853 0.4462202489 0.4300414324 0.4581649601 0.4878340662 0.4517004192 0.7352752686 0.5022571683 0.7160496712 0.7064827085 0.5990839601 0.6796444654 0.6481720209 0.6369580626 0.6390493512 0.6141571999 0.3724023998 0.60689044 0.4017650783 0.6065810919 0.5766690373 0.7165006995 0.797760427 0.797760427 0.797760427 0.7976718545 0.7015837431 0.8156226277 0.4496616423 0.6318944097} {curve(which) 0 0 0.1340042055 0.1640413404 0.3575843275 0.1446169019 0.2646814585 0.2656676769 0.2771343887 0.2147038579 0.3587769568 0.3157556653 0.3700728714 0.3832037449 0.3432727158 0.3178463876 0.06860940903 0.2929667532 0.1296834797 0.1288010478 0.2489254922 0.1522114277 0.1940581352 0.1446169019 0.1578372866 0.2825684249 0.4324877858 0.2193847299 0.4560420811 0.2203479856 0.1855582297 0.1010205746 0.1351858526 0.1351858526 0.1351858526 0.1351878047 0.1554162204 0.04716260359 0.3162561059 0.2053879201} {curve(which) 0 9.367863095e-05 0.1561876982 0.08101774752 0.180480808 0.1688809693 0.1830150485 0.1982172877 0.1722826511 0.09774444997 0.0868505761 0.190669477 0.152531758 0.1112773567 0.1215386018 0.1830992699 0.1465712637 0.1552320272 0.1047228053 0.1151721701 0.1024464965 0.1186000481 0.108225815 0.1688809693 0.1516760886 0.05183707923 0.1436725408 0.124180764 0.09264881909 0.123526901 0.1882286519 0.1467743814 0.03134934977 0.03134934977 0.03134934977 0.03133957833 0.09979832917 0.1372147948 0.1845382005 0.1270133406}}
+       {{curve(which) 0 0.3439664543 0.2722287476 0.2801307142 0.2126390189 0.2627002299 0.237623319 0.2289745659 0.209491685 0.2919537723 0.2207257152 0.1942579001 0.2022213936 0.1694435924 0.2289056629 0.2119505703 0.2866941094 0.1387997568 0.2612613738 0.2709796727 0.2150758505 0.2606855333 0.2830046713 0.2627002299 0.1743051857 0.2365771234 0.1383759677 0.1973138005 0.1721783578 0.2680045366 0.2973450124 0.258728236 0.2880711257 0.2880711257 0.2880711257 0.2880405784 0.3152042925 0.3790788651 0.2446159422 0.2276017666} {curve(which) 1 0.7281661034 0.6740817428 0.8202066422 0.7151686549 0.6779980659 0.6891706586 0.6917385459 0.7215952873 0.8238410354 0.839184761 0.7385566831 0.7585275769 0.8648257852 0.7808576822 0.7230190039 0.8429791331 0.910841465 0.8696421385 0.786606431 0.8850684762 0.7748944759 0.8131960034 0.6779980659 0.951146543 0.8896810412 0.911518693 0.943950057 0.8553914428 0.8326833844 0.6273635626 0.7246823311 0.7118432522 0.7118432522 0.7118432522 0.7118694782 0.6648360491 0.5769088268 0.6720442176 0.7383946776} {curve(which) 0 -0.07213255018 0.05368951708 -0.1003373638 0.07219231874 0.05930171534 0.07320601493 0.07928691059 0.06891305745 -0.1157948226 -0.05991046131 0.06718540192 0.03925102949 -0.03426937759 -0.009763340466 0.06503042579 -0.1296732277 -0.04964122549 -0.1309035122 -0.05758608505 -0.1001443192 -0.03558001295 -0.09620071948 0.05930171534 -0.1254517138 -0.1262581497 -0.04989464581 -0.1412638426 -0.02756982669 -0.1006879359 0.07529145479 0.01658944227 8.565396274e-05 8.565396274e-05 8.565396274e-05 8.991353388e-05 0.01995966583 0.04401229322 0.08333983272 0.0340035744}}
+       {{curve(which) 0 -3.863927134e-08 -0.005574660841 -0.1037815213 0.01933082007 0 0 0 0 0.0027982709 -0.0544523783 -0.04792318866 -0.0176958181 -0.1061859056 -0.02100777067 -0.01945115253 -0.07968087494 0.07801423222 -0.009676366113 -0.009677864611 -0.03206583485 -0.009310216643 -0.01825834997 0 -0.11669112 -0.02325225808 -0.1602820009 -0.1427432895 -0.10720893 -0.02941203304 0.02703136392 -2.906408625e-08 -3.236030111e-08 -3.236030111e-08 -3.236030111e-08 0 0 -0.01229703799 0.02518104948 0} {curve(which) 0 0 0.004060741514 -0.07290724665 0.1191947311 0.0280726999 0.0449459292 0.04511339962 0.04706057906 -0.06703422964 -0.0003228379355 -0.0002844714036 0.08768811822 0.02554347552 0.01782695204 0.01650637016 -0.3473432064 -0.3148325086 -0.2364816219 0.004600019194 -0.02765839547 -0.004612449091 -0.08316776901 0.0280726999 -0.5518454909 -0.4897170365 -0.171635136 -0.4278847873 0.07809129357 -0.08659287542 0.07068887353 0.05121183768 1.2621717e-08 1.2621717e-08 1.2621717e-08 -1.262213711e-08 0.04317118227 0.01672476344 0.1411857158 0.01001892332} {curve(which) 1 1.008825183 1.010339141 1.265746474 0.950532198 1.060985088 0.9638792276 1.043944359 0.9073553085 1.153293729 1.063571215 1.057001948 0.9388025999 1.089437366 1.01197505 1.011739731 1.51608181 1.325875998 1.335215807 1.094135642 1.148782015 1.102980375 1.190483928 1.060985088 1.745692492 1.590125084 1.409072995 1.65968585 1.118175387 1.205062628 0.9913375378 0.7738927603 0.8251045942 0.8251045942 0.8251045942 0.8248898983 0.8782252669 0.9955722094 0.9226909876 0.8150856495}}
+     }
+   invert {{parent.invert}}
+   name ColorMatrix
+   label "RGB to XYZ"
+   xpos -40
+   ypos 32
+   addUserKnob {20 Gamut}
+   addUserKnob {3 which}
+   which {{parent.gamut}}
+   addUserKnob {12 rxy}
+   rxy {{curve(which) 1 0.7347 0.713 0.8 0.8 0.64 0.708 0.68 0.68 0.68 0.684 0.7530442228 0.7530444911 0.6997470013 0.8786825105 0.7011810359 0.7011805919 0.780308 0.69848046 0.74 0.73 0.766 0.73 0.71 0.708 0.9173 0.7422 1.0625 0.9175 0.8608 0.7177 0.64 0.7347 0.7347 0.7347 0.7347 0.734699 0.69 0.6898 0.625 0.7351916376} {curve(which) 0 0.2653 0.293 0.3177 0.313 0.33 0.292 0.32 0.32 0.32 0.313 0.3278305767 0.3278310295 0.3290469303 0.3249640074 0.3290141556 0.3290136991 0.304253 0.19302645 0.27 0.28 0.275 0.28 0.31 0.292 0.2502 0.2859 0.3948 0.2983 0.3689 0.3171 0.33 0.2653 0.2653 0.2653 0.2653 0.265301 0.31 0.3206 0.34 0.2648083624}}
+   addUserKnob {12 gxy}
+   gxy {{curve(which) 0 0 0.165 0.18 0.1682 0.3 0.17 0.265 0.265 0.265 0.221 0.2995702285 0.2995704905 0.304264039 0.3008887144 0.3006003047 0.3006003955 0.121595 0.32955538 0.17 0.14 0.225 0.165 0.21 0.17 0.2833 0.414 0.3689 0.2983 0.3282 0.228 0.21 0.1152 0.1596 0.1596 0.1596 0.159597 0.18 0.0736 0.28 0.2153361345} {curve(which) 1 1 0.83 0.9 0.9877 0.6 0.797 0.69 0.69 0.69 0.848 0.700699322 0.7006994156 0.6236411451 0.6790547558 0.6837888343 0.6837888243 1.493994 1.02459662 1.14 0.855 0.8 0.84 0.88 0.797 1.7072 1.3035 0.7775 1.2835 0.6156 0.8616 0.71 0.8264 0.8404 0.8404 0.8404 0.840403 0.77 0.9003 0.595 0.7741596639}}
+   addUserKnob {12 bxy}
+   bxy {{curve(which) 0 0.0001 0.128 0.065 0.079 0.15 0.131 0.15 0.15 0.15 0.0861 0.07964206674 0.1450115843 0.1349139613 0.09539869461 0.1081544556 0.1453319462 0.095612 0.10844263 0.08 0.1 0.089 0.1 0.09 0.131 0.0856 0.0342 0.0956 0.0756 0.0783 0.1006 0.15 0.1566 0.0366 0.0366 0.0366 0.036598 0.1 0.1166 0.155 0.1301229508} {curve(which) 0 -0.077 0.044 -0.0805 -0.1155 0.06 0.046 0.06 0.06 0.06 -0.102 -0.05493795109 0.05109712509 0.03471744128 -0.02937932683 -0.008688175787 0.05161680362 -0.084589 -0.03467857 -0.1 -0.05 -0.087 -0.03 -0.08 0.046 -0.0708 -0.0833 -0.0332 -0.086 -0.0233 -0.082 0.06 0.0177 0.0001 0.0001 0.0001 0.000105 0.02 0.0374 0.07 0.03483606557}}
+   addUserKnob {12 wxy}
+   wxy {{curve(which) 0.33333333 0.32168 0.32168 0.3127 0.3127 0.3127 0.3127 0.32168 0.3127 0.314 0.3127 0.3216831877 0.3216832104 0.3216832894 0.3216832894 0.3216832104 0.3216832894 0.3127 0.3127 0.3127 0.3127 0.3127 0.3127 0.3127 0.3127 0.3135 0.3135 0.3135 0.3127 0.3127 0.3127 0.3127 0.3457 0.3457 0.3457 0.3457 0.345704 0.33243 0.33333333 0.3127 0.3457} {curve(which) 0.33333333 0.33767 0.33767 0.329 0.329 0.329 0.329 0.33767 0.329 0.351 0.329 0.337673316 0.3376736101 0.3376734472 0.3376734472 0.3376736101 0.3376734472 0.329 0.329 0.329 0.329 0.329 0.329 0.329 0.329 0.3305 0.3305 0.3305 0.329 0.329 0.329 0.329 0.3585 0.3585 0.3585 0.3585 0.35854 0.34744 0.33333333 0.329 0.3585}}
+  }
+  Output {
+   name Output
+   xpos -40
+   ypos 86
   }
  end_group
  Output {
