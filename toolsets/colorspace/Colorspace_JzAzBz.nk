@@ -1,0 +1,310 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name Colorspace_JzAzBz
+ addUserKnob {20 JzAzBz_tab l JzAzBz}
+ addUserKnob {41 gamut T GamutToXYZ.gamut}
+ addUserKnob {4 direction M {forward inverse}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -490
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos -446
+ }
+set Nb742f880 [stack 0]
+ Dot {
+  name Dot2
+  xpos 114
+  ypos -446
+ }
+ Expression {
+  temp_name0 d
+  temp_expr0 -0.56
+  temp_name1 d_0
+  temp_expr1 1.6295499532821565e-11
+  expr0 ((r+d_0)/(1+d-d*(r+d_0)))
+  expr1 g
+  expr2 b
+  name Expression4
+  label Iz
+  note_font Helvetica
+  xpos 80
+  ypos -335
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.ColorMatrix2.matrix} {parent.ColorMatrix2.matrix} {parent.ColorMatrix2.matrix}}
+      {{parent.ColorMatrix2.matrix} {parent.ColorMatrix2.matrix} {parent.ColorMatrix2.matrix}}
+      {{parent.ColorMatrix2.matrix} {parent.ColorMatrix2.matrix} {parent.ColorMatrix2.matrix}}
+    }
+  invert true
+  name ColorMatrix4
+  label IZAZBZ_TO_LMS_P
+  note_font Helvetica
+  xpos 80
+  ypos -295
+ }
+ Group {
+  name eotf_ST2084
+  note_font Helvetica
+  xpos 80
+  ypos -249
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -40
+   ypos -290
+  }
+  Expression {
+   temp_name0 m_2
+   temp_expr0 134.03437499999998
+   expr0 "pow(r, 1/m_2)"
+   expr1 "pow(g, 1/m_2)"
+   expr2 "pow(b, 1/m_2)"
+   name Expression4
+   label V_p
+   note_font Helvetica
+   xpos -40
+   ypos -255
+  }
+  Expression {
+   temp_name0 c_1
+   temp_expr0 0.8359375
+   temp_name1 c_2
+   temp_expr1 18.8515625
+   temp_name2 c_3
+   temp_expr2 18.6875
+   temp_name3 m_1
+   temp_expr3 0.1593017578125
+   expr0 pow(((r-c_1)/(c_2-c_3*r)),1/m_1)*10000
+   expr1 pow(((g-c_1)/(c_2-c_3*g)),1/m_1)*10000
+   expr2 pow(((b-c_1)/(c_2-c_3*b)),1/m_1)*10000
+   name Expression8
+   label C
+   note_font Helvetica
+   selected true
+   xpos -40
+   ypos -215
+  }
+  Output {
+   name Output
+   xpos -40
+   ypos -170
+  }
+ end_group
+ ColorMatrix {
+  matrix {
+      {{parent.ColorMatrix6.matrix} {parent.ColorMatrix6.matrix} {parent.ColorMatrix6.matrix}}
+      {{parent.ColorMatrix6.matrix} {parent.ColorMatrix6.matrix} {parent.ColorMatrix6.matrix}}
+      {{parent.ColorMatrix6.matrix} {parent.ColorMatrix6.matrix} {parent.ColorMatrix6.matrix}}
+    }
+  invert true
+  name ColorMatrix5
+  label LMS_TO_XYZ
+  note_font Helvetica
+  xpos 80
+  ypos -215
+ }
+ Expression {
+  expr0 (r+(1.15-1)*b)/1.15
+  expr1 (g+(0.66-1)*((r+(1.15-1)*b)/1.15))/0.66
+  expr2 b
+  name Expression2
+  label "X_p Y_p Z"
+  note_font Helvetica
+  xpos 80
+  ypos -175
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.GamutToXYZ.ColorMatrix.matrix} {parent.GamutToXYZ.ColorMatrix.matrix} {parent.GamutToXYZ.ColorMatrix.matrix}}
+      {{parent.GamutToXYZ.ColorMatrix.matrix} {parent.GamutToXYZ.ColorMatrix.matrix} {parent.GamutToXYZ.ColorMatrix.matrix}}
+      {{parent.GamutToXYZ.ColorMatrix.matrix} {parent.GamutToXYZ.ColorMatrix.matrix} {parent.GamutToXYZ.ColorMatrix.matrix}}
+    }
+  invert true
+  name ColorMatrix3
+  label "\[if \{\[value invert]\} \{return \"XYZ to \[value GamutToXYZ.gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
+  note_font Helvetica
+  xpos 80
+  ypos -95
+ }
+push $Nb742f880
+ Group {
+  name GamutToXYZ
+  label "\[if \{\[value invert]\} \{return \"XYZ to \[value gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
+  xpos -40
+  ypos -416
+  addUserKnob {20 GamutToXYZ_lite_tab l GamutToXYZ_lite}
+  addUserKnob {4 gamut t "Choose gamut" M {XYZ ACES ACEScg "Filmlight E-Gamut" "DaVinci WG" Rec709 Rec2020 P3D60 P3D65 P3DCI "Arri AlexaWideGamut" REDDRAGONcolor REDDRAGONcolor2 REDcolor REDcolor2 REDcolor3 REDcolor4 REDWideGamutRGB "GoPro Protune Native" CanonCinemaGamut SonySGamut SonySGamut3Cine PanasonicVGamut "DJI D-Gamut" "Fujifilm F-Gamut" BMDFilmV1 BMD4kFilmV1 BMD4kFilmV3 BMD46kFilmV1 BMD46kFilmV3 BMDWideGamutV4 "AdobeRGB\t" AdobeWideGamutRGB ROMM RIMM ERIMM ProPhotoRGB RusselRGB SharpRGB AppleRGB BestRGB}}
+  gamut ACEScg
+  addUserKnob {6 invert +STARTLINE}
+  addUserKnob {26 ""}
+  addUserKnob {26 chromaticity_coordinates_label l " " T "<b>Chromaticity Coordinates</b>"}
+  addUserKnob {20 chromaticities_grp l "" +STARTLINE n 1}
+  addUserKnob {41 rxy T ColorMatrix.rxy}
+  addUserKnob {41 gxy T ColorMatrix.gxy}
+  addUserKnob {41 bxy T ColorMatrix.bxy}
+  addUserKnob {41 wxy T ColorMatrix.wxy}
+  addUserKnob {41 matrix T ColorMatrix.matrix}
+  addUserKnob {20 endGroup n -1}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -40
+   ypos -10
+  }
+  ColorMatrix {
+   matrix {
+       {{curve(which) 1 0.9525524378 0.6624541879 0.7053968906 0.4123907983 0.6369580626 0.5049495697 0.4865709841 0.4451698363 0.6380076408 0.5070186853 0.4462202489 0.4300414324 0.4581649601 0.4878340662 0.4517004192 0.7352752686 0.5022571683 0.7160496712 0.7064827085 0.5990839601 0.6796444654 0.6481720209 0.6369580626 0.6390493512 0.6141571999 0.3724023998 0.60689044 0.4017650783 0.6065810919 0.5766690373 0.7165006995 0.797760427 0.797760427 0.797760427 0.7976718545 0.7015837431 0.8156226277 0.4496616423 0.6318944097} {curve(which) 0 0 0.1340042055 0.1640413404 0.3575843275 0.1446169019 0.2646814585 0.2656676769 0.2771343887 0.2147038579 0.3587769568 0.3157556653 0.3700728714 0.3832037449 0.3432727158 0.3178463876 0.06860940903 0.2929667532 0.1296834797 0.1288010478 0.2489254922 0.1522114277 0.1940581352 0.1446169019 0.1578372866 0.2825684249 0.4324877858 0.2193847299 0.4560420811 0.2203479856 0.1855582297 0.1010205746 0.1351858526 0.1351858526 0.1351858526 0.1351878047 0.1554162204 0.04716260359 0.3162561059 0.2053879201} {curve(which) 0 9.367863095e-05 0.1561876982 0.08101774752 0.180480808 0.1688809693 0.1830150485 0.1982172877 0.1722826511 0.09774444997 0.0868505761 0.190669477 0.152531758 0.1112773567 0.1215386018 0.1830992699 0.1465712637 0.1552320272 0.1047228053 0.1151721701 0.1024464965 0.1186000481 0.108225815 0.1688809693 0.1516760886 0.05183707923 0.1436725408 0.124180764 0.09264881909 0.123526901 0.1882286519 0.1467743814 0.03134934977 0.03134934977 0.03134934977 0.03133957833 0.09979832917 0.1372147948 0.1845382005 0.1270133406}}
+       {{curve(which) 0 0.3439664543 0.2722287476 0.2801307142 0.2126390189 0.2627002299 0.237623319 0.2289745659 0.209491685 0.2919537723 0.2207257152 0.1942579001 0.2022213936 0.1694435924 0.2289056629 0.2119505703 0.2866941094 0.1387997568 0.2612613738 0.2709796727 0.2150758505 0.2606855333 0.2830046713 0.2627002299 0.1743051857 0.2365771234 0.1383759677 0.1973138005 0.1721783578 0.2680045366 0.2973450124 0.258728236 0.2880711257 0.2880711257 0.2880711257 0.2880405784 0.3152042925 0.3790788651 0.2446159422 0.2276017666} {curve(which) 1 0.7281661034 0.6740817428 0.8202066422 0.7151686549 0.6779980659 0.6891706586 0.6917385459 0.7215952873 0.8238410354 0.839184761 0.7385566831 0.7585275769 0.8648257852 0.7808576822 0.7230190039 0.8429791331 0.910841465 0.8696421385 0.786606431 0.8850684762 0.7748944759 0.8131960034 0.6779980659 0.951146543 0.8896810412 0.911518693 0.943950057 0.8553914428 0.8326833844 0.6273635626 0.7246823311 0.7118432522 0.7118432522 0.7118432522 0.7118694782 0.6648360491 0.5769088268 0.6720442176 0.7383946776} {curve(which) 0 -0.07213255018 0.05368951708 -0.1003373638 0.07219231874 0.05930171534 0.07320601493 0.07928691059 0.06891305745 -0.1157948226 -0.05991046131 0.06718540192 0.03925102949 -0.03426937759 -0.009763340466 0.06503042579 -0.1296732277 -0.04964122549 -0.1309035122 -0.05758608505 -0.1001443192 -0.03558001295 -0.09620071948 0.05930171534 -0.1254517138 -0.1262581497 -0.04989464581 -0.1412638426 -0.02756982669 -0.1006879359 0.07529145479 0.01658944227 8.565396274e-05 8.565396274e-05 8.565396274e-05 8.991353388e-05 0.01995966583 0.04401229322 0.08333983272 0.0340035744}}
+       {{curve(which) 0 -3.863927134e-08 -0.005574660841 -0.1037815213 0.01933082007 0 0 0 0 0.0027982709 -0.0544523783 -0.04792318866 -0.0176958181 -0.1061859056 -0.02100777067 -0.01945115253 -0.07968087494 0.07801423222 -0.009676366113 -0.009677864611 -0.03206583485 -0.009310216643 -0.01825834997 0 -0.11669112 -0.02325225808 -0.1602820009 -0.1427432895 -0.10720893 -0.02941203304 0.02703136392 -2.906408625e-08 -3.236030111e-08 -3.236030111e-08 -3.236030111e-08 0 0 -0.01229703799 0.02518104948 0} {curve(which) 0 0 0.004060741514 -0.07290724665 0.1191947311 0.0280726999 0.0449459292 0.04511339962 0.04706057906 -0.06703422964 -0.0003228379355 -0.0002844714036 0.08768811822 0.02554347552 0.01782695204 0.01650637016 -0.3473432064 -0.3148325086 -0.2364816219 0.004600019194 -0.02765839547 -0.004612449091 -0.08316776901 0.0280726999 -0.5518454909 -0.4897170365 -0.171635136 -0.4278847873 0.07809129357 -0.08659287542 0.07068887353 0.05121183768 1.2621717e-08 1.2621717e-08 1.2621717e-08 -1.262213711e-08 0.04317118227 0.01672476344 0.1411857158 0.01001892332} {curve(which) 1 1.008825183 1.010339141 1.265746474 0.950532198 1.060985088 0.9638792276 1.043944359 0.9073553085 1.153293729 1.063571215 1.057001948 0.9388025999 1.089437366 1.01197505 1.011739731 1.51608181 1.325875998 1.335215807 1.094135642 1.148782015 1.102980375 1.190483928 1.060985088 1.745692492 1.590125084 1.409072995 1.65968585 1.118175387 1.205062628 0.9913375378 0.7738927603 0.8251045942 0.8251045942 0.8251045942 0.8248898983 0.8782252669 0.9955722094 0.9226909876 0.8150856495}}
+     }
+   invert {{parent.invert}}
+   name ColorMatrix
+   label "RGB to XYZ"
+   xpos -40
+   ypos 32
+   addUserKnob {20 Gamut}
+   addUserKnob {3 which}
+   which {{parent.gamut}}
+   addUserKnob {12 rxy}
+   rxy {{curve(which) 1 0.7347 0.713 0.8 0.8 0.64 0.708 0.68 0.68 0.68 0.684 0.7530442228 0.7530444911 0.6997470013 0.8786825105 0.7011810359 0.7011805919 0.780308 0.69848046 0.74 0.73 0.766 0.73 0.71 0.708 0.9173 0.7422 1.0625 0.9175 0.8608 0.7177 0.64 0.7347 0.7347 0.7347 0.7347 0.734699 0.69 0.6898 0.625 0.7351916376} {curve(which) 0 0.2653 0.293 0.3177 0.313 0.33 0.292 0.32 0.32 0.32 0.313 0.3278305767 0.3278310295 0.3290469303 0.3249640074 0.3290141556 0.3290136991 0.304253 0.19302645 0.27 0.28 0.275 0.28 0.31 0.292 0.2502 0.2859 0.3948 0.2983 0.3689 0.3171 0.33 0.2653 0.2653 0.2653 0.2653 0.265301 0.31 0.3206 0.34 0.2648083624}}
+   addUserKnob {12 gxy}
+   gxy {{curve(which) 0 0 0.165 0.18 0.1682 0.3 0.17 0.265 0.265 0.265 0.221 0.2995702285 0.2995704905 0.304264039 0.3008887144 0.3006003047 0.3006003955 0.121595 0.32955538 0.17 0.14 0.225 0.165 0.21 0.17 0.2833 0.414 0.3689 0.2983 0.3282 0.228 0.21 0.1152 0.1596 0.1596 0.1596 0.159597 0.18 0.0736 0.28 0.2153361345} {curve(which) 1 1 0.83 0.9 0.9877 0.6 0.797 0.69 0.69 0.69 0.848 0.700699322 0.7006994156 0.6236411451 0.6790547558 0.6837888343 0.6837888243 1.493994 1.02459662 1.14 0.855 0.8 0.84 0.88 0.797 1.7072 1.3035 0.7775 1.2835 0.6156 0.8616 0.71 0.8264 0.8404 0.8404 0.8404 0.840403 0.77 0.9003 0.595 0.7741596639}}
+   addUserKnob {12 bxy}
+   bxy {{curve(which) 0 0.0001 0.128 0.065 0.079 0.15 0.131 0.15 0.15 0.15 0.0861 0.07964206674 0.1450115843 0.1349139613 0.09539869461 0.1081544556 0.1453319462 0.095612 0.10844263 0.08 0.1 0.089 0.1 0.09 0.131 0.0856 0.0342 0.0956 0.0756 0.0783 0.1006 0.15 0.1566 0.0366 0.0366 0.0366 0.036598 0.1 0.1166 0.155 0.1301229508} {curve(which) 0 -0.077 0.044 -0.0805 -0.1155 0.06 0.046 0.06 0.06 0.06 -0.102 -0.05493795109 0.05109712509 0.03471744128 -0.02937932683 -0.008688175787 0.05161680362 -0.084589 -0.03467857 -0.1 -0.05 -0.087 -0.03 -0.08 0.046 -0.0708 -0.0833 -0.0332 -0.086 -0.0233 -0.082 0.06 0.0177 0.0001 0.0001 0.0001 0.000105 0.02 0.0374 0.07 0.03483606557}}
+   addUserKnob {12 wxy}
+   wxy {{curve(which) 0.33333333 0.32168 0.32168 0.3127 0.3127 0.3127 0.3127 0.32168 0.3127 0.314 0.3127 0.3216831877 0.3216832104 0.3216832894 0.3216832894 0.3216832104 0.3216832894 0.3127 0.3127 0.3127 0.3127 0.3127 0.3127 0.3127 0.3127 0.3135 0.3135 0.3135 0.3127 0.3127 0.3127 0.3127 0.3457 0.3457 0.3457 0.3457 0.345704 0.33243 0.33333333 0.3127 0.3457} {curve(which) 0.33333333 0.33767 0.33767 0.329 0.329 0.329 0.329 0.33767 0.329 0.351 0.329 0.337673316 0.3376736101 0.3376734472 0.3376734472 0.3376736101 0.3376734472 0.329 0.329 0.329 0.329 0.329 0.329 0.329 0.329 0.3305 0.3305 0.3305 0.329 0.329 0.329 0.329 0.3585 0.3585 0.3585 0.3585 0.35854 0.34744 0.33333333 0.329 0.3585}}
+  }
+  Output {
+   name Output
+   xpos -40
+   ypos 86
+  }
+ end_group
+ Expression {
+  expr0 1.15*r-(1.15-1)*b
+  expr1 0.66*g-(0.66-1)*r
+  expr2 b
+  name Expression3
+  label "X_p Y_p Z"
+  note_font Helvetica
+  xpos -40
+  ypos -335
+ }
+ ColorMatrix {
+  matrix {
+      {0.41478972 0.579999 0.014648}
+      {-0.20151 1.120649 0.0531008}
+      {-0.0166008 0.2648 0.6684799}
+    }
+  name ColorMatrix6
+  label XYZ_TO_LMS
+  note_font Helvetica
+  xpos -40
+  ypos -295
+ }
+ Group {
+  name eotf_inverse_ST2084_
+  note_font Helvetica
+  xpos -40
+  ypos -249
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -40
+   ypos -290
+  }
+  Expression {
+   temp_name0 m_1
+   temp_expr0 0.1593017578125
+   temp_name1 L_p
+   temp_expr1 10000
+   expr0 "pow(r/L_p, m_1)"
+   expr1 "pow(g/L_p, m_1)"
+   expr2 "pow(b/L_p, m_1)"
+   name Expression4
+   label Y_p
+   note_font Helvetica
+   xpos -40
+   ypos -255
+  }
+  Expression {
+   temp_name0 c_1
+   temp_expr0 0.8359375
+   temp_name1 c_2
+   temp_expr1 18.8515625
+   temp_name2 c_3
+   temp_expr2 18.6875
+   temp_name3 m_2
+   temp_expr3 134.03437499999998
+   expr0 "pow((c_1+c_2*r)/(c_3*r+1), m_2)"
+   expr1 "pow((c_1+c_2*g)/(c_3*g+1), m_2)"
+   expr2 "pow((c_1+c_2*b)/(c_3*b+1), m_2)"
+   name Expression8
+   label N
+   note_font Helvetica
+   xpos -40
+   ypos -215
+  }
+  Output {
+   name Output
+   xpos -40
+   ypos -170
+  }
+ end_group
+ ColorMatrix {
+  matrix {
+      {0.5 0.5 0}
+      {3.524 -4.066708 0.542708}
+      {0.199076 1.096799 -1.295875}
+    }
+  name ColorMatrix2
+  label LMS_P_TO_IZAZBZ
+  note_font Helvetica
+  xpos -40
+  ypos -215
+ }
+ Expression {
+  expr0 r*(1-0.56)/(1-0.56*r)-(1.6295499532821566*pow(10,-11))
+  expr1 g
+  expr2 b
+  name Expression1
+  label Jz
+  note_font Helvetica
+  xpos -40
+  ypos -175
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name SwitchDirection
+  note_font Helvetica
+  xpos -40
+  ypos -49
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 42
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<left><b>JzAzBz Colorspace</b>\n:cite:`Safdar2017` : Safdar, M., Cui, G., Kim, Y. J., & Luo, M. R. (2017).\n    Perceptually uniform color space for image signals including high dynamic\n    range and wide gamut. Optics Express, 25(13), 15131.\n    doi:10.1364/OE.25.015131\npdf: https://www.osapublishing.org/oe/fulltext.cfm?uri=oe-25-13-15131&id=368272\n"
+  note_font Helvetica
+  note_font_size 14
+  xpos 234
+  ypos -464
+ }
+end_group
