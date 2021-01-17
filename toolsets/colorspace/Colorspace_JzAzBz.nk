@@ -4,6 +4,8 @@ Group {
  name Colorspace_JzAzBz
  addUserKnob {20 JzAzBz_tab l JzAzBz}
  addUserKnob {41 gamut T GamutToXYZ.gamut}
+ addUserKnob {6 domain_range_scale l "domain range scale" +STARTLINE}
+ domain_range_scale true
  addUserKnob {4 direction M {forward inverse}}
 }
  Input {
@@ -17,7 +19,7 @@ Group {
   xpos -6
   ypos -446
  }
-set Nb742f880 [stack 0]
+set N15661840 [stack 0]
  Dot {
   name Dot2
   xpos 114
@@ -51,10 +53,24 @@ set Nb742f880 [stack 0]
   ypos -295
  }
  Group {
-  name eotf_ST2084
+  name eotf_ST2084_
   note_font Helvetica
   xpos 80
   ypos -249
+  disable {{!parent.domain_range_scale}}
+  addUserKnob {20 CONSTANTS_tab l CONSTANTS}
+  addUserKnob {7 m_1}
+  m_1 {{2610/4096*(1/4)}}
+  addUserKnob {7 m_2}
+  m_2 {{1.7*2523/2**5}}
+  addUserKnob {7 c_1}
+  c_1 {{3424/4096}}
+  addUserKnob {7 c_2}
+  c_2 {{2413/4096*32}}
+  addUserKnob {7 c_3}
+  c_3 {{2392/4096*32}}
+  addUserKnob {7 L_p R 0 10000}
+  L_p 10000
  }
   Input {
    inputs 0
@@ -63,33 +79,22 @@ set Nb742f880 [stack 0]
    ypos -290
   }
   Expression {
-   temp_name0 m_2
-   temp_expr0 134.03437499999998
    expr0 "pow(r, 1/m_2)"
    expr1 "pow(g, 1/m_2)"
    expr2 "pow(b, 1/m_2)"
-   name Expression4
+   name Expression1
    label V_p
    note_font Helvetica
    xpos -40
    ypos -255
   }
   Expression {
-   temp_name0 c_1
-   temp_expr0 0.8359375
-   temp_name1 c_2
-   temp_expr1 18.8515625
-   temp_name2 c_3
-   temp_expr2 18.6875
-   temp_name3 m_1
-   temp_expr3 0.1593017578125
-   expr0 pow(((r-c_1)/(c_2-c_3*r)),1/m_1)*10000
-   expr1 pow(((g-c_1)/(c_2-c_3*g)),1/m_1)*10000
-   expr2 pow(((b-c_1)/(c_2-c_3*b)),1/m_1)*10000
-   name Expression8
+   expr0 pow(((r-c_1)/(c_2-c_3*r)),1/m_1)*L_p
+   expr1 pow(((g-c_1)/(c_2-c_3*g)),1/m_1)*L_p
+   expr2 pow(((b-c_1)/(c_2-c_3*b)),1/m_1)*L_p
+   name Expression2
    label C
    note_font Helvetica
-   selected true
    xpos -40
    ypos -215
   }
@@ -135,7 +140,7 @@ set Nb742f880 [stack 0]
   xpos 80
   ypos -95
  }
-push $Nb742f880
+push $N15661840
  Group {
   name GamutToXYZ
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
@@ -217,6 +222,20 @@ push $Nb742f880
   note_font Helvetica
   xpos -40
   ypos -249
+  disable {{!parent.domain_range_scale}}
+  addUserKnob {20 CONSTANTS_tab l CONSTANTS}
+  addUserKnob {7 m_1}
+  m_1 {{2610/4096*(1/4)}}
+  addUserKnob {7 m_2}
+  m_2 {{1.7*2523/2**5}}
+  addUserKnob {7 c_1}
+  c_1 {{3424/4096}}
+  addUserKnob {7 c_2}
+  c_2 {{2413/4096*32}}
+  addUserKnob {7 c_3}
+  c_3 {{2392/4096*32}}
+  addUserKnob {7 L_p R 0 10000}
+  L_p 10000
  }
   Input {
    inputs 0
@@ -225,10 +244,6 @@ push $Nb742f880
    ypos -290
   }
   Expression {
-   temp_name0 m_1
-   temp_expr0 0.1593017578125
-   temp_name1 L_p
-   temp_expr1 10000
    expr0 "pow(r/L_p, m_1)"
    expr1 "pow(g/L_p, m_1)"
    expr2 "pow(b/L_p, m_1)"
@@ -239,14 +254,6 @@ push $Nb742f880
    ypos -255
   }
   Expression {
-   temp_name0 c_1
-   temp_expr0 0.8359375
-   temp_name1 c_2
-   temp_expr1 18.8515625
-   temp_name2 c_3
-   temp_expr2 18.6875
-   temp_name3 m_2
-   temp_expr3 134.03437499999998
    expr0 "pow((c_1+c_2*r)/(c_3*r+1), m_2)"
    expr1 "pow((c_1+c_2*g)/(c_3*g+1), m_2)"
    expr2 "pow((c_1+c_2*b)/(c_3*b+1), m_2)"
