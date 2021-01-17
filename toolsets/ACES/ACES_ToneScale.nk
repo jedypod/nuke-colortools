@@ -8,18 +8,18 @@ StickyNote {
  note_font_size 14
  note_font_color 0x9d9d9dff
  selected true
- xpos 1501
- ypos 822
+ xpos 2578
+ ypos 801
 }
 push $cut_paste_input
 Group {
  name ToneScale
  note_font Helvetica
  selected true
- xpos 1400
- ypos 631
+ xpos 2477
+ ypos 610
  addUserKnob {20 ToneScale}
- addUserKnob {4 norm M {none maxrgb "weighted power" ""}}
+ addUserKnob {4 norm M {none luminance "max rgb" "weighted power" "" ""}}
  norm "weighted power"
  addUserKnob {35 weight_presets l "" +STARTLINE M {weights/basic "knobs this \{nmult 1.0 weights \{1 1 1\} pow 4\}" weights/yellow "knobs this \{nmult 0.83743219 weights \{1.22 1.2 0.58\} pow 5\}" "" "" ""}}
  addUserKnob {78 weights l "" -STARTLINE n 3}
@@ -52,10 +52,10 @@ Group {
   note_font Helvetica
   note_font_size 25
   note_font_color 0xffffffff
-  xpos -414
-  ypos -42
-  bdwidth 386
-  bdheight 257
+  xpos -553
+  ypos -53
+  bdwidth 522
+  bdheight 275
   z_order -10
  }
  BackdropNode {
@@ -100,7 +100,7 @@ Group {
   xpos -6
   ypos 34
  }
-set Ncfffb7f0 [stack 0]
+set Nc397ca70 [stack 0]
  Dot {
   name Dot10
   note_font "Helvetica Bold"
@@ -109,8 +109,8 @@ set Ncfffb7f0 [stack 0]
   xpos -6
   ypos 514
  }
-set N29c9bc70 [stack 0]
-push $Ncfffb7f0
+set Nd39a0ee0 [stack 0]
+push $Nc397ca70
  Dot {
   name Dot2
   note_font "Helvetica Bold"
@@ -119,22 +119,31 @@ push $Ncfffb7f0
   xpos -126
   ypos 34
  }
-set Nb85f3880 [stack 0]
+set Nd3995380 [stack 0]
  Dot {
-  name Dot3
+  name Dot12
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xff
   xpos -246
   ypos 34
  }
-set N769296f0 [stack 0]
+set N79f58020 [stack 0]
+ Dot {
+  name Dot3
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -366
+  ypos 34
+ }
+set Na94463b0 [stack 0]
  Dot {
   name Dot11
   note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xff
-  xpos -366
+  xpos -486
   ypos 34
  }
  Expression {
@@ -153,10 +162,10 @@ set N769296f0 [stack 0]
   channel3 none
   name Norm_Power2
   note_font Helvetica
-  xpos -400
+  xpos -520
   ypos 71
  }
-push $N769296f0
+push $Na94463b0
  Expression {
   channel0 rgb
   expr0 max(r,g,b)
@@ -165,12 +174,24 @@ push $N769296f0
   channel3 none
   name Norm_MaxRGB
   note_font Helvetica
+  xpos -400
+  ypos 71
+ }
+push $N79f58020
+ Expression {
+  channel0 rgb
+  expr0 0.2126*r+0.7152*g+0.0722*b
+  channel1 none
+  channel2 none
+  channel3 none
+  name Norm_Luminance
+  note_font Helvetica
   xpos -280
   ypos 71
  }
-push $Nb85f3880
+push $Nd3995380
  Switch {
-  inputs 3
+  inputs 4
   which {{parent.norm}}
   name SwitchNorm
   note_font Helvetica
@@ -186,7 +207,7 @@ push $Nb85f3880
   xpos -126
   ypos 194
  }
-set N25c5e7e0 [stack 0]
+set N19f81b0 [stack 0]
  Dot {
   name Dot6
   note_font "Helvetica Bold"
@@ -203,8 +224,8 @@ set N25c5e7e0 [stack 0]
   xpos 234
   ypos 314
  }
-set N5871bda0 [stack 0]
-push $N5871bda0
+set N64a35120 [stack 0]
+push $N64a35120
  Expression {
   expr0 "r * (Ymax - Ymin) + Ymin"
   expr1 "g * (Ymax - Ymin) + Ymin"
@@ -308,42 +329,42 @@ push $N5871bda0
    xpos -996
    ypos -318
   }
-set Nb9ec9190 [stack 0]
+set Nd04a17a0 [stack 0]
   Dot {
    name Dot26
    label " "
    xpos -996
    ypos 1506
   }
-push $Nb9ec9190
+push $Nd04a17a0
   Dot {
    name Dot4
    label " "
    xpos -886
    ypos -318
   }
-set Nb9256b10 [stack 0]
+set Nf2335560 [stack 0]
   Dot {
    name Dot5
    label " "
    xpos -776
    ypos -318
   }
-set N142ec610 [stack 0]
+set N68c329f0 [stack 0]
   Dot {
    name Dot2
    label " "
    xpos -666
    ypos -318
   }
-set N9dff3c80 [stack 0]
+set Ncd299d70 [stack 0]
   Dot {
    name Dot3
    label " "
    xpos -556
    ypos -318
   }
-set Nbad69350 [stack 0]
+set N633fdc10 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -364,14 +385,14 @@ set Nbad69350 [stack 0]
    xpos -556
    ypos 162
   }
-push $Nbad69350
+push $N633fdc10
   Dot {
    name Dot7
    label " "
    xpos -336
    ypos -318
   }
-set Nb9e75c90 [stack 0]
+set N69507380 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -402,7 +423,7 @@ set Nb9e75c90 [stack 0]
    xpos -336
    ypos 786
   }
-push $N9dff3c80
+push $Ncd299d70
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -423,28 +444,28 @@ push $N9dff3c80
    xpos -666
    ypos 354
   }
-push $Nb9e75c90
+push $N69507380
   Dot {
    name Dot9
    label " "
    xpos -6
    ypos -318
   }
-set Nb9046630 [stack 0]
+set N68b34030 [stack 0]
   Dot {
    name Dot6
    label " "
    xpos -6
    ypos -174
   }
-set Nf4a74f70 [stack 0]
+set N69509170 [stack 0]
   Dot {
    name Dot8
    label " "
    xpos 214
    ypos -174
   }
-set Nb99aa150 [stack 0]
+set Nc2770100 [stack 0]
   Dot {
    name Dot13
    label " "
@@ -456,7 +477,7 @@ set Nb99aa150 [stack 0]
    xpos 434
    ypos -78
   }
-set N1712e400 [stack 0]
+set N34ffb560 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(b, 1e-10 ))"
@@ -485,7 +506,7 @@ set N1712e400 [stack 0]
    xpos 290
    ypos -34
   }
-push $N1712e400
+push $N34ffb560
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -523,13 +544,13 @@ push $N1712e400
    min {{parent.min.x} {parent.min.y} {parent.minSlope}}
   }
 push 0
-push $Nf4a74f70
+push $N69509170
   Dot {
    name Dot10
    xpos -6
    ypos -78
   }
-set Nb5555c0 [stack 0]
+set Nc39740e0 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -558,7 +579,7 @@ set Nb5555c0 [stack 0]
    xpos -150
    ypos -34
   }
-push $Nb5555c0
+push $Nc39740e0
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -595,13 +616,13 @@ push $Nb5555c0
    addUserKnob {13 min l Min}
    min {{parent.min.x} {parent.min.y} {parent.minSlope}}
   }
-push $Nb99aa150
+push $Nc2770100
   Dot {
    name Dot18
    xpos 214
    ypos -78
   }
-set N9de880c0 [stack 0]
+set Ne45f74c0 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(g, 1e-10 ))"
@@ -630,7 +651,7 @@ set N9de880c0 [stack 0]
    xpos 70
    ypos -34
   }
-push $N9de880c0
+push $Ne45f74c0
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -690,7 +711,7 @@ push $N9de880c0
    ypos 786
   }
 push 0
-push $N142ec610
+push $N68c329f0
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -711,28 +732,28 @@ push $N142ec610
    xpos -776
    ypos 474
   }
-push $Nb9046630
+push $N68b34030
   Dot {
    name Dot14
    label " "
    xpos 764
    ypos -318
   }
-set N362888d0 [stack 0]
+set N64bf29f0 [stack 0]
   Dot {
    name Dot15
    label " "
    xpos 764
    ypos -174
   }
-set N9f02170 [stack 0]
+set Nd0f99de0 [stack 0]
   Dot {
    name Dot17
    label " "
    xpos 984
    ypos -174
   }
-set Nb7ab0300 [stack 0]
+set N63df8120 [stack 0]
   Dot {
    name Dot20
    label " "
@@ -744,7 +765,7 @@ set Nb7ab0300 [stack 0]
    xpos 1204
    ypos -78
   }
-set Nb99a0000 [stack 0]
+set Nd3c98b00 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(b, 1e-10 ))"
@@ -773,7 +794,7 @@ set Nb99a0000 [stack 0]
    xpos 1060
    ypos -34
   }
-push $Nb99a0000
+push $Nd3c98b00
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -806,13 +827,13 @@ push $Nb99a0000
    ypos 14
   }
 push 0
-push $N9f02170
+push $Nd0f99de0
   Dot {
    name Dot11
    xpos 764
    ypos -78
   }
-set N9e3c9ba0 [stack 0]
+set Nce0a23b0 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -841,7 +862,7 @@ set N9e3c9ba0 [stack 0]
    xpos 620
    ypos -34
   }
-push $N9e3c9ba0
+push $Nce0a23b0
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -873,13 +894,13 @@ push $N9e3c9ba0
    xpos 730
    ypos 14
   }
-push $Nb7ab0300
+push $N63df8120
   Dot {
    name Dot12
    xpos 984
    ypos -78
   }
-set Nb85f9dc0 [stack 0]
+set Nc38763e0 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(g, 1e-10 ))"
@@ -908,7 +929,7 @@ set Nb85f9dc0 [stack 0]
    xpos 840
    ypos -34
   }
-push $Nb85f9dc0
+push $Nc38763e0
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -963,7 +984,7 @@ push $Nb85f9dc0
    xpos 984
    ypos 786
   }
-push $Nb9256b10
+push $Nf2335560
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -984,7 +1005,7 @@ push $Nb9256b10
    xpos -886
    ypos 618
   }
-push $N362888d0
+push $N64bf29f0
   Dot {
    name Dot21
    label " "
@@ -1079,8 +1100,8 @@ push $N362888d0
   xpos 234
   ypos 634
  }
-push $N29c9bc70
-push $N25c5e7e0
+push $Nd39a0ee0
+push $N19f81b0
  Dot {
   name Dot7
   note_font "Helvetica Bold"
@@ -1089,8 +1110,8 @@ push $N25c5e7e0
   xpos -126
   ypos 314
  }
-set N81d25590 [stack 0]
-push $N81d25590
+set N17d65a40 [stack 0]
+push $N17d65a40
  Group {
   name ssts
   xpos -280
@@ -1165,42 +1186,42 @@ push $N81d25590
    xpos -996
    ypos -318
   }
-set Nba1960c0 [stack 0]
+set N9d41a0f0 [stack 0]
   Dot {
    name Dot26
    label " "
    xpos -996
    ypos 1506
   }
-push $Nba1960c0
+push $N9d41a0f0
   Dot {
    name Dot4
    label " "
    xpos -886
    ypos -318
   }
-set N9e3cb370 [stack 0]
+set N9d313ce0 [stack 0]
   Dot {
    name Dot5
    label " "
    xpos -776
    ypos -318
   }
-set Nb7ab0e00 [stack 0]
+set N9d318a80 [stack 0]
   Dot {
    name Dot2
    label " "
    xpos -666
    ypos -318
   }
-set N692c220 [stack 0]
+set N9d31d8d0 [stack 0]
   Dot {
    name Dot3
    label " "
    xpos -556
    ypos -318
   }
-set N6930da0 [stack 0]
+set N9d2128b0 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -1221,14 +1242,14 @@ set N6930da0 [stack 0]
    xpos -556
    ypos 162
   }
-push $N6930da0
+push $N9d2128b0
   Dot {
    name Dot7
    label " "
    xpos -336
    ypos -318
   }
-set Nbb837a50 [stack 0]
+set N9d11ab40 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -1259,7 +1280,7 @@ set Nbb837a50 [stack 0]
    xpos -336
    ypos 786
   }
-push $N692c220
+push $N9d31d8d0
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -1280,28 +1301,28 @@ push $N692c220
    xpos -666
    ypos 354
   }
-push $Nbb837a50
+push $N9d11ab40
   Dot {
    name Dot9
    label " "
    xpos -6
    ypos -318
   }
-set Nb88adc80 [stack 0]
+set N9cd165a0 [stack 0]
   Dot {
    name Dot6
    label " "
    xpos -6
    ypos -198
   }
-set N9dffa380 [stack 0]
+set N9cd1b360 [stack 0]
   Dot {
    name Dot8
    label " "
    xpos 214
    ypos -198
   }
-set N9dfff250 [stack 0]
+set N8feed2f0 [stack 0]
   Dot {
    name Dot13
    label " "
@@ -1314,7 +1335,7 @@ set N9dfff250 [stack 0]
    xpos 434
    ypos -78
   }
-set Nb6f84280 [stack 0]
+set N8fef6ff0 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
@@ -1342,7 +1363,7 @@ set Nb6f84280 [stack 0]
    xpos 290
    ypos 8
   }
-push $Nb6f84280
+push $N8fef6ff0
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
@@ -1372,14 +1393,14 @@ push $Nb6f84280
    ypos 8
   }
 push 0
-push $N9dfff250
+push $N8feed2f0
   Dot {
    name Dot11
    label " "
    xpos 214
    ypos -78
   }
-set N39aa9120 [stack 0]
+set Nb5df7310 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
@@ -1407,7 +1428,7 @@ set N39aa9120 [stack 0]
    xpos 70
    ypos 8
   }
-push $N39aa9120
+push $Nb5df7310
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
@@ -1436,14 +1457,14 @@ push $N39aa9120
    xpos 180
    ypos 8
   }
-push $N9dffa380
+push $N9cd1b360
   Dot {
    name Dot10
    label " "
    xpos -6
    ypos -78
   }
-set Nb8b38750 [stack 0]
+set N4ef10ac0 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
@@ -1471,7 +1492,7 @@ set Nb8b38750 [stack 0]
    xpos -150
    ypos 8
   }
-push $Nb8b38750
+push $N4ef10ac0
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
@@ -1524,7 +1545,7 @@ push $Nb8b38750
    ypos 786
   }
 push 0
-push $Nb7ab0e00
+push $N9d318a80
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -1545,28 +1566,28 @@ push $Nb7ab0e00
    xpos -776
    ypos 474
   }
-push $Nb88adc80
+push $N9cd165a0
   Dot {
    name Dot14
    label " "
    xpos 764
    ypos -318
   }
-set N361369e0 [stack 0]
+set N34960920 [stack 0]
   Dot {
    name Dot15
    label " "
    xpos 764
    ypos -198
   }
-set N3613b7a0 [stack 0]
+set N349656e0 [stack 0]
   Dot {
    name Dot17
    label " "
    xpos 984
    ypos -198
   }
-set N9cab5bf0 [stack 0]
+set Nfc828680 [stack 0]
   Dot {
    name Dot20
    label " "
@@ -1579,7 +1600,7 @@ set N9cab5bf0 [stack 0]
    xpos 1204
    ypos -78
   }
-set Nb6d2a2c0 [stack 0]
+set Nfc832380 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
@@ -1608,7 +1629,7 @@ set Nb6d2a2c0 [stack 0]
    xpos 1060
    ypos 8
   }
-push $Nb6d2a2c0
+push $Nfc832380
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
@@ -1638,14 +1659,14 @@ push $Nb6d2a2c0
    ypos 8
   }
 push 0
-push $N9cab5bf0
+push $Nfc828680
   Dot {
    name Dot18
    label " "
    xpos 984
    ypos -78
   }
-set N9e7f17a0 [stack 0]
+set N1b65fb80 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
@@ -1674,7 +1695,7 @@ set N9e7f17a0 [stack 0]
    xpos 840
    ypos 8
   }
-push $N9e7f17a0
+push $N1b65fb80
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
@@ -1703,14 +1724,14 @@ push $N9e7f17a0
    xpos 950
    ypos 8
   }
-push $N3613b7a0
+push $N349656e0
   Dot {
    name Dot16
    label " "
    xpos 764
    ypos -78
   }
-set N873e5560 [stack 0]
+set N74c18500 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
@@ -1739,7 +1760,7 @@ set N873e5560 [stack 0]
    xpos 620
    ypos 8
   }
-push $N873e5560
+push $N74c18500
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
@@ -1791,7 +1812,7 @@ push $N873e5560
    xpos 984
    ypos 786
   }
-push $N9e3cb370
+push $N9d313ce0
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -1812,7 +1833,7 @@ push $N9e3cb370
    xpos -886
    ypos 618
   }
-push $N361369e0
+push $N34960920
   Dot {
    name Dot21
    label " "
@@ -1939,7 +1960,7 @@ push $N361369e0
   xpos -40
   ypos 910
  }
-push $N81d25590
+push $N17d65a40
  Group {
   name ssts1
   xpos -89
@@ -2015,42 +2036,42 @@ push $N81d25590
    xpos -996
    ypos -318
   }
-set N54610100 [stack 0]
+set N35165800 [stack 0]
   Dot {
    name Dot26
    label " "
    xpos -996
    ypos 1506
   }
-push $N54610100
+push $N35165800
   Dot {
    name Dot4
    label " "
    xpos -886
    ypos -318
   }
-set N54616f00 [stack 0]
+set Nc0470350 [stack 0]
   Dot {
    name Dot5
    label " "
    xpos -776
    ypos -318
   }
-set N5461b210 [stack 0]
+set Nc04750f0 [stack 0]
   Dot {
    name Dot2
    label " "
    xpos -666
    ypos -318
   }
-set N54a10100 [stack 0]
+set Nc96ee100 [stack 0]
   Dot {
    name Dot3
    label " "
    xpos -556
    ypos -318
   }
-set N54a14be0 [stack 0]
+set Nc96f2f20 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -2071,14 +2092,14 @@ set N54a14be0 [stack 0]
    xpos -556
    ypos 162
   }
-push $N54a14be0
+push $Nc96f2f20
   Dot {
    name Dot7
    label " "
    xpos -336
    ypos -318
   }
-set N5401c5d0 [stack 0]
+set Nc0876f60 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -2109,7 +2130,7 @@ set N5401c5d0 [stack 0]
    xpos -336
    ypos 786
   }
-push $N54a10100
+push $Nc96ee100
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -2130,28 +2151,28 @@ push $N54a10100
    xpos -666
    ypos 354
   }
-push $N5401c5d0
+push $Nc0876f60
   Dot {
    name Dot9
    label " "
    xpos -6
    ypos -318
   }
-set N53616800 [stack 0]
+set Nb31408e0 [stack 0]
   Dot {
    name Dot6
    label " "
    xpos -6
    ypos -198
   }
-set N5361b5c0 [stack 0]
+set Nb31456a0 [stack 0]
   Dot {
    name Dot8
    label " "
    xpos 214
    ypos -198
   }
-set N52e10560 [stack 0]
+set Nb363a630 [stack 0]
   Dot {
    name Dot13
    label " "
@@ -2164,7 +2185,7 @@ set N52e10560 [stack 0]
    xpos 434
    ypos -78
   }
-set N52e1a260 [stack 0]
+set Nb3644330 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
@@ -2192,7 +2213,7 @@ set N52e1a260 [stack 0]
    xpos 290
    ypos 8
   }
-push $N52e1a260
+push $Nb3644330
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
@@ -2222,14 +2243,14 @@ push $N52e1a260
    ypos 8
   }
 push 0
-push $N52e10560
+push $Nb363a630
   Dot {
    name Dot11
    label " "
    xpos 214
    ypos -78
   }
-set N52815350 [stack 0]
+set Nb2b3f650 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
@@ -2257,7 +2278,7 @@ set N52815350 [stack 0]
    xpos 70
    ypos 8
   }
-push $N52815350
+push $Nb2b3f650
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
@@ -2286,14 +2307,14 @@ push $N52815350
    xpos 180
    ypos 8
   }
-push $N5361b5c0
+push $Nb31456a0
   Dot {
    name Dot10
    label " "
    xpos -6
    ypos -78
   }
-set N51f106b0 [stack 0]
+set N9d5e7e00 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
@@ -2321,7 +2342,7 @@ set N51f106b0 [stack 0]
    xpos -150
    ypos 8
   }
-push $N51f106b0
+push $N9d5e7e00
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
@@ -2374,7 +2395,7 @@ push $N51f106b0
    ypos 786
   }
 push 0
-push $N5461b210
+push $Nc04750f0
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -2395,28 +2416,28 @@ push $N5461b210
    xpos -776
    ypos 474
   }
-push $N53616800
+push $Nb31408e0
   Dot {
    name Dot14
    label " "
    xpos 764
    ypos -318
   }
-set N51014c10 [stack 0]
+set N537f7e00 [stack 0]
   Dot {
    name Dot15
    label " "
    xpos 764
    ypos -198
   }
-set N510199d0 [stack 0]
+set N537fcbc0 [stack 0]
   Dot {
    name Dot17
    label " "
    xpos 984
    ypos -198
   }
-set N5101e850 [stack 0]
+set N538f1b50 [stack 0]
   Dot {
    name Dot20
    label " "
@@ -2429,7 +2450,7 @@ set N5101e850 [stack 0]
    xpos 1204
    ypos -78
   }
-set N4fa16670 [stack 0]
+set N538fb850 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
@@ -2458,7 +2479,7 @@ set N4fa16670 [stack 0]
    xpos 1060
    ypos 8
   }
-push $N4fa16670
+push $N538fb850
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
@@ -2488,14 +2509,14 @@ push $N4fa16670
    ypos 8
   }
 push 0
-push $N5101e850
+push $N538f1b50
   Dot {
    name Dot18
    label " "
    xpos 984
    ypos -78
   }
-set N50b13f30 [stack 0]
+set N53cf7040 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
@@ -2524,7 +2545,7 @@ set N50b13f30 [stack 0]
    xpos 840
    ypos 8
   }
-push $N50b13f30
+push $N53cf7040
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
@@ -2553,14 +2574,14 @@ push $N50b13f30
    xpos 950
    ypos 8
   }
-push $N510199d0
+push $N537fcbc0
   Dot {
    name Dot16
    label " "
    xpos 764
    ypos -78
   }
-set N4f71d560 [stack 0]
+set N96f10850 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
@@ -2589,7 +2610,7 @@ set N4f71d560 [stack 0]
    xpos 620
    ypos 8
   }
-push $N4f71d560
+push $N96f10850
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
@@ -2641,7 +2662,7 @@ push $N4f71d560
    xpos 984
    ypos 786
   }
-push $N54616f00
+push $Nc0470350
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -2662,7 +2683,7 @@ push $N54616f00
    xpos -886
    ypos 618
   }
-push $N51014c10
+push $N537f7e00
   Dot {
    name Dot21
    label " "
@@ -2736,8 +2757,8 @@ Group {
  name DisplayEOTF
  note_font Helvetica
  selected true
- xpos 1400
- ypos 871
+ xpos 2477
+ ypos 850
  addUserKnob {20 DisplayEOTF_tab l DisplayEOTF}
  addUserKnob {4 eotf l EOTF t "Electrical to Optical Transfer Function of the monitor." M {sRGB BT.1886 "Gamma 2.2" "Gamma 2.4" "Gamma 2.6" DCDM "ST-2084 (PQ)" HLG Linear "" ""}}
  eotf BT.1886
@@ -2808,8 +2829,8 @@ Group {
   xpos -366
   ypos 474
  }
-set N83ce9ae0 [stack 0]
-push $N83ce9ae0
+set N7ef12b80 [stack 0]
+push $N7ef12b80
  Dot {
   name Dot3
   label " "
@@ -2819,7 +2840,7 @@ push $N83ce9ae0
   xpos -126
   ypos 474
  }
-set N92878c30 [stack 0]
+set N7ef17bb0 [stack 0]
  Dot {
   name Dot4
   label " "
@@ -2829,7 +2850,7 @@ set N92878c30 [stack 0]
   xpos 114
   ypos 474
  }
-set N1cf61ca0 [stack 0]
+set N7ef1ca80 [stack 0]
  Dot {
   name Dot6
   label " "
@@ -2839,7 +2860,7 @@ set N1cf61ca0 [stack 0]
   xpos 354
   ypos 474
  }
-set N39e66c00 [stack 0]
+set N7ee11ac0 [stack 0]
  Dot {
   name Dot18
   label " "
@@ -2849,7 +2870,7 @@ set N39e66c00 [stack 0]
   xpos 594
   ypos 474
  }
-set N3ad681b0 [stack 0]
+set N7ee169f0 [stack 0]
  Dot {
   name Dot20
   label " "
@@ -2859,7 +2880,7 @@ set N3ad681b0 [stack 0]
   xpos 834
   ypos 474
  }
-set Nf962fb20 [stack 0]
+set N7ee1b960 [stack 0]
  Dot {
   name Dot25
   label " "
@@ -2869,7 +2890,7 @@ set Nf962fb20 [stack 0]
   xpos 1074
   ypos 474
  }
-set N11a29640 [stack 0]
+set N7ed109a0 [stack 0]
  Dot {
   name Dot24
   label " "
@@ -2888,7 +2909,7 @@ set N11a29640 [stack 0]
   xpos 1434
   ypos 554
  }
-set N3b064330 [stack 0]
+set N7ed1a800 [stack 0]
  Expression {
   expr0 "r * (Ymax - Ymin) + Ymin"
   expr1 "g * (Ymax - Ymin) + Ymin"
@@ -2902,7 +2923,7 @@ set N3b064330 [stack 0]
   addUserKnob {7 Ymax R 48 10000}
   Ymax {{parent.lum.2}}
  }
-push $N3b064330
+push $N7ed1a800
  Expression {
   expr0 "r * (Ymax - Ymin) + Ymin"
   expr1 "g * (Ymax - Ymin) + Ymin"
@@ -2959,7 +2980,7 @@ push $N3b064330
   addUserKnob {7 pq_C +DISABLED R 0 100}
   pq_C 10000
  }
-set N3ba66290 [stack 0]
+set N7e914890 [stack 0]
  Dot {
   name Dot5
   label " "
@@ -3044,7 +3065,7 @@ set N3ba66290 [stack 0]
   xpos 1794
   ypos 914
  }
-push $N3ba66290
+push $N7e914890
  Dot {
   name Dot27
   label " PQ"
@@ -3054,7 +3075,7 @@ push $N3ba66290
   xpos 1434
   ypos 914
  }
-push $N11a29640
+push $N7ed109a0
  Expression {
   expr0 "pow( (48./52.37) * r, 1./2.6)"
   expr1 "pow( (48./52.37) * g, 1./2.6)"
@@ -3072,7 +3093,7 @@ push $N11a29640
   xpos 1074
   ypos 914
  }
-push $Nf962fb20
+push $N7ee1b960
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -3093,7 +3114,7 @@ push $Nf962fb20
   xpos 834
   ypos 914
  }
-push $N3ad681b0
+push $N7ee169f0
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -3114,7 +3135,7 @@ push $N3ad681b0
   xpos 594
   ypos 914
  }
-push $N39e66c00
+push $N7ee11ac0
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -3135,7 +3156,7 @@ push $N39e66c00
   xpos 354
   ypos 914
  }
-push $N1cf61ca0
+push $N7ef1ca80
  Expression {
   temp_name0 c_a
   temp_expr0 "pow( pow( Lw, 1./gamma) - pow( Lb, 1./gamma), gamma)"
@@ -3163,7 +3184,7 @@ push $N1cf61ca0
   xpos 114
   ypos 914
  }
-push $N92878c30
+push $N7ef17bb0
  Expression {
   temp_name0 yb
   temp_expr0 "pow( offs * gamma / ( ( gamma - 1.0) * ( 1.0 + offs)), gamma)"
@@ -3226,6 +3247,6 @@ StickyNote {
  note_font_size 14
  note_font_color 0x9d9d9dff
  selected true
- xpos 1498
- ypos 569
+ xpos 2575
+ ypos 548
 }
