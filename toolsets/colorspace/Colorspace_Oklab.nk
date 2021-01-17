@@ -1,12 +1,7 @@
 set cut_paste_input [stack 0]
-version 12.2 v4
 push $cut_paste_input
 Group {
  name Colorspace_OkLab
- note_font Helvetica
- selected true
- xpos -280
- ypos -301
  addUserKnob {20 Oklab_tab l Oklab}
  addUserKnob {41 gamut T GamutToXYZ.gamut}
  addUserKnob {4 direction M {forward inverse}}
