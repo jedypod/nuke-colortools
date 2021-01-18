@@ -4,6 +4,7 @@ Group {
  name Colorspace_OkLab
  addUserKnob {20 Oklab_tab l Oklab}
  addUserKnob {41 gamut T GamutToXYZ.gamut}
+ addUserKnob {6 LCh t "output lightness chroma and hue instead of opponent green/red, blue/yellow." +STARTLINE}
  addUserKnob {4 direction M {forward inverse}}
 }
  StickyNote {
@@ -24,14 +25,32 @@ Group {
  }
  Dot {
   name Dot1
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
   xpos -6
   ypos -406
  }
-set N998ae400 [stack 0]
+set Nacb8700 [stack 0]
  Dot {
   name Dot2
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
   xpos 114
   ypos -406
+ }
+ Expression {
+  expr0 r
+  expr1 g*cos(b)
+  expr2 g*sin(b)
+  name Expression4
+  label LCh
+  note_font Helvetica
+  selected true
+  xpos 80
+  ypos -347
+  disable {{!parent.LCh}}
  }
  ColorMatrix {
   matrix {
@@ -82,12 +101,12 @@ set N998ae400 [stack 0]
   xpos 80
   ypos -135
  }
-push $N998ae400
+push $Nacb8700
  Group {
   name GamutToXYZ
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
   xpos -40
-  ypos -376
+  ypos -372
   addUserKnob {20 GamutToXYZ_lite_tab l GamutToXYZ_lite}
   addUserKnob {4 gamut t "Choose gamut" M {XYZ ACES ACEScg "Filmlight E-Gamut" "DaVinci WG" Rec709 Rec2020 P3D60 P3D65 P3DCI "Arri AlexaWideGamut" REDDRAGONcolor REDDRAGONcolor2 REDcolor REDcolor2 REDcolor3 REDcolor4 REDWideGamutRGB "GoPro Protune Native" CanonCinemaGamut SonySGamut SonySGamut3Cine PanasonicVGamut "DJI D-Gamut" "Fujifilm F-Gamut" BMDFilmV1 BMD4kFilmV1 BMD4kFilmV3 BMD46kFilmV1 BMD46kFilmV3 BMDWideGamutV4 "AdobeRGB\t" AdobeWideGamutRGB ROMM RIMM ERIMM ProPhotoRGB RusselRGB SharpRGB AppleRGB BestRGB}}
   gamut ACEScg
@@ -171,17 +190,29 @@ push $N998ae400
   xpos -40
   ypos -215
  }
+ Expression {
+  expr0 r
+  expr1 sqrt(g**2+b**2)
+  expr2 atan2(b,g)
+  name Expression3
+  label LCh
+  note_font Helvetica
+  selected true
+  xpos -40
+  ypos -163
+  disable {{!parent.LCh}}
+ }
  Switch {
   inputs 2
   which {{parent.direction}}
   name SwitchDirection
   note_font Helvetica
   xpos -40
-  ypos -49
+  ypos -89
  }
  Output {
   name Output1
   xpos -40
-  ypos 30
+  ypos -10
  }
 end_group
