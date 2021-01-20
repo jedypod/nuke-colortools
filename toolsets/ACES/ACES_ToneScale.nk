@@ -1,35 +1,35 @@
 set cut_paste_input [stack 0]
 StickyNote {
  inputs 0
- name StickyNote10
+ name StickyNote2
  tile_color 0x2b2b2bff
  label "\n<left><font size=5><b>DisplayEOTF</b></font>\nApply a display electrical-to-optical transfer function. \nMaps from display-linear to the gamma curve of a display."
  note_font Helvetica
  note_font_size 14
  note_font_color 0x9d9d9dff
  selected true
- xpos 7070
- ypos 777
+ xpos 3936
+ ypos 3319
 }
 StickyNote {
  inputs 0
- name StickyNote11
+ name StickyNote8
  tile_color 0x2b2b2bff
- label "\n<left><font size=5><b>ToneScale</b></font>\nCompress scene-referred linear to display-referred linear.\nImplements the Weighted Yellow Power Norm as described\nin SMPTE 2017: Core Color Rendering Algorithms \nFor High Dynamic Range Display by Gary Demos and Doug Walker.\nhttps://www.youtube.com/watch?v=Z0DS7cnAYPk\nhttps://ieeexplore.ieee.org/document/8281440"
+ label "\n<left><font size=5><b>ToneScale</b></font>\nCompress scene-referred linear to display-referred linear.\nImplements the Weighted Yellow Power Norm as described\nin SMPTE 2017: Core Color Rendering Algorithms \nFor High Dynamic Range Display by Gary Demos and Doug Walker.\nhttps://www.youtube.com/watch?v=Z0DS7cnAYPk\nhttps://ieeexplore.ieee.org/document/8281440\n\n<b>SSTS Params</b>\nBy default the ssts slopes are set to the defaults used in the SSTS CTL. \n\n<b>slope low</b> - How much to lift the toe. Higher values have a steeper slope\n  where the curve intersects min luminance.\n<b>slope mid</b> - The slope of the linear section of the curve.\n<b>slope high</b> - The angle at which the curve crosses 1.0. 0 is flat.\n\nBy default the knee and shoulder values are calculated automatically\nby the values of the min and max luminance.\n\nIf you like, you can override them, if you enable the \"override knee shoulder\" \ncheckbox.\n<b>knee</b> - lifts the knee from the toe to the linear section start.\n<b>shoulder</b> - lifts the shoulder from the linear section end to the of the highlight curve.\n"
  note_font Helvetica
  note_font_size 14
  note_font_color 0x9d9d9dff
  selected true
- xpos 7067
- ypos 524
+ xpos 3940
+ ypos 2858
 }
 push $cut_paste_input
 Group {
- name DisplayEOTF27
+ name DisplayEOTF14
  note_font Helvetica
  selected true
- xpos 6974
- ypos 820
+ xpos 3800
+ ypos 3351
  addUserKnob {20 DisplayEOTF_tab l DisplayEOTF}
  addUserKnob {4 eotf l EOTF t "Electrical to Optical Transfer Function of the monitor." M {sRGB BT.1886 "Gamma 2.2" "Gamma 2.4" "Gamma 2.6" DCDM "ST-2084 (PQ)" HLG Linear "" ""}}
  eotf BT.1886
@@ -100,8 +100,8 @@ Group {
   xpos -366
   ypos 474
  }
-set N595cb10 [stack 0]
-push $N595cb10
+set N6a49a9a0 [stack 0]
+push $N6a49a9a0
  Dot {
   name Dot3
   label " "
@@ -111,7 +111,7 @@ push $N595cb10
   xpos -126
   ypos 474
  }
-set Nb2a53340 [stack 0]
+set N5f999690 [stack 0]
  Dot {
   name Dot4
   label " "
@@ -121,7 +121,7 @@ set Nb2a53340 [stack 0]
   xpos 114
   ypos 474
  }
-set Nb5bd8780 [stack 0]
+set Nb209e580 [stack 0]
  Dot {
   name Dot6
   label " "
@@ -131,7 +131,7 @@ set Nb5bd8780 [stack 0]
   xpos 354
   ypos 474
  }
-set Nc659080 [stack 0]
+set N715b3020 [stack 0]
  Dot {
   name Dot18
   label " "
@@ -141,7 +141,7 @@ set Nc659080 [stack 0]
   xpos 594
   ypos 474
  }
-set Nace3cf60 [stack 0]
+set N715b22e0 [stack 0]
  Dot {
   name Dot20
   label " "
@@ -151,7 +151,7 @@ set Nace3cf60 [stack 0]
   xpos 834
   ypos 474
  }
-set Nc656850 [stack 0]
+set N68090320 [stack 0]
  Dot {
   name Dot25
   label " "
@@ -161,7 +161,7 @@ set Nc656850 [stack 0]
   xpos 1074
   ypos 474
  }
-set Nb2a60b10 [stack 0]
+set N6b39f990 [stack 0]
  Dot {
   name Dot24
   label " "
@@ -180,7 +180,7 @@ set Nb2a60b10 [stack 0]
   xpos 1434
   ypos 554
  }
-set N73f9a290 [stack 0]
+set N7acbccb0 [stack 0]
  Expression {
   expr0 "r * (Ymax - Ymin) + Ymin"
   expr1 "g * (Ymax - Ymin) + Ymin"
@@ -194,7 +194,7 @@ set N73f9a290 [stack 0]
   addUserKnob {7 Ymax R 48 10000}
   Ymax {{parent.lum.2}}
  }
-push $N73f9a290
+push $N7acbccb0
  Expression {
   expr0 "r * (Ymax - Ymin) + Ymin"
   expr1 "g * (Ymax - Ymin) + Ymin"
@@ -251,7 +251,7 @@ push $N73f9a290
   addUserKnob {7 pq_C +DISABLED R 0 100}
   pq_C 10000
  }
-set Naf945580 [stack 0]
+set N8baf9070 [stack 0]
  Dot {
   name Dot5
   label " "
@@ -336,7 +336,7 @@ set Naf945580 [stack 0]
   xpos 1794
   ypos 914
  }
-push $Naf945580
+push $N8baf9070
  Dot {
   name Dot27
   label " PQ"
@@ -346,7 +346,7 @@ push $Naf945580
   xpos 1434
   ypos 914
  }
-push $Nb2a60b10
+push $N6b39f990
  Expression {
   expr0 "pow( (48./52.37) * r, 1./2.6)"
   expr1 "pow( (48./52.37) * g, 1./2.6)"
@@ -364,7 +364,7 @@ push $Nb2a60b10
   xpos 1074
   ypos 914
  }
-push $Nc656850
+push $N68090320
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -385,7 +385,7 @@ push $Nc656850
   xpos 834
   ypos 914
  }
-push $Nace3cf60
+push $N715b22e0
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -406,7 +406,7 @@ push $Nace3cf60
   xpos 594
   ypos 914
  }
-push $Nc659080
+push $N715b3020
  Expression {
   expr0 pow(r,1/gamma)
   expr1 pow(g,1/gamma)
@@ -427,7 +427,7 @@ push $Nc659080
   xpos 354
   ypos 914
  }
-push $Nb5bd8780
+push $Nb209e580
  Expression {
   temp_name0 c_a
   temp_expr0 "pow( pow( Lw, 1./gamma) - pow( Lb, 1./gamma), gamma)"
@@ -455,7 +455,7 @@ push $Nb5bd8780
   xpos 114
   ypos 914
  }
-push $Nb2a53340
+push $N5f999690
  Expression {
   temp_name0 yb
   temp_expr0 "pow( offs * gamma / ( ( gamma - 1.0) * ( 1.0 + offs)), gamma)"
@@ -511,11 +511,11 @@ push $Nb2a53340
 end_group
 push $cut_paste_input
 Group {
- name ToneScale34
+ name ToneScale36
  note_font Helvetica
  selected true
- xpos 6965
- ypos 597
+ xpos 3800
+ ypos 2951
  addUserKnob {20 ToneScale}
  addUserKnob {4 norm M {none luminance "max rgb" "weighted power" "" ""}}
  norm "weighted power"
@@ -528,20 +528,22 @@ Group {
  pow 5
  addUserKnob {4 direction t "Apply tonescale in forward or inverse direction" M {forward inverse}}
  addUserKnob {26 ""}
- addUserKnob {26 display_label l " " T "<b>Single Stage Tone Scale</b>"}
- addUserKnob {35 presets l "" t "display output presets." +STARTLINE M {luminance/SDR "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0\}" "luminance/P3D65 ST2084 108nits 7.2nits" "knobs this \{lum \{0.0001 7.2 108\} override_ssts_params 0\}" "luminance/P3D65 ST2084 1000nits 15nits" "knobs this \{lum \{0.0001 15 1000\} override_ssts_params 0\}" "luminance/P3D65 ST2084 2000nits 15nits" "knobs this \{lum \{0.0001 15 2000\} override_ssts_params 0\}" "luminance/P3D65 ST2084 2000nits 15nits" "knobs this \{lum \{0.0001 15 2000\} override_ssts_params 0\}" "luminance/P3D65 ST2084 4000nits 15nits" "knobs this \{lum \{0.0001 15 4000\} override_ssts_params 0\}" luminance/Rec2020_HLG_1000nits_15nits "knobs this \{lum \{0.0001 15 1000\} override_ssts_params 0\}" luminance/Rec2020_ST2084_1000nits_15nits "knobs this \{lum \{0.0001 15 1000\} override_ssts_params 0\}" luminance/Rec2020_ST2084_2000nits_15nits "knobs this \{lum \{0.0001 15 2000\} override_ssts_params 0\}" luminance/Rec2020_ST2084_4000nits_15nits "knobs this \{lum \{0.0001 15 4000\} override_ssts_params 0\}" luminance/OCES "knobs this \{lum \{0.0001 4.8 10000\} override_ssts_params 0\}" ""}}
+ addUserKnob {26 display_label l " " T "<b>Single Stage Tone Scale (SSTS)</b>"}
+ addUserKnob {35 presets l "" t "display output presets." +STARTLINE M {luminance/SDR "knobs this \{lum \{0.02 4.8 48\}\}" "luminance/P3D65 ST2084 108nits 7.2nits" "knobs this \{lum \{0.0001 7.2 108\}\}" "luminance/P3D65 ST2084 1000nits 15nits" "knobs this \{lum \{0.0001 15 1000\}\}" "luminance/P3D65 ST2084 2000nits 15nits" "knobs this \{lum \{0.0001 15 2000\}\}" "luminance/P3D65 ST2084 2000nits 15nits" "knobs this \{lum \{0.0001 15 2000\}\}" "luminance/P3D65 ST2084 4000nits 15nits" "knobs this \{lum \{0.0001 15 4000\}\}" luminance/Rec2020_HLG_1000nits_15nits "knobs this \{lum \{0.0001 15 1000\}\}" luminance/Rec2020_ST2084_1000nits_15nits "knobs this \{lum \{0.0001 15 1000\}\}" luminance/Rec2020_ST2084_2000nits_15nits "knobs this \{lum \{0.0001 15 2000\}\}" luminance/Rec2020_ST2084_4000nits_15nits "knobs this \{lum \{0.0001 15 4000\}\}" luminance/OCES "knobs this \{lum \{0.0001 4.8 10000\}\}"}}
  addUserKnob {78 lum l "" t "<b>SSTS Display Luminance</b>: \ny_min y_mid y_max\n\nAccording to Zach Lewis's ACES_OT\nhttps://gist.github.com/zachlewis/786c0be941868644c993fde1c3515c2c\n\n<b>Standard Cinema</b>: \n0.02 4.8 48\n<b>Dolby Cinema</b>: \n0.0001 7.2 108\n<b>Dolby Pulsar</b>: \n0.005 15 4000\n<b>Dolby PRR-4220</b>: \n0.005 10 600\n<b>Sony BVM-X300</b>: \n0.0001 10 1000\n<b>ACES OCES</b>: \n0.0001 4.8 10000\n\n" -STARTLINE n 3}
  lum {0.02 4.8 48}
- addUserKnob {35 presets_ssts_param l "" t "If you want to override the default SSTS parameters and play around, here are some useful starting points." +STARTLINE M {presets/default "knobs this \{override_ssts_params 0 pctLow 0.35 pctHigh 0.89 slope \{0 1.5 0.\}\}" presets/sdr "knobs this \{override_ssts_params 1 pctLow 0.35 pctHigh 0.89 slope \{0.1 1.6 0.01\}\}" presets/high "knobs this \{override_ssts_params 1 pctLow 0.2 pctHigh 0.89 slope \{0.28 1.75 0.01\}\}" presets/med "knobs this \{override_ssts_params 1 pctLow 0.40 pctHigh 0.89 slope \{0.38 1.3 0.01\}\}" presets/med-low "knobs this \{override_ssts_params 1 pctLow 0.40 pctHigh 0.80 slope \{0.38 1.42 0.01\}\}" presets/low "knobs this \{override_ssts_params 1 pctLow 0.40 pctHigh 0.80 slope \{0.38 1.2 0.01\}\}" "" "" ""}}
- addUserKnob {6 override_ssts_params l "customize ssts params" t "Enable overrides of SSTS params.\n\nOtherwise the values will be calculated automatically by the algorithm." -STARTLINE}
- addUserKnob {6 use_c9 l "use c9" +STARTLINE}
  addUserKnob {7 exposure R -5 5}
- addUserKnob {7 pctLow l knee}
+ addUserKnob {78 slope +INVISIBLE n 3}
+ slope {{slope_low} {slope_mid} {slope_high}}
+ addUserKnob {7 slope_low l "slope low"}
+ addUserKnob {7 slope_mid l "slope mid" R 1 2}
+ slope_mid 1.55
+ addUserKnob {7 slope_high l "slope high" R 0 0.08}
+ addUserKnob {6 override_knee_shoulder l "override knee shoulder" t "manually specify pctLow and pctHigh values. Otherwise these are calculated automatically based on the luminance settings." +STARTLINE}
+ addUserKnob {7 pctLow l knee R 0.2 0.4}
  pctLow 0.35
- addUserKnob {7 pctHigh l shoulder}
+ addUserKnob {7 pctHigh l shoulder R 0.7 0.9}
  pctHigh 0.89
- addUserKnob {78 slope n 3}
- slope {0 1.5 0}
 }
  BackdropNode {
   inputs 0
@@ -599,7 +601,7 @@ Group {
   xpos -6
   ypos 34
  }
-set Nb6c34610 [stack 0]
+set N743b8a50 [stack 0]
  Dot {
   name Dot10
   note_font "Helvetica Bold"
@@ -608,8 +610,8 @@ set Nb6c34610 [stack 0]
   xpos -6
   ypos 514
  }
-set N3cd52730 [stack 0]
-push $Nb6c34610
+set N8db75d0 [stack 0]
+push $N743b8a50
  Dot {
   name Dot2
   note_font "Helvetica Bold"
@@ -618,7 +620,7 @@ push $Nb6c34610
   xpos -126
   ypos 34
  }
-set Nb2951100 [stack 0]
+set N6fabd230 [stack 0]
  Dot {
   name Dot12
   note_font "Helvetica Bold"
@@ -627,7 +629,7 @@ set Nb2951100 [stack 0]
   xpos -246
   ypos 34
  }
-set Nc002cf50 [stack 0]
+set Nd78fab10 [stack 0]
  Dot {
   name Dot3
   note_font "Helvetica Bold"
@@ -636,7 +638,7 @@ set Nc002cf50 [stack 0]
   xpos -366
   ypos 34
  }
-set Nace3c000 [stack 0]
+set Nd8cf5dc0 [stack 0]
  Dot {
   name Dot11
   note_font "Helvetica Bold"
@@ -664,7 +666,7 @@ set Nace3c000 [stack 0]
   xpos -520
   ypos 71
  }
-push $Nace3c000
+push $Nd8cf5dc0
  Expression {
   channel0 rgb
   expr0 max(r,g,b)
@@ -676,7 +678,7 @@ push $Nace3c000
   xpos -400
   ypos 71
  }
-push $Nc002cf50
+push $Nd78fab10
  Expression {
   channel0 rgb
   expr0 0.2126*r+0.7152*g+0.0722*b
@@ -688,7 +690,7 @@ push $Nc002cf50
   xpos -280
   ypos 71
  }
-push $Nb2951100
+push $N6fabd230
  Switch {
   inputs 4
   which {{parent.norm}}
@@ -706,7 +708,7 @@ push $Nb2951100
   xpos -126
   ypos 194
  }
-set N65183360 [stack 0]
+set N6a49a150 [stack 0]
  Dot {
   name Dot6
   note_font "Helvetica Bold"
@@ -723,8 +725,8 @@ set N65183360 [stack 0]
   xpos 234
   ypos 314
  }
-set N6d2212d0 [stack 0]
-push $N6d2212d0
+set N93cfbf70 [stack 0]
+push $N93cfbf70
  Expression {
   expr0 "r * (Ymax - Ymin) + Ymin"
   expr1 "g * (Ymax - Ymin) + Ymin"
@@ -756,7 +758,7 @@ push $N6d2212d0
   addUserKnob {78 lum l luminance t "<b>SSTS Display Luminance</b>: \ny_min y_mid y_max\n\nAccording to Zach Lewis's ACES_OT\nhttps://gist.github.com/zachlewis/786c0be941868644c993fde1c3515c2c\n\n<b>Standard Cinema</b>: \n0.02 4.8 48\n<b>Dolby Cinema</b>: \n0.0001 7.2 108\n<b>Dolby Pulsar</b>: \n0.005 15 4000\n<b>Dolby PRR-4220</b>: \n0.005 10 600\n<b>Sony BVM-X300</b>: \n0.0001 10 1000\n<b>ACES OCES</b>: \n0.0001 4.8 10000\n\n" n 3}
   lum {{parent.lum} 4.8 {parent.lum}}
   addUserKnob {6 override_ssts_params l "override ssts params" t "Enable overrides of SSTS params.\n\nOtherwise the values will be calculated automatically by the algorithm." +STARTLINE}
-  override_ssts_params {{parent.ACES_SSTS.AcesSSTSKernel_override_curve_params}}
+  override_ssts_params true
   addUserKnob {7 exposure R -5 5}
   exposure {{parent.exposure}}
   addUserKnob {7 knee}
@@ -779,9 +781,9 @@ push $N6d2212d0
   addUserKnob {7 knotIncHigh}
   knotIncHigh {{"(log10(maxPoint.x) - log10(midPoint.x)) / 3.0"}}
   addUserKnob {7 pctLow}
-  pctLow {{0.18+(0.35-0.18)/(MIN_STOP_SDR-MIN_STOP_RRT)*(log(minPoint.x/0.18)/log(2)-MIN_STOP_RRT)}}
+  pctLow {{override_knee_shoulder?parent.pctLow:0.18+(0.35-0.18)/(MIN_STOP_SDR-MIN_STOP_RRT)*(log(minPoint.x/0.18)/log(2)-MIN_STOP_RRT)}}
   addUserKnob {7 pctHigh}
-  pctHigh {{0.89+(0.90-0.89)/(MAX_STOP_SDR-MAX_STOP_RRT)*(log(maxPoint.x/0.89)/log(2)-MAX_STOP_RRT)}}
+  pctHigh {{override_knee_shoulder?parent.pctHigh:0.89+(0.90-0.89)/(MAX_STOP_SDR-MAX_STOP_RRT)*(log(maxPoint.x/0.89)/log(2)-MAX_STOP_RRT)}}
   addUserKnob {78 coefsLow n 5}
   coefsLow {{"(minPoint.z * (log10(minPoint.x)-0.5*knotIncLow)) + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x))"} {"(minPoint.z * (log10(minPoint.x)+0.5*knotIncLow)) + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x))"} {log10(minPoint.y)+pctLow*(log10(midPoint.y)-log10(minPoint.y))} {"(midPoint.z * (log10(midPoint.x)-0.5*knotIncLow)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {"(midPoint.z * (log10(midPoint.x)+0.5*knotIncLow)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"}}
   addUserKnob {78 coefsHigh n 5}
@@ -828,42 +830,42 @@ push $N6d2212d0
    xpos -996
    ypos -318
   }
-set N5928e720 [stack 0]
+set Na417a4a0 [stack 0]
   Dot {
    name Dot26
    label " "
    xpos -996
    ypos 1506
   }
-push $N5928e720
+push $Na417a4a0
   Dot {
    name Dot4
    label " "
    xpos -886
    ypos -318
   }
-set Nba9f70d0 [stack 0]
+set N7b7b87b0 [stack 0]
   Dot {
    name Dot5
    label " "
    xpos -776
    ypos -318
   }
-set Nc415f490 [stack 0]
+set N642953e0 [stack 0]
   Dot {
    name Dot2
    label " "
    xpos -666
    ypos -318
   }
-set N47e1bc20 [stack 0]
+set N58b9dbb0 [stack 0]
   Dot {
    name Dot3
    label " "
    xpos -556
    ypos -318
   }
-set Nabf3b9e0 [stack 0]
+set N8aefe900 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -884,14 +886,14 @@ set Nabf3b9e0 [stack 0]
    xpos -556
    ypos 162
   }
-push $Nabf3b9e0
+push $N8aefe900
   Dot {
    name Dot7
    label " "
    xpos -336
    ypos -318
   }
-set N666e3a50 [stack 0]
+set Ndb5f34c0 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -922,7 +924,7 @@ set N666e3a50 [stack 0]
    xpos -336
    ypos 786
   }
-push $N47e1bc20
+push $N58b9dbb0
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -943,28 +945,28 @@ push $N47e1bc20
    xpos -666
    ypos 354
   }
-push $N666e3a50
+push $Ndb5f34c0
   Dot {
    name Dot9
    label " "
    xpos -6
    ypos -318
   }
-set Nfcc5bfa0 [stack 0]
+set Nb4dba100 [stack 0]
   Dot {
    name Dot6
    label " "
    xpos -6
    ypos -174
   }
-set N66707900 [stack 0]
+set Nb4dbe740 [stack 0]
   Dot {
    name Dot8
    label " "
    xpos 214
    ypos -174
   }
-set Nc05a4d0 [stack 0]
+set N88ef2f10 [stack 0]
   Dot {
    name Dot13
    label " "
@@ -976,7 +978,7 @@ set Nc05a4d0 [stack 0]
    xpos 434
    ypos -78
   }
-set N85c8f0 [stack 0]
+set Nc1bbce00 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(b, 1e-10 ))"
@@ -1005,7 +1007,7 @@ set N85c8f0 [stack 0]
    xpos 290
    ypos -34
   }
-push $N85c8f0
+push $Nc1bbce00
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -1043,13 +1045,13 @@ push $N85c8f0
    min {{parent.min.x} {parent.min.y} {parent.minSlope}}
   }
 push 0
-push $N66707900
+push $Nb4dbe740
   Dot {
    name Dot10
    xpos -6
    ypos -78
   }
-set N16596c0 [stack 0]
+set Ncd4fb4e0 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -1078,7 +1080,7 @@ set N16596c0 [stack 0]
    xpos -150
    ypos -34
   }
-push $N16596c0
+push $Ncd4fb4e0
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -1115,13 +1117,13 @@ push $N16596c0
    addUserKnob {13 min l Min}
    min {{parent.min.x} {parent.min.y} {parent.minSlope}}
   }
-push $Nc05a4d0
+push $N88ef2f10
   Dot {
    name Dot18
    xpos 214
    ypos -78
   }
-set Na715be80 [stack 0]
+set N60f97a70 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(g, 1e-10 ))"
@@ -1150,7 +1152,7 @@ set Na715be80 [stack 0]
    xpos 70
    ypos -34
   }
-push $Na715be80
+push $N60f97a70
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -1210,7 +1212,7 @@ push $Na715be80
    ypos 786
   }
 push 0
-push $Nc415f490
+push $N642953e0
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -1231,28 +1233,28 @@ push $Nc415f490
    xpos -776
    ypos 474
   }
-push $Nfcc5bfa0
+push $Nb4dba100
   Dot {
    name Dot14
    label " "
    xpos 764
    ypos -318
   }
-set Naf347de0 [stack 0]
+set Nd7af6190 [stack 0]
   Dot {
    name Dot15
    label " "
    xpos 764
    ypos -174
   }
-set N125b650 [stack 0]
+set Nd7afa920 [stack 0]
   Dot {
    name Dot17
    label " "
    xpos 984
    ypos -174
   }
-set Nfd25aaf0 [stack 0]
+set N57c940d0 [stack 0]
   Dot {
    name Dot20
    label " "
@@ -1264,7 +1266,7 @@ set Nfd25aaf0 [stack 0]
    xpos 1204
    ypos -78
   }
-set Nfdc592f0 [stack 0]
+set Nc2aba080 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(b, 1e-10 ))"
@@ -1293,7 +1295,7 @@ set Nfdc592f0 [stack 0]
    xpos 1060
    ypos -34
   }
-push $Nfdc592f0
+push $Nc2aba080
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -1326,13 +1328,13 @@ push $Nfdc592f0
    ypos 14
   }
 push 0
-push $N125b650
+push $Nd7afa920
   Dot {
    name Dot11
    xpos 764
    ypos -78
   }
-set Nb181b3b0 [stack 0]
+set N53595200 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -1361,7 +1363,7 @@ set Nb181b3b0 [stack 0]
    xpos 620
    ypos -34
   }
-push $Nb181b3b0
+push $N53595200
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -1393,13 +1395,13 @@ push $Nb181b3b0
    xpos 730
    ypos 14
   }
-push $Nfd25aaf0
+push $N57c940d0
   Dot {
    name Dot12
    xpos 984
    ypos -78
   }
-set Nf6a5e520 [stack 0]
+set Nbc0c0120 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(g, 1e-10 ))"
@@ -1428,7 +1430,7 @@ set Nf6a5e520 [stack 0]
    xpos 840
    ypos -34
   }
-push $Nf6a5e520
+push $Nbc0c0120
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -1483,7 +1485,7 @@ push $Nf6a5e520
    xpos 984
    ypos 786
   }
-push $Nba9f70d0
+push $N7b7b87b0
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -1504,7 +1506,7 @@ push $Nba9f70d0
    xpos -886
    ypos 618
   }
-push $Naf347de0
+push $Nd7af6190
   Dot {
    name Dot21
    label " "
@@ -1599,8 +1601,8 @@ push $Naf347de0
   xpos 234
   ypos 634
  }
-push $N3cd52730
-push $N65183360
+push $N8db75d0
+push $N6a49a150
  Dot {
   name Dot7
   note_font "Helvetica Bold"
@@ -1617,8 +1619,8 @@ push $N65183360
   xpos -126
   ypos 314
  }
-set N74244f90 [stack 0]
-push $N74244f90
+set Ne4180880 [stack 0]
+push $Ne4180880
  Dot {
   name Dot14
   note_font "Helvetica Bold"
@@ -1627,17 +1629,17 @@ push $N74244f90
   xpos -246
   ypos 314
  }
-set N6b6f5110 [stack 0]
+set N7a0b0220 [stack 0]
  Group {
   name ssts
   xpos -280
-  ypos 350
+  ypos 348
   addUserKnob {20 ssts_tab l ssts}
   addUserKnob {26 display_label l " " T "<b>Display Settings</b>"}
   addUserKnob {78 lum l luminance t "<b>SSTS Display Luminance</b>: \ny_min y_mid y_max\n\nAccording to Zach Lewis's ACES_OT\nhttps://gist.github.com/zachlewis/786c0be941868644c993fde1c3515c2c\n\n<b>Standard Cinema</b>: \n0.02 4.8 48\n<b>Dolby Cinema</b>: \n0.0001 7.2 108\n<b>Dolby Pulsar</b>: \n0.005 15 4000\n<b>Dolby PRR-4220</b>: \n0.005 10 600\n<b>Sony BVM-X300</b>: \n0.0001 10 1000\n<b>ACES OCES</b>: \n0.0001 4.8 10000\n\n" n 3}
   lum {{parent.lum} {parent.lum} {parent.lum}}
   addUserKnob {6 override_ssts_params l "override ssts params" t "Enable overrides of SSTS params.\n\nOtherwise the values will be calculated automatically by the algorithm." +STARTLINE}
-  override_ssts_params {{parent.override_ssts_params}}
+  override_ssts_params true
   addUserKnob {7 exposure R -5 5}
   exposure {{parent.exposure}}
   addUserKnob {7 knee}
@@ -1650,7 +1652,7 @@ set N6b6f5110 [stack 0]
   addUserKnob {7 mid_lum l "mid lum" R 0 20}
   mid_lum {{parent.lum.1}}
   addUserKnob {7 expShift R -4 4}
-  expShift {{"(parent.override_ssts_params ? exposure : 0) + (mid_lum<= 4.8 ? 0 : \[sample parent.expShift r 0 0] )"}}
+  expShift {{"exposure + (mid_lum<= 4.8 ? 0 : \[sample parent.expShift r 0 0] )"}}
   addUserKnob {13 minPoint t "x;        // ACES\ny;        // luminance\nz;        // slope"}
   minPoint {{"pow(2, log(0.18*pow(2, MIN_STOP_RRT+((MIN_STOP_SDR-MIN_STOP_RRT)/(log10(MIN_LUM_SDR)-log10(MIN_LUM_RRT)))*(log10(minPoint.y)-log10(MIN_LUM_RRT))))/log(2)-expShift)"} {lum.0} {override_ssts_params?slope.0:0}}
   addUserKnob {13 midPoint t "x;        // ACES\ny;        // luminance\nz;        // slope"}
@@ -1662,9 +1664,9 @@ set N6b6f5110 [stack 0]
   addUserKnob {7 knotIncHigh}
   knotIncHigh {{"(log10(maxPoint.x) - log10(midPoint.x)) / 3.0"}}
   addUserKnob {7 pctLow}
-  pctLow {{0.18+(0.35-0.18)/(MIN_STOP_SDR-MIN_STOP_RRT)*(log(minPoint.x/0.18)/log(2)-MIN_STOP_RRT)}}
+  pctLow {{override_knee_shoulder?parent.pctLow:0.18+(0.35-0.18)/(MIN_STOP_SDR-MIN_STOP_RRT)*(log(minPoint.x/0.18)/log(2)-MIN_STOP_RRT)}}
   addUserKnob {7 pctHigh}
-  pctHigh {{0.89+(0.90-0.89)/(MAX_STOP_SDR-MAX_STOP_RRT)*(log(maxPoint.x/0.89)/log(2)-MAX_STOP_RRT)}}
+  pctHigh {{override_knee_shoulder?parent.pctHigh:0.89+(0.90-0.89)/(MAX_STOP_SDR-MAX_STOP_RRT)*(log(maxPoint.x/0.89)/log(2)-MAX_STOP_RRT)}}
   addUserKnob {78 coefsLow n 5}
   coefsLow {{"(minPoint.z * (log10(minPoint.x)-0.5*knotIncLow)) + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x))"} {"(minPoint.z * (log10(minPoint.x)+0.5*knotIncLow)) + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x))"} {log10(minPoint.y)+pctLow*(log10(midPoint.y)-log10(minPoint.y))} {"(midPoint.z * (log10(midPoint.x)-0.5*knotIncLow)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {"(midPoint.z * (log10(midPoint.x)+0.5*knotIncLow)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"}}
   addUserKnob {78 coefsHigh n 5}
@@ -1703,42 +1705,42 @@ set N6b6f5110 [stack 0]
    xpos -996
    ypos -318
   }
-set Nbacef670 [stack 0]
+set N6c9b4d20 [stack 0]
   Dot {
    name Dot26
    label " "
    xpos -996
    ypos 1506
   }
-push $Nbacef670
+push $N6c9b4d20
   Dot {
    name Dot4
    label " "
    xpos -886
    ypos -318
   }
-set Nbacf90c0 [stack 0]
+set N71ab9ad0 [stack 0]
   Dot {
    name Dot5
    label " "
    xpos -776
    ypos -318
   }
-set N1de4b950 [stack 0]
+set Nd2bf66b0 [stack 0]
   Dot {
    name Dot2
    label " "
    xpos -666
    ypos -318
   }
-set N1de507a0 [stack 0]
+set Nd83f0f00 [stack 0]
   Dot {
    name Dot3
    label " "
    xpos -556
    ypos -318
   }
-set N1de55670 [stack 0]
+set Nd83f5dd0 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -1759,14 +1761,14 @@ set N1de55670 [stack 0]
    xpos -556
    ypos 162
   }
-push $N1de55670
+push $Nd83f5dd0
   Dot {
    name Dot7
    label " "
    xpos -336
    ypos -318
   }
-set N6c6ccb20 [stack 0]
+set N5fd94c50 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -1797,7 +1799,7 @@ set N6c6ccb20 [stack 0]
    xpos -336
    ypos 786
   }
-push $N1de507a0
+push $Nd83f0f00
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -1818,28 +1820,28 @@ push $N1de507a0
    xpos -666
    ypos 354
   }
-push $N6c6ccb20
+push $N5fd94c50
   Dot {
    name Dot9
    label " "
    xpos -6
    ypos -318
   }
-set Nf6b55570 [stack 0]
+set Nda7f3000 [stack 0]
   Dot {
    name Dot6
    label " "
    xpos -6
    ypos -198
   }
-set Nf6b5a330 [stack 0]
+set Nda7f7c90 [stack 0]
   Dot {
    name Dot8
    label " "
    xpos 214
    ypos -198
   }
-set Nf6b5f1b0 [stack 0]
+set Nb4bbaae0 [stack 0]
   Dot {
    name Dot13
    label " "
@@ -1852,7 +1854,7 @@ set Nf6b5f1b0 [stack 0]
    xpos 434
    ypos -78
   }
-set Nf6358fd0 [stack 0]
+set N3eb627a0 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
@@ -1880,7 +1882,7 @@ set Nf6358fd0 [stack 0]
    xpos 290
    ypos 8
   }
-push $Nf6358fd0
+push $N3eb627a0
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
@@ -1910,14 +1912,14 @@ push $Nf6358fd0
    ypos 8
   }
 push 0
-push $Nf6b5f1b0
+push $Nb4bbaae0
   Dot {
    name Dot11
    label " "
    xpos 214
    ypos -78
   }
-set Nf6854470 [stack 0]
+set N3de614c0 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
@@ -1945,7 +1947,7 @@ set Nf6854470 [stack 0]
    xpos 70
    ypos 8
   }
-push $Nf6854470
+push $N3de614c0
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
@@ -1974,14 +1976,14 @@ push $Nf6854470
    xpos 180
    ypos 8
   }
-push $Nf6b5a330
+push $Nda7f7c90
   Dot {
    name Dot10
    label " "
    xpos -6
    ypos -78
   }
-set Nf595f990 [stack 0]
+set N4a75c640 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
@@ -2009,7 +2011,7 @@ set Nf595f990 [stack 0]
    xpos -150
    ypos 8
   }
-push $Nf595f990
+push $N4a75c640
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
@@ -2062,7 +2064,7 @@ push $Nf595f990
    ypos 786
   }
 push 0
-push $N1de4b950
+push $Nd2bf66b0
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -2083,28 +2085,28 @@ push $N1de4b950
    xpos -776
    ypos 474
   }
-push $Nf6b55570
+push $Nda7f3000
   Dot {
    name Dot14
    label " "
    xpos 764
    ypos -318
   }
-set Nf5a54a50 [stack 0]
+set N6f1b89b0 [stack 0]
   Dot {
    name Dot15
    label " "
    xpos 764
    ypos -198
   }
-set Nf5a59790 [stack 0]
+set Na939a730 [stack 0]
   Dot {
    name Dot17
    label " "
    xpos 984
    ypos -198
   }
-set Nf5a5e610 [stack 0]
+set Nd38f4580 [stack 0]
   Dot {
    name Dot20
    label " "
@@ -2117,7 +2119,7 @@ set Nf5a5e610 [stack 0]
    xpos 1204
    ypos -78
   }
-set Nf5758420 [stack 0]
+set N84cf6240 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
@@ -2146,7 +2148,7 @@ set Nf5758420 [stack 0]
    xpos 1060
    ypos 8
   }
-push $Nf5758420
+push $N84cf6240
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(b, 5.96046448e-08 )))"
@@ -2176,14 +2178,14 @@ push $Nf5758420
    ypos 8
   }
 push 0
-push $Nf5a5e610
+push $Nd38f4580
   Dot {
    name Dot18
    label " "
    xpos 984
    ypos -78
   }
-set Nf4b53e20 [stack 0]
+set N48c61440 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
@@ -2212,7 +2214,7 @@ set Nf4b53e20 [stack 0]
    xpos 840
    ypos 8
   }
-push $Nf4b53e20
+push $N48c61440
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(g, 5.96046448e-08 )))"
@@ -2241,14 +2243,14 @@ push $Nf4b53e20
    xpos 950
    ypos 8
   }
-push $Nf5a59790
+push $Na939a730
   Dot {
    name Dot16
    label " "
    xpos 764
    ypos -78
   }
-set Nf475f3f0 [stack 0]
+set Nc3cf4770 [stack 0]
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
@@ -2277,7 +2279,7 @@ set Nf475f3f0 [stack 0]
    xpos 620
    ypos 8
   }
-push $Nf475f3f0
+push $Nc3cf4770
   Expression {
    temp_name0 logx
    temp_expr0 "(log10( max(r, 5.96046448e-08 )))"
@@ -2329,7 +2331,7 @@ push $Nf475f3f0
    xpos 984
    ypos 786
   }
-push $Nbacf90c0
+push $N71ab9ad0
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 5.96046448e-08 ))"
@@ -2350,7 +2352,7 @@ push $Nbacf90c0
    xpos -886
    ypos 618
   }
-push $Nf5a54a50
+push $N6f1b89b0
   Dot {
    name Dot21
    label " "
@@ -2477,7 +2479,7 @@ push $Nf5a54a50
   xpos -40
   ypos 910
  }
-push $N6b6f5110
+push $N7a0b0220
  Reformat {
   type "to box"
   box_width 4
@@ -2499,12 +2501,12 @@ push $N6b6f5110
  Group {
   name inv_ssts1
   xpos -400
-  ypos 390
+  ypos 391
   addUserKnob {20 ssts_tab l ssts}
   addUserKnob {78 lum l luminance t "<b>SSTS Display Luminance</b>: \ny_min y_mid y_max\n\nAccording to Zach Lewis's ACES_OT\nhttps://gist.github.com/zachlewis/786c0be941868644c993fde1c3515c2c\n\n<b>Standard Cinema</b>: \n0.02 4.8 48\n<b>Dolby Cinema</b>: \n0.0001 7.2 108\n<b>Dolby Pulsar</b>: \n0.005 15 4000\n<b>Dolby PRR-4220</b>: \n0.005 10 600\n<b>Sony BVM-X300</b>: \n0.0001 10 1000\n<b>ACES OCES</b>: \n0.0001 4.8 10000\n\n" n 3}
   lum {{parent.lum} 4.8 {parent.lum}}
   addUserKnob {6 override_ssts_params l "override ssts params" t "Enable overrides of SSTS params.\n\nOtherwise the values will be calculated automatically by the algorithm." +STARTLINE}
-  override_ssts_params {{parent.ACES_SSTS.AcesSSTSKernel_override_curve_params}}
+  override_ssts_params true
   addUserKnob {7 exposure R -5 5}
   exposure {{parent.exposure}}
   addUserKnob {7 knee}
@@ -2527,9 +2529,9 @@ push $N6b6f5110
   addUserKnob {7 knotIncHigh}
   knotIncHigh {{"(log10(maxPoint.x) - log10(midPoint.x)) / 3.0"}}
   addUserKnob {7 pctLow}
-  pctLow {{0.18+(0.35-0.18)/(MIN_STOP_SDR-MIN_STOP_RRT)*(log(minPoint.x/0.18)/log(2)-MIN_STOP_RRT)}}
+  pctLow {{override_knee_shoulder?parent.pctLow:0.18+(0.35-0.18)/(MIN_STOP_SDR-MIN_STOP_RRT)*(log(minPoint.x/0.18)/log(2)-MIN_STOP_RRT)}}
   addUserKnob {7 pctHigh}
-  pctHigh {{0.89+(0.90-0.89)/(MAX_STOP_SDR-MAX_STOP_RRT)*(log(maxPoint.x/0.89)/log(2)-MAX_STOP_RRT)}}
+  pctHigh {{override_knee_shoulder?parent.pctHigh:0.89+(0.90-0.89)/(MAX_STOP_SDR-MAX_STOP_RRT)*(log(maxPoint.x/0.89)/log(2)-MAX_STOP_RRT)}}
   addUserKnob {78 coefsLow n 5}
   coefsLow {{"(minPoint.z * (log10(minPoint.x)-0.5*knotIncLow)) + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x))"} {"(minPoint.z * (log10(minPoint.x)+0.5*knotIncLow)) + ( log10(minPoint.y) - minPoint.z * log10(minPoint.x))"} {log10(minPoint.y)+pctLow*(log10(midPoint.y)-log10(minPoint.y))} {"(midPoint.z * (log10(midPoint.x)-0.5*knotIncLow)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"} {"(midPoint.z * (log10(midPoint.x)+0.5*knotIncLow)) + ( log10(midPoint.y) - midPoint.z * log10(midPoint.x))"}}
   addUserKnob {78 coefsHigh n 5}
@@ -2576,42 +2578,42 @@ push $N6b6f5110
    xpos -996
    ypos -318
   }
-set Nf3056110 [stack 0]
+set Ncb5f8ec0 [stack 0]
   Dot {
    name Dot26
    label " "
    xpos -996
    ypos 1506
   }
-push $Nf3056110
+push $Ncb5f8ec0
   Dot {
    name Dot4
    label " "
    xpos -886
    ypos -318
   }
-set Nf305fb00 [stack 0]
+set N93ff87a0 [stack 0]
   Dot {
    name Dot5
    label " "
    xpos -776
    ypos -318
   }
-set Nf2f549e0 [stack 0]
+set N5ce96530 [stack 0]
   Dot {
    name Dot2
    label " "
    xpos -666
    ypos -318
   }
-set Nf2f59830 [stack 0]
+set N55e913c0 [stack 0]
   Dot {
    name Dot3
    label " "
    xpos -556
    ypos -318
   }
-set Nf2f5e700 [stack 0]
+set N55e96200 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -2632,14 +2634,14 @@ set Nf2f5e700 [stack 0]
    xpos -556
    ypos 162
   }
-push $Nf2f5e700
+push $N55e96200
   Dot {
    name Dot7
    label " "
    xpos -336
    ypos -318
   }
-set Nf2b56860 [stack 0]
+set N40b63090 [stack 0]
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -2670,7 +2672,7 @@ set Nf2b56860 [stack 0]
    xpos -336
    ypos 786
   }
-push $Nf2f59830
+push $N55e913c0
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -2691,28 +2693,28 @@ push $Nf2f59830
    xpos -666
    ypos 354
   }
-push $Nf2b56860
+push $N40b63090
   Dot {
    name Dot9
    label " "
    xpos -6
    ypos -318
   }
-set Nf2961e60 [stack 0]
+set N7bfb07c0 [stack 0]
   Dot {
    name Dot6
    label " "
    xpos -6
    ypos -174
   }
-set Nf2856d30 [stack 0]
+set N7bfb5490 [stack 0]
   Dot {
    name Dot8
    label " "
    xpos 214
    ypos -174
   }
-set Nf285bbb0 [stack 0]
+set N782b4330 [stack 0]
   Dot {
    name Dot13
    label " "
@@ -2724,7 +2726,7 @@ set Nf285bbb0 [stack 0]
    xpos 434
    ypos -78
   }
-set Nf32559c0 [stack 0]
+set Nb24bbfa0 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(b, 1e-10 ))"
@@ -2753,7 +2755,7 @@ set Nf32559c0 [stack 0]
    xpos 290
    ypos -34
   }
-push $Nf32559c0
+push $Nb24bbfa0
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -2791,13 +2793,13 @@ push $Nf32559c0
    min {{parent.min.x} {parent.min.y} {parent.minSlope}}
   }
 push 0
-push $Nf2856d30
+push $N7bfb5490
   Dot {
    name Dot10
    xpos -6
    ypos -78
   }
-set Nf2562610 [stack 0]
+set Nb26b89a0 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -2826,7 +2828,7 @@ set Nf2562610 [stack 0]
    xpos -150
    ypos -34
   }
-push $Nf2562610
+push $Nb26b89a0
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -2863,13 +2865,13 @@ push $Nf2562610
    addUserKnob {13 min l Min}
    min {{parent.min.x} {parent.min.y} {parent.minSlope}}
   }
-push $Nf285bbb0
+push $N782b4330
   Dot {
    name Dot18
    xpos 214
    ypos -78
   }
-set Nf1d5f100 [stack 0]
+set N59893f90 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(g, 1e-10 ))"
@@ -2898,7 +2900,7 @@ set Nf1d5f100 [stack 0]
    xpos 70
    ypos -34
   }
-push $Nf1d5f100
+push $N59893f90
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -2958,7 +2960,7 @@ push $Nf1d5f100
    ypos 786
   }
 push 0
-push $Nf2f549e0
+push $N5ce96530
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -2979,28 +2981,28 @@ push $Nf2f549e0
    xpos -776
    ypos 474
   }
-push $Nf2961e60
+push $N7bfb07c0
   Dot {
    name Dot14
    label " "
    xpos 764
    ypos -318
   }
-set Nf1654e00 [stack 0]
+set N4605fe50 [stack 0]
   Dot {
    name Dot15
    label " "
    xpos 764
    ypos -174
   }
-set Nf1659bc0 [stack 0]
+set N46064b40 [stack 0]
   Dot {
    name Dot17
    label " "
    xpos 984
    ypos -174
   }
-set Nf165ea40 [stack 0]
+set Nc77f59c0 [stack 0]
   Dot {
    name Dot20
    label " "
@@ -3012,7 +3014,7 @@ set Nf165ea40 [stack 0]
    xpos 1204
    ypos -78
   }
-set Nf1558850 [stack 0]
+set N4275f630 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(b, 1e-10 ))"
@@ -3041,7 +3043,7 @@ set Nf1558850 [stack 0]
    xpos 1060
    ypos -34
   }
-push $Nf1558850
+push $N4275f630
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -3074,13 +3076,13 @@ push $Nf1558850
    ypos 14
   }
 push 0
-push $Nf1659bc0
+push $N46064b40
   Dot {
    name Dot11
    xpos 764
    ypos -78
   }
-set Nf0f53c70 [stack 0]
+set N4545c860 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -3109,7 +3111,7 @@ set Nf0f53c70 [stack 0]
    xpos 620
    ypos -34
   }
-push $Nf0f53c70
+push $N4545c860
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -3141,13 +3143,13 @@ push $Nf0f53c70
    xpos 730
    ypos 14
   }
-push $Nf165ea40
+push $Nc77f59c0
   Dot {
    name Dot12
    xpos 984
    ypos -78
   }
-set Nf0d5f320 [stack 0]
+set N96ff7570 [stack 0]
   Expression {
    temp_name0 logy
    temp_expr0 "log10( max(g, 1e-10 ))"
@@ -3176,7 +3178,7 @@ set Nf0d5f320 [stack 0]
    xpos 840
    ypos -34
   }
-push $Nf0d5f320
+push $N96ff7570
   MergeExpression {
    inputs 2
    temp_name0 logy
@@ -3231,7 +3233,7 @@ push $Nf0d5f320
    xpos 984
    ypos 786
   }
-push $Nf305fb00
+push $N93ff87a0
   Expression {
    temp_name0 logr
    temp_expr0 "log10( max(r, 1e-10 ))"
@@ -3252,7 +3254,7 @@ push $Nf305fb00
    xpos -886
    ypos 618
   }
-push $Nf1654e00
+push $N4605fe50
   Dot {
    name Dot21
    label " "
