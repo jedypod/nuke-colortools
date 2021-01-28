@@ -62,8 +62,8 @@ push $Ne820f200
 push $N7c8d9600
  Expression {
   expr0 r<0?(log(pow(2,-16))/log(2)+9.72)/17.52:r<pow(2,-15)?(log(pow(2,-16)+r*0.5)/log(2)+9.72)/17.52:(log(r)/log(2)+9.72)/17.52
-  expr1 g<0?(log(pow(2,-16))/log(2)+9.72)/17.52:g<pow(2,-15)?(log(pow(2,-16)+g*0.5)/log(2)+9.72)/17.52:(log(r)/log(2)+9.72)/17.52
-  expr2 b<0?(log(pow(2,-16))/log(2)+9.72)/17.52:b<pow(2,-15)?(log(pow(2,-16)+b*0.5)/log(2)+9.72)/17.52:(log(r)/log(2)+9.72)/17.52
+  expr1 g<0?(log(pow(2,-16))/log(2)+9.72)/17.52:g<pow(2,-15)?(log(pow(2,-16)+g*0.5)/log(2)+9.72)/17.52:(log(g)/log(2)+9.72)/17.52
+  expr2 b<0?(log(pow(2,-16))/log(2)+9.72)/17.52:b<pow(2,-15)?(log(pow(2,-16)+b*0.5)/log(2)+9.72)/17.52:(log(b)/log(2)+9.72)/17.52
   channel3 none
   name lin2log1
   label ACEScc
