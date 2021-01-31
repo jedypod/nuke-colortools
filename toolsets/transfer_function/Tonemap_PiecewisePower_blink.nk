@@ -1,8 +1,8 @@
 set cut_paste_input [stack 0]
 push $cut_paste_input
 Group {
- name PiecewisePowerTonemap_blink
- addUserKnob {20 PiecewisePowerTonemap_tab l PiecewisePowerTonemap}
+ name Tonemap_PiecewisePower_blink
+ addUserKnob {20 Tonemap_PiecewisePower_tab l Tonemap_PiecewisePower}
  addUserKnob {7 pivot}
  pivot 0.18
  addUserKnob {7 slope R 0.8 10}
