@@ -1,0 +1,91 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name PiecewisePowerTonemap
+ addUserKnob {20 PiecewisePowerTonemap_tab l PiecewisePowerTonemap}
+ addUserKnob {7 pivot}
+ pivot 0.18
+ addUserKnob {7 slope R 0.8 10}
+ slope 2
+ addUserKnob {7 sw l "shoulder width"}
+ sw 0.5
+ addUserKnob {7 tw l "toe width"}
+ tw 0.5
+ addUserKnob {12 white}
+ white {0.3 0}
+ addUserKnob {6 invert +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {20 calculations_grp l calculations n 1}
+ addUserKnob {12 pt}
+ pt {{pivot-(sin(pi/2-atan(slope))*(tw*(pivot/sin(atan(slope)))))} {pivot-(sin(atan(slope))*(tw*(pivot/sin(atan(slope)))))}}
+ addUserKnob {12 ps}
+ ps {{pivot+(sin(pi/2-atan(slope))*sw*((1-pivot)/sin(atan(slope))))} {pivot+(sin(atan(slope))*sw*((1-pivot)/sin(atan(slope))))}}
+ addUserKnob {12 os}
+ os {{white} {white}}
+ addUserKnob {7 m t "linear segment slope" R 0 10}
+ m {{(ps.y-pt.y)/(ps.x-pt.x)}}
+ addUserKnob {7 cb t "linear segment offset" R -10 10}
+ cb {{pt.y-pt.x*m}}
+ addUserKnob {7 bt R 0 10}
+ bt {{(m*pt.x)/pt.y}}
+ addUserKnob {7 at R 0 10}
+ at {{log(pt.y)-bt*log(pt.x)}}
+ addUserKnob {7 bs R 0 10}
+ bs {{(m*(os.x+1-ps.x))/(1+os.y-ps.y)}}
+ addUserKnob {7 as R 0 10}
+ as {{log(1+os.y-ps.y)-bs*log(1+os.x-ps.x)}}
+ addUserKnob {20 endGroup n -1}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+  ypos 72
+ }
+set Ncc0c6880 [stack 0]
+ Expression {
+  expr0 r<=0?0:r<=pt.y?exp((log(r)-at)/bt):r<ps.y?(r-cb)/m:-exp((log(-(r-(1+os.y)))-as)/bs)+1+os.x
+  expr1 g<=0?0:g<=pt.y?exp((log(g)-at)/bt):g<ps.y?(g-cb)/m:-exp((log(-(g-(1+os.y)))-as)/bs)+1+os.x
+  expr2 b<=0?0:b<=pt.y?exp((log(b)-at)/bt):b<ps.y?(b-cb)/m:-exp((log(-(b-(1+os.y)))-as)/bs)+1+os.x
+  channel3 none
+  name InvHableTonemap1
+  note_font Helvetica
+  selected true
+  xpos 70
+  ypos 133
+ }
+push $Ncc0c6880
+ Expression {
+  expr0 r<=0?0:r<=pt.x?exp(at+bt*log(r)):r<ps.x?m*r+cb:-exp(as+bs*log(-(r-(os.x+1))))+1+os.y
+  expr1 g<=0?0:g<=pt.x?exp(at+bt*log(g)):g<ps.x?m*g+cb:-exp(as+bs*log(-(g-(os.x+1))))+1+os.y
+  expr2 b<=0?0:b<=pt.x?exp(at+bt*log(b)):b<ps.x?m*b+cb:-exp(as+bs*log(-(b-(os.x+1))))+1+os.y
+  expr3 1-(r<=0?0:r<=pt.x?12*(bt*(exp(bt*log(r)+at))/r):r<ps.x?m:bs*exp(bs*log(-r+os.x+1)+as)/(-r+os.x+1))/m
+  name HableTonemap
+  note_font Helvetica
+  xpos -61
+  ypos 136
+ }
+ Switch {
+  inputs 2
+  which {{parent.invert}}
+  name SwitchDirection
+  note_font Helvetica
+  xpos 0
+  ypos 196
+ }
+ Output {
+  name Output
+  xpos 0
+  ypos 247
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<b>John Hable Piecewise Power Tonemap</b>\nhttp://filmicworlds.com/blog/filmic-tonemapping-with-piecewise-power-curves/\nhttps://www.desmos.com/calculator/6bmkisu3c1\n\nModified with parameters to control\n<b>pivot</b> - point at which x=y\n<b>slope</b> - slope of the linear section\n<b>shoulder width</b> - length of the linear section from pivot to shoulder\n<b>toe width</b> - length of the linear section from pivot to toe\n<b>white</b> - position of the shoulder asymptote"
+  note_font Helvetica
+  note_font_size 14
+  xpos 198
+  ypos 71
+ }
+end_group
