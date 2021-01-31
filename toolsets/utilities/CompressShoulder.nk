@@ -3,7 +3,6 @@ push $cut_paste_input
 Group {
  name CompressShoulder
  addUserKnob {20 CompressShoulder_tab l CompressShoulder}
- addUserKnob {41 channels T NodeWrapper1.channels}
  addUserKnob {18 threshold t "The minimum threshold. Values below this number will not be affected." R 0 6}
  threshold 1
  addUserKnob {6 threshold_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
@@ -17,77 +16,31 @@ Group {
 }
  Input {
   inputs 0
+  name Inputmask
+  xpos -1030
+  ypos 878
+  number 1
+ }
+ Input {
+  inputs 0
   name Input
   xpos -1140
   ypos 638
  }
+set Ndfffb8b0 [stack 0]
  Dot {
-  name Dot4
+  name Dot1
   xpos -1106
   ypos 714
  }
-set Nb3465440 [stack 0]
- Expression {
-  expr0 r<t.r?r:t.r+(l.r-t.r)*pow(-pow((r-t.r)/(l.r-t.r),p.r)/(pow((r-t.r)/(l.r-t.r),p.r)-1),1/p.r)
-  expr1 g<t.g?g:t.g+(l.g-t.g)*pow(-pow((g-t.g)/(l.g-t.g),p.g)/(pow((g-t.g)/(l.g-t.g),p.g)-1),1/p.g)
-  expr2 b<t.b?b:t.b+(l.b-t.b)*pow(-pow((b-t.b)/(l.b-t.b),p.b)/(pow((b-t.b)/(l.b-t.b),p.b)-1),1/p.b)
-  name uncompress_power
-  xpos -1030
-  ypos 782
-  addUserKnob {20 Params_tab l Params}
-  addUserKnob {18 t}
-  t {{parent.threshold} {parent.threshold} {parent.threshold}}
-  addUserKnob {6 t_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
-  addUserKnob {18 l}
-  l {{parent.limit} {parent.limit} {parent.limit}}
-  addUserKnob {6 l_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
-  addUserKnob {18 p R 1 5}
-  p {{parent.power} {parent.power} {parent.power}}
-  addUserKnob {6 p_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
- }
-push $Nb3465440
- Expression {
-  expr0 r<t.r?r:t.r+((r-t.r)*(l.r-t.r))/pow(pow((l.r-t.r),p.r)+pow((r-t.r),p.r),1/p.r)
-  expr1 g<t.g?g:t.g+((g-t.g)*(l.g-t.g))/pow(pow((l.g-t.g),p.g)+pow((g-t.g),p.g),1/p.g)
-  expr2 b<t.b?b:t.b+((b-t.b)*(l.b-t.b))/pow(pow((l.b-t.b),p.b)+pow((b-t.b),p.b),1/p.b)
-  name compress_power
-  xpos -1250
-  ypos 782
-  addUserKnob {20 Params_tab l Params}
-  addUserKnob {18 t}
-  t {{parent.threshold} {parent.threshold} {parent.threshold}}
-  addUserKnob {6 t_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
-  addUserKnob {18 l}
-  l {{parent.limit} {parent.limit} {parent.limit}}
-  addUserKnob {6 l_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
-  addUserKnob {18 p R 1 5}
-  p {{parent.power} {parent.power} {parent.power}}
-  addUserKnob {6 p_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
- }
- Input {
-  inputs 0
-  name Inputmask
-  xpos -920
-  ypos 926
-  number 1
- }
-push $Nb3465440
- Dot {
-  name Dot1
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
-  xpos -831
-  ypos 723
- }
-set Nc6af8ca0 [stack 0]
+set N72c9e520 [stack 0]
  Expression {
   expr0 r<t.r||x0.r<1.0001?r:r>(t.r+s.r)?r+t.r+s.r:t.r+s.r*pow(-(pow((r-t.r)/s.r,p)/(pow((r-t.r)/s.r,p)-1)),1/p)
   expr1 g<t.g||x0.g<1.0001?g:g>(t.g+s.g)?g+t.g+s.g:t.g+s.g*pow(-(pow((g-t.g)/s.g,p)/(pow((g-t.g)/s.g,p)-1)),1/p)
   expr2 b<t.b||x0.b<1.0001?b:b>(t.b+s.b)?b+t.b+s.b:t.b+s.b*pow(-(pow((b-t.b)/s.b,p)/(pow((b-t.b)/s.b,p)-1)),1/p)
   name uncompress
-  xpos -755
-  ypos 743
+  xpos -1249
+  ypos 758
   addUserKnob {20 Params_tab l Params}
   addUserKnob {18 t}
   t {{parent.compress.t} {parent.compress.t} {parent.compress.t}}
@@ -105,21 +58,20 @@ set Nc6af8ca0 [stack 0]
   s {{parent.compress.s} {parent.compress.s} {parent.compress.s}}
   addUserKnob {6 s_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  }
-push $Nc6af8ca0
+push $N72c9e520
  Expression {
   expr0 r<t.r||x0.r<1.0001?r:t.r+s.r*((r-t.r)/s.r)/(pow(1+pow((r-t.r)/s.r,p),1/p))
   expr1 g<t.g||x0.g<1.0001?g:t.g+s.g*((g-t.g)/s.g)/(pow(1+pow((g-t.g)/s.g,p),1/p))
   expr2 b<t.b||x0.b<1.0001?b:t.b+s.b*((b-t.b)/s.b)/(pow(1+pow((b-t.b)/s.b,p),1/p))
   name compress
-  selected true
-  xpos -995
-  ypos 740
+  xpos -1140
+  ypos 758
   addUserKnob {20 Params_tab l Params}
   addUserKnob {18 t R 0 5}
   t {{parent.threshold}}
   addUserKnob {6 t_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
   addUserKnob {18 x0 R 0 5}
-  x0 1000
+  x0 10000
   addUserKnob {6 x0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
   addUserKnob {18 y0 R 0 5}
   y0 {{parent.limit}}
@@ -136,19 +88,19 @@ push $Nc6af8ca0
   which {{parent.direction}}
   name switch_reverse
   xpos -1140
-  ypos 854
+  ypos 830
  }
-push $Nb3465440
+push $Ndfffb8b0
  NodeWrapper {
   inputs 2+1
   channels rgb
   name NodeWrapper1
   xpos -1140
-  ypos 926
+  ypos 878
  }
  Output {
   name Output
   xpos -1140
-  ypos 1022
+  ypos 950
  }
 end_group
