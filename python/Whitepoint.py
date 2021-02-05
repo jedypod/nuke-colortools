@@ -1,78 +1,77 @@
 import nuke
-float2 = nuke.math.Vector2
 float3 = nuke.math.Vector3
 float3x3 = nuke.math.Matrix3
 
-CONE_RESP_MAT_BRADFORD = float3x3()
-CONE_RESP_MAT_CAT02 = float3x3()
-CONE_RESP_MAT_VONKRIES = float3x3()
-CONE_RESP_MAT_SHARP = float3x3()
-CONE_RESP_MAT_CMCCAT2000 = float3x3()
+def transpose(m):
+    # Transpose (swap rows and columns) of a nuke.math.Matrix3
+    return float3x3(m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8])
 
-# From ACESlib.Utilities_Color : 166
-CONE_RESP_MAT_BRADFORD.set(0.89510, -0.75020,  0.03890, 0.26640,  1.71350, -0.06850, -0.16140,  0.03670,  1.02960)
-CONE_RESP_MAT_CAT02.set(0.73280, -0.70360,  0.00300, 0.42960,  1.69750,  0.01360, -0.16240, 0.00610, 0.98340)
+def set_matrix(m):
+    # Populate a nuke.math.Matrix3 with a 3x3 python list (either 3x3 or 1x9)
+    if len(m) is 3 and [isinstance(r, list) for r in m]:
+        m = sum(m, [])
+    o = float3x3(m[0], m[3], m[6], m[1], m[4], m[7], m[2], m[5], m[8])
+    return o
 
-# https://web.stanford.edu/~sujason/ColorBalancing/adaptation.html
-# from S. Bianco. "Two New von Kries Based Chromatic Adapatation Transforms Found by Numerical Optimization."
-CONE_RESP_MAT_VONKRIES.set(0.40024, -0.2263, 0, 0.7076, 1.16532, 0, -0.08081, 0.0457, 0.91822)
-CONE_RESP_MAT_SHARP.set(1.2694, -0.8364, 0.0297, -0.0988, 1.8006, -0.0315, -0.1706, 0.0357, 1.0018)
-CONE_RESP_MAT_CMCCAT2000.set(0.7982, -0.5918, 0.0008, 0.3389, 1.5512, 0.239, -0.1371, 0.0406, 0.9753)
-
+def diag(v):
+    # Create a diagonal 3x3 matrix from a 1x3 vector
+    return float3x3(v[0], 0, 0, 0, v[1], 0, 0, 0, v[2])
 
 
-def mult_f3_f33(src, mtx):
-    return float3(mtx[0] * src[0] + mtx[1] * src[1] + 
-    mtx[2] * src[2], mtx[3] * src[0] + mtx[4] * src[1] + 
-    mtx[5] * src[2], mtx[6] * src[0] + mtx[7] * src[1] + 
-    mtx[8] * src[2])
-
-def XYZ_2_xyY(XYZ):
-    xyY = float3()
-    divisor = (XYZ[0] + XYZ[1] + XYZ[2])
-    if (divisor == 0.):
-        divisor = 1e-10
-    xyY.set(XYZ[0] / divisor, XYZ[1] / divisor, XYZ[1])
-    return xyY
-
-def xyY_2_XYZ(xyY):
-    XYZ = float3()
-    XYZ.set(
-        xyY[0] * xyY[2] / max( xyY[1], 1e-10), \
-        xyY[2], \
-        (1.0 - xyY[0] - xyY[1]) * xyY[2] / max( xyY[1], 1e-10)
-        )
+def xyY_to_XYZ(xyY):
+    # Convert an xyY chromaticity value to XYZ
+    x = xyY[0]
+    y = xyY[1]
+    if len(xyY) is 2:
+        # Assume an xy chromaticity coordinate, use default Y
+        Y = 1.0
+    else:
+        Y = xyY[2]
+    XYZ = float3(x * Y / max(y, 1e-10), Y, (1.0 - x - y) * Y / max(y, 1e-10))
     return XYZ
 
 
-def calculate_cat_matrix(src_xy, des_xy, coneRespMat=CONE_RESP_MAT_BRADFORD):
-    # Calculates and returns a 3x3 Von Kries chromatic adaptation transform 
-    # from src_xy to des_xy using the cone response primaries defined 
-    # by coneRespMat. By default, coneRespMat is set to CONE_RESP_MAT_BRADFORD. 
-    # The default coneRespMat can be overridden at runtime. 
+def calc_cat(src_xy, dst_xy, cat_method='cat02'):
+    # Calculate Von Kries chromatic adaptation transform matrix,
+    # given a source and destination illuminant and CAT method.
+    # Illuminant is given as xy chromaticity coordinates. 
+    # CAT method is the name of one of the below cone response matrices.
 
-    src_xyY = float3(src_xy[0], src_xy[1], 1.0)
-    des_xyY = float3(des_xy[0], des_xy[1], 1.0)
-
-    src_XYZ = xyY_2_XYZ( src_xyY )
-    des_XYZ = xyY_2_XYZ( des_xyY )
-
-    src_coneResp = mult_f3_f33(src_XYZ, coneRespMat)
-    des_coneResp = mult_f3_f33(des_XYZ, coneRespMat)
-
-    vkMat = float3x3()
-    vkMat.set(
-        des_coneResp[0] / src_coneResp[0], 0.0, 0.0,
-        0.0, des_coneResp[1] / src_coneResp[1], 0.0,
-        0.0, 0.0, des_coneResp[2] / src_coneResp[2]
-        )
-
-    cat_matrix = float3x3()
-    coneRespMatInv = coneRespMat.inverse()
-    cat_matrix = coneRespMat * ( vkMat * coneRespMatInv)
+    crmtxs = {
+        "bianco": [[0.8752, 0.2787, -0.1539], [-0.8904, 1.8709, 0.0195], [-0.0061, 0.0162, 0.9899]],
+        "bianco_pc": [[0.6489, 0.3915, -0.0404], [-0.3775, 1.3055, 0.072], [-0.0271, 0.0888, 0.9383]],
+        "bradford": [[0.8951, 0.2664, -0.1614], [-0.7502, 1.7135, 0.0367], [0.0389, -0.0685, 1.0296]],
+        "cat02": [[0.7328, 0.4296, -0.1624], [-0.7036, 1.6975, 0.0061], [0.003, 0.0136, 0.9834]],
+        "cat02_brill_cat": [[0.7328, 0.4296, -0.1624], [-0.7036, 1.6975, 0.0061], [0.0, 0.0, 1.0]],
+        "cmccat2000": [[0.7982, 0.3389, -0.1371], [-0.5918, 1.5512, 0.0406], [0.0008, 0.0239, 0.9753]],
+        "cmccat97": [[0.8951, -0.7502, 0.0389], [0.2664, 1.7135, 0.0685], [-0.1614, 0.0367, 1.0296]],
+        "fairchild": [[0.8562, 0.3372, -0.1934], [-0.836, 1.8327, 0.0033], [0.0357, -0.0469, 1.0112]],
+        "sharp": [[1.2694, -0.0988, -0.1706], [-0.8364, 1.8006, 0.0357], [0.0297, -0.0315, 1.0018]],
+        "von_kries": [[0.40024, 0.7076, -0.08081], [-0.2263, 1.16532, 0.0457], [0.0, 0.0, 0.91822]],
+        "xyz_scaling": [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
+    }
     
-    return cat_matrix
+    cat_method = cat_method.lower().replace(' ', '_')
+    # Return identity matrix if no match
+    if cat_method not in crmtxs.keys():
+        m = float3x3()
+        m.makeIdentity()
+        return m
 
+    crmtx = set_matrix(crmtxs[cat_method])
+
+    # Get XYZ values from xy chromaticity coordinates
+    src_XYZ = xyY_to_XYZ(src_xy)
+    dst_XYZ = xyY_to_XYZ(dst_xy)
+
+    # Calculate source and destination cone response matrices
+    src_crmtx = transpose(crmtx) * src_XYZ
+    dst_crmtx = transpose(crmtx) * dst_XYZ
+
+    von_kries_matrix = diag(dst_crmtx / src_crmtx)
+    cat_mtx = float3x3()
+    cat_mtx = crmtx * (von_kries_matrix * crmtx.inverse())
+    return cat_mtx
 
 
 def start():
@@ -83,29 +82,13 @@ def start():
     src_xy = float2(node['src_xy'].getValue()[0], node['src_xy'].getValue()[1])
     dst_xy = float2(node['dst_xy'].getValue()[0], node['dst_xy'].getValue()[1])
 
-    # Get chromatic adaptation method
-    if cat_method == 'Bradford':
-        coneRespMat = CONE_RESP_MAT_BRADFORD
-    elif cat_method == 'cat02':
-        coneRespMat = CONE_RESP_MAT_CAT02
-    elif cat_method == 'vonKries Hunt-Pointer-Estevez D65-Normalized':
-        coneRespMat = CONE_RESP_MAT_VONKRIES
-    elif cat_method == 'cmccat2000':
-        coneRespMat = CONE_RESP_MAT_CMCCAT2000
-    elif cat_method == 'sharp':
-        coneRespMat = CONE_RESP_MAT_SHARP
-    elif cat_method == 'None':
-        coneRespMat = float3x3()
-        coneRespMat.makeIdentity()
-
-    mtx = calculate_cat_matrix(src_xy, dst_xy, coneRespMat=coneRespMat)
+    mtx = calc_cat(src_xy, dst_xy, cat_method)
 
     if invert:
         mtx = mtx.inverse()
 
     node['matrix'].setValue(mtx)
 
-    node['label'].setValue('CAT: {0}\n {1} to {2}'.format(node['method'].value(), node['src_wp_name'].getValue(), node['dst_wp_name'].getValue()))
 
 if __name__=='__main__':
     start()
