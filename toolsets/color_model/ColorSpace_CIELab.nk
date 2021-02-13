@@ -4,6 +4,8 @@ Group {
  name Colorspace_CIELab
  addUserKnob {20 CIELab_tab l CIELab}
  addUserKnob {41 gamut T GamutToXYZ.gamut}
+ addUserKnob {4 illuminant t "Choose the whitepoint" M {D50 D55 D60 D65 ""}}
+ illuminant D65
  addUserKnob {4 direction M {forward inverse}}
  addUserKnob {6 normalize t "normalize to a 0-1 range." +STARTLINE}
  normalize true
@@ -16,7 +18,6 @@ Group {
  }
  Dot {
   name Dot4
-  note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xff
   xpos 114
@@ -24,10 +25,9 @@ Group {
  }
 set N3f6084b0 [stack 0]
  Fill {
-  color {0.3127 0.329 1 1}
+  color {{curve(illuminant) 0.3457 0.33243 0.32168 0.3127} {curve(illuminant) 0.3585 0.34744 0.33767 0.329} 1 1}
   name ILLUMINANT
   label D65
-  note_font Helvetica
   xpos 80
   ypos -335
  }
@@ -43,7 +43,6 @@ set N871aeec0 [stack 0]
 push $N3f6084b0
  Dot {
   name Dot2
-  note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xff
   xpos 234
@@ -53,7 +52,6 @@ push $N3f6084b0
   channels rgb
   value 100
   name Normalize1
-  note_font Helvetica
   xpos 200
   ypos -329
   disable {{!parent.normalize}}
@@ -63,7 +61,6 @@ push $N3f6084b0
   expr1 (r+16)/116
   expr2 (r+16)/116-b/200
   name Lab1
-  note_font Helvetica
   xpos 200
   ypos -289
  }
@@ -73,7 +70,6 @@ push $N3f6084b0
   expr1 Bg>24/116?Ag*pow(Bg,3):Ag*(Bg-16/116)*(108/841)
   expr2 Bb>24/116?Ab*pow(Bb,3):Ab*(Bb-16/116)*(108/841)
   name intermediate_luminance_function_CIE1976_
-  note_font Helvetica
   xpos 200
   ypos -209
  }
@@ -86,7 +82,6 @@ push $N3f6084b0
   invert true
   name ColorMatrix3
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value GamutToXYZ.gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
-  note_font Helvetica
   xpos 200
   ypos -135
  }
@@ -94,7 +89,6 @@ push $N871aeec0
 push $N3f6084b0
  Dot {
   name Dot1
-  note_font "Helvetica Bold"
   note_font_size 24
   note_font_color 0xff
   xpos -6
@@ -166,7 +160,6 @@ push $N3f6084b0
   expr1 gY_n>pow((24/116),3)?sign(gY_n)*pow(fabs(gY_n),1/3):(841/108)*gY_n+16/116
   expr2 bY_n>pow((24/116),3)?sign(bY_n)*pow(fabs(bY_n),1/3):(841/108)*bY_n+16/116
   name intermediate_lightness_function_CIE1976_
-  note_font Helvetica
   xpos -40
   ypos -209
  }
@@ -175,7 +168,6 @@ push $N3f6084b0
   expr1 500*(r-g)
   expr2 200*(g-b)
   name Lab
-  note_font Helvetica
   xpos -40
   ypos -169
  }
@@ -183,7 +175,6 @@ push $N3f6084b0
   channels rgb
   value 0.01
   name Normalize
-  note_font Helvetica
   xpos -40
   ypos -129
   disable {{curve}}
@@ -192,7 +183,6 @@ push $N3f6084b0
   inputs 2
   which {{parent.direction}}
   name SwitchDirection
-  note_font Helvetica
   xpos 80
   ypos -64
  }
