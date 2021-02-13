@@ -4,8 +4,10 @@ Group {
  name Colorspace_JzAzBz
  addUserKnob {20 JzAzBz_tab l JzAzBz}
  addUserKnob {41 gamut T GamutToXYZ.gamut}
- addUserKnob {6 domain_range_scale l "domain range scale" +STARTLINE}
- domain_range_scale true
+ addUserKnob {6 JCh t "Lightness, Chroma, hue angle" +STARTLINE}
+ addUserKnob {35 const_d_presets l "" +STARTLINE M {"const d/JzAzBz" "knobs this \{d -0.56\}" "const d/CAM16-UCS" "knobs this \{d 0\}" "const d/IPT" "knobs this \{d -0.64\}" "const d/ICtCp" "knobs this \{d 1.1\}"}}
+ addUserKnob {7 d l "" t "the d constant which can can be adjusted to tune the lightness predictors to different colorspaces:\ndefault: -0.56\nCAM16-UCS: 0\nIPT: -0.64\nICtCp: 1.1" -STARTLINE R -1 1}
+ d -0.56
  addUserKnob {4 direction M {forward inverse}}
 }
  Input {
@@ -19,23 +21,31 @@ Group {
   xpos -6
   ypos -446
  }
-set N15661840 [stack 0]
+set Nef7f920 [stack 0]
  Dot {
   name Dot2
   xpos 114
   ypos -446
  }
  Expression {
-  temp_name0 d
-  temp_expr0 -0.56
-  temp_name1 d_0
-  temp_expr1 1.6295499532821565e-11
+  expr0 r
+  expr1 g*cos(b)
+  expr2 g*sin(b)
+  channel3 none
+  name Expression6
+  label "JCh to JzAzBz"
+  xpos 80
+  ypos -375
+  disable {{!parent.JCh}}
+ }
+ Expression {
+  temp_name0 d_0
+  temp_expr0 1.6295499532821565e-11
   expr0 ((r+d_0)/(1+d-d*(r+d_0)))
   expr1 g
   expr2 b
   name Expression4
   label Iz
-  note_font Helvetica
   xpos 80
   ypos -335
  }
@@ -48,16 +58,13 @@ set N15661840 [stack 0]
   invert true
   name ColorMatrix4
   label IZAZBZ_TO_LMS_P
-  note_font Helvetica
   xpos 80
   ypos -295
  }
  Group {
   name eotf_ST2084_
-  note_font Helvetica
   xpos 80
   ypos -249
-  disable {{!parent.domain_range_scale}}
   addUserKnob {20 CONSTANTS_tab l CONSTANTS}
   addUserKnob {7 m_1}
   m_1 {{2610/4096*(1/4)}}
@@ -84,7 +91,6 @@ set N15661840 [stack 0]
    expr2 "pow(b, 1/m_2)"
    name Expression1
    label V_p
-   note_font Helvetica
    xpos -40
    ypos -255
   }
@@ -94,7 +100,6 @@ set N15661840 [stack 0]
    expr2 pow(((b-c_1)/(c_2-c_3*b)),1/m_1)*L_p
    name Expression2
    label C
-   note_font Helvetica
    xpos -40
    ypos -215
   }
@@ -113,7 +118,6 @@ set N15661840 [stack 0]
   invert true
   name ColorMatrix5
   label LMS_TO_XYZ
-  note_font Helvetica
   xpos 80
   ypos -215
  }
@@ -123,7 +127,6 @@ set N15661840 [stack 0]
   expr2 b
   name Expression2
   label "X_p Y_p Z"
-  note_font Helvetica
   xpos 80
   ypos -175
  }
@@ -136,11 +139,10 @@ set N15661840 [stack 0]
   invert true
   name ColorMatrix3
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value GamutToXYZ.gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
-  note_font Helvetica
   xpos 80
   ypos -95
  }
-push $N15661840
+push $Nef7f920
  Group {
   name GamutToXYZ
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
@@ -201,7 +203,6 @@ push $N15661840
   expr2 b
   name Expression3
   label "X_p Y_p Z"
-  note_font Helvetica
   xpos -40
   ypos -335
  }
@@ -213,16 +214,13 @@ push $N15661840
     }
   name ColorMatrix6
   label XYZ_TO_LMS
-  note_font Helvetica
   xpos -40
   ypos -295
  }
  Group {
   name eotf_inverse_ST2084_
-  note_font Helvetica
   xpos -40
   ypos -249
-  disable {{!parent.domain_range_scale}}
   addUserKnob {20 CONSTANTS_tab l CONSTANTS}
   addUserKnob {7 m_1}
   m_1 {{2610/4096*(1/4)}}
@@ -249,7 +247,6 @@ push $N15661840
    expr2 "pow(b/L_p, m_1)"
    name Expression4
    label Y_p
-   note_font Helvetica
    xpos -40
    ypos -255
   }
@@ -259,7 +256,6 @@ push $N15661840
    expr2 "pow((c_1+c_2*b)/(c_3*b+1), m_2)"
    name Expression8
    label N
-   note_font Helvetica
    xpos -40
    ypos -215
   }
@@ -277,27 +273,37 @@ push $N15661840
     }
   name ColorMatrix2
   label LMS_P_TO_IZAZBZ
-  note_font Helvetica
   xpos -40
   ypos -215
  }
  Expression {
-  expr0 r*(1-0.56)/(1-0.56*r)-(1.6295499532821566*pow(10,-11))
+  temp_name0 d_0
+  temp_expr0 1.6295499532821565e-11
+  expr0 r*(1+d)/(1+d*r)-d_0
   expr1 g
   expr2 b
   name Expression1
   label Jz
-  note_font Helvetica
   xpos -40
   ypos -175
+ }
+ Expression {
+  expr0 r
+  expr1 sqrt(g*g+b*b)
+  expr2 atan2(b,g)
+  channel3 none
+  name Expression5
+  label "JzAzBz to JCh"
+  xpos -40
+  ypos -135
+  disable {{!parent.JCh}}
  }
  Switch {
   inputs 2
   which {{parent.direction}}
   name SwitchDirection
-  note_font Helvetica
   xpos -40
-  ypos -49
+  ypos -9
  }
  Output {
   name Output
@@ -308,10 +314,9 @@ push $N15661840
   inputs 0
   name StickyNote1
   tile_color 0x40454aff
-  label "<left><b>JzAzBz Colorspace</b>\n:cite:`Safdar2017` : Safdar, M., Cui, G., Kim, Y. J., & Luo, M. R. (2017).\n    Perceptually uniform color space for image signals including high dynamic\n    range and wide gamut. Optics Express, 25(13), 15131.\n    doi:10.1364/OE.25.015131\npdf: https://www.osapublishing.org/oe/fulltext.cfm?uri=oe-25-13-15131&id=368272\n"
-  note_font Helvetica
+  label "<left><b>JzAzBz Colorspace</b>\nSafdar, M., Cui, G., Kim, Y. J., & Luo, M. R. (2017).\n    Perceptually uniform color space for image signals including high dynamic\n    range and wide gamut. Optics Express, 25(13), 15131.\n    doi:10.1364/OE.25.015131\nhttps://www.osapublishing.org/oe/fulltext.cfm?uri=oe-25-13-15131&id=368272\nhttps://observablehq.com/@jrus/jzazbz"
   note_font_size 14
   xpos 234
-  ypos -464
+  ypos -470
  }
 end_group
