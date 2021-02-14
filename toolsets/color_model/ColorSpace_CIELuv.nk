@@ -174,9 +174,13 @@ set N3e5c33c0 [stack 0]
   inputs 2
   temp_name0 L
   temp_expr0 116*(Bg/Y_n>(24/116)**3?sign(Bg/Y_n)*pow(fabs(Bg/Y_n),1/3):(841/108)*Bg/Y_n+16/116)-16
+  temp_name1 d
+  temp_expr1 (Br+15*Bg+3*Bb)
+  temp_name2 wd
+  temp_expr2 (Ar+15*Ag+3*Ab)
   expr0 L
-  expr1 (13*L*((4*Br/(Br+15*Bg+3*Bb))-(4*Ar/(Ar+15*Ag+3*Ab))))
-  expr2 (13*L*((9*Bg/(Br+15*Bg+3*Bb))-(9*Ag/(Ar+15*Ag+3*Ab))))
+  expr1 d==0?0:(13*L*((4*Br/d)-(4*Ar/wd)))
+  expr2 d==0?0:(13*L*((9*Bg/d)-(9*Ag/wd)))
   name Luv
   label "from colour-science"
   xpos -40
