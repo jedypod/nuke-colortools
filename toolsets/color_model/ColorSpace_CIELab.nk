@@ -4,6 +4,7 @@ Group {
  name Colorspace_CIELab
  addUserKnob {20 CIELab_tab l CIELab}
  addUserKnob {41 gamut T GamutToXYZ.gamut}
+ addUserKnob {6 LCh l LCh(ab) t "Cylindrical Luma Chroma Hue " +STARTLINE}
  addUserKnob {4 illuminant t "Choose the whitepoint" M {D50 D55 D60 D65 ""}}
  illuminant D65
  addUserKnob {4 direction M {forward inverse}}
@@ -23,7 +24,7 @@ Group {
   xpos 114
   ypos -366
  }
-set N3f6084b0 [stack 0]
+set N7ef78280 [stack 0]
  Fill {
   color {{curve(illuminant) 0.3457 0.33243 0.32168 0.3127} {curve(illuminant) 0.3585 0.34744 0.33767 0.329} 1 1}
   name ILLUMINANT
@@ -39,8 +40,8 @@ set N3f6084b0 [stack 0]
   xpos 80
   ypos -290
  }
-set N871aeec0 [stack 0]
-push $N3f6084b0
+set N7edf12a0 [stack 0]
+push $N7ef78280
  Dot {
   name Dot2
   note_font_size 24
@@ -48,12 +49,22 @@ push $N3f6084b0
   xpos 234
   ypos -366
  }
+ Expression {
+  expr0 r
+  expr1 g*cos(b)
+  expr2 g*sin(b)
+  name LCh_to_Lab
+  note_font Helvetica
+  xpos 200
+  ypos -329
+  disable {{!parent.LCh}}
+ }
  Multiply {
   channels rgb
   value 100
   name Normalize1
   xpos 200
-  ypos -329
+  ypos -291
   disable {{!parent.normalize}}
  }
  Expression {
@@ -62,7 +73,7 @@ push $N3f6084b0
   expr2 (r+16)/116-b/200
   name Lab1
   xpos 200
-  ypos -289
+  ypos -250
  }
  MergeExpression {
   inputs 2
@@ -83,10 +94,10 @@ push $N3f6084b0
   name ColorMatrix3
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value GamutToXYZ.gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
   xpos 200
-  ypos -135
+  ypos -136
  }
-push $N871aeec0
-push $N3f6084b0
+push $N7edf12a0
+push $N7ef78280
  Dot {
   name Dot1
   note_font_size 24
@@ -176,8 +187,18 @@ push $N3f6084b0
   value 0.01
   name Normalize
   xpos -40
-  ypos -129
-  disable {{curve}}
+  ypos -130
+  disable {{!parent.normalize}}
+ }
+ Expression {
+  expr0 r
+  expr1 hypot(g,b)
+  expr2 atan2(b,g)
+  name Lab_to_LCh
+  note_font Helvetica
+  xpos -40
+  ypos -88
+  disable {{!parent.LCh}}
  }
  Switch {
   inputs 2
@@ -189,6 +210,6 @@ push $N3f6084b0
  Output {
   name Output
   xpos 80
-  ypos 30
+  ypos 38
  }
 end_group
