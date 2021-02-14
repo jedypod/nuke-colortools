@@ -4,13 +4,16 @@ Group {
  name Colorspace_HunterLab
  addUserKnob {20 HunterLab_tab l HunterLab}
  addUserKnob {41 gamut T GamutToXYZ.gamut}
+ addUserKnob {6 LCh l LCh(ab) t "Cylindrical Luma Chroma Hue " +STARTLINE}
+ addUserKnob {6 normalize t "normalize to a 0-1 range." +STARTLINE}
+ normalize true
  addUserKnob {4 direction M {forward inverse}}
 }
  Input {
   inputs 0
   name Input
   xpos -40
-  ypos -422
+  ypos -410
  }
  Dot {
   name Dot1
@@ -20,7 +23,7 @@ Group {
   xpos -6
   ypos -366
  }
-set Nc1cf7920 [stack 0]
+set Naceb170 [stack 0]
  Dot {
   name Dot2
   note_font "Helvetica Bold"
@@ -28,6 +31,24 @@ set Nc1cf7920 [stack 0]
   note_font_color 0xff
   xpos 114
   ypos -366
+ }
+ Multiply {
+  channels rgb
+  value 100
+  name Normalize1
+  xpos 80
+  ypos -330
+  disable {{!parent.normalize}}
+ }
+ Expression {
+  expr0 r
+  expr1 g*cos(b)
+  expr2 g*sin(b)
+  name LCh_to_Lab
+  note_font Helvetica
+  xpos 80
+  ypos -289
+  disable {{!parent.LCh}}
  }
  Expression {
   temp_name0 L_100
@@ -40,7 +61,7 @@ set Nc1cf7920 [stack 0]
   name HunterLab_to_XYZ
   note_font Helvetica
   xpos 80
-  ypos -289
+  ypos -249
   addUserKnob {20 User}
   addUserKnob {78 XYZ_n n 3}
   XYZ_n {95.02 100 108.82}
@@ -57,15 +78,13 @@ set Nc1cf7920 [stack 0]
   name ColorMatrix3
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value GamutToXYZ.gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
   note_font Helvetica
-  selected true
   xpos 80
-  ypos -255
+  ypos -215
  }
-push $Nc1cf7920
+push $Naceb170
  Group {
   name GamutToXYZ
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
-  selected true
   xpos -40
   ypos -336
   addUserKnob {20 GamutToXYZ_lite_tab l GamutToXYZ_lite}
@@ -121,12 +140,13 @@ push $Nc1cf7920
   temp_name0 Y_Y_n
   temp_expr0 g/XYZ_n.1
   temp_name1 sqrt_Y_Y_n
-  temp_expr1 sqrt(Y_Y_n)
+  temp_expr1 sqrt(fabs(Y_Y_n))
   expr0 100*sqrt_Y_Y_n
-  expr1 K_ab.0*((r/XYZ_n.0-Y_Y_n)/sqrt_Y_Y_n)
-  expr2 K_ab.1*((Y_Y_n-b/XYZ_n.2)/sqrt_Y_Y_n)
+  expr1 sqrt_Y_Y_n==0?0:K_ab.0*((r/XYZ_n.0-Y_Y_n)/sqrt_Y_Y_n)
+  expr2 sqrt_Y_Y_n==0?0:K_ab.1*((Y_Y_n-b/XYZ_n.2)/sqrt_Y_Y_n)
   name XYZ_to_HunterLab
   note_font Helvetica
+  selected true
   xpos -40
   ypos -289
   addUserKnob {20 User}
@@ -135,13 +155,31 @@ push $Nc1cf7920
   addUserKnob {78 K_ab n 2}
   K_ab {172.3 67.2}
  }
+ Expression {
+  expr0 r
+  expr1 hypot(g,b)
+  expr2 atan2(b,g)
+  name Lab_to_LCh
+  note_font Helvetica
+  xpos -40
+  ypos -249
+  disable {{!parent.LCh}}
+ }
+ Multiply {
+  channels rgb
+  value 0.01
+  name Normalize
+  xpos -40
+  ypos -210
+  disable {{!parent.normalize}}
+ }
  Switch {
   inputs 2
   which {{parent.direction}}
   name SwitchDirection
   note_font Helvetica
   xpos -40
-  ypos -209
+  ypos -169
  }
  Output {
   name Output

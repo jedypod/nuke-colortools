@@ -363,6 +363,7 @@ push $N3e526600
   name StickyNote1
   tile_color 0x40454aff
   label "<left><b>hdr-IPT Colorspace</b>\nBrightness, lightness, and specifying color in high-dynamic-range scenes and images\nM. Fairchild, Ping-Hsu Chen\nhttp://www.rit-mcsl.org/fairchild/PDFs/PRO37.pdf\n\nhttps://github.com/colour-science/colour/blob/HEAD/colour/models/hdr_ipt.py"
+  note_font Helvetica
   note_font_size 14
   xpos 320
   ypos -461
