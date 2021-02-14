@@ -6,24 +6,45 @@ Group {
  addUserKnob {41 gamut T GamutToXYZ.gamut}
  addUserKnob {4 method M {"Fairchild  2010" "Fairchild 2011"}}
  method "Fairchild 2011"
+ addUserKnob {6 LCh l cylindrical +STARTLINE}
  addUserKnob {4 direction M {forward inverse}}
+ addUserKnob {6 normalize t "normalize to a 0-1 range" +STARTLINE}
+ normalize true
 }
  Input {
   inputs 0
   name Input
   xpos -40
-  ypos -490
+  ypos -530
  }
  Dot {
   name Dot1
   xpos -6
-  ypos -446
+  ypos -486
  }
-set N16dc8e80 [stack 0]
+set N543acf70 [stack 0]
  Dot {
   name Dot2
   xpos 234
-  ypos -446
+  ypos -486
+ }
+ Expression {
+  expr0 r
+  expr1 g*cos(b)
+  expr2 g*sin(b)
+  name LCh_to_Lab
+  note_font Helvetica
+  xpos 200
+  ypos -437
+  disable {{!parent.LCh}}
+ }
+ Multiply {
+  channels rgb
+  value {{method?246:100}}
+  name Normalize1
+  xpos 200
+  ypos -410
+  disable {{!parent.normalize}}
  }
  ColorMatrix {
   matrix {
@@ -37,11 +58,11 @@ set N16dc8e80 [stack 0]
   xpos 200
   ypos -375
  }
-set Nf83f8dd0 [stack 0]
+set N1aabb660 [stack 0]
  Group {
   name luminance_Fairchild2011_
   xpos 200
-  ypos -289
+  ypos -290
   addUserKnob {20 User}
   addUserKnob {7 Y_s}
   Y_s 0.2
@@ -85,7 +106,7 @@ set Nf83f8dd0 [stack 0]
    ypos 190
   }
  end_group
-push $Nf83f8dd0
+push $N1aabb660
  Group {
   name luminance_Fairchild2010_
   xpos 80
@@ -139,7 +160,7 @@ push $Nf83f8dd0
   which {{parent.method}}
   name Switchmethod1
   xpos 200
-  ypos -249
+  ypos -250
  }
  ColorMatrix {
   matrix {
@@ -151,7 +172,7 @@ push $Nf83f8dd0
   name ColorMatrix4
   label IPT_XYZ_TO_LMS
   xpos 200
-  ypos -215
+  ypos -216
  }
  ColorMatrix {
   matrix {
@@ -163,9 +184,9 @@ push $Nf83f8dd0
   name ColorMatrix3
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value GamutToXYZ.gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
   xpos 200
-  ypos -95
+  ypos -96
  }
-push $N16dc8e80
+push $N543acf70
  Group {
   name GamutToXYZ
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
@@ -229,13 +250,13 @@ push $N16dc8e80
   name ColorMatrix1
   label IPT_XYZ_TO_LMS
   xpos -40
-  ypos -375
+  ypos -376
  }
-set N3e526600 [stack 0]
+set Nc41dcaa0 [stack 0]
  Group {
   name lightness_Fairchild2011_
   xpos -40
-  ypos -293
+  ypos -292
   addUserKnob {20 User}
   addUserKnob {7 Y_s}
   Y_s 0.2
@@ -267,7 +288,7 @@ set N3e526600 [stack 0]
    name reaction_rate_MichealisMenten
    selected true
    xpos -40
-   ypos 150
+   ypos 151
    addUserKnob {20 User}
    addUserKnob {7 V_max}
    V_max 246
@@ -280,11 +301,11 @@ set N3e526600 [stack 0]
    ypos 190
   }
  end_group
-push $N3e526600
+push $Nc41dcaa0
  Group {
   name lightness_Fairchild2010_
-  xpos -153
-  ypos -294
+  xpos -160
+  ypos -290
   addUserKnob {20 User}
   addUserKnob {7 Y_s}
   Y_s 0.2
@@ -333,7 +354,7 @@ push $N3e526600
   which {{parent.method}}
   name Switchmethod
   xpos -40
-  ypos -249
+  ypos -250
  }
  ColorMatrix {
   matrix {
@@ -344,7 +365,25 @@ push $N3e526600
   name ColorMatrix6
   label IPT_LMS_TO_IPT
   xpos -40
-  ypos -215
+  ypos -216
+ }
+ Multiply {
+  channels rgb
+  value {{method?1/246:1/100}}
+  name Normalize
+  xpos -40
+  ypos -170
+  disable {{!parent.normalize}}
+ }
+ Expression {
+  expr0 r
+  expr1 hypot(g,b)
+  expr2 atan2(b,g)
+  name Lab_to_LCh
+  note_font Helvetica
+  xpos -40
+  ypos -118
+  disable {{!parent.LCh}}
  }
  Switch {
   inputs 2
