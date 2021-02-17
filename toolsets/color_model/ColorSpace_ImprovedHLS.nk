@@ -1,62 +1,101 @@
 set cut_paste_input [stack 0]
-BackdropNode {
- inputs 0
- name BackdropNode
- tile_color 0x2d323a01
- label "<font color=#7c7c7c><font size=7><b>IHLS Colorspace</b></font>\n<font size=4><b></b></font><font size=2>\nBased on the paper \n    \"A 3D-polar Coordinate Colour Representation\n    Suitable for Image Analysis\"\n    by Allan Hanbury and Jean Serra\n    \nhttps://www.researchgate.net/publication/243602454_A_3D-Polar_Coordinate_Colour_Representation_Suitable_for_Image_Analysis\n\n</font>"
- note_font_size 22
- note_font_color 0xffffffff
- selected true
- xpos 121
- ypos -183
- bdwidth 505
- bdheight 523
- z_order -10
-}
 push $cut_paste_input
-Dot {
- name Dot20
- note_font "Helvetica Bold"
- note_font_size 24
- note_font_color 0xff
- selected true
- xpos 311
- ypos 49
+Group {
+ name Colorspace_ImprovedHLS
+ label "direction : \[value direction]"
+ addUserKnob {20 ImprovedHLS_tab l ImprovedHLS}
+ addUserKnob {4 direction M {forward inverse}}
 }
-Expression {
- temp_name0 C1
- temp_expr0 r+-0.5*g+-0.5*b
- temp_name1 C2
- temp_expr1 0*r+-(sqrt(3)/2)*g+(sqrt(3)/2)*b
- temp_name2 C
- temp_expr2 sqrt(pow(C1,2)+pow(C2,2))
- temp_name3 H
- temp_expr3 C==0?0:C2<=0?acos(C1/C):C2>0?6.28319-acos(C1/C):0
- expr0 H/6.28319
- expr1 0.2126*r+0.7152*g+0.0722*b
- expr2 (2*C*sin(2.0944-H%1.0472))/sqrt(3)
- expr3 C
- name RGBtoIHLS
- label "<pre>r = Hue\ng = Lightness\nb = Saturation\na = Chroma"
- selected true
- xpos 277
- ypos 78
-}
-Expression {
- temp_name0 H
- temp_expr0 r*6.28319
- temp_name1 C
- temp_expr1 sqrt(3)*b/(2*sin(2.0944-(H%1.0472)))
- temp_name2 C1
- temp_expr2 C*cos(H)
- temp_name3 C2
- temp_expr3 -C*sin(H)
- expr0 g+C1*0.7875+C2*0.3714
- expr1 g+C1*-0.2125+C2*-0.2059
- expr2 g+C1*-0.2125+C2*0.9488
- expr3 C
- name IHLStoRGB1
- selected true
- xpos 277
- ypos 238
-}
+ BackdropNode {
+  inputs 0
+  name BackdropNode24
+  tile_color 0x191919ff
+  label "<font color=#7c7c7c><font size=7><b>Improved HLS Colorspace</b></font>\n<font size=4><b></b></font><font size=2>\nBased on the paper \n    \"A 3D-polar Coordinate Colour Representation\n    Suitable for Image Analysis\"\n    by Allan Hanbury and Jean Serra\n    \nhttps://www.researchgate.net/publication/243602454_A_3D-Polar_Coordinate_Colour_Representation_Suitable_for_Image_Analysis\n\nhttp://allan.hanbury.eu/doku.php?id=colour_resources\n\n</font>"
+  note_font_size 22
+  note_font_color 0xffffffff
+  xpos -384
+  ypos 443
+  bdwidth 505
+  bdheight 523
+  z_order -10
+ }
+ Expression {
+  inputs 0
+  temp_name0 c1
+  temp_expr0 r-g/2-b/2
+  temp_name1 c2
+  temp_expr1 sqrt(3)/2*b-sqrt(3)/2*g
+  temp_name2 c
+  temp_expr2 sqrt(c1*c1+c2*c2)
+  temp_name3 h
+  temp_expr3 acos(c1/(sqrt(r*r+g*g+b*b-r*g-r*b-b*g)))
+  expr0 b>g?radians(360)-h:h
+  expr1 0.2126*r+0.7152*g+0.0722*b
+  expr2 max(r,g,b)-min(r,g,b)
+  name RGB_to_HLS2
+  label "simple version"
+  note_font Helvetica
+  xpos -261
+  ypos 835
+ }
+ Input {
+  inputs 0
+  name Input
+  xpos -640
+  ypos 560
+ }
+ Dot {
+  name Dot1
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -606
+  ypos 624
+ }
+set N481ca770 [stack 0]
+ Expression {
+  temp_name0 c
+  temp_expr0 (sqrt(3)*b)/(2*sin(radians(120)-r%radians(60)))
+  temp_name1 c1
+  temp_expr1 c*cos(r)
+  temp_name2 c2
+  temp_expr2 -c*sin(r)
+  expr0 g+c1*0.7875+c2*0.3714
+  expr1 g-c1*0.2125-c2*0.2059
+  expr2 g-c1*0.2125+c2*0.9488
+  name IHLS_to_RGB
+  note_font Helvetica
+  xpos -520
+  ypos 651
+ }
+push $N481ca770
+ Expression {
+  temp_name0 c1
+  temp_expr0 r-g/2-b/2
+  temp_name1 c2
+  temp_expr1 sqrt(3)/2*b-sqrt(3)/2*g
+  temp_name2 c
+  temp_expr2 sqrt(c1*c1+c2*c2)
+  temp_name3 h
+  temp_expr3 c==0?0:c2<=0?acos(c1/c):2*pi-acos(c1/c)
+  expr0 h
+  expr1 0.2126*r+0.7152*g+0.0722*b
+  expr2 2*c*sin(radians(120)-h%radians(60))/sqrt(3)
+  name RGB_to_IHLS
+  note_font Helvetica
+  xpos -760
+  ypos 651
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name Switch1
+  xpos -640
+  ypos 710
+ }
+ Output {
+  name Output
+  xpos -640
+  ypos 770
+ }
+end_group
