@@ -1,64 +1,67 @@
 set cut_paste_input [stack 0]
 push $cut_paste_input
 Group {
- name RGBtoHSV
+ name ColorSpace_HSV
  label "direction : \[value direction]"
- selected true
- xpos -40
- ypos 296
- addUserKnob {20 RGBtoHSV_tab l RGBtoHSV}
+ addUserKnob {20 ColorSpace_HSV_tab l ColorSpace_HSV}
  addUserKnob {4 direction M {forward inverse}}
 }
  Input {
   inputs 0
   name Input
-  xpos -700
-  ypos 566
+  xpos -760
+  ypos 530
  }
-set N106084f0 [stack 0]
+ Dot {
+  name Dot1
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -726
+  ypos 594
+ }
+set Nd83311f0 [stack 0]
  Expression {
   temp_name0 C
-  temp_expr0 b*g
+  temp_expr0 g
   temp_name1 X
-  temp_expr1 C*(1-abs((r*6)%2-1))
+  temp_expr1 C*(1-fabs((r*6)%2-1))
   temp_name2 m
   temp_expr2 b-C
   expr0 (r<1/6?C:r<2/6?X:r<3/6?0:r<4/6?0:r<5/6?X:C)+m
   expr1 (r<1/6?X:r<2/6?C:r<3/6?C:r<4/6?X:r<5/6?0:0)+m
   expr2 (r<1/6?0:r<2/6?0:r<3/6?X:r<4/6?C:r<5/6?C:X)+m
-  name Expression48
-  label "HSV to RGB"
+  name HSV_to_RGB
   note_font "Bitstream Vera Sans"
-  xpos -590
-  ypos 656
+  xpos -640
+  ypos 650
  }
-push $N106084f0
+push $Nd83311f0
  Expression {
-  temp_name0 cmax
+  temp_name0 M
   temp_expr0 max(r,g,b)
-  temp_name1 cmin
+  temp_name1 m
   temp_expr1 min(r,g,b)
-  temp_name2 delta
-  temp_expr2 cmax-cmin
-  expr0 delta==0?0:cmax==r?(((g-b)/delta+6)%6)/6:cmax==g?(((b-r)/delta+2)/6):(((r-g)/delta+4)/6)
-  expr1 "cmax == 0 ? 0 : delta / cmax"
-  expr2 cmax
-  name Expression47
-  label "RGB to HSV"
-  note_font "Bitstream Vera Sans"
-  xpos -810
-  ypos 656
+  temp_name2 C
+  temp_expr2 M-m
+  expr0 (60*(C==0?0:M==r?((g-b)/C+6)%6:M==g?(b-r)/C+2:M==b?(r-g)/C+4:0))/360
+  expr1 C
+  expr2 M
+  name RGB_to_HSV
+  note_font Helvetica
+  xpos -880
+  ypos 651
  }
  Switch {
   inputs 2
   which {{parent.direction}}
-  name Switch1
-  xpos -700
-  ypos 734
+  name SwitchDirection
+  xpos -760
+  ypos 710
  }
  Output {
   name Output
-  xpos -700
-  ypos 806
+  xpos -760
+  ypos 800
  }
 end_group
