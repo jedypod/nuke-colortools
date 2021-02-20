@@ -3,39 +3,38 @@ push $cut_paste_input
 Group {
  name Tonemap_PiecewisePower_blink
  addUserKnob {20 Tonemap_PiecewisePower_tab l Tonemap_PiecewisePower}
- addUserKnob {7 pivot}
- pivot 0.18
- addUserKnob {7 slope R 0.8 10}
- slope 2
- addUserKnob {7 sw l "shoulder width"}
- sw 0.5
- addUserKnob {7 tw l "toe width"}
- tw 0.5
- addUserKnob {12 white}
- white {0.3 0}
+ addUserKnob {78 pv l pivot n 2}
+ pv {0.5 0.5}
+ addUserKnob {7 m l slope R 0.8 10}
+ m 3
+ addUserKnob {7 ls l "shoulder length"}
+ ls 0.1
+ addUserKnob {7 lt l "toe length"}
+ addUserKnob {78 white n 2}
+ white {1 1}
+ addUserKnob {78 black n 2}
  addUserKnob {6 invert +STARTLINE}
 }
  Input {
   inputs 0
   name Input
   xpos -40
-  ypos 86
+  ypos 110
  }
  BlinkScript {
-  recompileCount 1
   ProgramGroup 1
-  KernelDescription "2 \"FilmicTonemap\" iterate pixelWise 6b878fefbbdf5710910890ec4de8b153cbc01a727fadc507a2e60435589c865e 2 \"src\" Read Point \"dst\" Write Point 4 \"pt\" Float 2 AAAAAAAAAAA= \"ps\" Float 2 AAAAAAAAAAA= \"os\" Float 2 AAAAAAAAAAA= \"invert\" Bool 1 AA== 4 \"pt\" 2 1 \"ps\" 2 1 \"os\" 2 1 \"invert\" 1 1 6 \"m\" Float 1 1 AAAAAA== \"b\" Float 1 1 AAAAAA== \"A_t\" Float 1 1 AAAAAA== \"B_t\" Float 1 1 AAAAAA== \"A_s\" Float 1 1 AAAAAA== \"B_s\" Float 1 1 AAAAAA=="
-  kernelSource "// John Hable Filmic Tonemap\n// http://filmicworlds.com/blog/filmic-tonemapping-with-piecewise-power-curves/\n\nkernel FilmicTonemap : public ImageComputationKernel<ePixelWise> \{\n  Image<eRead, eAccessPoint, eEdgeClamped> src;\n  Image<eWrite> dst;\n\n  param:\n    float2 pt;\n    float2 ps;\n    float2 os;\n    bool invert;\n\n  local:\n    float m; \n    float b;\n    float A_t;\n    float B_t;\n    float A_s;\n    float B_s;\n\n  float2 as_slope_intercept(float x0, float x1, float y0, float y1) \{\n    float m, b;\n    float dy = (y1-y0);\n    float dx = (x1-x0);\n    if (dx == 0)\n      m = 1.0f;\n    else\n      m = dy/dx;\n    b = y0 - x0*m;  \n    return float2(m, b);\n  \}\n\n  float2 solve_ab(float x0, float y0, float m) \{\n    float B = (m*x0)/y0;\n    float lnA = log(y0) - B*log(x0);\n    return float2(lnA, B);\n  \}\n\n  void init() \{\n    // Set up static variables from input point positions\n    float2 tmp; // for passing float2 vals\n\n    tmp = as_slope_intercept(pt.x, ps.x, pt.y, ps.y);\n    m = tmp.x;\n    b = tmp.y;\n    \n    tmp = solve_ab(pt.x, pt.y, m);\n    A_t = tmp.x;\n    B_t = tmp.y;\n\n    float x0 = (1.0f + os.x) - ps.x;\n    float y0 = (1.0f + os.y) - ps.y;\n    \n    tmp = solve_ab(x0, y0, m);\n    A_s = tmp.x;\n    B_s = tmp.y;\n  \}\n\n\n  float curve_segment_eval(float x, float m_lnA, float m_B, float m_offsetX, float m_offsetY, float m_scaleX, float m_scaleY) \{\n    float x0 = (x - m_offsetX)*m_scaleX;\n    float y0 = 0.0f;\n    if (x0 > 0.0f) \{\n      y0 = exp(m_lnA + m_B*log(x0));\n    \}\n    return y0*m_scaleY + m_offsetY;\n  \}\n\n  float curve_segment_eval_inv(float y, float m_lnA, float m_B, float m_offsetX, float m_offsetY, float m_scaleX, float m_scaleY) \{\n    float y0 = (y-m_offsetY)/m_scaleY;\n    float x0 = 0.0f;\n    if (y0 > 0.0f) \{\n      x0 = exp((log(y0) - m_lnA)/m_B);\n    \}\n    return x0/m_scaleX + m_offsetX;\n  \}\n\n  float curve(float x) \{\n    float y, linear_segment, toe_segment, shoulder_segment;\n    linear_segment = curve_segment_eval(x, log(m), 1.0f, -(b/m), 0, 1.0f, 1.0f);\n    toe_segment = curve_segment_eval(x, A_t, B_t, 0.0f, 0.0f, 1.0f, 1.0f);\n    shoulder_segment = curve_segment_eval(x, A_s, B_s, 1.0f+os.x, 1.0f+os.y, -1.0f, -1.0f);\n\n    if (x <= pt.x) \{\n      y = toe_segment;\n    \} else if (x > pt.x && x < ps.x) \{\n      y = linear_segment;\n    \} else if (x >= ps.x) \{\n      y = shoulder_segment;\n    \}\n    return y;\n  \}\n\n  float curve_inv(float x) \{\n    float y, linear_segment, toe_segment, shoulder_segment;\n    linear_segment = curve_segment_eval_inv(x, log(m), 1.0f, -(b/m), 0, 1.0f, 1.0f);\n    toe_segment = curve_segment_eval_inv(x, A_t, B_t, 0.0f, 0.0f, 1.0f, 1.0f);\n    shoulder_segment = curve_segment_eval_inv(x, A_s, B_s, 1.0f+os.x, 1.0f+os.y, -1.0f, -1.0f);\n\n    if (x <= pt.y) \{\n      y = toe_segment;\n    \} else if (x > pt.y && x < ps.y) \{\n      y = linear_segment;\n    \} else if (x >= ps.y) \{\n      y = shoulder_segment;\n    \}\n\n    return y;\n  \}\n\n  void process() \{\n    SampleType(src) rgba = src();\n    if (invert) \{\n      dst() = float4(curve_inv(rgba.x), curve_inv(rgba.y), curve_inv(rgba.z), rgba.w);\n    \} else \{\n      dst() = float4(curve(rgba.x), curve(rgba.y), curve(rgba.z), rgba.w);\n    \}\n  \}\n\};\n"
+  KernelDescription "2 \"FilmicTonemap\" iterate pixelWise 9292f11032a3f000cc61e88917f3533e21a43c4e352ee2390ed6be571dac4ad0 2 \"src\" Read Point \"dst\" Write Point 5 \"pt\" Float 2 AAAAAAAAAAA= \"ps\" Float 2 AAAAAAAAAAA= \"white\" Float 2 AAAAAAAAAAA= \"black\" Float 2 AAAAAAAAAAA= \"invert\" Bool 1 AA== 5 \"pt\" 2 1 \"ps\" 2 1 \"white\" 2 1 \"black\" 2 1 \"invert\" 1 1 6 \"m\" Float 1 1 AAAAAA== \"b\" Float 1 1 AAAAAA== \"A_t\" Float 1 1 AAAAAA== \"B_t\" Float 1 1 AAAAAA== \"A_s\" Float 1 1 AAAAAA== \"B_s\" Float 1 1 AAAAAA=="
+  kernelSource "// John Hable Filmic Tonemap\n// http://filmicworlds.com/blog/filmic-tonemapping-with-piecewise-power-curves/\n\nkernel FilmicTonemap : public ImageComputationKernel<ePixelWise> \{\n  Image<eRead, eAccessPoint, eEdgeClamped> src;\n  Image<eWrite> dst;\n\n  param:\n    float2 pt;\n    float2 ps;\n    float2 white;\n    float2 black;\n    bool invert;\n\n  local:\n    float m; \n    float b;\n    float A_t;\n    float B_t;\n    float A_s;\n    float B_s;\n\n  float2 as_slope_intercept(float x0, float x1, float y0, float y1) \{\n    float m, b;\n    float dy = (y1-y0);\n    float dx = (x1-x0);\n    if (dx == 0)\n      m = 1.0f;\n    else\n      m = dy/dx;\n    b = y0 - x0*m;  \n    return float2(m, b);\n  \}\n\n  float2 solve_ab(float x0, float y0, float m) \{\n    float B = (m*x0)/y0;\n    float lnA = log(y0) - B*log(x0);\n    return float2(lnA, B);\n  \}\n\n  void init() \{\n    // Set up static variables from input point positions\n    float2 tmp; // for passing float2 vals\n\n    tmp = as_slope_intercept(pt.x, ps.x, pt.y, ps.y);\n    m = tmp.x;\n    b = tmp.y;\n    \n    tmp = solve_ab(pt.x - black.x, pt.y - black.y, m);\n    A_t = tmp.x;\n    B_t = tmp.y;\n\n    float x0 = white.x - ps.x;\n    float y0 = white.y - ps.y;\n    \n    tmp = solve_ab(x0, y0, m);\n    A_s = tmp.x;\n    B_s = tmp.y;\n  \}\n\n\n  float curve_segment_eval(float x, float m_lnA, float m_B, float m_offsetX, float m_offsetY, float m_scaleX, float m_scaleY) \{\n    float x0 = (x - m_offsetX)*m_scaleX;\n    float y0 = 0.0f;\n    if (x0 > 0.0f) \{\n      y0 = exp(m_lnA + m_B*log(x0));\n    \}\n    return y0*m_scaleY + m_offsetY;\n  \}\n\n  float curve_segment_eval_inv(float y, float m_lnA, float m_B, float m_offsetX, float m_offsetY, float m_scaleX, float m_scaleY) \{\n    float y0 = (y-m_offsetY)/m_scaleY;\n    float x0 = 0.0f;\n    if (y0 > 0.0f) \{\n      x0 = exp((log(y0) - m_lnA)/m_B);\n    \}\n    return x0/m_scaleX + m_offsetX;\n  \}\n\n  float curve(float x) \{\n    float y, linear_segment, toe_segment, shoulder_segment;\n    linear_segment = curve_segment_eval(x, log(m), 1.0f, -(b/m), 0, 1.0f, 1.0f);\n    toe_segment = curve_segment_eval(x, A_t, B_t, black.x, black.y, 1.0f, 1.0f);\n    shoulder_segment = curve_segment_eval(x, A_s, B_s, white.x, white.y, -1.0f, -1.0f);\n\n    if (x <= pt.x) \{\n      y = toe_segment;\n    \} else if (x > pt.x && x < ps.x) \{\n      y = linear_segment;\n    \} else if (x >= ps.x) \{\n      y = shoulder_segment;\n    \}\n    return y;\n  \}\n\n  float curve_inv(float x) \{\n    float y, linear_segment, toe_segment, shoulder_segment;\n    linear_segment = curve_segment_eval_inv(x, log(m), 1.0f, -(b/m), 0, 1.0f, 1.0f);\n    toe_segment = curve_segment_eval_inv(x, A_t, B_t, black.x, black.y, 1.0f, 1.0f);\n    shoulder_segment = curve_segment_eval_inv(x, A_s, B_s, white.x, white.y, -1.0f, -1.0f);\n\n    if (x <= pt.y) \{\n      y = toe_segment;\n    \} else if (x > pt.y && x < ps.y) \{\n      y = linear_segment;\n    \} else if (x >= ps.y) \{\n      y = shoulder_segment;\n    \}\n\n    return y;\n  \}\n\n  void process() \{\n    SampleType(src) rgba = src();\n    if (invert) \{\n      dst() = float4(curve_inv(rgba.x), curve_inv(rgba.y), curve_inv(rgba.z), rgba.w);\n    \} else \{\n      dst() = float4(curve(rgba.x), curve(rgba.y), curve(rgba.z), rgba.w);\n    \}\n  \}\n\};\n"
   rebuild ""
-  FilmicTonemap_pt {{pivot-(sin(pi/2-atan(slope))*(tw*(pivot/sin(atan(slope)))))} {pivot-(sin(atan(slope))*(tw*(pivot/sin(atan(slope)))))}}
-  FilmicTonemap_ps {{pivot+(sin(pi/2-atan(slope))*sw*((1-pivot)/sin(atan(slope))))} {pivot+(sin(atan(slope))*sw*((1-pivot)/sin(atan(slope))))}}
-  FilmicTonemap_os {{white} {white}}
+  FilmicTonemap_pt {{-lt/(sqrt(m*m+1))+pv.0} {-(m*lt)/(sqrt(m*m+1))+pv.1}}
+  FilmicTonemap_ps {{ls/(sqrt(m*m+1))+pv.0} {(m*ls)/(sqrt(m*m+1))+pv.1}}
+  FilmicTonemap_white {{parent.white} {parent.white}}
+  FilmicTonemap_black {{parent.black} {parent.black}}
   FilmicTonemap_invert {{parent.invert}}
   rebuild_finalise ""
-  name BlinkScript15
-  note_font Helvetica
+  name PiecewisePower
   xpos -40
-  ypos 153
+  ypos 165
  }
  Output {
   name Output
@@ -46,10 +45,10 @@ Group {
   inputs 0
   name StickyNote1
   tile_color 0x40454aff
-  label "<b>John Hable Piecewise Power Tonemap</b>\nhttp://filmicworlds.com/blog/filmic-tonemapping-with-piecewise-power-curves/\nhttps://www.desmos.com/calculator/6bmkisu3c1\n\nModified with parameters to control\n<b>pivot</b> - point at which x=y\n<b>slope</b> - slope of the linear section\n<b>shoulder width</b> - length of the linear section from pivot to shoulder\n<b>toe width</b> - length of the linear section from pivot to toe\n<b>white</b> - position of the shoulder asymptote"
+  label "<b>John Hable Piecewise Power Tonemap</b>\nhttp://filmicworlds.com/blog/filmic-tonemapping-with-piecewise-power-curves/\nhttps://www.desmos.com/calculator/vb71nnufqe\n\nModified with parameters to control\n<b>pivot</b> - (x,y) coordinate for the pivot point\n<b>slope</b> - slope of the linear section\n<b>shoulder length</b> - length of the linear section from pivot to shoulder\n<b>toe length</b> - length of the linear section from pivot to toe\n<b>white</b> - position of the shoulder asymptote\n<b>black</b> - position of the toe asymptote"
   note_font Helvetica
   note_font_size 14
-  xpos 133
-  ypos 80
+  xpos 99
+  ypos 86
  }
 end_group

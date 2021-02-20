@@ -1,14 +1,15 @@
 // John Hable Filmic Tonemap
 // http://filmicworlds.com/blog/filmic-tonemapping-with-piecewise-power-curves/
 
-kernel HablePiecewisePowerTonemap : public ImageComputationKernel<ePixelWise> {
+kernel FilmicTonemap : public ImageComputationKernel<ePixelWise> {
   Image<eRead, eAccessPoint, eEdgeClamped> src;
   Image<eWrite> dst;
 
   param:
     float2 pt;
     float2 ps;
-    float2 os;
+    float2 white;
+    float2 black;
     bool invert;
 
   local:
@@ -45,12 +46,12 @@ kernel HablePiecewisePowerTonemap : public ImageComputationKernel<ePixelWise> {
     m = tmp.x;
     b = tmp.y;
     
-    tmp = solve_ab(pt.x, pt.y, m);
+    tmp = solve_ab(pt.x - black.x, pt.y - black.y, m);
     A_t = tmp.x;
     B_t = tmp.y;
 
-    float x0 = (1.0f + os.x) - ps.x;
-    float y0 = (1.0f + os.y) - ps.y;
+    float x0 = white.x - ps.x;
+    float y0 = white.y - ps.y;
     
     tmp = solve_ab(x0, y0, m);
     A_s = tmp.x;
@@ -79,8 +80,8 @@ kernel HablePiecewisePowerTonemap : public ImageComputationKernel<ePixelWise> {
   float curve(float x) {
     float y, linear_segment, toe_segment, shoulder_segment;
     linear_segment = curve_segment_eval(x, log(m), 1.0f, -(b/m), 0, 1.0f, 1.0f);
-    toe_segment = curve_segment_eval(x, A_t, B_t, 0.0f, 0.0f, 1.0f, 1.0f);
-    shoulder_segment = curve_segment_eval(x, A_s, B_s, 1.0f+os.x, 1.0f+os.y, -1.0f, -1.0f);
+    toe_segment = curve_segment_eval(x, A_t, B_t, black.x, black.y, 1.0f, 1.0f);
+    shoulder_segment = curve_segment_eval(x, A_s, B_s, white.x, white.y, -1.0f, -1.0f);
 
     if (x <= pt.x) {
       y = toe_segment;
@@ -95,8 +96,8 @@ kernel HablePiecewisePowerTonemap : public ImageComputationKernel<ePixelWise> {
   float curve_inv(float x) {
     float y, linear_segment, toe_segment, shoulder_segment;
     linear_segment = curve_segment_eval_inv(x, log(m), 1.0f, -(b/m), 0, 1.0f, 1.0f);
-    toe_segment = curve_segment_eval_inv(x, A_t, B_t, 0.0f, 0.0f, 1.0f, 1.0f);
-    shoulder_segment = curve_segment_eval_inv(x, A_s, B_s, 1.0f+os.x, 1.0f+os.y, -1.0f, -1.0f);
+    toe_segment = curve_segment_eval_inv(x, A_t, B_t, black.x, black.y, 1.0f, 1.0f);
+    shoulder_segment = curve_segment_eval_inv(x, A_s, B_s, white.x, white.y, -1.0f, -1.0f);
 
     if (x <= pt.y) {
       y = toe_segment;
