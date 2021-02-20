@@ -59,7 +59,7 @@ push $N3f4b4490
   expr0 r<=0?0:r<=pt.x?exp(at+bt*log(r-pb.0))+pb.1:r<ps.x?m*r+cb:-exp(as+bs*log(-(r-pw.0)))+pw.1
   expr1 g<=0?0:g<=pt.x?exp(at+bt*log(g-pb.0))+pb.1:g<ps.x?m*g+cb:-exp(as+bs*log(-(g-pw.0)))+pw.1
   expr2 b<=0?0:b<=pt.x?exp(at+bt*log(b-pb.0))+pb.1:b<ps.x?m*b+cb:-exp(as+bs*log(-(b-pw.0)))+pw.1
-  expr3 1-(r<=0?0:r<=pt.x?12*(bt*(exp(bt*log(r)+at))/r):r<ps.x?m:bs*exp(bs*log(-r+os.x+1)+as)/(-r+os.x+1))/m
+  expr3 (r<=0?0:r<=pt.x?(bt*(exp(bt*log(r-pb.0)+at))/(r-pb.0)):r<ps.x?m:bs*exp(bs*log(-r+pw.0)+as)/(-r+pw.0))/m
   name HableTonemap
   xpos -150
   ypos 141
