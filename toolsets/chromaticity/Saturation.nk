@@ -1,0 +1,35 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name Saturation
+ addUserKnob {20 Saturation}
+ addUserKnob {4 method M {weighted maximum average ""}}
+ addUserKnob {35 weight_presets l "" +STARTLINE M {weights/ACEScg "knobs this \{w \{0.26806405 0.67246455 0.05947147\}\}" weights/Rec.2020 "knobs this \{w \{0.26270026 0.67799819 0.05930173\}\}" weights/P3D65 "knobs this \{w \{0.22897467 0.69173867 0.07928693\}\}" weights/Rec.709 "knobs this \{w \{0.21263911 0.71516877 0.07219233\}\}" ""}}
+ addUserKnob {78 w l "" t "luminance weighting" -STARTLINE n 3}
+ w {0.21263911 0.71516877 0.07219233}
+ addUserKnob {7 s l saturation R 0 4}
+ s 1
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 290
+  ypos 620
+ }
+ Expression {
+  temp_name3 L
+  temp_expr3 method==0?w.0*r+w.1*g+w.2*b:method==1?max(r,g,b):method==2?(r+g+b)/3:0
+  expr0 L*(1-s)+r*s
+  expr1 L*(1-s)+g*s
+  expr2 L*(1-s)+b*s
+  expr3 L
+  name Expression
+  xpos 290
+  ypos 681
+ }
+ Output {
+  name Output
+  xpos 290
+  ypos 740
+ }
+end_group
