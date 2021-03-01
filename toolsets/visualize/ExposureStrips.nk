@@ -1,0 +1,129 @@
+set cut_paste_input [stack 0]
+version 12.0 v8
+push $cut_paste_input
+Group {
+ name ExposureStrips
+ note_font Helvetica
+ selected true
+ xpos -920
+ ypos -249
+ addUserKnob {20 User}
+ addUserKnob {7 pos l position}
+ pos 0.4
+ addUserKnob {7 eoff l exposure R -6 6}
+ addUserKnob {7 range}
+ range 1
+ addUserKnob {3 strips t "number of strips" +INVISIBLE}
+ strips 6
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -260
+  ypos -310
+ }
+ Crop {
+  box {{rint(width*pos)} 0 {rint(width/strips)+rint(width*pos)} {height}}
+  reformat true
+  crop false
+  name Strip
+  note_font Helvetica
+  xpos -260
+  ypos -129
+ }
+set Nee1a1ab0 [stack 0]
+ Multiply {
+  channels rgb
+  value {{pow(2,e*(range+1))}}
+  name Exposure5
+  label "\[value e]"
+  note_font Helvetica
+  xpos -480
+  ypos 225
+  addUserKnob {20 User}
+  addUserKnob {7 e l exposure R -12 12}
+  e 3
+ }
+push $Nee1a1ab0
+ Multiply {
+  channels rgb
+  value {{pow(2,e*(range+1))}}
+  name Exposure4
+  label "\[value e]"
+  note_font Helvetica
+  xpos -480
+  ypos 165
+  addUserKnob {20 User}
+  addUserKnob {7 e l exposure R -12 12}
+  e 2
+ }
+push $Nee1a1ab0
+ Multiply {
+  channels rgb
+  value {{pow(2,e*(range+1))}}
+  name Exposure3
+  label "\[value e]"
+  note_font Helvetica
+  xpos -480
+  ypos 105
+  addUserKnob {20 User}
+  addUserKnob {7 e l exposure R -12 12}
+  e 1
+ }
+push $Nee1a1ab0
+push $Nee1a1ab0
+ Multiply {
+  channels rgb
+  value {{pow(2,e*(range+1))}}
+  name Exposure1
+  label "\[value e]"
+  note_font Helvetica
+  xpos -480
+  ypos -75
+  addUserKnob {20 User}
+  addUserKnob {7 e l exposure R -12 12}
+  e -1
+ }
+push $Nee1a1ab0
+ Multiply {
+  channels rgb
+  value {{pow(2,e*(range+1))}}
+  name Exposure
+  label "\[value e]"
+  note_font Helvetica
+  xpos -480
+  ypos -135
+  addUserKnob {20 User}
+  addUserKnob {7 e l exposure R -12 12}
+  e -2
+ }
+ ContactSheet {
+  inputs 6
+  width {{width*columns}}
+  height {{height/pixel_aspect*rows}}
+  rows 1
+  columns 6
+  roworder TopBottom
+  name ContactSheet1
+  note_font Helvetica
+  xpos -260
+  ypos 231
+ }
+ Multiply {
+  channels rgb
+  value {{pow(2,e)}}
+  name Exposure6
+  label "\[value e]"
+  note_font Helvetica
+  xpos -260
+  ypos 435
+  addUserKnob {20 User}
+  addUserKnob {7 e l exposure R -12 12}
+  e {{eoff}}
+ }
+ Output {
+  name Output
+  xpos -260
+  ypos 560
+ }
+end_group
