@@ -1,0 +1,67 @@
+set cut_paste_input [stack 0]
+Group {
+ inputs 0
+ name HueSwatch
+ label "\[value value]"
+ postage_stamp true
+ addUserKnob {20 User}
+ addUserKnob {41 value l color T Multiply17.value}
+ addUserKnob {41 saturation T Saturation1.saturation}
+ addUserKnob {3 size}
+ size 1024
+}
+ Constant {
+  inputs 0
+  format "512 512 0 0 512 512 1 square_512"
+  name Constant13
+  note_font Helvetica
+  xpos 1155
+  ypos 666
+  postage_stamp false
+ }
+ Reformat {
+  type "to box"
+  box_width {{parent.size}}
+  name Reformat1
+  note_font Helvetica
+  xpos 1155
+  ypos 689
+ }
+ Expression {
+  channel0 rgba
+  expr0 x/width
+  name Expression14
+  note_font Helvetica
+  xpos 1155
+  ypos 719
+ }
+ Multiply {
+  channels rgba
+  value {0 0 1 1}
+  name Multiply17
+  note_font Helvetica
+  xpos 1155
+  ypos 755
+ }
+ Expression {
+  channel0 {none none none rgba.alpha}
+  expr0 y/height
+  name Expression15
+  note_font Helvetica
+  xpos 1155
+  ypos 785
+ }
+ Saturation {
+  mode Maximum
+  maskChannelInput rgba.alpha
+  name Saturation1
+  note_font Helvetica
+  xpos 1155
+  ypos 822
+ }
+ Output {
+  name Output1
+  xpos 1155
+  ypos 891
+ }
+end_group

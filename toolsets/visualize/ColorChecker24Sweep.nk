@@ -1,0 +1,3060 @@
+set cut_paste_input [stack 0]
+Group {
+ inputs 0
+ name ColorChecker24_ExposureScale
+ postage_stamp true
+ addUserKnob {20 colorchecker_tab l "ColorChecker24 - After November 2014"}
+ addUserKnob {41 colorspace T XYZ_D50_to_RGB1.colorspace}
+ addUserKnob {3 patch_resolution}
+ patch_resolution 24
+ addUserKnob {3 length}
+ length 48
+ addUserKnob {7 e l exposure t "exposure, in stops, to brighten above pivot, and to darken below pivot.\n\ntotal exposure range is 2 * exposure" R 0 6}
+ e 6
+ addUserKnob {7 pivot}
+ pivot 0.18
+}
+ Group {
+  inputs 0
+  name bluish_green
+  xpos 622
+  ypos -321
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.30451114 0.4143554688 0.344352688 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "bluish green"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 6
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop25
+  note_font Helvetica
+  xpos 622
+  ypos -249
+ }
+ Group {
+  inputs 0
+  name blue_flower
+  xpos 512
+  ypos -321
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.2419823988 0.2287175998 0.3282104382 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "blue flower"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 5
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop24
+  note_font Helvetica
+  xpos 512
+  ypos -249
+ }
+ Group {
+  inputs 0
+  name foliage
+  xpos 402
+  ypos -321
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.1114392339 0.1346792679 0.05239320311 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob foliage
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 4
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop18
+  note_font Helvetica
+  xpos 402
+  ypos -249
+ }
+ Group {
+  inputs 0
+  name blue_sky
+  xpos 292
+  ypos -321
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.1652470004 0.1785519348 0.2546024121 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "blue sky"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 3
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop19
+  note_font Helvetica
+  xpos 292
+  ypos -249
+ }
+ Group {
+  inputs 0
+  name light_skin
+  xpos 180
+  ypos -321
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.3811104477 0.336202304 0.1852590702 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "light skin"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 2
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 63
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+   xpos 262
+   ypos 135
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop8
+  note_font Helvetica
+  xpos 180
+  ypos -249
+ }
+ Group {
+  inputs 0
+  name dark_skin
+  xpos 70
+  ypos -321
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.1136398927 0.09832436105 0.047793811 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "dark skin"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 1
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 290
+   ypos 63
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+   xpos 290
+   ypos 158
+  }
+  Output {
+   name Output
+   xpos 290
+   ypos 230
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop9
+  note_font Helvetica
+  xpos 70
+  ypos -249
+ }
+ Group {
+  inputs 0
+  name orange_yellow
+  xpos 622
+  ypos -201
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.4769723742 0.4293377578 0.06005041429 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "orange yellow"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 12
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop20
+  note_font Helvetica
+  xpos 622
+  ypos -129
+ }
+ Group {
+  inputs 0
+  name yellow_green
+  xpos 512
+  ypos -201
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.3427379502 0.4331759409 0.08330791241 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "yellow green"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 11
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop21
+  note_font Helvetica
+  xpos 512
+  ypos -129
+ }
+ Group {
+  inputs 0
+  name purple
+  xpos 401
+  ypos -201
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.08353888545 0.06276662955 0.1042075686 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob purple
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 10
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop22
+  note_font Helvetica
+  xpos 401
+  ypos -129
+ }
+ Group {
+  inputs 0
+  name moderate_red
+  xpos 290
+  ypos -201
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.2915036416 0.188999956 0.09736350318 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "moderate red"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 9
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop23
+  note_font Helvetica
+  xpos 290
+  ypos -129
+ }
+ Group {
+  inputs 0
+  name purplish_blue
+  xpos 180
+  ypos -201
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.1200518326 0.1091090233 0.2874447494 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "purplish blue"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 8
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop10
+  note_font Helvetica
+  xpos 180
+  ypos -129
+ }
+ Group {
+  inputs 0
+  name orange
+  xpos 74
+  ypos -201
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.4073691399 0.3126416159 0.05130591012 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob orange
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 7
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop11
+  note_font Helvetica
+  xpos 74
+  ypos -129
+ }
+ Group {
+  inputs 0
+  name cyan
+  xpos 622
+  ypos -81
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.1247966941 0.180609913 0.2913392383 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob cyan
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 18
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop12
+  note_font Helvetica
+  xpos 622
+  ypos -9
+ }
+ Group {
+  inputs 0
+  name magenta
+  xpos 512
+  ypos -81
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.299122798 0.1895114577 0.2213469194 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob magenta
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 17
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop13
+  note_font Helvetica
+  xpos 512
+  ypos -9
+ }
+ Group {
+  inputs 0
+  name yellow
+  xpos 399
+  ypos -81
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.5888922356 0.5992976803 0.07077420003 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob yellow
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 16
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+   xpos 262
+   ypos 125
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 182
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop14
+  note_font Helvetica
+  xpos 399
+  ypos -9
+ }
+ Group {
+  inputs 0
+  name red
+  xpos 292
+  ypos -81
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.2143728424 0.127800835 0.03868150726 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob red
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 15
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop15
+  note_font Helvetica
+  xpos 292
+  ypos -9
+ }
+ Group {
+  inputs 0
+  name green
+  xpos 182
+  ypos -81
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.1413517689 0.2233437582 0.07287461742 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob green
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 14
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop16
+  note_font Helvetica
+  xpos 182
+  ypos -9
+ }
+ Group {
+  inputs 0
+  name blue
+  xpos 72
+  ypos -81
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.06809095613 0.05596214063 0.2077405936 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob blue
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 13
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop17
+  note_font Helvetica
+  xpos 72
+  ypos -9
+ }
+ Group {
+  inputs 0
+  name black_2
+  xpos 623
+  ypos 39
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.03042544265 0.03151319431 0.02656724434 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "black 2 (1.5 D)"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 24
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+   xpos 262
+   ypos 125
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop2
+  note_font Helvetica
+  xpos 623
+  ypos 111
+ }
+ Group {
+  inputs 0
+  name neutral_3
+  xpos 512
+  ypos 39
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.08448968042 0.08817234828 0.07391630753 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "neutral 3.5 (1.05 D)"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 23
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop3
+  note_font Helvetica
+  xpos 512
+  ypos 111
+ }
+ Group {
+  inputs 0
+  name neutral_5
+  xpos 403
+  ypos 39
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.1835495863 0.1906228754 0.1566717383 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "neutral 5 (.70 D)"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 22
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop4
+  note_font Helvetica
+  xpos 403
+  ypos 111
+ }
+ Group {
+  inputs 0
+  name neutral_6
+  xpos 292
+  ypos 39
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.3495921991 0.3648652066 0.3013565492 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "neutral 6.5 (.44 D)"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 21
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop5
+  note_font Helvetica
+  xpos 292
+  ypos 111
+ }
+ Group {
+  inputs 0
+  name neutral_8
+  xpos 179
+  ypos 39
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.5665335579 0.5899709702 0.4828473821 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "neutral 8 (.23 D)"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 20
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop6
+  note_font Helvetica
+  xpos 179
+  ypos 111
+ }
+ Group {
+  inputs 0
+  name white_9
+  xpos 70
+  ypos 39
+  postage_stamp true
+  addUserKnob {20 sample_Tab l Sample}
+  addUserKnob {19 colour_RGBA_Color_Knob l Colour}
+  colour_RGBA_Color_Knob {0.8436985288 0.8806903203 0.6936778752 1}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 colour_RGBA_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {1 name_Text_Knob l Name}
+  name_Text_Knob "white 9.5 (.05 D)"
+  addUserKnob {1 index_Text_Knob l Index}
+  index_Text_Knob 19
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 label_colour_RGB_Color_Knob_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {3 resolution}
+  resolution {{parent.patch_resolution}}
+ }
+  Constant {
+   inputs 0
+   color {{parent.colour_RGBA_Color_Knob.r} {parent.colour_RGBA_Color_Knob.g} {parent.colour_RGBA_Color_Knob.b} {parent.colour_RGBA_Color_Knob.a}}
+   format "512 512 0 0 512 512 1 square_512"
+   name Constant
+   xpos 262
+   ypos 53
+  }
+  Reformat {
+   type "to box"
+   box_width {{parent.resolution}}
+   box_height {{parent.resolution}}
+   box_fixed true
+   filter Impulse
+   black_outside true
+   name Reformat1
+   xpos 262
+   ypos 134
+  }
+  Output {
+   name Output
+   xpos 262
+   ypos 173
+  }
+ end_group
+ Crop {
+  box {0 0 {input.width} {input.height}}
+  name Crop7
+  note_font Helvetica
+  xpos 70
+  ypos 111
+ }
+ ContactSheet {
+  inputs 24
+  width {{parent.patch_resolution}}
+  height {{parent.patch_resolution*24}}
+  rows 24
+  columns 1
+  startframe 1
+  endframe 1
+  name ContactSheet
+  xpos 620
+  ypos 207
+ }
+ Group {
+  name XYZ_D50_to_RGB1
+  xpos 620
+  ypos 244
+  addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to RGB"}
+  addUserKnob {4 colorspace M {ACES2065-1 ACEScc ACEScg ACESproxy "ALEXA Wide Gamut RGB" "Adobe RGB (1998)" "Adobe Wide Gamut RGB" "Apple RGB" "Best RGB" "Beta RGB" "CIE RGB" "Cinema Gamut" "ColorMatch RGB" DCI-P3 DCI-P3+ DRAGONcolor DRAGONcolor2 "Don RGB 4" "ECI RGB v2" "ERIMM RGB" "Ekta Space PS 5" "Max RGB" "NTSC RGB" "Pal/Secam RGB" "ProPhoto RGB" REDcolor REDcolor2 REDcolor3 REDcolor4 "RIMM RGB" "ROMM RGB" "Rec. 2020" "Rec. 709" "Russell RGB" S-Gamut S-Gamut3 S-Gamut3.Cine "SMPTE-C RGB" V-Gamut "Xtreme RGB" sRGB "" ""}}
+  colorspace ACEScg
+  addUserKnob {20 about_Tab l About}
+  addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to RGB v0.1.2\n\ncolour-science.org - May 6, 2015\n\nThis Gizmo / Group tranforms from CIE XYZ D50 tristimulus values to RGB colourspace using CAT02 chromatic adaptation transform."}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -3560
+   ypos 1033
+  }
+set Nc3cf0440 [stack 0]
+  Group {
+   name XYZ_D50_to_sRGB
+   xpos -3560
+   ypos 1142
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to sRGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to sRGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to sRGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9598633 -0.0293718 0.0657319}
+        {-0.0212343 0.9988909 0.0261607}
+        {0.0013724 0.0044402 1.3129173}
+      }
+    name D50_to_D65_CAT02_ColorMatrix
+    xpos 0
+    ypos -124
+   }
+   ColorMatrix {
+    matrix {
+        {3.2406255 -1.537208 -0.4986286}
+        {-0.9689307 1.8757561 0.0415175}
+        {0.0557101 -0.2040211 1.0569959}
+      }
+    name XYZ_to_sRGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -72
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_Xtreme_RGB
+   xpos -3709
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to Xtreme_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to Xtreme_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to Xtreme_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {1 0 0}
+        {0 1 0}
+        {0 0 1}
+      }
+    name D50_to_D50_CAT02_ColorMatrix
+    xpos 0
+    ypos -124
+   }
+   ColorMatrix {
+    matrix {
+        {1.0370263 0 0}
+        {0 1 0}
+        {0 0 1.2119675}
+      }
+    name XYZ_to_Xtreme_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_V-Gamut
+   xpos -3859
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to V-Gamut"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to V-Gamut v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to V-Gamut colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9598633 -0.0293718 0.0657319}
+        {-0.0212343 0.9988909 0.0261607}
+        {0.0013724 0.0044402 1.3129173}
+      }
+    name D50_to_D65_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.5890129 -0.3132039 -0.180965}
+        {-0.5340545 1.3960122 0.1024579}
+        {0.0111794 0.0031936 0.9055357}
+      }
+    name XYZ_to_V-Gamut_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_SMPTE-C_RGB
+   xpos -4009
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to SMPTE-C_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to SMPTE-C_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to SMPTE-C_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9598633 -0.0293718 0.0657319}
+        {-0.0212343 0.9988909 0.0261607}
+        {0.0013724 0.0044402 1.3129173}
+      }
+    name D50_to_D65_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {3.5060033 -1.7397907 -0.5440583}
+        {-1.0690476 1.9777789 0.0351714}
+        {0.0563066 -0.1969757 1.0499523}
+      }
+    name XYZ_to_SMPTE-C_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_S-Gamut3.Cine
+   xpos -4159
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to S-Gamut3.Cine"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to S-Gamut3.Cine v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to S-Gamut3.Cine colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9598633 -0.0293718 0.0657319}
+        {-0.0212343 0.9988909 0.0261607}
+        {0.0013724 0.0044402 1.3129173}
+      }
+    name D50_to_D65_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.846779 -0.5259861 -0.2105452}
+        {-0.4441533 1.2594429 0.1494}
+        {0.0408554 0.0156409 0.8682072}
+      }
+    name XYZ_to_S-Gamut3.Cine_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_S-Gamut3
+   xpos -4309
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to S-Gamut3"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to S-Gamut3 v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to S-Gamut3 colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9598633 -0.0293718 0.0657319}
+        {-0.0212343 0.9988909 0.0261607}
+        {0.0013724 0.0044402 1.3129173}
+      }
+    name D50_to_D65_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.5073999 -0.2458221 -0.1716117}
+        {-0.5181517 1.3553912 0.1258787}
+        {0.0155117 -0.0078728 0.9119164}
+      }
+    name XYZ_to_S-Gamut3_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_S-Gamut
+   xpos -4459
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to S-Gamut"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to S-Gamut v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to S-Gamut colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9598633 -0.0293718 0.0657319}
+        {-0.0212343 0.9988909 0.0261607}
+        {0.0013724 0.0044402 1.3129173}
+      }
+    name D50_to_D65_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.5073999 -0.2458221 -0.1716117}
+        {-0.5181517 1.3553912 0.1258787}
+        {0.0155117 -0.0078728 0.9119164}
+      }
+    name XYZ_to_S-Gamut_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_Russell_RGB
+   xpos -4609
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to Russell_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to Russell_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to Russell_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9842386 -0.0123617 0.0243142}
+        {-0.0089083 1.0005966 0.0096881}
+        {0.0005204 0.0016123 1.1142423}
+      }
+    name D50_to_D55_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.5870253 -0.3598133 -0.1721662}
+        {-0.7535178 1.6771848 0.0475092}
+        {0.0370375 -0.0824384 1.136216}
+      }
+    name XYZ_to_Russell_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_Rec._709
+   xpos -4759
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to Rec._709"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to Rec._709 v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to Rec._709 colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9598633 -0.0293718 0.0657319}
+        {-0.0212343 0.9988909 0.0261607}
+        {0.0013724 0.0044402 1.3129173}
+      }
+    name D50_to_D65_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {3.2409699 -1.5373832 -0.4986108}
+        {-0.9692436 1.8759675 0.0415551}
+        {0.0556301 -0.203977 1.0569715}
+      }
+    name XYZ_to_Rec._709_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_Rec._2020
+   xpos -4909
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to Rec._2020"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to Rec._2020 v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to Rec._2020 colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9598633 -0.0293718 0.0657319}
+        {-0.0212343 0.9988909 0.0261607}
+        {0.0013724 0.0044402 1.3129173}
+      }
+    name D50_to_D65_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.7166512 -0.3556708 -0.2533663}
+        {-0.6666844 1.6164812 0.0157685}
+        {0.0176399 -0.0427706 0.9421031}
+      }
+    name XYZ_to_Rec._2020_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_ROMM_RGB
+   xpos -5059
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to ROMM_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to ROMM_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to ROMM_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {1 0 0}
+        {0 1 0}
+        {0 0 1}
+      }
+    name D50_to_D50_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.3458865 -0.2556031 -0.0510373}
+        {-0.54448 1.5080962 0.0204769}
+        {0 0 1.2122682}
+      }
+    name XYZ_to_ROMM_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_RIMM_RGB
+   xpos -5209
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to RIMM_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to RIMM_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to RIMM_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {1 0 0}
+        {0 1 0}
+        {0 0 1}
+      }
+    name D50_to_D50_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.3458865 -0.2556031 -0.0510373}
+        {-0.54448 1.5080962 0.0204769}
+        {0 0 1.2122682}
+      }
+    name XYZ_to_RIMM_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_REDcolor4
+   xpos -5359
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to REDcolor4"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to REDcolor4 v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to REDcolor4 colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.971151 -0.0217941 0.0460105}
+        {-0.0157324 1.0000539 0.018321}
+        {0.0009712 0.0030832 1.2177917}
+      }
+    name D50_to_D60_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {2.7606374 -1.2039645 -0.4222196}
+        {-0.8152302 1.7406574 0.0356538}
+        {0.0663723 -0.0515436 0.9796685}
+      }
+    name XYZ_to_REDcolor4_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_REDcolor3
+   xpos -5509
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to REDcolor3"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to REDcolor3 v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to REDcolor3 colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.971151 -0.0217941 0.0460105}
+        {-0.0157324 1.0000539 0.018321}
+        {0.0009712 0.0030832 1.2177917}
+      }
+    name D50_to_D60_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {2.5610626 -1.1185998 -0.3183767}
+        {-0.7499284 1.6079051 0.1055795}
+        {0.0663738 -0.0515444 0.9796678}
+      }
+    name XYZ_to_REDcolor3_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_REDcolor2
+   xpos -5659
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to REDcolor2"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to REDcolor2 v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to REDcolor2 colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.971151 -0.0217941 0.0460105}
+        {-0.0157324 1.0000539 0.018321}
+        {0.0009712 0.0030832 1.2177917}
+      }
+    name D50_to_D60_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {2.5254045 -1.1103547 -0.2928773}
+        {-0.4845878 1.3682864 0.0925377}
+        {0.2575004 -0.1403015 0.8871654}
+      }
+    name XYZ_to_REDcolor2_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_REDcolor
+   xpos -5809
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to REDcolor"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to REDcolor v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to REDcolor colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.971151 -0.0217941 0.0460105}
+        {-0.0157324 1.0000539 0.018321}
+        {0.0009712 0.0030832 1.2177917}
+      }
+    name D50_to_D60_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {2.9652421 -1.3977527 -0.4233375}
+        {-0.7972597 1.7005557 0.0584349}
+        {0.1303555 -0.1851798 1.0517155}
+      }
+    name XYZ_to_REDcolor_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_ProPhoto_RGB
+   xpos -5959
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to ProPhoto_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to ProPhoto_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to ProPhoto_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {1 0 0}
+        {0 1 0}
+        {0 0 1}
+      }
+    name D50_to_D50_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.3458865 -0.2556031 -0.0510373}
+        {-0.54448 1.5080962 0.0204769}
+        {0 0 1.2122682}
+      }
+    name XYZ_to_ProPhoto_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_Pal/Secam_RGB
+   xpos -6109
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to Pal/Secam_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to Pal/Secam_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to Pal/Secam_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9598633 -0.0293718 0.0657319}
+        {-0.0212343 0.9988909 0.0261607}
+        {0.0013724 0.0044402 1.3129173}
+      }
+    name D50_to_D65_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {3.0633611 -1.3933902 -0.4758237}
+        {-0.9692436 1.8759675 0.0415551}
+        {0.067861 -0.2287993 1.0690896}
+      }
+    name XYZ_to_Pal/Secam_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_NTSC_RGB
+   xpos -6259
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to NTSC_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to NTSC_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to NTSC_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9615914 -0.0162162 0.0844302}
+        {-0.0121341 0.9841088 0.0334407}
+        {0.0015793 0.0061369 1.4235645}
+      }
+    name D50_to_C_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.9100814 -0.5324779 -0.288222}
+        {-0.9846313 1.9991 -0.0283072}
+        {0.0583094 -0.1183858 0.8976121}
+      }
+    name XYZ_to_NTSC_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_Max_RGB
+   xpos -6409
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to Max_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to Max_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to Max_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {1 0 0}
+        {0 1 0}
+        {0 0 1}
+      }
+    name D50_to_D50_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.2169928 -0.1358093 -0.0457294}
+        {-0.5470464 1.5105539 0.0205557}
+        {0 0 1.2119675}
+      }
+    name XYZ_to_Max_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_Ekta_Space_PS_5
+   xpos -6559
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to Ekta_Space_PS_5"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to Ekta_Space_PS_5 v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to Ekta_Space_PS_5 colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {1 0 0}
+        {0 1 0}
+        {0 0 1}
+      }
+    name D50_to_D50_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {2.003366 -0.7301387 -0.244452}
+        {-0.7121546 1.6207657 0.0799437}
+        {0.0381866 -0.0869075 1.2726681}
+      }
+    name XYZ_to_Ekta_Space_PS_5_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_ERIMM_RGB
+   xpos -6709
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to ERIMM_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to ERIMM_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to ERIMM_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {1 0 0}
+        {0 1 0}
+        {0 0 1}
+      }
+    name D50_to_D50_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.3458865 -0.2556031 -0.0510373}
+        {-0.54448 1.5080962 0.0204769}
+        {0 0 1.2122682}
+      }
+    name XYZ_to_ERIMM_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_ECI_RGB_v2
+   xpos -6859
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to ECI_RGB_v2"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to ECI_RGB_v2 v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to ECI_RGB_v2 colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {1 0 0}
+        {0 1 0}
+        {0 0 1}
+      }
+    name D50_to_D50_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.782156 -0.4965632 -0.269011}
+        {-0.9592343 1.9484446 -0.0284317}
+        {0.0861275 -0.1749466 1.3233403}
+      }
+    name XYZ_to_ECI_RGB_v2_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_Don_RGB_4
+   xpos -7009
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to Don_RGB_4"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to Don_RGB_4 v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to Don_RGB_4 colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {1 0 0}
+        {0 1 0}
+        {0 0 1}
+      }
+    name D50_to_D50_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.7581913 -0.486592 -0.2530881}
+        {-0.7112839 1.652253 0.0407645}
+        {0.0071774 -0.0345995 1.2455128}
+      }
+    name XYZ_to_Don_RGB_4_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_DRAGONcolor2
+   xpos -7159
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to DRAGONcolor2"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to DRAGONcolor2 v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to DRAGONcolor2 colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.971151 -0.0217941 0.0460105}
+        {-0.0157324 1.0000539 0.018321}
+        {0.0009712 0.0030832 1.2177917}
+      }
+    name D50_to_D60_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {2.699086 -1.1541013 -0.4135229}
+        {-0.72103 1.6622637 0.0244073}
+        {0.1221744 -0.0518761 0.9273035}
+      }
+    name XYZ_to_DRAGONcolor2_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_DRAGONcolor
+   xpos -7309
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to DRAGONcolor"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to DRAGONcolor v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to DRAGONcolor colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.971151 -0.0217941 0.0460105}
+        {-0.0157324 1.0000539 0.018321}
+        {0.0009712 0.0030832 1.2177917}
+      }
+    name D50_to_D60_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {2.3900712 -1.0219252 -0.2527363}
+        {-0.6199164 1.4567121 0.1326779}
+        {0.1221737 -0.0518762 0.9273043}
+      }
+    name XYZ_to_DRAGONcolor_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_DCI-P3+
+   xpos -7459
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to DCI-P3+"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to DCI-P3+ v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to DCI-P3+ colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9518624 -0.0565236 0.0402782}
+        {-0.0401282 1.0252297 0.0163201}
+        {0.0011696 0.0019442 1.1529979}
+      }
+    name D50_to_DCI-P3_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.9904035 -0.5613959 -0.2296619}
+        {-0.4584928 1.262346 0.1548755}
+        {0.0156321 -0.004409 1.0377287}
+      }
+    name XYZ_to_DCI-P3+_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_DCI-P3
+   xpos -7609
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to DCI-P3"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to DCI-P3 v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to DCI-P3 colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9518624 -0.0565236 0.0402782}
+        {-0.0401282 1.0252297 0.0163201}
+        {0.0011696 0.0019442 1.1529979}
+      }
+    name D50_to_DCI-P3_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {2.725394 -1.018003 -0.4401632}
+        {-0.795168 1.6897321 0.0226472}
+        {0.0412419 -0.087639 1.1009294}
+      }
+    name XYZ_to_DCI-P3_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_ColorMatch_RGB
+   xpos -7759
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to ColorMatch_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to ColorMatch_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to ColorMatch_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {1 0 0}
+        {0 1 0}
+        {0 0 1}
+      }
+    name D50_to_D50_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {2.6416498 -1.2231318 -0.3929195}
+        {-1.1120717 2.059195 0.0159628}
+        {0.082182 -0.2807668 1.4562021}
+      }
+    name XYZ_to_ColorMatch_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_Cinema_Gamut
+   xpos -7909
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to Cinema_Gamut"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to Cinema_Gamut v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to Cinema_Gamut colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9598633 -0.0293718 0.0657319}
+        {-0.0212343 0.9988909 0.0261607}
+        {0.0013724 0.0044402 1.3129173}
+      }
+    name D50_to_D65_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.4898183 -0.2608959 -0.1424265}
+        {-0.4581666 1.2616278 0.1596236}
+        {-0.0703497 0.2215577 0.7761816}
+      }
+    name XYZ_to_Cinema_Gamut_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_CIE_RGB
+   xpos -8059
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to CIE_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to CIE_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to CIE_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9937107 0.0105843 0.037795}
+        {0.0071274 0.9808863 0.0148355}
+        {0.0005548 0.0031069 1.2075538}
+      }
+    name D50_to_E_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {2.370674 -0.9000403 -0.4706337}
+        {-0.5138848 1.4253035 0.0885813}
+        {0.0052982 -0.0146949 1.0093967}
+      }
+    name XYZ_to_CIE_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_Beta_RGB
+   xpos -8209
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to Beta_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to Beta_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to Beta_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {1 0 0}
+        {0 1 0}
+        {0 0 1}
+      }
+    name D50_to_D50_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.6829707 -0.4281711 -0.2359826}
+        {-0.7710715 1.7066647 0.0446928}
+        {0.0400065 -0.0885492 1.2725308}
+      }
+    name XYZ_to_Beta_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_Best_RGB
+   xpos -8359
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to Best_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to Best_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to Best_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {1 0 0}
+        {0 1 0}
+        {0 0 1}
+      }
+    name D50_to_D50_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.7573718 -0.4853802 -0.2535991}
+        {-0.5419967 1.504754 0.0216834}
+        {0.0066622 -0.0184962 1.2265984}
+      }
+    name XYZ_to_Best_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_Apple_RGB
+   xpos -8509
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to Apple_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to Apple_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to Apple_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9598633 -0.0293718 0.0657319}
+        {-0.0212343 0.9988909 0.0261607}
+        {0.0013724 0.0044402 1.3129173}
+      }
+    name D50_to_D65_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {2.9519785 -1.2896043 -0.4739153}
+        {-1.0850836 1.9908093 0.0372017}
+        {0.0854722 -0.2694297 1.0910277}
+      }
+    name XYZ_to_Apple_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_Adobe_Wide_Gamut_RGB
+   xpos -8659
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to Adobe_Wide_Gamut_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to Adobe_Wide_Gamut_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to Adobe_Wide_Gamut_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {1 0 0}
+        {0 1 0}
+        {0 0 1}
+      }
+    name D50_to_D50_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.4623042 -0.1845256 -0.273381}
+        {-0.5228683 1.4479884 0.0681262}
+        {0.0346004 -0.0958196 1.2876605}
+      }
+    name XYZ_to_Adobe_Wide_Gamut_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_Adobe_RGB_(1998)
+   xpos -8809
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to Adobe_RGB_(1998)"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to Adobe_RGB_(1998) v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to Adobe_RGB_(1998) colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9598633 -0.0293718 0.0657319}
+        {-0.0212343 0.9988909 0.0261607}
+        {0.0013724 0.0044402 1.3129173}
+      }
+    name D50_to_D65_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {2.0415822 -0.5650135 -0.3447325}
+        {-0.9692306 1.8759769 0.0415559}
+        {0.0134474 -0.1183655 1.0151719}
+      }
+    name XYZ_to_Adobe_RGB_(1998)_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_ALEXA_Wide_Gamut_RGB
+   xpos -8959
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to ALEXA_Wide_Gamut_RGB"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to ALEXA_Wide_Gamut_RGB v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to ALEXA_Wide_Gamut_RGB colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.9598633 -0.0293718 0.0657319}
+        {-0.0212343 0.9988909 0.0261607}
+        {0.0013724 0.0044402 1.3129173}
+      }
+    name D50_to_D65_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.7890645 -0.4825338 -0.200075}
+        {-0.6398487 1.3964001 0.1944322}
+        {-0.041531 0.082335 0.8788682}
+      }
+    name XYZ_to_ALEXA_Wide_Gamut_RGB_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_ACESproxy
+   xpos -9109
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to ACESproxy"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to ACESproxy v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to ACESproxy colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.971151 -0.0217941 0.0460105}
+        {-0.0157324 1.0000539 0.018321}
+        {0.0009712 0.0030832 1.2177917}
+      }
+    name D50_to_D60_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.6410234 -0.3248033 -0.2364247}
+        {-0.6636629 1.6153316 0.0167563}
+        {0.0117219 -0.0082844 0.9883949}
+      }
+    name XYZ_to_ACESproxy_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_ACEScg
+   xpos -9259
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to ACEScg"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to ACEScg v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to ACEScg colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.971151 -0.0217941 0.0460105}
+        {-0.0157324 1.0000539 0.018321}
+        {0.0009712 0.0030832 1.2177917}
+      }
+    name D50_to_D60_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.6410234 -0.3248033 -0.2364247}
+        {-0.6636629 1.6153316 0.0167563}
+        {0.0117219 -0.0082844 0.9883949}
+      }
+    name XYZ_to_ACEScg_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_ACEScc
+   xpos -9409
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to ACEScc"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to ACEScc v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to ACEScc colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.971151 -0.0217941 0.0460105}
+        {-0.0157324 1.0000539 0.018321}
+        {0.0009712 0.0030832 1.2177917}
+      }
+    name D50_to_D60_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.6410234 -0.3248033 -0.2364247}
+        {-0.6636629 1.6153316 0.0167563}
+        {0.0117219 -0.0082844 0.9883949}
+      }
+    name XYZ_to_ACEScc_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+push $Nc3cf0440
+  Group {
+   name XYZ_D50_to_ACES2065-1
+   xpos -9559
+   ypos 1143
+   addUserKnob {20 XYZ_D50_to_RGB_Tab l "XYZ D50 to ACES2065-1"}
+   addUserKnob {20 parameters_endGroup l endGroup n -1}
+   addUserKnob {20 about_Tab l About}
+   addUserKnob {26 description_Text l "" +STARTLINE T "XYZ D50 to ACES2065-1 v0.1.2\n\ncolour-science.org - July 10, 2016\n\nThis Gizmo / Group transforms from CIE XYZ D50 tristimulus values to ACES2065-1 colourspace using CAT02 chromatic adaptation transform."}
+  }
+   Input {
+    inputs 0
+    name Input
+    xpos 0
+    ypos -149
+   }
+   ColorMatrix {
+    matrix {
+        {0.971151 -0.0217941 0.0460105}
+        {-0.0157324 1.0000539 0.018321}
+        {0.0009712 0.0030832 1.2177917}
+      }
+    name D50_to_D60_CAT02_ColorMatrix
+    xpos 0
+    ypos -125
+   }
+   ColorMatrix {
+    matrix {
+        {1.049811 0 -9.75e-05}
+        {-0.495903 1.373313 0.09824}
+        {0 0 0.991252}
+      }
+    name XYZ_to_ACES2065-1_ColorMatrix
+    xpos 0
+    ypos -98
+   }
+   Output {
+    name Output
+    xpos 0
+    ypos -74
+   }
+  end_group
+  Switch {
+   inputs 41
+   which {{parent.colorspace}}
+   name colourspace_Switch
+   xpos -3560
+   ypos 1334
+   addUserKnob {20 User}
+   addUserKnob {4 colourspace_Pulldown_Choice l Colourspace M {ACES2065-1 ACEScc ACEScg ACESproxy "ALEXA Wide Gamut RGB" "Adobe RGB (1998)" "Adobe Wide Gamut RGB" "Apple RGB" "Best RGB" "Beta RGB" "CIE RGB" "Cinema Gamut" "ColorMatch RGB" DCI-P3 DCI-P3+ DRAGONcolor DRAGONcolor2 "Don RGB 4" "ECI RGB v2" "ERIMM RGB" "Ekta Space PS 5" "Max RGB" "NTSC RGB" "Pal/Secam RGB" "ProPhoto RGB" REDcolor REDcolor2 REDcolor3 REDcolor4 "RIMM RGB" "ROMM RGB" "Rec. 2020" "Rec. 709" "Russell RGB" S-Gamut S-Gamut3 S-Gamut3.Cine "SMPTE-C RGB" V-Gamut "Xtreme RGB" sRGB}}
+  }
+  Output {
+   name Output
+   xpos -3560
+   ypos 1502
+  }
+ end_group
+ Crop {
+  box {0 0 {patch_resolution*length} {input.height}}
+  reformat true
+  crop false
+  name Crop1
+  note_font Helvetica
+  xpos 620
+  ypos 293
+ }
+ Expression {
+  expr0 r*pow(2,(x/width-pivot)*2*e)
+  expr1 g*pow(2,(x/width-pivot)*2*e)
+  expr2 b*pow(2,(x/width-pivot)*2*e)
+  name Expression1
+  label "exposure\n"
+  note_font Helvetica
+  xpos 620
+  ypos 356
+ }
+ Output {
+  name Output
+  xpos 620
+  ypos 454
+ }
+end_group

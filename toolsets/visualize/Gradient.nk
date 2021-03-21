@@ -1,0 +1,38 @@
+set cut_paste_input [stack 0]
+Group {
+ inputs 0
+ name Gradient
+ selected true
+ xpos -290
+ ypos 6076
+ postage_stamp true
+ addUserKnob {20 User}
+ addUserKnob {41 format T CONSTANT.format}
+ addUserKnob {7 mn l min R -10 0}
+ addUserKnob {7 mx l max R 1 50}
+ mx 1
+}
+ Constant {
+  inputs 0
+  format "1024 512 0 0 1024 512 1 latlong_1k"
+  name CONSTANT
+  xpos 70
+  ypos -225
+  postage_stamp false
+ }
+ Expression {
+  channel0 rgba
+  expr0 (x/width)*(mx-mn)+mn
+  channel1 none
+  channel2 none
+  channel3 none
+  name GRADIENT
+  xpos 70
+  ypos -201
+ }
+ Output {
+  name Output
+  xpos 70
+  ypos -177
+ }
+end_group
