@@ -1,0 +1,350 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name Colorspace_Yab
+ addUserKnob {20 Yab_tab l Yab}
+ addUserKnob {41 gamut T RGB_to_XYZ_D65.gamut}
+ addUserKnob {6 YCh t "output lightness chroma and hue instead of opponent green/red, blue/yellow." +STARTLINE}
+ addUserKnob {4 direction M {forward inverse}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -490
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos -426
+ }
+set Na72c2530 [stack 0]
+ Dot {
+  name Dot2
+  xpos 104
+  ypos -426
+ }
+ Expression {
+  expr0 r
+  expr1 g*cos(b)
+  expr2 g*sin(b)
+  name Expression4
+  label YCh
+  xpos 70
+  ypos -315
+  disable {{!parent.YCh}}
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.RGB_to_Yab.matrix} {parent.RGB_to_Yab.matrix} {parent.RGB_to_Yab.matrix}}
+      {{parent.RGB_to_Yab.matrix} {parent.RGB_to_Yab.matrix} {parent.RGB_to_Yab.matrix}}
+      {{parent.RGB_to_Yab.matrix} {parent.RGB_to_Yab.matrix} {parent.RGB_to_Yab.matrix}}
+    }
+  invert true
+  name Yab_to_RGB
+  xpos 70
+  ypos -249
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.RGB_to_XYZ_D65.ColorMatrix.matrix} {parent.RGB_to_XYZ_D65.ColorMatrix.matrix} {parent.RGB_to_XYZ_D65.ColorMatrix.matrix}}
+      {{parent.RGB_to_XYZ_D65.ColorMatrix.matrix} {parent.RGB_to_XYZ_D65.ColorMatrix.matrix} {parent.RGB_to_XYZ_D65.ColorMatrix.matrix}}
+      {{parent.RGB_to_XYZ_D65.ColorMatrix.matrix} {parent.RGB_to_XYZ_D65.ColorMatrix.matrix} {parent.RGB_to_XYZ_D65.ColorMatrix.matrix}}
+    }
+  invert true
+  name ColorMatrix1
+  label "XYZ to RGB"
+  xpos 70
+  ypos -166
+ }
+push $Na72c2530
+ Group {
+  name RGB_to_XYZ_D65
+  xpos -40
+  ypos -370
+  addUserKnob {20 RGB_to_XYZ_tab l RGB_to_XYZ}
+  addUserKnob {4 gamut M {ACES ACEScg "Filmlight E-Gamut" "DaVinci WG" Rec709 Rec2020 P3D60 P3D65 P3DCI AdobeRGB "Arri Alexa WideGamut" REDWideGamutRGB CanonCinemaGamut SonySGamut SonySGamut3Cine BMDWideGamutV4}}
+  gamut ACEScg
+  addUserKnob {41 matrix T ColorMatrix.matrix}
+  addUserKnob {41 invert -STARTLINE T ColorMatrix.invert}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos 290
+   ypos -580
+  }
+  Dot {
+   name Dot391
+   xpos 324
+   ypos -516
+  }
+set N81ec44a0 [stack 0]
+  ColorMatrix {
+   matrix {
+       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+     }
+   name ColorMatrix
+   note_font Helvetica
+   xpos 290
+   ypos -339
+  }
+  Output {
+   name Output
+   xpos 290
+   ypos -250
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.638199985 0.2318339199 0.1299659461}
+       {0.2680045366 0.8326835632 -0.1006879508}
+       {-0.02700686455 -0.07951174676 1.106518626}
+     }
+   name ColorMatrix280
+   label "BMDWideGamutV4 to XYZ D65"
+   note_font Helvetica
+   xpos 2050
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.6303120852 0.2619010508 0.1077866852}
+       {0.2150758505 0.8850685358 -0.1001443267}
+       {-0.02944366075 -0.02539661899 1.054840207}
+     }
+   name ColorMatrix279
+   label "SonySGamut3Cine to XYZ D65"
+   note_font Helvetica
+   xpos 1940
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.7433091998 0.1355149448 0.121175684}
+       {0.2709797025 0.7866065502 -0.05758608133}
+       {-0.008886438794 0.004223868717 1.004662395}
+     }
+   name ColorMatrix278
+   label "SonySGamut to XYZ D65"
+   note_font Helvetica
+   xpos 1830
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.753374815 0.1364434063 0.1101816669}
+       {0.2612613738 0.8696424365 -0.1309035271}
+       {-0.0088850623 -0.2171433568 1.226028442}
+     }
+   name ColorMatrix2
+   label "CanonCinemaGamut to XYZ D65"
+   note_font Helvetica
+   xpos 1720
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.7736025453 0.07218572497 0.154211551}
+       {0.2866941094 0.8429791927 -0.1296732426}
+       {-0.07316493243 -0.3189391792 1.392104149}
+     }
+   name ColorMatrix277
+   label "REDWideGamutRGB to XYZ D65"
+   note_font Helvetica
+   xpos 1610
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.6712647676 0.225895524 0.1028395444}
+       {0.2919538021 0.8238409758 -0.11579483}
+       {0.002569448669 -0.06155249104 1.058983088}
+     }
+   name ColorMatrix276
+   label "Arri AlexaWideGamut to XYZ D65"
+   note_font Helvetica
+   xpos 1500
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.6067286134 0.1952306777 0.1980403513}
+       {0.297344923 0.627363503 0.07529146969}
+       {0.02482086048 0.06490825117 0.9102708101}
+     }
+   name ColorMatrix281
+   label "AdobeRGB to XYZ D65"
+   note_font Helvetica
+   xpos 1390
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.4787762463 0.3158869743 0.2053366601}
+       {0.2126924992 0.7093909383 0.07791686803}
+       {0.0004741555313 0.05068216845 0.9488437176}
+     }
+   name ColorMatrix275
+   label "P3DCI to XYZ D65"
+   note_font Helvetica
+   xpos 1280
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.5119343996 0.2795160115 0.2085496932}
+       {0.2289746702 0.6917386651 0.07928693295}
+       {-6.241469008e-10 0.04142423347 0.9585757852}
+     }
+   name ColorMatrix1
+   label "P3D65 to XYZ D65"
+   note_font Helvetica
+   xpos 1170
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.5230477452 0.2702760398 0.2066760808}
+       {0.234437868 0.6870626211 0.07849972695}
+       {0.0004090408329 0.04529011995 0.9543009996}
+     }
+   name ColorMatrix274
+   label "P3D60 to XYZ D65"
+   note_font Helvetica
+   xpos 1060
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.670160532 0.1521552503 0.1776841432}
+       {0.2627002597 0.6779981852 0.05930172652}
+       {-8.170549792e-10 0.0257770475 0.9742228985}
+     }
+   name ColorMatrix273
+   label "Rec2020 to XYZ D65"
+   note_font Helvetica
+   xpos 950
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.4338874221 0.3762239516 0.1898886263}
+       {0.2126391083 0.7151687741 0.07219232619}
+       {0.01775004528 0.1094476134 0.8728022575}
+     }
+   name ColorMatrix272
+   label "Rec709 to XYZ D65"
+   note_font Helvetica
+   xpos 840
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.7371433377 0.1565298587 0.10632658}
+       {0.2741185129 0.8736318946 -0.1477504224}
+       {-0.09087020159 -0.1266189069 1.217489123}
+     }
+   name ColorMatrix271
+   label "DaVinci WG to XYZ D65"
+   note_font Helvetica
+   xpos 730
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.742166698 0.1725921929 0.08524093777}
+       {0.280130744 0.820206821 -0.1003373861}
+       {-0.09529476613 -0.06694526225 1.162240028}
+     }
+   name ColorMatrix270
+   label "Filmlight E-Gamut to XYZ D65"
+   note_font Helvetica
+   xpos 620
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.6864269972 0.1338092536 0.179763481}
+       {0.2680640519 0.6724645495 0.05947146937}
+       {-0.005022625439 0.004758977331 1.000263691}
+     }
+   name ColorMatrix269
+   label "ACEScg to XYZ D65"
+   note_font Helvetica
+   xpos 510
+   ypos -465
+  }
+push $N81ec44a0
+  ColorMatrix {
+   matrix {
+       {0.9875583053 -0.006041352171 0.01848266274}
+       {0.338093549 0.7272140384 -0.06530748308}
+       {0.00066398934 0.000751514337 0.9985846281}
+     }
+   name ColorMatrix267
+   label "ACES to XYZ D65"
+   note_font Helvetica
+   xpos 400
+   ypos -465
+  }
+  Switch {
+   inputs 16
+   which {{gamut}}
+   name SwitchGamut
+   note_font Helvetica
+   xpos 1280
+   ypos -339
+  }
+ end_group
+ ColorMatrix {
+  matrix {
+      {0.3333333333 0.3333333333 0.3333333333}
+      {0.5 -0.25 -0.25}
+      {0 {sqrt(3/4)} {-sqrt(3/4)}}
+    }
+  name RGB_to_Yab
+  label "RGB to Yab"
+  selected true
+  xpos -40
+  ypos -316
+ }
+ Expression {
+  expr0 r
+  expr1 sqrt(g**2+b**2)
+  expr2 atan2(b,g)
+  name Expression3
+  label YCh
+  xpos -40
+  ypos -255
+  disable {{!parent.YCh}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name SwitchDirection
+  xpos -40
+  ypos -99
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos -10
+ }
+end_group
