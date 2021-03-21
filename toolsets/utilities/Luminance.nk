@@ -1,0 +1,20 @@
+set cut_paste_input [stack 0]
+version 12.0 v8
+push $cut_paste_input
+Expression {
+ temp_name0 L
+ temp_expr0 w.0*r+w.1*g+w.2*b
+ channel0 rgba
+ expr0 L
+ channel1 none
+ channel2 none
+ channel3 none
+ name Luminance_Weights
+ selected true
+ xpos -2350
+ ypos 80
+ addUserKnob {20 Param}
+ addUserKnob {35 weight_presets l "" +STARTLINE M {weights/ACEScg "knobs this \{w \{0.26806405 0.67246455 0.05947147\}\}" weights/Rec.2020 "knobs this \{w \{0.26270026 0.67799819 0.05930173\}\}" weights/P3D65 "knobs this \{w \{0.22897467 0.69173867 0.07928693\}\}" weights/Rec.709 "knobs this \{w \{0.21263911 0.71516877 0.07219233\}\}" "weights/Red WideGamut RGB" "knobs this \{w \{0.28669411 0.84297919 -0.12967324\}\}" "weights/Alexa Wide Gamut" "knobs this \{w \{0.2919538 0.82384098 -0.11579483\}\}" "weights/Sony S-Gamut3.Cine" "knobs this \{w \{0.21507585 0.88506854 -0.10014433\}\}" "weights/Filmlight E-Gamut" "knobs this \{w \{0.28013074 0.82020682 -0.10033739\}\}" "weights/DaVinci Wide Gamut" "knobs this \{w \{0.27411851 0.87363189 -0.14775042\}\}"}}
+ addUserKnob {78 w l "" t "luminance weighting" -STARTLINE n 3}
+ w {0.26270026 0.67799819 0.05930173}
+}
