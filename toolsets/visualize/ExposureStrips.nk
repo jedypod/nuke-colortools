@@ -1,18 +1,13 @@
 set cut_paste_input [stack 0]
-version 12.0 v8
 push $cut_paste_input
 Group {
  name ExposureStrips
- note_font Helvetica
- selected true
- xpos -920
- ypos -249
- addUserKnob {20 User}
+ addUserKnob {20 ExposureStrips_tab l ExposureStrips}
  addUserKnob {7 pos l position}
- pos 0.4
+ pos 0.8
  addUserKnob {7 eoff l exposure R -6 6}
- addUserKnob {7 range}
- range 1
+ addUserKnob {7 increment}
+ increment 0.5
  addUserKnob {3 strips t "number of strips" +INVISIBLE}
  strips 6
 }
@@ -29,74 +24,84 @@ Group {
   name Strip
   note_font Helvetica
   xpos -260
-  ypos -129
+  ypos -219
  }
-set Nee1a1ab0 [stack 0]
+set N16800020 [stack 0]
  Multiply {
   channels rgb
-  value {{pow(2,e*(range+1))}}
+  value {{pow(2,e)}}
   name Exposure5
   label "\[value e]"
   note_font Helvetica
   xpos -480
-  ypos 225
+  ypos 15
   addUserKnob {20 User}
   addUserKnob {7 e l exposure R -12 12}
-  e 3
+  e {{parent.increment*n}}
+  addUserKnob {3 n}
+  n 5
  }
-push $Nee1a1ab0
+push $N16800020
  Multiply {
   channels rgb
-  value {{pow(2,e*(range+1))}}
+  value {{pow(2,e)}}
   name Exposure4
   label "\[value e]"
   note_font Helvetica
   xpos -480
-  ypos 165
+  ypos -45
   addUserKnob {20 User}
   addUserKnob {7 e l exposure R -12 12}
-  e 2
+  e {{parent.increment*n}}
+  addUserKnob {3 n}
+  n 4
  }
-push $Nee1a1ab0
+push $N16800020
  Multiply {
   channels rgb
-  value {{pow(2,e*(range+1))}}
-  name Exposure3
+  value {{pow(2,e)}}
+  name Exposure2
   label "\[value e]"
   note_font Helvetica
   xpos -480
-  ypos 105
+  ypos -105
   addUserKnob {20 User}
   addUserKnob {7 e l exposure R -12 12}
-  e 1
+  e {{parent.increment*n}}
+  addUserKnob {3 n}
+  n 3
  }
-push $Nee1a1ab0
-push $Nee1a1ab0
+push $N16800020
  Multiply {
   channels rgb
-  value {{pow(2,e*(range+1))}}
+  value {{pow(2,e)}}
   name Exposure1
   label "\[value e]"
   note_font Helvetica
   xpos -480
-  ypos -75
+  ypos -165
   addUserKnob {20 User}
   addUserKnob {7 e l exposure R -12 12}
-  e -1
+  e {{parent.increment*n}}
+  addUserKnob {3 n}
+  n 2
  }
-push $Nee1a1ab0
+push $N16800020
  Multiply {
   channels rgb
-  value {{pow(2,e*(range+1))}}
-  name Exposure
+  value {{pow(2,e)}}
+  name Exposure3
   label "\[value e]"
   note_font Helvetica
   xpos -480
-  ypos -135
+  ypos -225
   addUserKnob {20 User}
   addUserKnob {7 e l exposure R -12 12}
-  e -2
+  e {{parent.increment*n}}
+  addUserKnob {3 n}
+  n 1
  }
+push $N16800020
  ContactSheet {
   inputs 6
   width {{width*columns}}
@@ -107,7 +112,7 @@ push $Nee1a1ab0
   name ContactSheet1
   note_font Helvetica
   xpos -260
-  ypos 231
+  ypos 21
  }
  Multiply {
   channels rgb
@@ -115,8 +120,9 @@ push $Nee1a1ab0
   name Exposure6
   label "\[value e]"
   note_font Helvetica
+  selected true
   xpos -260
-  ypos 435
+  ypos 105
   addUserKnob {20 User}
   addUserKnob {7 e l exposure R -12 12}
   e {{eoff}}
@@ -124,6 +130,6 @@ push $Nee1a1ab0
  Output {
   name Output
   xpos -260
-  ypos 560
+  ypos 230
  }
 end_group
