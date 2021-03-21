@@ -1,0 +1,173 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name Tonemap_Lottes
+ addUserKnob {20 Tonemap_Lottes_tab l Tonemap_Lottes}
+ addUserKnob {7 hdrmax R 1 50}
+ hdrmax 16
+ addUserKnob {7 midin}
+ midin 0.18
+ addUserKnob {7 midout}
+ midout 0.1
+ addUserKnob {7 ca l toe t "Sets toe of curve" R 0.5 2.5}
+ ca 1.6
+ addUserKnob {7 cd l shoulder t "Adjusts compression speed in the shoulder region of the curve" R 0.8 1}
+ cd 1
+ addUserKnob {7 cb t "Sets clipping point \nSets peak of input dynamic range"}
+ cb {{(-pow(midin,ca)+pow(hdrmax,ca)*midout)/((pow(hdrmax,ca*cd)-pow(midin,ca*cd))*midout)}}
+ addUserKnob {7 cc t "Speed of compression"}
+ cc {{(pow(hdrmax,ca*cd)*pow(midin,ca)-pow(hdrmax,ca)*pow(midin,ca*cd)*midout)/((pow(hdrmax,ca*cd)-pow(midin,ca*cd))*midout)}}
+ addUserKnob {26 ""}
+ addUserKnob {6 enable_crosstalk l "enable path to white above dispay maximum" t "Enable gamut volume compression above display luminance threshold" +STARTLINE}
+ enable_crosstalk true
+ addUserKnob {18 crosstalk t "Controls amount of channel crosstalk in path to white" R 0 8}
+ crosstalk {16 16 16}
+ addUserKnob {6 crosstalk_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {18 saturation t "Full tonal range saturation control" R 1 2}
+ saturation {1 1 1}
+ addUserKnob {6 saturation_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {18 satpower R 1 16}
+ satpower {16 16 16}
+ addUserKnob {6 satpower_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {18 white +INVISIBLE}
+ white {1 1 1}
+ addUserKnob {6 white_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos 254
+ }
+ Dot {
+  name Dot2
+  xpos -6
+  ypos 306
+ }
+set N966b53d0 [stack 0]
+ Expression {
+  channel0 rgb
+  expr0 max(r,g,b)
+  channel1 none
+  channel2 none
+  channel3 none
+  name Norm_MaxRGB
+  note_font Helvetica
+  xpos -40
+  ypos 351
+ }
+set N8a0217e0 [stack 0]
+ Expression {
+  expr0 pow(r,ca)/(pow(r,ca*cd)*cb+cc)
+  expr1 pow(g,ca)/(pow(g,ca*cd)*cb+cc)
+  expr2 pow(b,ca)/(pow(b,ca*cd)*cb+cc)
+  name Tonemap
+  note_font Helvetica
+  xpos -40
+  ypos 399
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 450
+ }
+set N913919e0 [stack 0]
+ Expression {
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 pow(r,crosstalk.r)
+  expr1 pow(g,crosstalk.g)
+  expr2 pow(b,crosstalk.b)
+  name Factor
+  note_font Helvetica
+  xpos -139
+  ypos 447
+ }
+push $N8a0217e0
+push $N966b53d0
+ Dot {
+  name Dot3
+  xpos -226
+  ypos 306
+ }
+ MergeExpression {
+  inputs 2
+  expr0 Ar==0?0:Br/Ar
+  expr1 Ag==0?0:Bg/Ag
+  expr2 Ab==0?0:Bb/Ab
+  name Ratio
+  xpos -260
+  ypos 350
+ }
+set N92069130 [stack 0]
+ Expression {
+  expr0 pow(fabs(r),saturation.r/(saturation.r*satpower.r))
+  expr1 pow(fabs(g),saturation.g/(saturation.g*satpower.g))
+  expr2 pow(fabs(b),saturation.b/(saturation.b*satpower.b))
+  name Power
+  note_font Helvetica
+  xpos -260
+  ypos 422
+ }
+ MergeExpression {
+  inputs 2
+  expr0 Br*(1-Ar)+white*Ar
+  expr1 Bg*(1-Ag)+white*Ag
+  expr2 Bb*(1-Ab)+white*Ab
+  name Lerp
+  xpos -260
+  ypos 446
+ }
+ Clamp {
+  channels rgba
+  name Clamp1
+  label "clamp 0-1"
+  note_font Helvetica
+  xpos -260
+  ypos 478
+ }
+ Expression {
+  expr0 pow(fabs(r),saturation.r*satpower.r)
+  expr1 pow(fabs(g),saturation.g*satpower.g)
+  expr2 pow(fabs(b),saturation.b*satpower.b)
+  name InvPower
+  note_font Helvetica
+  xpos -260
+  ypos 519
+ }
+push $N92069130
+ Switch {
+  inputs 2
+  which {{enable_crosstalk}}
+  name SwitchEnableCrosstalk
+  note_font Helvetica
+  xpos -150
+  ypos 519
+ }
+push $N913919e0
+ Merge2 {
+  inputs 2
+  operation multiply
+  bbox B
+  output rgb
+  name Merge1
+  note_font Helvetica
+  xpos -40
+  ypos 519
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 590
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x272727ff
+  label "<left>\nTimothy Lottes 2016 Tonemap Operator\nhttp://32ipi028l5q82yhj72224m8j.wpengine.netdna-cdn.com/wp-content/uploads/2016/03/GdcVdrLottes.pdf\nhttps://github.com/KhronosGroup/glTF-Compressonator/blob/master/Compressonator/Applications/_Plugins/C3DModel_viewers/glTF_DX12_EX/DX12Util/shaders/Tonemapping.hlsl\n\nOutput is display-linear and needs an inverse EOTF applied"
+  note_font Helvetica
+  note_font_size 14
+  note_font_color 0xa8a8a8ff
+  xpos 243
+  ypos 364
+ }
+end_group

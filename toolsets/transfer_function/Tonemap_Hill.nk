@@ -1,0 +1,85 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name Tonemap_HillLangmuir
+ addUserKnob {20 Tonemap_HillLangmuir_tab l Tonemap_HillLangmuir}
+ addUserKnob {7 m l max t "asymptotic limit" R 1 1.5}
+ m 1.04
+ addUserKnob {7 n R 0 80}
+ n 10.08
+ addUserKnob {7 k R 0 10}
+ k 0.875
+ addUserKnob {7 p l pivot}
+ p 1
+ addUserKnob {7 o l offset R -1 1}
+ o 0.671
+ addUserKnob {7 cs l slin t "linear extension cut for shoulder" R 0.5 1}
+ cs 1
+ addUserKnob {7 ct l tlin t "linear extension cut point for toe" R 0 0.5}
+ addUserKnob {4 direction M {forward inverse}}
+ addUserKnob {20 calc_grp l calculations t "Additional calculations for the  linear extension components" n 1}
+ addUserKnob {7 ms l "slope s" t "slope at shoulder position cs" R 0 6}
+ ms {{m*p*n*pow(k,n)*pow(k-o+cs,n-1)/pow(p*pow(k-o+cs,n)+pow(k,n),2)}}
+ addUserKnob {7 bs l "offset s" t "y value of s-curve at shoulder cut position  cs"}
+ bs {{m*(1-pow(k,n)/(pow(k,n)+p*pow(k+cs-o,n)))}}
+ addUserKnob {7 mt l "slope t" t "slope at toe position ct" R 0 6}
+ mt {{m*p*n*pow(k,n)*pow(k-o+ct,n-1)/pow(p*pow(k-o+ct,n)+pow(k,n),2)}}
+ addUserKnob {7 bt l "offset t" t "y value of s-curve at shoulder cut position  cs"}
+ bt {{m*(1-pow(k,n)/(pow(k,n)+p*pow(k+ct-o,n)))}}
+ addUserKnob {20 endGroup n -1}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos 260
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 354
+ }
+set N6a92a0a0 [stack 0]
+ Expression {
+  expr0 r>bs?(r+cs*ms-bs)/ms:r<bt?(r+ct*mt-bt)/mt:pow(-r*pow(k,n)/(p*(r-m)),1/n)-k+o
+  expr1 g>bs?(g+cs*ms-bs)/ms:g<bt?(g+ct*mt-bt)/mt:pow(-g*pow(k,n)/(p*(g-m)),1/n)-k+o
+  expr2 b>bs?(b+cs*ms-bs)/ms:b<bt?(b+ct*mt-bt)/mt:pow(-b*pow(k,n)/(p*(b-m)),1/n)-k+o
+  name Hill_Langmuir_inverse
+  xpos 59
+  ypos 410
+ }
+push $N6a92a0a0
+ Expression {
+  expr0 r>cs?ms*r+bs-cs*ms:r<ct?mt*r+bt-ct*mt:m*(1-pow(k,n)/(pow(k,n)+p*pow(k+r-o,n)))
+  expr1 g>cs?ms*g+bs-cs*ms:g<ct?mt*g+bt-ct*mt:m*(1-pow(k,n)/(pow(k,n)+p*pow(k+g-o,n)))
+  expr2 b>cs?ms*b+bs-cs*ms:b<ct?mt*b+bt-ct*mt:m*(1-pow(k,n)/(pow(k,n)+p*pow(k+b-o,n)))
+  name Hill_Langmuir_forward
+  xpos -150
+  ypos 410
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name SwitchDirection
+  note_font Helvetica
+  xpos -40
+  ypos 471
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 530
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x121415ff
+  label "<left>\n<b>Hill-Langmuir Equation</b>\nhttps://en.wikipedia.org/wiki/Hill_equation_(biochemistry)\nhttps://www.desmos.com/calculator/nyx8jb9anh\nhttps://www.desmos.com/calculator/sdj5hrraor\nhttps://www.desmos.com/calculator/6tpt0aishy\nhttps://www.desmos.com/calculator/ufgexmp8wp\nThe equation has been modified to be a bit more functional. Adding an offset and a pivot control.\n\nSimilar to the Michaelis-Menten Kinetics equation\nhttps://en.wikipedia.org/wiki/Michaelis-Menten_kinetics\n\nA similar quation is used in the HDR-IPT colorspace\nhttps://www.researchgate.net/publication/288751619_HDR-CIELAB_and_HDR-IPT_Simple_models_for_describing_the_color_of_high-dynamic-range_and_wide-color-gamut_images\n\nHDR-IPT: lightness curve https://www.desmos.com/calculator/7rfxi4wn4i\n\nhttps://www.physiologyweb.com/calculators/hill_equation_interactive_graph.html\nhttp://retina.anatomy.upenn.edu/~rob/lance/michaelis.html"
+  note_font Helvetica
+  note_font_size 14
+  note_font_color 0xa3a3a3ff
+  selected true
+  xpos 192
+  ypos 286
+ }
+end_group

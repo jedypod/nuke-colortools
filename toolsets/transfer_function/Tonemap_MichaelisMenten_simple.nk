@@ -1,0 +1,46 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name MichaelisMentenKineticsInverse
+ selected true
+ xpos 3559
+ ypos 6015
+ addUserKnob {20 MichaelisMentenKinetics_tab l MichaelisMentenKinetics}
+ addUserKnob {7 k R 0 10}
+ k 1.95
+ addUserKnob {7 n R 0 80}
+ n 25.88
+ addUserKnob {7 xo l offset R -1 1}
+ xo 0.567
+ addUserKnob {4 direction M {forward inverse}}
+}
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<left>\n\nhttps://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics\nHDR-IPT: lightness curve https://www.desmos.com/calculator/7rfxi4wn4i\nMichaelis-Menten Hill Equation: \nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/oymhwxhjur\nhttps://www.desmos.com/calculator/d3nuypgrxf\n\nhttps://www.physiologyweb.com/calculators/hill_equation_interactive_graph.html\nhttp://retina.anatomy.upenn.edu/~rob/lance/michaelis.html"
+  note_font_size 14
+  xpos 215
+  ypos 173
+ }
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos 298
+ }
+ Expression {
+  expr0 direction?pow(pow(k,n)/(1-r)-pow(k,n),1/n)-k+xo:1-pow(k,n)/(pow(k,n)+pow(k-xo+r,n))
+  expr1 direction?pow(pow(k,n)/(1-g)-pow(k,n),1/n)-k+xo:1-pow(k,n)/(pow(k,n)+pow(k-xo+g,n))
+  expr2 direction?pow(pow(k,n)/(1-b)-pow(k,n),1/n)-k+xo:1-pow(k,n)/(pow(k,n)+pow(k-xo+b,n))
+  name MichaelisMentenKinetics_Forward
+  xpos -40
+  ypos 342
+ }
+ Output {
+  name Output
+  selected true
+  xpos -40
+  ypos 387
+ }
+end_group

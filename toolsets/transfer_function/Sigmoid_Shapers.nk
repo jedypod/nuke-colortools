@@ -1,0 +1,1073 @@
+set cut_paste_input [stack 0]
+version 11.3 v6
+push $cut_paste_input
+Group {
+ name Sigmoid_two1
+ note_font Helvetica
+ selected true
+ xpos 11333
+ ypos 4132
+ addUserKnob {20 User}
+ addUserKnob {7 c_a R 0 10}
+ c_a 7.5
+ addUserKnob {7 c_b R 10 20}
+ c_b 13.28
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 680
+  ypos 510
+ }
+ Expression {
+  expr0 1/(1+exp(c_a-c_b*r))
+  expr1 1/(1+exp(c_a-c_b*g))
+  expr2 1/(1+exp(c_a-c_b*b))
+  name Expression2
+  note_font Helvetica
+  xpos 680
+  ypos 590
+ }
+ Output {
+  name Output1
+  xpos 680
+  ypos 670
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label <left>https://www.desmos.com/calculator/kn9tpwdan5
+  note_font Helvetica
+  note_font_size 14
+  xpos 802
+  ypos 580
+ }
+end_group
+push $cut_paste_input
+Group {
+ name Sigmoid_four1
+ note_font Helvetica
+ selected true
+ xpos 11533
+ ypos 4132
+ addUserKnob {20 User}
+ addUserKnob {7 c_a R 0 20}
+ c_a 11.46
+ addUserKnob {7 c_p R 0 20}
+ c_p 8
+ addUserKnob {7 c_o}
+ c_o 0.835
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 680
+  ypos 510
+ }
+ Expression {
+  temp_name0 pi
+  temp_expr0 3.14159265359
+  expr0 1/(1+pow(10,c_p)*pow(pi,-(r+c_o)*c_a))
+  expr1 1/(1+pow(10,c_p)*pow(pi,-(g+c_o)*c_a))
+  expr2 1/(1+pow(10,c_p)*pow(pi,-(b+c_o)*c_a))
+  name Expression2
+  note_font Helvetica
+  xpos 680
+  ypos 590
+ }
+ Output {
+  name Output1
+  xpos 680
+  ypos 670
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label <left>https://www.desmos.com/calculator/kn9tpwdan5
+  note_font Helvetica
+  note_font_size 14
+  xpos 802
+  ypos 580
+ }
+end_group
+push $cut_paste_input
+Group {
+ name Logistic_fourParam2
+ note_font Helvetica
+ selected true
+ xpos 11725
+ ypos 4132
+ addUserKnob {20 User}
+ addUserKnob {7 mid}
+ mid 8
+ addUserKnob {7 slope R 1 10}
+ slope 103.671
+ addUserKnob {7 offset}
+ offset -7.4345
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 680
+  ypos 510
+ }
+ Expression {
+  expr0 1+-1/(1+pow((r-offset)/mid,slope))
+  expr1 1+-1/(1+pow((g-offset)/mid,slope))
+  expr2 1+-1/(1+pow((b-offset)/mid,slope))
+  name Expression2
+  note_font Helvetica
+  xpos 680
+  ypos 587
+ }
+ Output {
+  name Output1
+  xpos 680
+  ypos 670
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0xffc9aaff
+  label https://www.desmos.com/calculator/cnlsa0cyqp
+  note_font Helvetica
+  note_font_size 14
+  xpos 854
+  ypos 506
+ }
+end_group
+push $cut_paste_input
+Group {
+ name Logistic_fourParam3
+ note_font Helvetica
+ selected true
+ xpos 11727
+ ypos 4189
+ addUserKnob {20 User}
+ addUserKnob {7 mid}
+ mid 2
+ addUserKnob {7 slope R 1 10}
+ slope 25.994
+ addUserKnob {7 offset}
+ offset -1.434
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 680
+  ypos 510
+ }
+ Expression {
+  expr0 1+-1/(1+pow((r-offset)/mid,slope))
+  expr1 1+-1/(1+pow((g-offset)/mid,slope))
+  expr2 1+-1/(1+pow((b-offset)/mid,slope))
+  name Expression2
+  note_font Helvetica
+  xpos 680
+  ypos 587
+ }
+ Output {
+  name Output1
+  xpos 680
+  ypos 670
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0xffc9aaff
+  label https://www.desmos.com/calculator/cnlsa0cyqp
+  note_font Helvetica
+  note_font_size 14
+  xpos 854
+  ypos 506
+ }
+end_group
+push $cut_paste_input
+Group {
+ name Sigmoid_three1
+ note_font Helvetica
+ selected true
+ xpos 11434
+ ypos 4132
+ addUserKnob {20 User}
+ addUserKnob {7 c_a R 0 20}
+ c_a 11.46
+ addUserKnob {7 c_p R 0 20}
+ c_p 8
+ addUserKnob {7 c_o}
+ c_o 0.835
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 680
+  ypos 510
+ }
+ Expression {
+  temp_name0 pi
+  temp_expr0 3.14159265359
+  expr0 1/(1+pow(10,c_p)*pow(pi,-(r+c_o)*c_a))
+  expr1 1/(1+pow(10,c_p)*pow(pi,-(g+c_o)*c_a))
+  expr2 1/(1+pow(10,c_p)*pow(pi,-(b+c_o)*c_a))
+  name Expression2
+  note_font Helvetica
+  xpos 680
+  ypos 590
+ }
+ Output {
+  name Output1
+  xpos 680
+  ypos 670
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label <left>https://www.desmos.com/calculator/kn9tpwdan5
+  note_font Helvetica
+  note_font_size 14
+  xpos 802
+  ypos 580
+ }
+end_group
+push $cut_paste_input
+Group {
+ name Logistic_nonzero_slope2
+ note_font Helvetica
+ selected true
+ xpos 11631
+ ypos 4132
+ addUserKnob {20 User}
+ addUserKnob {7 pivot t "pivot point on the curve as an x coord (offsets the curve on x)"}
+ pivot -0.7955
+ addUserKnob {7 slope t "slope of the linear section" R 10 50}
+ slope 13.54
+ addUserKnob {7 inflection t "point on the curve where the pivot happens\n" R 0.0001 100}
+ inflection 1e-08
+ addUserKnob {7 asymptote t "slope of asymptotes" R 0 0.1}
+ addUserKnob {7 vscale R 0 4}
+ vscale 1
+ addUserKnob {7 voffset R -1 1}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 680
+  ypos 510
+ }
+ Expression {
+  expr0 (vscale-voffset)/(1+(1/inflection)*exp(-slope*(r-pivot)))+asymptote*(r-pivot)+voffset
+  expr1 (vscale-voffset)/(1+(1/inflection)*exp(-slope*(g-pivot)))+asymptote*(g-pivot)+voffset
+  expr2 (vscale-voffset)/(1+(1/inflection)*exp(-slope*(b-pivot)))+asymptote*(b-pivot)+voffset
+  name Expression2
+  note_font Helvetica
+  xpos 680
+  ypos 582
+ }
+ Output {
+  name Output1
+  xpos 680
+  ypos 670
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0xff9455ff
+  label "<left>https://stats.stackexchange.com/questions/398551/logistic-function-with-a-slope-but-no-asymptotes\nhttps://www.desmos.com/calculator/5ff4zsuzos"
+  note_font Helvetica
+  note_font_size 14
+  xpos 810
+  ypos 547
+ }
+end_group
+push $cut_paste_input
+Group {
+ name LogisticFunction1
+ note_font Helvetica
+ selected true
+ xpos 11236
+ ypos 4132
+ addUserKnob {20 User}
+ addUserKnob {7 c_a R 0 4}
+ c_a 0.91
+ addUserKnob {7 c_c}
+ c_c 1
+ addUserKnob {7 c_k R 0 10}
+ c_k 12.945
+ addUserKnob {7 offset}
+ offset 0.5745
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 680
+  ypos 510
+ }
+ Expression {
+  temp_name0 e
+  temp_expr0 2.71828182846
+  temp_name1 c_b
+  temp_expr1 pow(e,-c_k)
+  expr0 c_c/(1+c_a*pow(c_b,r-offset))
+  expr1 c_c/(1+c_a*pow(c_b,g-offset))
+  expr2 c_c/(1+c_a*pow(c_b,b-offset))
+  name Expression2
+  note_font Helvetica
+  xpos 680
+  ypos 591
+ }
+ Output {
+  name Output1
+  xpos 680
+  ypos 670
+ }
+end_group
+push $cut_paste_input
+Group {
+ name MichaelisMentenKinetics10
+ note_font Helvetica
+ selected true
+ xpos 11964
+ ypos 4412
+ addUserKnob {20 User}
+ addUserKnob {7 Vmax R 1 100}
+ Vmax 1
+ addUserKnob {7 piv R 0 10}
+ piv 4
+ addUserKnob {7 Km l slope R 0 50}
+ Km 52.025
+ addUserKnob {7 xo l offset R 0 10}
+ xo -3.434
+ addUserKnob {7 aslp R 0 0.1}
+ aslp 0.0165
+ addUserKnob {7 vo l voffset R -1 1}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+  ypos 187
+ }
+ Expression {
+  expr0 sign(r)*(Vmax*pow(fabs(r)-xo+Km,Km))/(pow(piv,Km)+pow(fabs(r)-xo+Km,Km))+aslp*(r-xo)-(aslp*piv)
+  expr1 sign(g)*(Vmax*pow(fabs(g)-xo+Km,Km))/(pow(piv,Km)+pow(fabs(g)-xo+Km,Km))+aslp*(g-xo)+vo
+  expr2 sign(b)*(Vmax*pow(fabs(b)-xo+Km,Km))/(pow(piv,Km)+pow(fabs(b)-xo+Km,Km))+aslp*(b-xo)+vo
+  name Expression1
+  note_font Helvetica
+  xpos 0
+  ypos 244
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<left>\n\nhttps://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics\nHDR-IPT: lightness curve https://www.desmos.com/calculator/7rfxi4wn4i\nMichaelis-Menten Hill Equation: \nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/ra8vahpadx\n\nhttps://www.physiologyweb.com/calculators/hill_equation_interactive_graph.html\nhttp://retina.anatomy.upenn.edu/~rob/lance/michaelis.html"
+  note_font Helvetica
+  note_font_size 14
+  xpos 127
+  ypos 186
+ }
+end_group
+push $cut_paste_input
+Group {
+ name MichaelisMentenKinetics11
+ note_font Helvetica
+ selected true
+ xpos 11873
+ ypos 4408
+ addUserKnob {20 User}
+ addUserKnob {7 Vmax R 1 100}
+ Vmax 1
+ addUserKnob {7 piv R 0 10}
+ piv 0.5
+ addUserKnob {7 slp l slope R 0 80}
+ slp 5.48
+ addUserKnob {7 aslp R 0 0.1}
+ addUserKnob {7 xo l xoff R -10 10}
+ xo 0.07
+ addUserKnob {7 vo l voff R -1 1}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+  ypos 187
+ }
+ Expression {
+  expr0 sign(r)*(Vmax*pow(fabs(r)-xo,slp))/(pow(piv,slp)+pow(fabs(r)-xo,slp))+aslp*(r-xo)-(aslp*piv)
+  expr1 sign(g)*(Vmax*pow(fabs(g)-xo,slp))/(pow(piv,slp)+pow(fabs(g)-xo,slp))+aslp*(g-xo)-(aslp*piv)
+  expr2 sign(b)*(Vmax*pow(fabs(b)-xo,slp))/(pow(piv,slp)+pow(fabs(b)-xo,slp))+aslp*(b-xo)-(aslp*piv)
+  name Expression1
+  note_font Helvetica
+  xpos 0
+  ypos 244
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<left>\n\nhttps://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics\nHDR-IPT: lightness curve https://www.desmos.com/calculator/7rfxi4wn4i\nMichaelis-Menten Hill Equation: \nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/ra8vahpadx\n\nhttps://www.physiologyweb.com/calculators/hill_equation_interactive_graph.html\nhttp://retina.anatomy.upenn.edu/~rob/lance/michaelis.html"
+  note_font Helvetica
+  note_font_size 14
+  xpos 127
+  ypos 186
+ }
+end_group
+push $cut_paste_input
+Group {
+ name MichaelisMentenKinetics12
+ note_font Helvetica
+ selected true
+ xpos 11966
+ ypos 4364
+ addUserKnob {20 User}
+ addUserKnob {7 Vmax R 1 100}
+ Vmax 1
+ addUserKnob {7 piv R 0 10}
+ piv 0.5
+ addUserKnob {7 Km R 0 80}
+ Km 5.48
+ addUserKnob {7 asymp R 0 0.1}
+ addUserKnob {7 xo l xoff R -10 10}
+ xo 0.35
+ addUserKnob {7 vo l voff R -1 1}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+  ypos 187
+ }
+ Expression {
+  expr0 sign(r)*(Vmax*pow(fabs(r)-xo,Km))/(pow(piv,Km)+pow(fabs(r)-xo,Km))+asymp*(r-xo)-(asymp*piv)
+  expr1 sign(g)*(Vmax*pow(fabs(g)-xo,Km))/(pow(piv,Km)+pow(fabs(g)-xo,Km))+asymp*(g-xo)-(asymp*piv)
+  expr2 sign(b)*(Vmax*pow(fabs(b)-xo,Km))/(pow(piv,Km)+pow(fabs(b)-xo,Km))+asymp*(b-xo)-(asymp*piv)
+  name Expression1
+  note_font Helvetica
+  xpos 0
+  ypos 244
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<left>\n\nhttps://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics\nHDR-IPT: lightness curve https://www.desmos.com/calculator/7rfxi4wn4i\nMichaelis-Menten Hill Equation: \nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/ra8vahpadx\n\nhttps://www.physiologyweb.com/calculators/hill_equation_interactive_graph.html\nhttp://retina.anatomy.upenn.edu/~rob/lance/michaelis.html"
+  note_font Helvetica
+  note_font_size 14
+  xpos 127
+  ypos 186
+ }
+end_group
+push $cut_paste_input
+Group {
+ name MichaelisMentenKinetics13
+ label "failed 2nd power"
+ note_font Helvetica
+ selected true
+ xpos 11965
+ ypos 4324
+ addUserKnob {20 MichaelisMentenKinetics}
+ addUserKnob {7 Km R 0 10}
+ Km 4.45
+ addUserKnob {7 eps R 0 80}
+ eps 52.4
+ addUserKnob {7 eps2 R 0.5 2}
+ eps2 1.17
+ addUserKnob {7 asymp R 0 0.1}
+ addUserKnob {7 xo l xoff R -10 10}
+ xo 0.567
+ addUserKnob {7 vo l voff R -1 1}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+  ypos 187
+ }
+ Expression {
+  expr0 (pow(r-xo+Km,eps))/(pow(Km,eps)+pow(r-xo+Km,eps))+asymp*(r-xo+Km)-(asymp*Km)
+  expr1 (pow(g-xo+Km,eps))/(pow(Km,eps)+pow(g-xo+Km,eps))+asymp*(g-xo+Km)-(asymp*Km)
+  expr2 (pow(b-xo+Km,eps))/(pow(Km,eps)+pow(b-xo+Km,eps))+asymp*(b-xo+Km)-(asymp*Km)
+  name Expression2
+  note_font Helvetica
+  xpos 0
+  ypos 243
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<left>\n\nhttps://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics\nHDR-IPT: lightness curve https://www.desmos.com/calculator/7rfxi4wn4i\nMichaelis-Menten Hill Equation: \nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/ra8vahpadx\n\nhttps://www.physiologyweb.com/calculators/hill_equation_interactive_graph.html\nhttp://retina.anatomy.upenn.edu/~rob/lance/michaelis.html"
+  note_font Helvetica
+  note_font_size 14
+  xpos 127
+  ypos 186
+ }
+end_group
+push $cut_paste_input
+Group {
+ name MichaelisMentenKinetics16
+ note_font Helvetica
+ selected true
+ xpos 11940
+ ypos 4253
+ addUserKnob {20 MichaelisMentenKinetics}
+ addUserKnob {7 Km R 0 10}
+ Km 2
+ addUserKnob {7 eps R 0 80}
+ eps 26.28
+ addUserKnob {7 asymp R 0 0.1}
+ addUserKnob {7 xo l xoff R -10 10}
+ xo 0.567
+ addUserKnob {7 vo l voff R -1 1}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+  ypos 187
+ }
+ Expression {
+  expr0 (pow(r-xo+Km,eps))/(pow(Km,eps)+pow(r-xo+Km,eps))+asymp*(r-xo+Km)-(asymp*Km)
+  expr1 (pow(g-xo+Km,eps))/(pow(Km,eps)+pow(g-xo+Km,eps))+asymp*(g-xo+Km)-(asymp*Km)
+  expr2 (pow(b-xo+Km,eps))/(pow(Km,eps)+pow(b-xo+Km,eps))+asymp*(b-xo+Km)-(asymp*Km)
+  name Expression1
+  note_font Helvetica
+  selected true
+  xpos 0
+  ypos 244
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<left>\n\nhttps://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics\nHDR-IPT: lightness curve https://www.desmos.com/calculator/7rfxi4wn4i\nMichaelis-Menten Hill Equation: \nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/oymhwxhjur\n\nhttps://www.physiologyweb.com/calculators/hill_equation_interactive_graph.html\nhttp://retina.anatomy.upenn.edu/~rob/lance/michaelis.html"
+  note_font Helvetica
+  note_font_size 14
+  xpos 125
+  ypos 184
+ }
+end_group
+push $cut_paste_input
+Group {
+ name MichaelisMentenKinetics17
+ note_font Helvetica
+ selected true
+ xpos 12057
+ ypos 4303
+ addUserKnob {20 User}
+ addUserKnob {7 Vmax R 1 100}
+ Vmax 1
+ addUserKnob {7 Km R 0 10}
+ Km 4
+ addUserKnob {7 eps l epsilon R 0 50}
+ eps 52.9
+ addUserKnob {7 o l offset R 0 10}
+ o -3.434
+ addUserKnob {7 asymp_slp R 0 0.1}
+ asymp_slp 0.02
+ addUserKnob {7 vo l voffset R -1 1}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+  ypos 187
+ }
+ Expression {
+  expr0 sign(r)*(Vmax*pow(fabs(r)-o,eps))/(pow(Km,eps)+pow(fabs(r)-o,eps))+asymp_slp*(r-o)-(asymp_slp*Km)
+  expr1 sign(g)*(Vmax*pow(fabs(g)-o,eps))/(pow(Km,eps)+pow(fabs(g)-o,eps))+asymp_slp*(g-o)+vo
+  expr2 sign(b)*(Vmax*pow(fabs(b)-o,eps))/(pow(Km,eps)+pow(fabs(b)-o,eps))+asymp_slp*(b-o)+vo
+  name Expression1
+  note_font Helvetica
+  selected true
+  xpos 0
+  ypos 243
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<left>\n\nhttps://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics\nHDR-IPT: lightness curve https://www.desmos.com/calculator/7rfxi4wn4i\nMichaelis-Menten Hill Equation: \nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/ra8vahpadx\n\nhttps://www.physiologyweb.com/calculators/hill_equation_interactive_graph.html\nhttp://retina.anatomy.upenn.edu/~rob/lance/michaelis.html"
+  note_font Helvetica
+  note_font_size 14
+  xpos 127
+  ypos 186
+ }
+end_group
+push $cut_paste_input
+Group {
+ name StephenHillTonemap7
+ selected true
+ xpos 12199
+ ypos 4188
+ addUserKnob {20 StephenHillTonemap}
+ addUserKnob {7 p1}
+ addUserKnob {7 p2}
+ addUserKnob {7 p3}
+ p3 1
+ addUserKnob {7 p4}
+ p4 1
+ addUserKnob {7 p5}
+ p5 0.07
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+  ypos 187
+ }
+ Expression {
+  expr0 (r*(r+p1)-p2)/(r*(p3*r+p4)+p5)
+  expr1 (g*(g+p1)-p2)/(g*(p3*g+p4)+p5)
+  expr2 (b*(b+p1)-p2)/(b*(p3*b+p4)+p5)
+  name Expression1
+  note_font Helvetica
+  selected true
+  xpos 0
+  ypos 244
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<left>\nhttps://github.com/TheRealMJP/BakingLab/blob/master/BakingLab/ACES.hlsl"
+  note_font Helvetica
+  note_font_size 14
+  xpos 125
+  ypos 184
+ }
+end_group
+push $cut_paste_input
+Group {
+ name StephenHillTonemap6
+ selected true
+ xpos 12187
+ ypos 4131
+ addUserKnob {20 StephenHillTonemap}
+ addUserKnob {7 slope}
+ slope 0.805
+ addUserKnob {7 toe}
+ toe 0.24
+ addUserKnob {7 shoulder}
+ shoulder 1
+ addUserKnob {7 voff}
+ addUserKnob {7 vmin}
+ addUserKnob {7 vmax}
+ vmax 1
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+  ypos 187
+ }
+ Expression {
+  expr0 ((r-voff)*((r-voff)+slope)-vmin)/((r-voff)*(vmax*(r-voff)+shoulder)+toe)
+  expr1 ((g-voff)*((g-voff)+slope)-vmin)/((g-voff)*(vmax*(g-voff)+shoulder)+toe)
+  expr2 ((b-voff)*((b-voff)+slope)-vmin)/((b-voff)*(vmax*(b-voff)+shoulder)+toe)
+  name Expression1
+  note_font Helvetica
+  selected true
+  xpos 0
+  ypos 242
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<left>\nhttps://github.com/TheRealMJP/BakingLab/blob/master/BakingLab/ACES.hlsl"
+  note_font Helvetica
+  note_font_size 14
+  xpos 122
+  ypos 194
+ }
+end_group
+push $cut_paste_input
+Group {
+ name StephenHillTonemap8
+ selected true
+ xpos 12298
+ ypos 4131
+ addUserKnob {20 StephenHillTonemap}
+ addUserKnob {7 slope}
+ addUserKnob {7 shoulder}
+ shoulder 1
+ addUserKnob {7 toe}
+ toe 0.1
+ addUserKnob {7 vmin}
+ addUserKnob {7 vmax}
+ vmax 0.9955
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+  ypos 187
+ }
+ Expression {
+  expr0 (r*(r+slope)-vmin)/(r*(vmax*r+shoulder)+toe)
+  expr1 (g*(g+slope)-vmin)/(g*(vmax*g+shoulder)+toe)
+  expr2 (b*(b+slope)-vmin)/(b*(vmax*b+shoulder)+toe)
+  name Expression1
+  note_font Helvetica
+  selected true
+  xpos 0
+  ypos 244
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<left>\nhttps://github.com/TheRealMJP/BakingLab/blob/master/BakingLab/ACES.hlsl"
+  note_font Helvetica
+  note_font_size 14
+  xpos 125
+  ypos 184
+ }
+end_group
+push $cut_paste_input
+Group {
+ name HillEquation_Simple2
+ note_font Helvetica
+ selected true
+ xpos 12064
+ ypos 4132
+ addUserKnob {20 HillEquation}
+ addUserKnob {7 k}
+ k 0.565
+ addUserKnob {7 n R 0.01 100}
+ n 6.5
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+  ypos 187
+ }
+ Expression {
+  expr0 pow(r,n)/(pow(k,n)+pow(r,n))
+  expr1 pow(g,n)/(pow(k,n)+pow(g,n))
+  expr2 pow(b,n)/(pow(k,n)+pow(b,n))
+  name Expression1
+  note_font Helvetica
+  selected true
+  xpos 0
+  ypos 243
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+end_group
+push $cut_paste_input
+Group {
+ name MichaelisMentenKinetics15
+ note_font Helvetica
+ selected true
+ xpos 11947
+ ypos 4132
+ addUserKnob {20 MichaelisMentenKinetics}
+ addUserKnob {7 k R 0 10}
+ k 2
+ addUserKnob {7 n R 0 80}
+ n 25.88
+ addUserKnob {7 s0 R 0 0.1}
+ s0 0.00895
+ addUserKnob {7 s1 R 0 0.1}
+ s1 0.01225
+ addUserKnob {7 xo l xoff R -10 10}
+ xo 0.567
+ addUserKnob {7 vo l voff R -1 1}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+  ypos 187
+ }
+ Expression {
+  expr0 (pow(r-xo+k,n))/(pow(k,n)+pow(r-xo+k,n))+(r>xo?s1*(r-xo+k)-(s1*k):s0*(r-xo+k)-(s0*k))
+  expr1 (pow(g-xo+k,n))/(pow(k,n)+pow(g-xo+k,n))+(g>xo?s1*(g-xo+k)-(s1*k):s0*(g-xo+k)-(s0*k))
+  expr2 (pow(b-xo+k,n))/(pow(k,n)+pow(b-xo+k,n))+(b>xo?s1*(b-xo+k)-(s1*k):s0*(b-xo+k)-(s0*k))
+  name Expression1
+  note_font Helvetica
+  selected true
+  xpos 0
+  ypos 244
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<left>\n\nhttps://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics\nHDR-IPT: lightness curve https://www.desmos.com/calculator/7rfxi4wn4i\nMichaelis-Menten Hill Equation: \nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/oymhwxhjur\n\nhttps://www.physiologyweb.com/calculators/hill_equation_interactive_graph.html\nhttp://retina.anatomy.upenn.edu/~rob/lance/michaelis.html"
+  note_font Helvetica
+  note_font_size 14
+  xpos 125
+  ypos 184
+ }
+end_group
+push $cut_paste_input
+Group {
+ name MichaelisMentenKinetics14
+ note_font Helvetica
+ selected true
+ xpos 11948
+ ypos 4178
+ addUserKnob {20 MichaelisMentenKinetics}
+ addUserKnob {7 k R 0 10}
+ k 1.15
+ addUserKnob {7 n R 0 80}
+ n 1.07
+ addUserKnob {7 s0 R 0 0.1}
+ addUserKnob {7 s1 R 0 0.1}
+ addUserKnob {7 xo l xoff R -10 10}
+ xo 1.163
+ addUserKnob {7 vo l voff R -1 1}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+  ypos 187
+ }
+ Expression {
+  expr0 (pow(r-xo+k,n))/(pow(k,n)+pow(r-xo+k,n))+(r>xo?s1*(r-xo+k)-(s1*k):s0*(r-xo+k)-(s0*k))
+  expr1 (pow(g-xo+k,n))/(pow(k,n)+pow(g-xo+k,n))+(g>xo?s1*(g-xo+k)-(s1*k):s0*(g-xo+k)-(s0*k))
+  expr2 (pow(b-xo+k,n))/(pow(k,n)+pow(b-xo+k,n))+(b>xo?s1*(b-xo+k)-(s1*k):s0*(b-xo+k)-(s0*k))
+  name Expression1
+  note_font Helvetica
+  selected true
+  xpos 0
+  ypos 244
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<left>\n\nhttps://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics\nHDR-IPT: lightness curve https://www.desmos.com/calculator/7rfxi4wn4i\nMichaelis-Menten Hill Equation: \nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/oymhwxhjur\n\nhttps://www.physiologyweb.com/calculators/hill_equation_interactive_graph.html\nhttp://retina.anatomy.upenn.edu/~rob/lance/michaelis.html"
+  note_font Helvetica
+  note_font_size 14
+  xpos 125
+  ypos 184
+ }
+end_group
+push $cut_paste_input
+Group {
+ name PiecewisePowerTonemap2
+ note_font Helvetica
+ selected true
+ xpos 12455
+ ypos 4130
+ addUserKnob {20 HableTonemap}
+ addUserKnob {7 pivot}
+ pivot 0.6
+ addUserKnob {7 slope R 0.8 10}
+ slope 2.9788
+ addUserKnob {7 sw l "shoulder width"}
+ sw 0.228
+ addUserKnob {7 tw l "toe width"}
+ tw 0.546
+ addUserKnob {12 white}
+ white {0.3 0}
+}
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<b>John Hable Piecewise Power Tonemap</b>\nhttp://filmicworlds.com/blog/filmic-tonemapping-with-piecewise-power-curves/\nhttps://www.desmos.com/calculator/6jcwgf1p9s\n\nModified with parameters to control\n<b>pivot</b> - point at which x=y\n<b>slope</b> - slope of the linear section\n<b>shoulder width</b> - length of the linear section from pivot to shoulder\n<b>toe width</b> - length of the linear section from pivot to toe\n<b>white</b> - position of the shoulder asymptote"
+  note_font Helvetica
+  note_font_size 14
+  xpos 140
+  ypos 76
+ }
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+  ypos 72
+ }
+ Expression {
+  expr0 r<=0?0:r<=pt.x?exp(at+bt*log(r)):r<ps.x?m*r+cb:-exp(as+bs*log(-(r-(os.x+1))))+1+os.y
+  expr1 g<=0?0:g<=pt.x?exp(at+bt*log(g)):g<ps.x?m*g+cb:-exp(as+bs*log(-(g-(os.x+1))))+1+os.y
+  expr2 b<=0?0:b<=pt.x?exp(at+bt*log(b)):b<ps.x?m*b+cb:-exp(as+bs*log(-(b-(os.x+1))))+1+os.y
+  expr3 1-(r<=0?0:r<=pt.x?12*(bt*(exp(bt*log(r)+at))/r):r<ps.x?m:bs*exp(bs*log(-r+os.x+1)+as)/(-r+os.x+1))/m
+  name HableTonemap
+  note_font Helvetica
+  xpos 0
+  ypos 136
+  addUserKnob {20 Params}
+  addUserKnob {12 pt}
+  pt {{pivot-(sin(pi/2-atan(slope))*(tw*(pivot/sin(atan(slope)))))} {pivot-(sin(atan(slope))*(tw*(pivot/sin(atan(slope)))))}}
+  addUserKnob {12 ps}
+  ps {{pivot+(sin(pi/2-atan(slope))*sw*((1-pivot)/sin(atan(slope))))} {pivot+(sin(atan(slope))*sw*((1-pivot)/sin(atan(slope))))}}
+  addUserKnob {12 os}
+  os {{parent.white} {parent.white}}
+  addUserKnob {20 calculations_grp l calculations n 1}
+  addUserKnob {7 m t "linear segment slope" R 0 10}
+  m {{(ps.y-pt.y)/(ps.x-pt.x)}}
+  addUserKnob {7 cb t "linear segment offset" R -10 10}
+  cb {{pt.y-pt.x*m}}
+  addUserKnob {7 bt R 0 10}
+  bt {{(m*pt.x)/pt.y}}
+  addUserKnob {7 at R 0 10}
+  at {{log(pt.y)-bt*log(pt.x)}}
+  addUserKnob {7 bs R 0 10}
+  bs {{(m*(os.x+1-ps.x))/(1+os.y-ps.y)}}
+  addUserKnob {7 as R 0 10}
+  as {{log(1+os.y-ps.y)-bs*log(1+os.x-ps.x)}}
+  addUserKnob {20 endGroup n -1}
+ }
+ Output {
+  name Output
+  xpos 0
+  ypos 205
+ }
+end_group
+push $cut_paste_input
+Group {
+ name HyberbolicTangent_Sigmoid1
+ note_font Helvetica
+ selected true
+ xpos 11838
+ ypos 4130
+ addUserKnob {20 tanh_sigmoid_tab l TanHSigmoid}
+ addUserKnob {18 slope R 1 10}
+ slope 3.25
+ addUserKnob {6 slope_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {18 offset}
+ offset 0.505
+ addUserKnob {6 offset_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 680
+  ypos 510
+ }
+ Expression {
+  expr0 tanh(slope.r*(r-offset.r))/2+0.5
+  expr1 tanh(slope.g*(g-offset.g))/2+0.5
+  expr2 tanh(slope.b*(b-offset.b))/2+0.5
+  name Expression2
+  note_font Helvetica
+  xpos 680
+  ypos 583
+ }
+ Output {
+  name Output1
+  xpos 680
+  ypos 670
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x111111ff
+  label https://www.desmos.com/calculator/lnnxfva7w5
+  note_font Helvetica
+  note_font_size 14
+  note_font_color 0x7d7d7dff
+  xpos 791
+  ypos 575
+ }
+end_group
+push $cut_paste_input
+Group {
+ name Tonemap_VariablePowerSigmoid1
+ note_font Helvetica
+ selected true
+ xpos 12708
+ ypos 4137
+ addUserKnob {20 User}
+ addUserKnob {12 pv t pivot}
+ pv {0.18 0.18}
+ addUserKnob {7 sl t slope R 0.5 4}
+ sl 2.47
+ addUserKnob {7 ss t "shoulder scale"}
+ ss 0.17
+ addUserKnob {7 st t "toe scale"}
+ st 0.05
+ addUserKnob {7 ps t "shoulder power" R 1 10}
+ ps 2.8
+ addUserKnob {7 pt t "toe power" R 1 10}
+ pt 3.55
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 0
+ }
+ Expression {
+  expr0 r>=pv.x?pv.y+ss*((sl*(r-pv.x)/ss))/pow((1+pow((r-pv.x)/ss,ps)),1/ps):pv.y+st*((sl*(r-pv.x)/st))/pow((1+pow((r-pv.x)/-st,pt)),1/pt)
+  expr1 g>=pv.x?pv.y+ss*((sl*(g-pv.x)/ss))/pow((1+pow((g-pv.x)/ss,ps)),1/ps):pv.y+st*((sl*(g-pv.x)/st))/pow((1+pow((g-pv.x)/-st,pt)),1/pt)
+  expr2 b>=pv.x?pv.y+ss*((sl*(b-pv.x)/ss))/pow((1+pow((b-pv.x)/ss,ps)),1/ps):pv.y+st*((sl*(b-pv.x)/st))/pow((1+pow((b-pv.x)/-st,pt)),1/pt)
+  name Expression1
+  note_font Helvetica
+  selected true
+  xpos 0
+  ypos 155
+ }
+ Output {
+  name Output
+  xpos 0
+  ypos 300
+ }
+end_group

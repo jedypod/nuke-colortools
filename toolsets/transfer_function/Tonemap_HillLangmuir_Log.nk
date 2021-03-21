@@ -1,0 +1,100 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name Tonemap_HillLangmuir_Log
+ addUserKnob {20 Tonemap_HillLangmuir_Log_tab l Tonemap_HillLangmuir_Log}
+ addUserKnob {7 n R 0 80}
+ n 12
+ addUserKnob {7 k R 0 10}
+ k 0.975
+ addUserKnob {7 offset}
+ offset 0.1575
+ addUserKnob {7 c t "where y=1, x=c" R 0.5 1.5}
+ c 1
+ addUserKnob {6 log_shaper l "log shaper" t "enable log shaper" +STARTLINE}
+ log_shaper true
+ addUserKnob {7 lmin l "log min" t "log shaper min in stops below 0.18" R -12 0}
+ lmin -8
+ addUserKnob {7 lmax l "log max" t "log shaper max in stops above 0.18" R 0 12}
+ lmax 8
+ addUserKnob {7 omid l "out mid"}
+ omid {{(-lmin)/(lmax-lmin)}}
+ addUserKnob {7 o l offset R -1 1}
+ o {{omid+offset}}
+ addUserKnob {7 s l scale t "scale factor such that x=c where y=1" R 0 2}
+ s {{(pow(k-o+c,n)+pow(k,n))/pow(k-o+c,n)}}
+ addUserKnob {26 ""}
+ addUserKnob {4 direction M {forward inverse}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos 200
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 354
+ }
+set Nf78e37e0 [stack 0]
+ Expression {
+  expr0 pow(-r*pow(k,n)/((r-s)),1/n)-k+o
+  expr1 pow(-g*pow(k,n)/((g-s)),1/n)-k+o
+  expr2 pow(-b*pow(k,n)/((b-s)),1/n)-k+o
+  name Hill_Langmuir_inverse
+  xpos 58
+  ypos 380
+ }
+ Expression {
+  expr0 pow(2,(r*(lmax-lmin)+lmin))*0.18
+  expr1 pow(2,(g*(lmax-lmin)+lmin))*0.18
+  expr2 pow(2,(b*(lmax-lmin)+lmin))*0.18
+  name log_to_lin
+  xpos 58
+  ypos 410
+  disable {{!parent.log_shaper}}
+ }
+push $Nf78e37e0
+ Expression {
+  expr0 r<1e-12?0:(log(r/0.18)/log(2)-lmin)/(lmax-lmin)
+  expr1 g<1e-12?0:(log(g/0.18)/log(2)-lmin)/(lmax-lmin)
+  expr2 b<1e-12?0:(log(b/0.18)/log(2)-lmin)/(lmax-lmin)
+  name lin_to_log
+  xpos -150
+  ypos 380
+  disable {{!parent.log_shaper}}
+ }
+ Expression {
+  expr0 s*(1-pow(k,n)/(pow(k,n)+pow(k+r-o,n)))
+  expr1 s*(1-pow(k,n)/(pow(k,n)+pow(k+g-o,n)))
+  expr2 s*(1-pow(k,n)/(pow(k,n)+pow(k+b-o,n)))
+  name Hill_Langmuir_forward
+  xpos -150
+  ypos 410
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name SwitchDirection
+  note_font Helvetica
+  xpos -40
+  ypos 471
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 530
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x272727ff
+  label "<left><b>Hill-Langmuir Equation</b>\nhttps://www.desmos.com/calculator/gkpyvkbizy\nhttps://en.wikipedia.org/wiki/Hill_equation_(biochemistry)"
+  note_font Helvetica
+  note_font_size 14
+  note_font_color 0xa8a8a8ff
+  xpos -173
+  ypos 268
+ }
+end_group

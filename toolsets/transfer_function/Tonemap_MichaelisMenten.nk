@@ -1,0 +1,89 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name MichaelisMentenKinetics
+ addUserKnob {20 MichaelisMentenKinetics_tab l MichaelisMentenKinetics}
+ addUserKnob {7 k R 0 10}
+ k 1.14
+ addUserKnob {7 n R 0 80}
+ n 15
+ addUserKnob {7 o l offset R -1 1}
+ o 0.48
+ addUserKnob {26 ""}
+ addUserKnob {7 p l pivot}
+ p 0.3
+ addUserKnob {7 M l max R 1 1.1}
+ M 1
+ addUserKnob {7 m l min R -0.1 0}
+ addUserKnob {7 ss l "lin-ext shoulder" t "add linear extension in shoulder" R 0 0.1}
+ addUserKnob {7 st l "lin-ext toe" R 0 0.1}
+ addUserKnob {4 direction M {forward inverse}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos 260
+ }
+ Dot {
+  name Dot1
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos -6
+  ypos 354
+ }
+set N12a03670 [stack 0]
+ Expression {
+  temp_name0 mr
+  temp_expr0 r>o?(ss*o+r)/(ss+1):(st*o+r)/(st+1)
+  temp_name1 mg
+  temp_expr1 g>o?(ss*o+g)/(ss+1):(st*o+g)/(st+1)
+  temp_name2 mb
+  temp_expr2 b>o?(ss*o+b)/(ss+1):(st*o+b)/(st+1)
+  expr0 pow(-(pow(k,n)*(M*m-mr))/(p*(M-mr)),1/n)-k+o
+  expr1 pow(-(pow(k,n)*(M*m-mg))/(p*(M-mg)),1/n)-k+o
+  expr2 pow(-(pow(k,n)*(M*m-mb))/(p*(M-mb)),1/n)-k+o
+  name MichaelisMentenKinetics_inverse
+  selected true
+  xpos 70
+  ypos 410
+ }
+push $N12a03670
+ Expression {
+  temp_name0 mr
+  temp_expr0 M*(1-((1-m)*pow(k,n))/(pow(k,n)+p*pow((k+r-o),n)))
+  temp_name1 mg
+  temp_expr1 M*(1-((1-m)*pow(k,n))/(pow(k,n)+p*pow((k+g-o),n)))
+  temp_name2 mb
+  temp_expr2 M*(1-((1-m)*pow(k,n))/(pow(k,n)+p*pow((k+b-o),n)))
+  expr0 mr>o?mr+ss*(mr-o):mr+st*(mr-o)
+  expr1 mg>o?mg+ss*(mg-o):mg+st*(mg-o)
+  expr2 mb>o?mb+ss*(mb-o):mb+st*(mb-o)
+  name MichaelisMentenKinetics_forward
+  xpos -150
+  ypos 410
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name SwitchDirection
+  note_font Helvetica
+  xpos -40
+  ypos 471
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 530
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x40454aff
+  label "<left>\n\nhttps://en.wikipedia.org/wiki/Michaelis%E2%80%93Menten_kinetics\nHDR-IPT: lightness curve https://www.desmos.com/calculator/7rfxi4wn4i\nMichaelis-Menten Hill Equation: \nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/ra8vahpadx\nhttps://www.desmos.com/calculator/oymhwxhjur\nhttps://www.desmos.com/calculator/d3nuypgrxf\n\nhttps://www.desmos.com/calculator/qtaeucdop0\n\nhttps://www.physiologyweb.com/calculators/hill_equation_interactive_graph.html\nhttp://retina.anatomy.upenn.edu/~rob/lance/michaelis.html"
+  note_font_size 14
+  xpos 330
+  ypos 319
+ }
+end_group

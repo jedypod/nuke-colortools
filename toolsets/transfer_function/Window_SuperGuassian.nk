@@ -1,0 +1,44 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name Window_SuperGaussian
+ addUserKnob {20 User}
+ addUserKnob {7 n R 0 20}
+ n 2
+ addUserKnob {7 k R 0 3}
+ k 0.001
+ addUserKnob {7 o l center}
+ o 0.5
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 290
+  ypos 530
+ }
+ Expression {
+  expr0 exp(-(pow(fabs(r-o),n))/k)
+  expr1 exp(-(pow(fabs(g-o),n))/k)
+  expr2 exp(-(pow(fabs(b-o),n))/k)
+  name SuperGauss_expression
+  xpos 290
+  ypos 621
+ }
+ Output {
+  name Output
+  xpos 290
+  ypos 693
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x272727ff
+  label "<left>\nPrinciples of Digital Image Processing: Core Algorithms - (2009, Springer-Verlag London)\nWilhelm Burger, Mark James Burge\np492\nhttps://www.desmos.com/calculator/rp8ll5ramp"
+  note_font "Nimbus Sans \[UKWN]"
+  note_font_size 14
+  note_font_color 0xa8a8a8ff
+  selected true
+  xpos 477
+  ypos 568
+ }
+end_group

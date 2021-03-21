@@ -1,0 +1,123 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name Tonemap_PowerP_Sigmoid_Log
+ addUserKnob {20 Tonemap_PowerP_Sigmoid_Log_tab l Tonemap_PowerP_Sigmoid_Log}
+ addUserKnob {7 offset}
+ offset 0.189
+ addUserKnob {12 p l pivot t "pivot point of the linear section"}
+ p {{omid+offset} 0.5}
+ addUserKnob {7 m l slope R 1 8}
+ m 2.64
+ addUserKnob {7 lin_s l "lin length shoulder" t "Length of the linear section from pivot to shoulder threshold"}
+ lin_s 0.06
+ addUserKnob {7 lin_t l "lin length toe" t "length of the linear section from pivot to toe threshold"}
+ addUserKnob {7 pt l "power toe" R 1 8}
+ pt 3.76
+ addUserKnob {7 ps l "power shoulder" R 1 8}
+ ps 2
+ addUserKnob {7 lt l "limit toe" R 0 0.1}
+ addUserKnob {7 ls l "limit shoulder" R 1 16}
+ ls 1.1
+ addUserKnob {78 tt l "toe pivot" n 2}
+ tt {{-lin_t/pow((m*m+1),0.5)+p.0} {-(m*lin_t)/pow(m*m+1,0.5)+p.1}}
+ addUserKnob {78 ts l "shoulder pivot" n 2}
+ ts {{lin_s/pow((m*m+1),0.5)+p.0} {(m*lin_s)/pow(m*m+1,0.5)+p.1}}
+ addUserKnob {7 o l "lin offset" t "linear section offset" R -1 1}
+ o {{tt.1-m*tt.0}}
+ addUserKnob {6 log_shaper l "log shaper" t "enable log shaper" +STARTLINE}
+ log_shaper true
+ addUserKnob {7 lmin l "log min" t "log shaper min in stops below 0.18" R -12 0}
+ lmin -7
+ addUserKnob {7 lmax l "log max" t "log shaper max in stops above 0.18" R 0 12}
+ lmax 7
+ addUserKnob {7 omid l "out mid"}
+ omid {{(-lmin)/(lmax-lmin)}}
+ addUserKnob {4 direction M {forward inverse}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos 14
+ }
+ Dot {
+  name Dot1
+  xpos -6
+  ypos 84
+ }
+set Nf30f2090 [stack 0]
+ Expression {
+  expr0 (r<=ts.1&&r>=tt.1)?(r-o)/m:(r>ts.1&&r<(ts.1+parent.PowerPSigmoid_Forward.ss))?ss*(((r-ts.1)/(m*ss))/(sign(fabs(1+sign(((r-ts.1)/(m*ss)))*pow(fabs(((r-ts.1)/(m*ss))),ps)))*pow(fabs(1+sign(((r-ts.1)/(m*ss)))*pow(fabs(((r-ts.1)/(m*ss))),ps)),1/ps)))+ts.0:(r<tt.1&&r>(tt.1-parent.PowerPSigmoid_Forward.st))?st*(((r-tt.1)/(m*st))/(sign(fabs(1+sign(((r-tt.1)/(m*st)))*pow(fabs(((r-tt.1)/(m*st))),pt)))*pow(fabs(1+sign(((r-tt.1)/(m*st)))*pow(fabs(((r-tt.1)/(m*st))),pt)),1/pt)))+tt.0:0
+  channel1 {-rgba.red rgba.green -rgba.blue none}
+  expr1 "(g<=ts.1&&g>=tt.1)?(g-o)/m:(g>ts.1&&g<(ts.1+parent.PowerPSigmoid_Forward.ss))?ss*(((g-ts.1)/(m*ss))/(sign(fabs(1+sign(((g-ts.1)/(m*ss)))*pow(fabs(((g-ts.1)/(m*ss))),ps)))*pow(fabs(1+sign(((g-ts.1)/(m*ss)))*pow(fabs(((g-ts.1)/(m*ss))),ps)),1/ps)))+ts.0:(g<tt.1&&g>(tt.1-parent.PowerPSigmoid_Forward.st))?st*(((g-tt.1)/(m*st))/(sign(fabs(1+sign(((g-tt.1)/(m*st)))*pow(fabs(((g-tt.1)/(m*st))),pt)))*pow(fabs(1+sign(((g-tt.1)/(m*st)))*pow(fabs(((g-tt.1)/(m*st))),pt)),1/pt)))+tt.0:0\n\n"
+  expr2 "(b<=ts.1&&b>=tt.1)?(b-o)/m:(b>ts.1&&b<(ts.1+parent.PowerPSigmoid_Forward.ss))?ss*(((b-ts.1)/(m*ss))/(sign(fabs(1+sign(((b-ts.1)/(m*ss)))*pow(fabs(((b-ts.1)/(m*ss))),ps)))*pow(fabs(1+sign(((b-ts.1)/(m*ss)))*pow(fabs(((b-ts.1)/(m*ss))),ps)),1/ps)))+ts.0:(b<tt.1&&b>(tt.1-parent.PowerPSigmoid_Forward.st))?st*(((b-tt.1)/(m*st))/(sign(fabs(1+sign(((b-tt.1)/(m*st)))*pow(fabs(((b-tt.1)/(m*st))),pt)))*pow(fabs(1+sign(((b-tt.1)/(m*st)))*pow(fabs(((b-tt.1)/(m*st))),pt)),1/pt)))+tt.0:0\n\n"
+  name PowerPSigmoid_Inverse
+  xpos 70
+  ypos 150
+  addUserKnob {20 User}
+  addUserKnob {7 ss t "scale factor for shoulder compression function"}
+  ss {{sign(pow((1-ts.1)/m,-ps)*(pow((1-ts.1)/(m*(ls-ts.0)),ps)-1))*pow(fabs(pow((1-ts.1)/m,-ps)*(pow((1-ts.1)/(m*(ls-ts.0)),ps)-1)),-1/ps)}}
+  addUserKnob {7 st t "toe compression function scale"}
+  st {{pow((sign((0-tt.1)/m)*pow(fabs((0-tt.1)/m),-pt))*((sign((0-tt.1)/(m*(lt-tt.0)))*pow(fabs((0-tt.1)/(m*(lt-tt.0))),pt))-1),-1/pt)}}
+ }
+ Expression {
+  expr0 pow(2,(r*(lmax-lmin)+lmin))*0.18
+  expr1 pow(2,(g*(lmax-lmin)+lmin))*0.18
+  expr2 pow(2,(b*(lmax-lmin)+lmin))*0.18
+  name log_to_lin
+  xpos 70
+  ypos 200
+  disable {{!parent.log_shaper}}
+ }
+push $Nf30f2090
+ Expression {
+  expr0 r<1e-12?0:(log(r/0.18)/log(2)-lmin)/(lmax-lmin)
+  expr1 g<1e-12?0:(log(g/0.18)/log(2)-lmin)/(lmax-lmin)
+  expr2 b<1e-12?0:(log(b/0.18)/log(2)-lmin)/(lmax-lmin)
+  name lin_to_log
+  xpos -150
+  ypos 140
+  disable {{!parent.log_shaper}}
+ }
+ Expression {
+  expr0 r>ts.0?ss*((m*(r-ts.0)/ss)/pow(1+pow((m*(r-ts.0)/ss),ps),1/ps))+ts.1:r<tt.0?-st*((m*(r-tt.0)/-st)/pow(1+pow((m*(r-tt.0)/-st),pt),1/pt))+tt.1:m*r+o
+  expr1 g>ts.0?ss*((m*(g-ts.0)/ss)/pow(1+pow((m*(g-ts.0)/ss),ps),1/ps))+ts.1:g<tt.0?-st*((m*(g-tt.0)/-st)/pow(1+pow((m*(g-tt.0)/-st),pt),1/pt))+tt.1:m*g+o
+  expr2 b>ts.0?ss*((m*(b-ts.0)/ss)/pow(1+pow((m*(b-ts.0)/ss),ps),1/ps))+ts.1:b<tt.0?-st*((m*(b-tt.0)/-st)/pow(1+pow((m*(b-tt.0)/-st),pt),1/pt))+tt.1:m*b+o
+  name PowerPSigmoid_Forward
+  xpos -150
+  ypos 172
+  addUserKnob {20 User}
+  addUserKnob {7 ss t "scale factor for shoulder compression function"}
+  ss {{pow((pow(m*(ls-ts.0),-ps)*(pow(m*(ls-ts.0)/(1-ts.1),ps)-1)),-1/ps)}}
+  addUserKnob {78 itt l "inverse toe pivot" n 2}
+  itt {{1-tt.0} {1-tt.1}}
+  addUserKnob {7 ilt t "inverse toe limit"}
+  ilt {{1-lt}}
+  addUserKnob {7 st t "toe compression function scale"}
+  st {{pow((pow(m*(ilt-itt.0),-pt)*(pow(m*(ilt-itt.0)/(1-itt.1),pt)-1)),-1/pt)}}
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name SwitchDirection
+  xpos -40
+  ypos 230
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 290
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote8
+  tile_color 0x272727ff
+  label https://www.desmos.com/calculator/ls8q01jcnb
+  note_font Helvetica
+  note_font_size 14
+  note_font_color 0xa8a8a8ff
+  xpos -138
+  ypos 50
+ }
+end_group
