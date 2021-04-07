@@ -20,7 +20,7 @@ Group {
  addUserKnob {7 rotate R 0 360}
  rotate 180
  addUserKnob {6 high_quality l "high quality" t "enable high quality rendering" +STARTLINE}
- high_quality true
+ high_quality false
  addUserKnob {7 point_detail l "point detail" t "point detail of the position to points "}
  point_detail 1
  addUserKnob {41 box_width l width/height T Reformat26.box_width}
