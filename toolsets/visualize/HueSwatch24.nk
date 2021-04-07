@@ -1,17 +1,13 @@
 set cut_paste_input [stack 0]
-version 12.0 v8
 Group {
  inputs 0
- name HueSwatchesTwentyFour2
- note_font Helvetica
- selected true
- xpos 20023
- ypos 567
+ name HueSwatchesTwentyFour
  postage_stamp true
  addUserKnob {20 User}
  addUserKnob {41 saturation T Saturation4.saturation}
- addUserKnob {3 patch_size t "size of each square patch"}
+ addUserKnob {3 patch_size l "patch size" t "size of each square patch"}
  patch_size 256
+ addUserKnob {7 sat_samples l "sat samples" t "number of steps on the saturation ramp" R 0 256}
 }
  Group {
   inputs 0
@@ -1464,6 +1460,16 @@ Group {
   xpos -1360
   ypos -459
  }
+ Expression {
+  temp_name0 s
+  temp_expr0 sat_samples
+  expr3 rint(a*s)/s
+  name Expression5
+  note_font Helvetica
+  xpos -1360
+  ypos -369
+  disable {{!sat_samples}}
+ }
  Saturation {
   saturation 0
   mode Maximum
@@ -1471,7 +1477,7 @@ Group {
   name Saturation4
   note_font Helvetica
   xpos -1360
-  ypos -330
+  ypos -315
  }
  Output {
   name Output1
