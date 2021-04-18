@@ -19,7 +19,7 @@ Group {
   temp_name1 C
   temp_expr1 M-min(r,g,b)
   temp_name2 H
-  temp_expr2 ((r==M?((g-b)/C+6)%6:g==M?(b-r)/C+2:b==M?(r-g)/C+4:0)+shift)%6
+  temp_expr2 ((C==0?0:r==M?((g-b)/C+6)%6:g==M?(b-r)/C+2:b==M?(r-g)/C+4:0)+shift)%6
   temp_name3 X
   temp_expr3 C*(1-fabs(H%2-1))
   expr0 (H<1?C:H<2?X:H<3?0:H<4?0:H<5?X:C)+min(r,g,b)
