@@ -4,7 +4,7 @@ Group {
  name ColorSpace_HSV
  label "direction : \[value direction]"
  addUserKnob {20 ColorSpace_HSV_tab l ColorSpace_HSV}
- addUserKnob {6 chroma t "Output chroma: max(r,g,b) - min(r,g,b)\nOtherwise, output \"saturation\", which is normalized by luminance." +STARTLINE}
+ addUserKnob {6 chroma t "Output chroma: max(r,g,b) - min(r,g,b)\nOtherwise, output \"saturation\", which is normalized by max(r,g,b)" +STARTLINE}
  addUserKnob {4 direction M {forward inverse}}
 }
  Input {
@@ -18,23 +18,24 @@ Group {
   xpos -726
   ypos 594
  }
-set Nd83311f0 [stack 0]
+set N64690c60 [stack 0]
  Expression {
   temp_name0 C
   temp_expr0 chroma?g:b*g
-  temp_name1 X
-  temp_expr1 C*(1-fabs((r*6)%2-1))
+  temp_name1 H
+  temp_expr1 r*6
   temp_name2 m
   temp_expr2 b-C
-  expr0 (r<1/6?C:r<2/6?X:r<3/6?0:r<4/6?0:r<5/6?X:C)+m
-  expr1 (r<1/6?X:r<2/6?C:r<3/6?C:r<4/6?X:r<5/6?0:0)+m
-  expr2 (r<1/6?0:r<2/6?0:r<3/6?X:r<4/6?C:r<5/6?C:X)+m
+  temp_name3 X
+  temp_expr3 C*(1-fabs(H%2-1))
+  expr0 (H<1?C:H<2?X:H<3?0:H<4?0:H<5?X:C)+m
+  expr1 (H<1?X:H<2?C:H<3?C:H<4?X:H<5?0:0)+m
+  expr2 (H<1?0:H<2?0:H<3?X:H<4?C:H<5?C:X)+m
   name HSV_to_RGB
-  note_font "Bitstream Vera Sans"
   xpos -640
   ypos 650
  }
-push $Nd83311f0
+push $N64690c60
  Expression {
   temp_name0 M
   temp_expr0 max(r,g,b)
@@ -42,12 +43,12 @@ push $Nd83311f0
   temp_expr1 min(r,g,b)
   temp_name2 C
   temp_expr2 M-m
-  expr0 (60*(C==0?0:M==r?((g-b)/C+6)%6:M==g?(b-r)/C+2:M==b?(r-g)/C+4:0))/360
+  expr0 (C==0?0:M==r?((g-b)/C+6)%6:M==g?(b-r)/C+2:M==b?(r-g)/C+4:0)/6
   expr1 chroma?C:M==0?0:C/M
   expr2 M
   name RGB_to_HSV
-  xpos -880
-  ypos 651
+  xpos -881
+  ypos 650
  }
  Switch {
   inputs 2
