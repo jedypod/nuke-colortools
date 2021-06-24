@@ -4,44 +4,60 @@ Group {
  name LogConvert_Blackmagic_Log
  addUserKnob {20 BlackmagicLog_tab l BlackmagicLog}
  addUserKnob {4 operation M {log2lin lin2log}}
- addUserKnob {4 type M {BMDFilm BMD4KFilm BMD46KFilm BMDPocket4KFilm BMDPocket6KFilm}}
+ addUserKnob {4 type M {BMDFilmGen5 BMDFilm BMD4KFilm BMD46KFilm BMDPocket4KFilm BMDPocket6KFilm ""}}
 }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x303030ff
+  label "<left><b>Blackmagic Log Curves</b>\nBased on Nick Shaw's curve fit of the Blackmagic Log Curves:\nhttps://colab.research.google.com/drive/1XNbxO6O6bGjtC1Igzpo7gDE4dtlHPeyW\n\nSee a plot of BMDFilm here https://www.desmos.com/calculator/ltqjvgnnye\n\nNot totally sure why but I had to add +0.000142 to the linear section of the Pocket log curves \nto match them perfectly to the log curves in Resolve 17\n\nBMDFilmGen5 sourced from BlackMagic Raw SDK 2.1 \nhttps://www.blackmagicdesign.com/support/download/ea11ce9660c642879612f363ca387c7f/Linux\nhttps://drive.google.com/file/d/1FF5WO2nvI9GEWb4_EntrBoV9ZIuFToZd"
+  note_font Helvetica
+  note_font_size 14
+  xpos -43
+  ypos 382
+ }
  Input {
   inputs 0
   name Input
-  xpos -40
-  ypos -10
+  xpos -260
+  ypos 14
  }
+ Dot {
+  name Dot6
+  xpos -226
+  ypos 114
+ }
+set N1cbec800 [stack 0]
  Dot {
   name Dot2
   xpos -6
   ypos 114
  }
-set N69488100 [stack 0]
+set N1cbec100 [stack 0]
  Dot {
   name Dot1
-  xpos 234
+  xpos 214
   ypos 114
  }
-set Ne93f7900 [stack 0]
+set N2760b900 [stack 0]
  Dot {
   name Dot3
-  xpos 474
+  xpos 434
   ypos 114
  }
-set Ne93f7200 [stack 0]
+set N2760b200 [stack 0]
  Dot {
   name Dot4
-  xpos 714
+  xpos 654
   ypos 114
  }
-set Ne93f6b00 [stack 0]
+set N2760ab00 [stack 0]
  Dot {
   name Dot5
-  xpos 954
+  xpos 874
   ypos 114
  }
-set Ne93f6400 [stack 0]
+set N2760a400 [stack 0]
  Expression {
   temp_name0 offset
   temp_expr0 (pow(10,(logSideBreak-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
@@ -53,8 +69,8 @@ set Ne93f6400 [stack 0]
   channel3 none
   name log2lin10
   label BMDPocket6KFilm
-  xpos 920
-  ypos 144
+  xpos 840
+  ypos 152
   addUserKnob {20 Params}
   addUserKnob {7 logSideBreak}
   logSideBreak 0.0964591
@@ -71,7 +87,7 @@ set Ne93f6400 [stack 0]
   addUserKnob {7 linSideSlope}
   linSideSlope 0.7053022
  }
-push $Ne93f6400
+push $N2760a400
  Expression {
   expr0 r<=logSideBreak?r*linearSlope-linearOffset:(pow(10,(r-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
   expr1 g<=logSideBreak?g*linearSlope-linearOffset:(pow(10,(g-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
@@ -79,8 +95,8 @@ push $Ne93f6400
   channel3 none
   name log2lin4
   label BMDPocket6KFilm
-  xpos 800
-  ypos 144
+  xpos 730
+  ypos 152
   addUserKnob {20 Params}
   addUserKnob {7 logSideBreak}
   logSideBreak 0.0964591
@@ -101,10 +117,10 @@ push $Ne93f6400
   inputs 2
   which {{parent.operation}}
   name Operation5
-  xpos 920
+  xpos 840
   ypos 230
  }
-push $Ne93f6b00
+push $N2760ab00
  Expression {
   temp_name0 offset
   temp_expr0 (pow(10,(logSideBreak-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
@@ -114,8 +130,8 @@ push $Ne93f6b00
   channel3 none
   name log2lin9
   label BMDPocket4KFilm
-  xpos 680
-  ypos 144
+  xpos 620
+  ypos 152
   addUserKnob {20 Params}
   addUserKnob {7 logSideBreak}
   logSideBreak 0.09450549
@@ -132,7 +148,7 @@ push $Ne93f6b00
   addUserKnob {7 linSideSlope}
   linSideSlope 0.73510555
  }
-push $Ne93f6b00
+push $N2760ab00
  Expression {
   expr0 r<=logSideBreak?r*linearSlope-linearOffset:(pow(10,(r-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
   expr1 g<=logSideBreak?g*linearSlope-linearOffset:(pow(10,(g-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
@@ -140,8 +156,8 @@ push $Ne93f6b00
   channel3 none
   name log2lin1
   label BMDPocket4KFilm
-  xpos 560
-  ypos 144
+  xpos 510
+  ypos 152
   addUserKnob {20 Params}
   addUserKnob {7 logSideBreak}
   logSideBreak 0.09450549
@@ -162,10 +178,10 @@ push $Ne93f6b00
   inputs 2
   which {{parent.operation}}
   name Operation4
-  xpos 680
+  xpos 620
   ypos 230
  }
-push $Ne93f7200
+push $N2760b200
  Expression {
   temp_name0 offset
   temp_expr0 (pow(10,(logSideBreak-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
@@ -175,8 +191,8 @@ push $Ne93f7200
   channel3 none
   name log2lin8
   label BMD46KFilm
-  xpos 440
-  ypos 144
+  xpos 400
+  ypos 152
   addUserKnob {20 Params}
   addUserKnob {7 logSideBreak}
   logSideBreak 0.0967033
@@ -193,7 +209,7 @@ push $Ne93f7200
   addUserKnob {7 linSideSlope}
   linSideSlope 0.71508473
  }
-push $Ne93f7200
+push $N2760b200
  Expression {
   expr0 r<=logSideBreak?r*linearSlope-linearOffset:(pow(10,(r-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
   expr1 g<=logSideBreak?g*linearSlope-linearOffset:(pow(10,(g-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
@@ -201,8 +217,8 @@ push $Ne93f7200
   channel3 none
   name log2lin3
   label BMD46KFilm
-  xpos 320
-  ypos 144
+  xpos 290
+  ypos 152
   addUserKnob {20 Params}
   addUserKnob {7 logSideBreak}
   logSideBreak 0.0967033
@@ -223,10 +239,10 @@ push $Ne93f7200
   inputs 2
   which {{parent.operation}}
   name Operation2
-  xpos 440
+  xpos 400
   ypos 230
  }
-push $Ne93f7900
+push $N2760b900
  Expression {
   temp_name0 offset
   temp_expr0 (pow(10,(logSideBreak-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
@@ -236,8 +252,8 @@ push $Ne93f7900
   channel3 none
   name log2lin7
   label BMD4KFilm
-  xpos 200
-  ypos 144
+  xpos 180
+  ypos 152
   addUserKnob {20 Params}
   addUserKnob {7 logSideBreak}
   logSideBreak 0.05299145
@@ -254,7 +270,7 @@ push $Ne93f7900
   addUserKnob {7 linSideSlope}
   linSideSlope 0.86062777
  }
-push $Ne93f7900
+push $N2760b900
  Expression {
   expr0 r<=logSideBreak?r*linearSlope-linearOffset:(pow(10,(r-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
   expr1 g<=logSideBreak?g*linearSlope-linearOffset:(pow(10,(g-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
@@ -262,8 +278,8 @@ push $Ne93f7900
   channel3 none
   name log2lin2
   label BMD4KFilm
-  xpos 80
-  ypos 144
+  xpos 70
+  ypos 152
   addUserKnob {20 Params}
   addUserKnob {7 logSideBreak}
   logSideBreak 0.05299145
@@ -284,10 +300,10 @@ push $Ne93f7900
   inputs 2
   which {{parent.operation}}
   name Operation3
-  xpos 200
+  xpos 180
   ypos 230
  }
-push $N69488100
+push $N1cbec100
  Expression {
   temp_name0 offset
   temp_expr0 (pow(10,(logSideBreak-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
@@ -300,7 +316,7 @@ push $N69488100
   name log2lin5
   label BMDFilm
   xpos -40
-  ypos 144
+  ypos 152
   addUserKnob {20 Params}
   addUserKnob {7 logSideBreak}
   logSideBreak 0.06031746
@@ -317,7 +333,7 @@ push $N69488100
   addUserKnob {7 linSideSlope}
   linSideSlope 0.76154283
  }
-push $N69488100
+push $N1cbec100
  Expression {
   expr0 r<=logSideBreak?r*linearSlope-linearOffset:(pow(10,(r-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
   expr1 g<=logSideBreak?g*linearSlope-linearOffset:(pow(10,(g-logSideOffset)/logSideSlope)-linSideOffset)/linSideSlope
@@ -325,8 +341,8 @@ push $N69488100
   channel3 none
   name log2lin6
   label BMDFilm
-  xpos -160
-  ypos 144
+  xpos -150
+  ypos 152
   addUserKnob {20 Params}
   addUserKnob {7 logSideBreak}
   logSideBreak 0.06031746
@@ -350,26 +366,76 @@ push $N69488100
   xpos -40
   ypos 230
  }
+push $N1cbec800
+ Expression {
+  expr0 r<lin_cut?_d*r+_e:_a*log(r+_b)+_c
+  expr1 g<lin_cut?_d*g+_e:_a*log(g+_b)+_c
+  expr2 b<lin_cut?_d*b+_e:_a*log(b+_b)+_c
+  channel3 none
+  name lin2log1
+  label BMDFilmGen5
+  xpos -260
+  ypos 152
+  addUserKnob {20 Params}
+  addUserKnob {7 _a}
+  _a 0.08692876065
+  addUserKnob {7 _b}
+  _b 0.005494072432
+  addUserKnob {7 _c}
+  _c 0.5300133392
+  addUserKnob {7 _d}
+  _d 8.283605932
+  addUserKnob {7 _e}
+  _e 0.09246575342
+  addUserKnob {7 lin_cut}
+  lin_cut 0.005
+  addUserKnob {7 log_cut}
+  log_cut {{_d*lin_cut+_e}}
+ }
+push $N1cbec800
+ Expression {
+  expr0 r<log_cut?(r-_e)/_d:exp((r-_c)/_a)-_b
+  expr1 g<log_cut?(g-_e)/_d:exp((g-_c)/_a)-_b
+  expr2 b<log_cut?(b-_e)/_d:exp((b-_c)/_a)-_b
+  channel3 none
+  name log2lin
+  label BMDFilmGen5
+  xpos -370
+  ypos 152
+  addUserKnob {20 Params}
+  addUserKnob {7 _a}
+  _a 0.08692876065
+  addUserKnob {7 _b}
+  _b 0.005494072432
+  addUserKnob {7 _c}
+  _c 0.5300133392
+  addUserKnob {7 _d}
+  _d 8.283605932
+  addUserKnob {7 _e}
+  _e 0.09246575342
+  addUserKnob {7 lin_cut}
+  lin_cut 0.005
+  addUserKnob {7 log_cut}
+  log_cut {{_d*lin_cut+_e}}
+ }
  Switch {
-  inputs 5
+  inputs 2
+  which {{parent.operation}}
+  name Operation6
+  xpos -260
+  ypos 230
+ }
+ Switch {
+  inputs 6
   which {{parent.type}}
-  name Type
-  xpos -40
-  ypos 310
+  name SwitchType
+  selected true
+  xpos -260
+  ypos 374
  }
  Output {
   name Output
-  xpos -40
-  ypos 470
- }
- StickyNote {
-  inputs 0
-  name StickyNote1
-  tile_color 0x303030ff
-  label "<left><b>Blackmagic Log Curves</b>\nBased on Nick Shaw's curve fit of the Blackmagic Log Curves:\nhttps://colab.research.google.com/drive/1XNbxO6O6bGjtC1Igzpo7gDE4dtlHPeyW\n\nSee a plot of BMDFilm here https://www.desmos.com/calculator/ltqjvgnnye\n\nNot totally sure why but I had to add +0.000142 to the linear section of the Pocket log curves \nto match them perfectly to the log curves in Resolve 17\n"
-  note_font Helvetica
-  note_font_size 14
-  xpos 86
-  ypos 324
+  xpos -260
+  ypos 518
  }
 end_group
