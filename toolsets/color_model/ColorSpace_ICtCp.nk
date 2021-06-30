@@ -4,50 +4,25 @@ Group {
  name Colorspace_ICtCp
  addUserKnob {20 ICtCp_tab l ICtCp}
  addUserKnob {41 gamut T GamutToXYZ.gamut}
- addUserKnob {6 domain_range_scale l "domain range scale" t "enable domain range scale" +STARTLINE}
- domain_range_scale true
- addUserKnob {6 use_dolby_method l "use dolby method" +STARTLINE}
- use_dolby_method true
+ addUserKnob {4 method M {PQ HLG}}
  addUserKnob {4 direction M {forward inverse}}
 }
  Input {
   inputs 0
-  name Input
   xpos -40
   ypos -530
  }
  Dot {
   name Dot1
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
-  xpos -6
-  ypos -446
+  ypos -462
  }
-set Nd948d30 [stack 0]
+set N9ee6b00 [stack 0]
  Dot {
   name Dot2
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
-  xpos 234
-  ypos -446
+  xpos 214
+  ypos -462
  }
-set Nd9de2d0 [stack 0]
- ColorMatrix {
-  matrix {
-      {{parent.ColorMatrix9.matrix} {parent.ColorMatrix9.matrix} {parent.ColorMatrix9.matrix}}
-      {{parent.ColorMatrix9.matrix} {parent.ColorMatrix9.matrix} {parent.ColorMatrix9.matrix}}
-      {{parent.ColorMatrix9.matrix} {parent.ColorMatrix9.matrix} {parent.ColorMatrix9.matrix}}
-    }
-  invert true
-  name ColorMatrix2
-  label ICTCP_LMS_P_TO_ICTCP
-  note_font Helvetica
-  xpos 200
-  ypos -415
- }
-push $Nd9de2d0
+set N9ee6400 [stack 0]
  ColorMatrix {
   matrix {
       {{parent.ColorMatrix10.matrix} {parent.ColorMatrix10.matrix} {parent.ColorMatrix10.matrix}}
@@ -56,71 +31,66 @@ push $Nd9de2d0
     }
   invert true
   name ColorMatrix4
-  label ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2
-  note_font Helvetica
-  xpos 80
-  ypos -415
+  label "LMS_P to ICTCP (HLG)"
+  xpos 70
+  ypos -423
  }
- Switch {
-  inputs 2
-  which {{parent.use_dolby_method}}
-  name SwitchDolbyMethod1
-  note_font Helvetica
-  xpos 200
-  ypos -369
+ Expression {
+  expr0 r<=0.5?r*r/3:(exp((r-_c)/_a)+_b)/12
+  expr1 g<=0.5?g*g/3:(exp((g-_c)/_a)+_b)/12
+  expr2 b<=0.5?b*b/3:(exp((b-_c)/_a)+_b)/12
+  name HLG_InverseOETF
+  xpos 70
+  ypos -370
+  addUserKnob {20 CONSTANTS_tab l CONSTANTS}
+  addUserKnob {7 _a t alpha}
+  _a 0.17883277
+  addUserKnob {7 _b t beta}
+  _b {{1-4*_a}}
+  addUserKnob {7 _c}
+  _c {{0.5-_a*log(4*_a)}}
  }
- Group {
-  name eotf_ST2084_2
-  note_font Helvetica
-  xpos 200
-  ypos -209
-  disable {{!parent.domain_range_scale}}
+push $N9ee6400
+ ColorMatrix {
+  matrix {
+      {{parent.ColorMatrix9.matrix} {parent.ColorMatrix9.matrix} {parent.ColorMatrix9.matrix}}
+      {{parent.ColorMatrix9.matrix} {parent.ColorMatrix9.matrix} {parent.ColorMatrix9.matrix}}
+      {{parent.ColorMatrix9.matrix} {parent.ColorMatrix9.matrix} {parent.ColorMatrix9.matrix}}
+    }
+  invert true
+  name ColorMatrix2
+  label "LMS_P to ICTCP (PQ)"
+  xpos 180
+  ypos -423
+ }
+ Expression {
+  expr0 pow((pow(r,1/m_2)-c_1)/(c_2-c_3*pow(r,1/m_2)),1/m_1)*10000
+  expr1 pow((pow(g,1/m_2)-c_1)/(c_2-c_3*pow(g,1/m_2)),1/m_1)*10000
+  expr2 pow((pow(b,1/m_2)-c_1)/(c_2-c_3*pow(b,1/m_2)),1/m_1)*10000
+  name ST2084_EOTF
+  xpos 180
+  ypos -370
   addUserKnob {20 CONSTANTS_tab l CONSTANTS}
   addUserKnob {7 m_1}
   m_1 {{2610/4096*(1/4)}}
   addUserKnob {7 m_2}
   m_2 {{2523/4096*128}}
   addUserKnob {7 c_1}
-  c_1 {{3424/4096}}
+  c_1 {{107/128}}
   addUserKnob {7 c_2}
-  c_2 {{2413/4096*32}}
+  c_2 {{2413/128}}
   addUserKnob {7 c_3}
-  c_3 {{2392/4096*32}}
-  addUserKnob {7 L_p R 0 10000}
-  L_p 10000
+  c_3 {{2392/128}}
+  addUserKnob {7 Lw t "Display peak luminance in nits" R 600 4000}
+  Lw 10000
  }
-  Input {
-   inputs 0
-   name Input
-   xpos -40
-   ypos -290
-  }
-  Expression {
-   expr0 "pow(r, 1/m_2)"
-   expr1 "pow(g, 1/m_2)"
-   expr2 "pow(b, 1/m_2)"
-   name Expression1
-   label V_p
-   note_font Helvetica
-   xpos -40
-   ypos -255
-  }
-  Expression {
-   expr0 pow(((r-c_1)/(c_2-c_3*r)),1/m_1)*L_p
-   expr1 pow(((g-c_1)/(c_2-c_3*g)),1/m_1)*L_p
-   expr2 pow(((b-c_1)/(c_2-c_3*b)),1/m_1)*L_p
-   name Expression2
-   label C
-   note_font Helvetica
-   xpos -40
-   ypos -215
-  }
-  Output {
-   name Output
-   xpos -40
-   ypos -170
-  }
- end_group
+ Switch {
+  inputs 2
+  which {{parent.method}}
+  name SwitchMethod1
+  xpos 180
+  ypos -321
+ }
  ColorMatrix {
   matrix {
       {{parent.ColorMatrix8.matrix} {parent.ColorMatrix8.matrix} {parent.ColorMatrix8.matrix}}
@@ -130,9 +100,8 @@ push $Nd9de2d0
   invert true
   name ColorMatrix5
   label ICTCP_RGB_TO_LMS
-  note_font Helvetica
-  xpos 200
-  ypos -175
+  xpos 180
+  ypos -255
  }
  ColorMatrix {
   matrix {
@@ -143,9 +112,8 @@ push $Nd9de2d0
   invert true
   name ColorMatrix7
   label "Rec2020 to XYZ"
-  note_font Helvetica
-  xpos 200
-  ypos -95
+  xpos 180
+  ypos -183
  }
  ColorMatrix {
   matrix {
@@ -156,16 +124,15 @@ push $Nd9de2d0
   invert true
   name ColorMatrix3
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value GamutToXYZ.gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
-  note_font Helvetica
-  xpos 200
-  ypos -55
+  xpos 180
+  ypos -135
  }
-push $Nd948d30
+push $N9ee6b00
  Group {
   name GamutToXYZ
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
   xpos -40
-  ypos -417
+  ypos -424
   addUserKnob {20 GamutToXYZ_lite_tab l GamutToXYZ_lite}
   addUserKnob {4 gamut t "Choose gamut" M {XYZ ACES ACEScg "Filmlight E-Gamut" "DaVinci WG" Rec709 Rec2020 P3D60 P3D65 P3DCI "Arri AlexaWideGamut" REDDRAGONcolor REDDRAGONcolor2 REDcolor REDcolor2 REDcolor3 REDcolor4 REDWideGamutRGB "GoPro Protune Native" CanonCinemaGamut SonySGamut SonySGamut3Cine PanasonicVGamut "DJI D-Gamut" "Fujifilm F-Gamut" BMDFilmV1 BMD4kFilmV1 BMD4kFilmV3 BMD46kFilmV1 BMD46kFilmV3 BMDWideGamutV4 "AdobeRGB\t" AdobeWideGamutRGB ROMM RIMM ERIMM ProPhotoRGB RusselRGB SharpRGB AppleRGB BestRGB}}
   gamut ACEScg
@@ -223,7 +190,6 @@ push $Nd948d30
     }
   name ColorMatrix1
   label "XYZ to Rec2020"
-  note_font Helvetica
   xpos -40
   ypos -375
  }
@@ -235,76 +201,31 @@ push $Nd948d30
     }
   name ColorMatrix8
   label ICTCP_RGB_TO_LMS
-  note_font Helvetica
   xpos -40
-  ypos -295
+  ypos -327
  }
- Group {
-  name eotf_inverse_ST2084_1
-  note_font Helvetica
-  xpos -40
-  ypos -209
-  disable {{!parent.domain_range_scale}}
+ Dot {
+  name Dot3
+  xpos -6
+  ypos -270
+ }
+set N9e83900 [stack 0]
+ Expression {
+  expr0 r<=1/12?sqrt(3*r):_a*log(12*r-_b)+_c
+  expr1 g<=1/12?sqrt(3*g):_a*log(12*g-_b)+_c
+  expr2 b<=1/12?sqrt(3*b):_a*log(12*b-_b)+_c
+  name HLG_OETF
+  selected true
+  xpos -150
+  ypos -226
   addUserKnob {20 CONSTANTS_tab l CONSTANTS}
-  addUserKnob {7 m_1}
-  m_1 {{2610/4096*(1/4)}}
-  addUserKnob {7 m_2}
-  m_2 {{2523/4096*128}}
-  addUserKnob {7 c_1}
-  c_1 {{3424/4096}}
-  addUserKnob {7 c_2}
-  c_2 {{2413/4096*32}}
-  addUserKnob {7 c_3}
-  c_3 {{2392/4096*32}}
-  addUserKnob {7 L_p R 0 10000}
-  L_p 10000
+  addUserKnob {7 _a t alpha}
+  _a 0.17883277
+  addUserKnob {7 _b t beta}
+  _b {{1-4*_a}}
+  addUserKnob {7 _c}
+  _c {{0.5-_a*log(4*_a)}}
  }
-  Input {
-   inputs 0
-   name Input
-   xpos -40
-   ypos -290
-  }
-  Expression {
-   expr0 "pow(r/L_p, m_1)"
-   expr1 "pow(g/L_p, m_1)"
-   expr2 "pow(b/L_p, m_1)"
-   name Expression4
-   label Y_p
-   note_font Helvetica
-   xpos -40
-   ypos -255
-  }
-  Expression {
-   expr0 "pow((c_1+c_2*r)/(c_3*r+1), m_2)"
-   expr1 "pow((c_1+c_2*g)/(c_3*g+1), m_2)"
-   expr2 "pow((c_1+c_2*b)/(c_3*b+1), m_2)"
-   name Expression8
-   label N
-   note_font Helvetica
-   xpos -40
-   ypos -215
-  }
-  Output {
-   name Output
-   xpos -40
-   ypos -170
-  }
- end_group
-set Ndb92b20 [stack 0]
- ColorMatrix {
-  matrix {
-      {0.5 0.5 0}
-      {{6610/4096} {-13613/4096} {7003/4096}}
-      {{17933/4096} {-17390/4096} {-543/4096}}
-    }
-  name ColorMatrix9
-  label ICTCP_LMS_P_TO_ICTCP
-  note_font Helvetica
-  xpos -40
-  ypos -175
- }
-push $Ndb92b20
  ColorMatrix {
   matrix {
       {0.5 0.5 0}
@@ -312,30 +233,60 @@ push $Ndb92b20
       {{9500/4096} {-9212/4096} {-288/4096}}
     }
   name ColorMatrix10
-  label ICTCP_LMS_P_TO_ICTCP_HLG_BT2100_2
-  note_font Helvetica
-  xpos -160
-  ypos -175
+  label "LMS_P to ICTCP (HLG)"
+  xpos -150
+  ypos -183
+ }
+push $N9e83900
+ Expression {
+  expr0 pow((c_1+c_2*pow(r/10000,m_1))/(1+c_3*pow(r/10000,m_1)),m_2)
+  expr1 pow((c_1+c_2*pow(g/10000,m_1))/(1+c_3*pow(g/10000,m_1)),m_2)
+  expr2 pow((c_1+c_2*pow(b/10000,m_1))/(1+c_3*pow(b/10000,m_1)),m_2)
+  name ST2084_InverseEOTF
+  xpos -40
+  ypos -226
+  addUserKnob {20 CONSTANTS_tab l CONSTANTS}
+  addUserKnob {7 m_1}
+  m_1 {{2610/4096*(1/4)}}
+  addUserKnob {7 m_2}
+  m_2 {{2523/4096*128}}
+  addUserKnob {7 c_1}
+  c_1 {{107/128}}
+  addUserKnob {7 c_2}
+  c_2 {{2413/128}}
+  addUserKnob {7 c_3}
+  c_3 {{2392/128}}
+  addUserKnob {7 Lw R 600 4000}
+  Lw 10000
+ }
+ ColorMatrix {
+  matrix {
+      {0.5 0.5 0}
+      {{6610/4096} {-13613/4096} {7003/4096}}
+      {{17933/4096} {-17390/4096} {-543/4096}}
+    }
+  name ColorMatrix9
+  label "LMS_P to ICTCP (PQ)"
+  xpos -40
+  ypos -183
  }
  Switch {
   inputs 2
-  which {{parent.use_dolby_method}}
-  name SwitchDolbyMethod
-  note_font Helvetica
+  which {{parent.method}}
+  name SwitchMethod
   xpos -40
-  ypos -129
+  ypos -105
  }
  Switch {
   inputs 2
   which {{parent.direction}}
   name SwitchDirection
-  note_font Helvetica
   xpos -40
-  ypos -49
+  ypos -33
  }
  Output {
   name Output
   xpos -40
-  ypos 42
+  ypos 38
  }
 end_group
