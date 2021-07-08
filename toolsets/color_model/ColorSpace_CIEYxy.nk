@@ -2,6 +2,9 @@ set cut_paste_input [stack 0]
 push $cut_paste_input
 Group {
  name Colorspace_CIE_Yxy
+ selected true
+ xpos 17120
+ ypos 3653
  addUserKnob {20 CIE_Yxy_tab l CIE_Yxy}
  addUserKnob {41 gamut t "choose input gamut to convert from RGB to XYZ" T GamutToXYZ.gamut}
  addUserKnob {4 direction M {forward inverse}}
@@ -9,37 +12,33 @@ Group {
  Input {
   inputs 0
   name Input
-  xpos 80
-  ypos -450
+  xpos 70
+  ypos -442
  }
  Dot {
-  name Dot4
-  note_font_size 24
-  note_font_color 0xff
-  xpos 114
+  name Dot3
+  xpos 104
   ypos -366
  }
-set N158022c0 [stack 0]
+set N1e0a1600 [stack 0]
  Dot {
   name Dot2
-  note_font_size 24
-  note_font_color 0xff
-  xpos 234
+  xpos 214
   ypos -366
  }
  Expression {
   temp_name0 aY
-  temp_expr0 fabs(r)
+  temp_expr0 r
   temp_name1 ax
-  temp_expr1 fabs(g)
+  temp_expr1 g
   temp_name2 ay
-  temp_expr2 fabs(b)
-  expr0 b==0?b:r<0?-(ax*aY/ay):(ax*aY/ay)
-  expr1 r
+  temp_expr2 b
+  expr0 b==0?b:(ax*aY/ay)
+  expr1 b==0?0:r
   expr2 b==0?b:(1-ax-ay)*aY/ay
-  name Yxy_to_XYZ2
-  xpos 200
-  ypos -330
+  name Yxy_to_XYZ
+  xpos 180
+  ypos -322
  }
  ColorMatrix {
   matrix {
@@ -49,21 +48,19 @@ set N158022c0 [stack 0]
     }
   invert true
   name ColorMatrix3
-  xpos 200
-  ypos -290
+  xpos 180
+  ypos -274
  }
-push $N158022c0
+push $N1e0a1600
  Dot {
   name Dot1
-  note_font_size 24
-  note_font_color 0xff
   xpos -6
   ypos -366
  }
  Group {
   name GamutToXYZ
   xpos -40
-  ypos -330
+  ypos -322
   addUserKnob {20 GamutToXYZ_lite_tab l GamutToXYZ_lite}
   addUserKnob {4 gamut t "Choose gamut" M {XYZ ACES ACEScg "Filmlight E-Gamut" "DaVinci WG" Rec709 Rec2020 P3D60 P3D65 P3DCI "Arri AlexaWideGamut" REDDRAGONcolor REDDRAGONcolor2 REDcolor REDcolor2 REDcolor3 REDcolor4 REDWideGamutRGB "GoPro Protune Native" CanonCinemaGamut SonySGamut SonySGamut3Cine PanasonicVGamut "DJI D-Gamut" "Fujifilm F-Gamut" BMDFilmV1 BMD4kFilmV1 BMD4kFilmV3 BMD46kFilmV1 BMD46kFilmV3 BMDWideGamutV4 "AdobeRGB\t" AdobeWideGamutRGB ROMM RIMM ERIMM ProPhotoRGB RusselRGB SharpRGB AppleRGB BestRGB}}
   gamut ACEScg
@@ -114,29 +111,25 @@ push $N158022c0
   }
  end_group
  Expression {
-  temp_name0 ax
-  temp_expr0 fabs(r)
-  temp_name1 ay
-  temp_expr1 fabs(g)
-  temp_name2 az
-  temp_expr2 fabs(b)
+  temp_name0 d
+  temp_expr0 r+g+b
   expr0 g
-  expr1 (r+g+b)==0?0.3127:r<0?-(ax/(ax+ay+az)):ax/(ax+ay+az)
-  expr2 (r+g+b)==0?0.329:g<0?-(ay/(ax+ay+az)):ay/(ax+ay+az)
-  name XYZ_to_Yxy2
+  expr1 d==0?0.3127:r/d
+  expr2 d==0?0.329:g/d
+  name XYZ_to_Yxy
   xpos -40
-  ypos -290
+  ypos -274
  }
  Switch {
   inputs 2
   which {{parent.direction}}
   name SwitchDirection
-  xpos 80
-  ypos -210
+  xpos 70
+  ypos -202
  }
  Output {
   name Output
-  xpos 80
+  xpos 70
   ypos -130
  }
 end_group
