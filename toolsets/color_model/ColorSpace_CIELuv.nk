@@ -4,8 +4,7 @@ Group {
  name Colorspace_CIELuv
  addUserKnob {20 CIELuv_tab l CIELuv}
  addUserKnob {41 gamut T GamutToXYZ.gamut}
- addUserKnob {4 illuminant t "Choose the whitepoint" M {D50 D55 D60 D65 ""}}
- illuminant D65
+ addUserKnob {41 illum T XYZ_to_Luv1.illum}
  addUserKnob {6 LCh t "Polar coordinate version of L*u*v*: \nLuminance, Chroma, Hue angle" +STARTLINE}
  addUserKnob {4 direction M {forward inverse}}
  addUserKnob {6 normalize t "normalize to 0-1 range" +STARTLINE}
@@ -14,85 +13,57 @@ Group {
  Input {
   inputs 0
   name Input
-  xpos 80
-  ypos -450
+  xpos 70
+  ypos -418
  }
- Dot {
-  name Dot4
-  note_font_size 24
-  note_font_color 0xff
-  xpos 114
-  ypos -366
- }
-set N3eeaddf0 [stack 0]
- Fill {
-  color {1 {curve(illuminant) 0.3457 0.33243 0.32168 0.3127} {curve(illuminant) 0.3585 0.34744 0.33767 0.329} 1}
-  name ILLUMINANT_Yxy
-  label D65
-  xpos 80
-  ypos -332
- }
- Expression {
-  temp_name0 aY
-  temp_expr0 fabs(r)
-  temp_name1 ax
-  temp_expr1 fabs(g)
-  temp_name2 ay
-  temp_expr2 fabs(b)
-  expr0 b==0?b:r<0?-(ax*aY/ay):(ax*aY/ay)
-  expr1 r
-  expr2 b==0?b:(1-ax-ay)*aY/ay
-  name Yxy_to_XYZ
-  xpos 80
-  ypos -283
- }
-set Nc0bfe520 [stack 0]
-push $N3eeaddf0
- Dot {
-  name Dot2
-  note_font_size 24
-  note_font_color 0xff
-  xpos 234
-  ypos -366
- }
+set N4e66b00 [stack 0]
  Expression {
   expr0 r
   expr1 g*cos(b)
   expr2 g*sin(b)
   name LCh_to_Luv
-  note_font Helvetica
-  xpos 200
-  ypos -329
+  xpos 180
+  ypos -345
   disable {{!parent.LCh}}
  }
  Multiply {
   channels rgb
   value 100
   name Normalize1
-  note_font Helvetica
-  xpos 200
-  ypos -289
+  xpos 180
+  ypos -297
   disable {{!parent.normalize}}
  }
- MergeExpression {
-  inputs 2
-  temp_name0 Y
-  temp_expr0 ((Br+16)/116)>24/116?pow(Y_n*((Br+16)/116),3):Y_n*(((Br+16)/116)-16/116)*(108/841)
-  temp_name1 ca
-  temp_expr1 1/3*((52*Br/(Bg+13*Br*(4*Ar/(Ar+15*Ag+3*Ab))))-1)
-  temp_name2 cb
-  temp_expr2 -5*Y
-  temp_name3 cd
-  temp_expr3 Y*(39*Br/(Bb+13*Br*(9*Ag/(Ar+15*Ag+3*Ab)))-5)
-  expr0 Br==0?0:(cd-cb)/(ca+1/3)
+ Expression {
+  temp_name0 _a
+  temp_expr0 (52*r/(g+13*r*uw)-1)/3
+  temp_name1 Y
+  temp_expr1 r>_k*_e?pow((r+16)/116,3):r/_k
+  temp_name2 _d
+  temp_expr2 Y*(39*r/(b+13*r*vw)-5)
+  temp_name3 X
+  temp_expr3 (_d+5*Y)/(_a+1/3)
+  expr0 X
   expr1 Y
-  expr2 Bb==0?0:((cd-cb)/(ca+1/3))*ca+cb
-  name XYZ
-  xpos 200
-  ypos -250
-  addUserKnob {20 User}
-  addUserKnob {7 Y_n R 0 100}
-  Y_n 1
+  expr2 X*_a-5*Y
+  name Luv_to_XYZ
+  xpos 180
+  ypos -273
+  addUserKnob {20 Params}
+  addUserKnob {18 ixyz l illum_XYZ}
+  ixyz {{parent.XYZ_to_Luv1.ixyz} {parent.XYZ_to_Luv1.ixyz} {parent.XYZ_to_Luv1.ixyz}}
+  addUserKnob {6 ixyz_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 illum_XYZ_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {7 uw}
+  uw {{4*ixyz.r/(ixyz.r+15*ixyz.g+3*ixyz.b)}}
+  addUserKnob {7 vw}
+  vw {{9*ixyz.g/(ixyz.r+15*ixyz.g+3*ixyz.b)}}
+  addUserKnob {7 _e}
+  _e {{216/24389}}
+  addUserKnob {7 _k}
+  _k {{24389/27}}
+  addUserKnob {6 n l normalize +STARTLINE}
+  n true
  }
  ColorMatrix {
   matrix {
@@ -103,23 +74,15 @@ push $N3eeaddf0
   invert true
   name ColorMatrix3
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value GamutToXYZ.gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
-  xpos 200
-  ypos -136
+  xpos 180
+  ypos -232
  }
-push $Nc0bfe520
-push $N3eeaddf0
- Dot {
-  name Dot1
-  note_font_size 24
-  note_font_color 0xff
-  xpos -6
-  ypos -366
- }
+push $N4e66b00
  Group {
   name GamutToXYZ
   label "\[if \{\[value invert]\} \{return \"XYZ to \[value gamut]\"\} else \{return \"\[value gamut] to XYZ\"\}]\n\n"
   xpos -40
-  ypos -336
+  ypos -352
   addUserKnob {20 GamutToXYZ_lite_tab l GamutToXYZ_lite}
   addUserKnob {4 gamut t "Choose gamut" M {XYZ ACES ACEScg "Filmlight E-Gamut" "DaVinci WG" Rec709 Rec2020 P3D60 P3D65 P3DCI "Arri AlexaWideGamut" REDDRAGONcolor REDDRAGONcolor2 REDcolor REDcolor2 REDcolor3 REDcolor4 REDWideGamutRGB "GoPro Protune Native" CanonCinemaGamut SonySGamut SonySGamut3Cine PanasonicVGamut "DJI D-Gamut" "Fujifilm F-Gamut" BMDFilmV1 BMD4kFilmV1 BMD4kFilmV3 BMD46kFilmV1 BMD46kFilmV3 BMDWideGamutV4 "AdobeRGB\t" AdobeWideGamutRGB ROMM RIMM ERIMM ProPhotoRGB RusselRGB SharpRGB AppleRGB BestRGB}}
   gamut ACEScg
@@ -169,89 +132,70 @@ push $N3eeaddf0
    ypos 86
   }
  end_group
-set N3e5c33c0 [stack 0]
- MergeExpression {
-  inputs 2
-  temp_name0 L
-  temp_expr0 116*(Bg/Y_n>(24/116)**3?sign(Bg/Y_n)*pow(fabs(Bg/Y_n),1/3):(841/108)*Bg/Y_n+16/116)-16
-  temp_name1 d
-  temp_expr1 (Br+15*Bg+3*Bb)
-  temp_name2 wd
-  temp_expr2 (Ar+15*Ag+3*Ab)
-  expr0 L
-  expr1 d==0?0:(13*L*((4*Br/d)-(4*Ar/wd)))
-  expr2 d==0?0:(13*L*((9*Bg/d)-(9*Ag/wd)))
-  name Luv
-  label "from colour-science"
+ Expression {
+  temp_name0 d
+  temp_expr0 (r+15*g+3*b)
+  temp_name1 u
+  temp_expr1 4*r/d
+  temp_name2 v
+  temp_expr2 9*g/d
+  temp_name3 L
+  temp_expr3 g>_e?116*pow(g,1/3)-16:g*_k
+  expr0 L/(n?100:1)
+  expr1 13*L*(u-uw)/(n?100:1)
+  expr2 13*L*(v-vw)/(n?100:1)
+  name XYZ_to_Luv1
   xpos -40
-  ypos -256
-  addUserKnob {20 User}
-  addUserKnob {7 Y_n R 0 100}
-  Y_n 1
- }
- Multiply {
-  channels rgb
-  value 0.01
-  name Normalize
-  note_font Helvetica
-  xpos -40
-  ypos -209
-  disable {{!parent.normalize}}
+  ypos -297
+  addUserKnob {20 Params}
+  addUserKnob {4 illum M {D50 D55 D60 D65}}
+  illum D55
+  addUserKnob {18 ixyz l illum_XYZ}
+  ixyz {{curve(illum) 0.9642945528 0.9567937851 0.9526392221 0.9504492879} {curve(illum) 1 1 1 1} {curve(illum) 0.825103879 0.9213933349 1.008833051 1.089060545}}
+  addUserKnob {6 ixyz_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 illum_XYZ_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {7 uw}
+  uw {{4*ixyz.r/(ixyz.r+15*ixyz.g+3*ixyz.b)}}
+  addUserKnob {7 vw}
+  vw {{9*ixyz.g/(ixyz.r+15*ixyz.g+3*ixyz.b)}}
+  addUserKnob {7 _e}
+  _e {{216/24389}}
+  addUserKnob {7 _k}
+  _k {{24389/27}}
+  addUserKnob {6 n l normalize +STARTLINE}
+  n {{parent.normalize}}
  }
  Expression {
+  temp_name0 h
+  temp_expr0 atan2(b,g)
   expr0 r
   expr1 hypot(g,b)
-  expr2 atan2(b,g)
+  expr2 h<0?h+radians(360):h
   name Luv_to_LCh
-  note_font Helvetica
   xpos -40
-  ypos -169
+  ypos -259
   disable {{!parent.LCh}}
  }
  Switch {
   inputs 2
   which {{parent.direction}}
   name SwitchDirection
-  xpos 80
-  ypos -64
+  xpos 70
+  ypos -202
  }
  Output {
   name Output
-  xpos 80
-  ypos 30
- }
-push $Nc0bfe520
-push $N3e5c33c0
- MergeExpression {
-  inputs 2
-  temp_name0 up
-  temp_expr0 (4*Br)/(Br+15*Bg+3*Bb)
-  temp_name1 vp
-  temp_expr1 (9*Bg)/(Br+15*Bg+3*Bb)
-  temp_name2 upn
-  temp_expr2 (4*Ar)/(Ar+15*Ag+3*Ab)
-  temp_name3 vpn
-  temp_expr3 (9*Ag)/(Ar+15*Ag+3*Ab)
-  expr0 ((Bg/Y_n)<=pow(6/29,3)?pow(29/3,3)*(Bg/Y_n):116*pow(Bg/Y_n,1/3)-16)
-  expr1 13*((Bg/Y_n)<=pow(6/29,3)?pow(29/3,3)*(Bg/Y_n):116*pow(Bg/Y_n,1/3)-16)*(up-upn)
-  expr2 13*((Bg/Y_n)<=pow(6/29,3)?pow(29/3,3)*(Bg/Y_n):116*pow(Bg/Y_n,1/3)-16)*(vp-vpn)
-  name Luv1
-  label "from wikipedia"
-  xpos -160
-  ypos -256
-  addUserKnob {20 User}
-  addUserKnob {7 Y_n R 0 100}
-  Y_n 1
+  xpos 70
+  ypos -106
  }
  StickyNote {
   inputs 0
   name StickyNote1
   tile_color 0x272727ff
-  label "<left><b>CIE L*u*v*</b>\nhttps://github.com/colour-science/colour/blob/HEAD/colour/models/cie_luv.py\nhttps://en.wikipedia.org/wiki/CIELUV"
-  note_font Helvetica
+  label "<left><b>CIE L*u*v*</b>\nhttps://github.com/colour-science/colour/blob/HEAD/colour/models/cie_luv.py\nhttps://en.wikipedia.org/wiki/CIELUV\nhttp://www.brucelindbloom.com/index.html?Eqn_xyY_to_XYZ.html"
   note_font_size 14
   note_font_color 0xa8a8a8ff
-  xpos 318
-  ypos -432
+  xpos 209
+  ypos -184
  }
 end_group
