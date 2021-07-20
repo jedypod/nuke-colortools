@@ -4,9 +4,9 @@ Group {
  name Saturation
  addUserKnob {20 Saturation}
  addUserKnob {4 method M {weighted maximum average ""}}
- addUserKnob {35 weight_presets l "" +STARTLINE M {weights/ACEScg "knobs this \{w \{0.26806405 0.67246455 0.05947147\}\}" weights/Rec.2020 "knobs this \{w \{0.26270026 0.67799819 0.05930173\}\}" weights/P3D65 "knobs this \{w \{0.22897467 0.69173867 0.07928693\}\}" weights/Rec.709 "knobs this \{w \{0.21263911 0.71516877 0.07219233\}\}" ""}}
+ addUserKnob {35 weight_presets l "" +STARTLINE M {weights/ACEScg "knobs this \{w \{0.272229 0.674082 0.0536895\}\}" weights/Rec.2020 "knobs this \{w \{0.2627 0.677998 0.0593017\}\}" weights/P3D65 "knobs this \{w \{0.228975 0.691739 0.0792869\}\}" weights/Rec.709 "knobs this \{w \{0.212639 0.715169 0.0721923\}\}" "" ""}}
  addUserKnob {78 w l "" t "luminance weighting" -STARTLINE n 3}
- w {0.21263911 0.71516877 0.07219233}
+ w {0.272229 0.674082 0.0536895}
  addUserKnob {7 s l saturation R 0 4}
  s 1
 }
