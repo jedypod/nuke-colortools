@@ -2,12 +2,10 @@ set cut_paste_input [stack 0]
 push $cut_paste_input
 Group {
  name Saturation
- addUserKnob {20 Saturation}
- addUserKnob {4 method M {weighted maximum average ""}}
- addUserKnob {35 weight_presets l "" +STARTLINE M {weights/ACEScg "knobs this \{w \{0.272229 0.674082 0.0536895\}\}" weights/Rec.2020 "knobs this \{w \{0.2627 0.677998 0.0593017\}\}" weights/P3D65 "knobs this \{w \{0.228975 0.691739 0.0792869\}\}" weights/Rec.709 "knobs this \{w \{0.212639 0.715169 0.0721923\}\}" "" ""}}
- addUserKnob {78 w l "" t "luminance weighting" -STARTLINE n 3}
- w {0.272229 0.674082 0.0536895}
- addUserKnob {7 s l saturation R 0 4}
+ addUserKnob {20 Saturation_tab l Saturation}
+ addUserKnob {4 m l method M {weighted maximum average}}
+ addUserKnob {4 gamut t "If using weighted m, select gamut for appropriate luminance weights." -STARTLINE M {ACEScg Rec.2020 P3D65 Rec.709}}
+ addUserKnob {7 s l saturation R 0 2}
  s 1
 }
  Input {
@@ -18,7 +16,7 @@ Group {
  }
  Expression {
   temp_name3 L
-  temp_expr3 method==0?w.0*r+w.1*g+w.2*b:method==1?max(r,g,b):method==2?(r+g+b)/3:0
+  temp_expr3 m==0?w.0*r+w.1*g+w.2*b:m==1?max(r,g,b):m==2?(r+g+b)/3:0
   expr0 L*(1-s)+r*s
   expr1 L*(1-s)+g*s
   expr2 L*(1-s)+b*s
@@ -26,6 +24,9 @@ Group {
   name Expression
   xpos 290
   ypos 681
+  addUserKnob {20 Params}
+  addUserKnob {78 w l weights t "luminance weights for selected gamut" -STARTLINE n 3}
+  w {{curve(gamut) 0.272229 0.2627 0.228975 0.212639} {curve(gamut) 0.674082 0.677998 0.691739 0.715169} {curve(gamut) 0.0536895 0.0593017 0.0792869 0.0721923}}
  }
  Output {
   name Output
