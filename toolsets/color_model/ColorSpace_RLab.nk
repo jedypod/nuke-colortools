@@ -3,6 +3,7 @@ push $cut_paste_input
 Group {
  name Colorspace_RLab
  addUserKnob {20 RLab_tab l RLab}
+ addUserKnob {41 gamut l "input gamut" T RGB_to_XYZ.gamut}
  addUserKnob {41 illuminant T ILLUMINANT.illuminant}
  addUserKnob {41 presets l surround T Lab.presets}
  addUserKnob {41 p l sigma T Lab.p}
