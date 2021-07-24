@@ -1,0 +1,436 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name Colorspace_RLab
+ addUserKnob {20 RLab_tab l RLab}
+ addUserKnob {41 illuminant T ILLUMINANT.illuminant}
+ addUserKnob {41 presets l surround T Lab.presets}
+ addUserKnob {41 p l sigma T Lab.p}
+ addUserKnob {41 Yn T vonKries_Adaptation_Coefficients.Yn}
+ addUserKnob {41 D T vonKries_Adaptation_Coefficients.D}
+ addUserKnob {6 LCh t "output RLab Lab: (L_R a_R b_R)\nor\noutput RLab LCh: (L_R C_r h_R)" +STARTLINE}
+ addUserKnob {6 normalize +STARTLINE}
+ normalize true
+ addUserKnob {4 direction M {forward inverse}}
+}
+ BackdropNode {
+  inputs 0
+  name BackdropNode1
+  tile_color 0x42424201
+  label "<font color=#000000><font size=7><b>RLab Color Model</b></font>\n<font size=4><b>Fairchild 1997</b></font><font size=2>\nReferences\n\"Refinement of the RLAB color space\" - Mark D. Fairchild - October 1996\nhttps://doi.org/10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z\n\nColor Appearance Models - Third Edition - Mark D. Fairchild - 2013\np. 246\n</font>"
+  note_font_size 10
+  note_font_color 0xffffffff
+  xpos -236
+  ypos -223
+  bdwidth 1085
+  bdheight 831
+  z_order -10
+ }
+ Input {
+  inputs 0
+  name Input
+  xpos 290
+  ypos -169
+ }
+ Dot {
+  name Dot1
+  note_font "Helvetica Bold"
+  note_font_size 24
+  note_font_color 0xff
+  xpos 324
+  ypos -117
+ }
+set N354a2b00 [stack 0]
+ Group {
+  name RGB_to_XYZ
+  tile_color 0x429940ff
+  xpos 180
+  ypos -58
+  addUserKnob {20 InputGamut_to_XYZ_tab l InputGamut_to_XYZ}
+  addUserKnob {4 gamut l "input gamut" M {ACES ACEScg P3D65 Rec.2020 Rec.709 AlexaWideGamut RedWideGamutRGB "Filmlight E-Gamut" "DaVinci Wide Gamut" ""}}
+  gamut ACEScg
+  addUserKnob {41 matrix T ColorMatrix.matrix}
+  addUserKnob {41 invert -STARTLINE T ColorMatrix.invert}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos 290
+   ypos -610
+  }
+  Dot {
+   name Dot1
+   xpos 324
+   ypos -546
+  }
+set N34369600 [stack 0]
+  ColorMatrix {
+   matrix {
+       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+     }
+   name ColorMatrix
+   xpos 290
+   ypos -369
+  }
+  Output {
+   name Output
+   xpos 290
+   ypos -250
+  }
+push $N34369600
+  Dot {
+   name Dot391
+   label " *RGB to XYZ D65 CAT: XYZ Scaling"
+   xpos 434
+   ypos -546
+  }
+set N34368100 [stack 0]
+  ColorMatrix {
+   matrix {
+       {0.7006223202 0.1487748027 0.101058729}
+       {0.2741184831 0.8736317754 -0.1477504224}
+       {-0.09896290302 -0.1378953159 1.325916052}
+     }
+   name ColorMatrix30
+   label "DaVinci WG to XYZ D65"
+   xpos 1280
+   ypos -465
+  }
+push $N34368100
+  ColorMatrix {
+   matrix {
+       {0.705396831 0.1640413404 0.08101775497}
+       {0.2801307142 0.8202067018 -0.1003373787}
+       {-0.1037815139 -0.07290726155 1.265746593}
+     }
+   name ColorMatrix29
+   label "Filmlight E-Gamut to XYZ D65"
+   xpos 1170
+   ypos -465
+  }
+push $N34368100
+  ColorMatrix {
+   matrix {
+       {0.735275209 0.06860940903 0.1465712786}
+       {0.2866940796 0.8429790735 -0.1296732426}
+       {-0.07968084514 -0.3473432064 1.516081929}
+     }
+   name ColorMatrix22
+   label "REDWideGamutRGB to XYZ D65"
+   xpos 1060
+   ypos -465
+  }
+push $N34368100
+  ColorMatrix {
+   matrix {
+       {0.6380076408 0.2147038132 0.09774445742}
+       {0.2919537723 0.8238408566 -0.1157948226}
+       {0.002798279049 -0.06703422219 1.153293848}
+     }
+   name ColorMatrix21
+   label "Arri AlexaWideGamut to XYZ D65"
+   xpos 950
+   ypos -465
+  }
+push $N34368100
+  ColorMatrix {
+   matrix {
+       {0.4123909175 0.3575843573 0.1804807931}
+       {0.2126390785 0.7151687145 0.07219231129}
+       {0.01933082566 0.1191947833 0.9505321383}
+     }
+   name ColorMatrix18
+   label "Rec709 to XYZ D65"
+   xpos 840
+   ypos -465
+  }
+push $N34368100
+  ColorMatrix {
+   matrix {
+       {0.6369581223 0.1446169168 0.1688809693}
+       {0.2627002299 0.6779981256 0.05930171534}
+       {4.99410725e-17 0.02807269618 1.060985088}
+     }
+   name ColorMatrix17
+   label "Rec2020 to XYZ D65"
+   xpos 730
+   ypos -465
+  }
+push $N34368100
+  ColorMatrix {
+   matrix {
+       {0.4865711331 0.2656677067 0.1982173175}
+       {0.2289746404 0.6917386055 0.07928691804}
+       {-3.972076965e-17 0.04511338845 1.043944478}
+     }
+   name ColorMatrix16
+   label "P3D65 to XYZ D65"
+   xpos 620
+   ypos -465
+  }
+push $N34368100
+  ColorMatrix {
+   matrix {
+       {0.6609312296 0.1336961389 0.1558285803}
+       {0.2722287476 0.6740817428 0.05368950963}
+       {-0.006018006243 0.004383686464 1.090692043}
+     }
+   name ColorMatrix1
+   label "ACEScg to XYZ D65"
+   xpos 510
+   ypos -465
+  }
+push $N34368100
+  ColorMatrix {
+   matrix {
+       {0.9503623843 0 9.346324805e-05}
+       {0.3439664543 0.728166163 -0.07213254273}
+       {0 0 1.089057803}
+     }
+   name ColorMatrix2
+   label "ACES to XYZ D65"
+   xpos 400
+   ypos -465
+  }
+  Switch {
+   inputs 9
+   which {{gamut}}
+   name SwitchGamut
+   xpos 400
+   ypos -370
+  }
+ end_group
+set N3436a400 [stack 0]
+ ColorMatrix {
+  matrix {
+      {0.3897 0.689 -0.0787}
+      {-0.2298 1.1834 0.0464}
+      {0 0 1}
+    }
+  name XYZ_to_LMS
+  label "M Matrix"
+  xpos 180
+  ypos 32
+ }
+ Expression {
+  temp_name0 Ynp
+  temp_expr0 pow(Yn,1/3)
+  temp_name1 pL
+  temp_expr1 (1+Ynp+LMSnE.0)/(1+Ynp+1/LMSnE.0)
+  temp_name2 pM
+  temp_expr2 (1+Ynp+LMSnE.1)/(1+Ynp+1/LMSnE.1)
+  temp_name3 pS
+  temp_expr3 (1+Ynp+LMSnE.2)/(1+Ynp+1/LMSnE.2)
+  expr0 r*((pL+D*(1-pL))/LMSn.0)
+  expr1 g*((pM+D*(1-pM))/LMSn.1)
+  expr2 b*((pS+D*(1-pS))/LMSn.2)
+  name vonKries_Adaptation_Coefficients
+  label "A Matrix"
+  xpos 180
+  ypos 81
+  addUserKnob {20 Params}
+  addUserKnob {78 LMSn n 3}
+  LMSn {{"\[sample XYZn_to_LMSn r 1 1]"} {"\[sample XYZn_to_LMSn g 1 1]"} {"\[sample XYZn_to_LMSn b 1 1]"}}
+  addUserKnob {78 LMSnE n 3}
+  LMSnE {{3*LMSn.0/(LMSn.0+LMSn.1+LMSn.2)} {3*LMSn.1/(LMSn.0+LMSn.1+LMSn.2)} {3*LMSn.2/(LMSn.0+LMSn.1+LMSn.2)}}
+  addUserKnob {7 Yn t "absolute adapting luminance" R 0 100}
+  Yn 100
+  addUserKnob {7 D}
+  D 0.5
+ }
+ ColorMatrix {
+  matrix {
+      {1.9569 -1.1882 0.2313}
+      {0.3612 0.6388 0}
+      {0 0 1}
+    }
+  name XYZref
+  label "R Matrix"
+  xpos 180
+  ypos 128
+ }
+ Expression {
+  expr0 100*pow(g,p)
+  expr1 430*(pow(r,p)-pow(g,p))
+  expr2 170*(pow(g,p)-pow(b,p))
+  name Lab
+  xpos 180
+  ypos 183
+  addUserKnob {20 Params}
+  addUserKnob {35 presets l surround M {surround/dark "knobs this \{p 3.5\}" surround/dim "knobs this \{p 2.9\}" surround/average "knobs this \{p 2.3\}"}}
+  addUserKnob {7 p R 0 4}
+  p {2.3}
+ }
+ Multiply {
+  channels rgb
+  value 0.01
+  name Multiply1
+  xpos 180
+  ypos 231
+  disable {{!parent.normalize}}
+ }
+ Expression {
+  expr0 r
+  expr1 hypot(g,b)
+  expr2 atan2(b,g)
+  name cartesian_to_polar
+  xpos 180
+  ypos 278
+  disable {{!parent.LCh}}
+ }
+set N34290100 [stack 0]
+ Expression {
+  channel0 rgba
+  expr0 g/r
+  name s_R
+  xpos 70
+  ypos 279
+ }
+push $N354a2b00
+ Expression {
+  expr0 r
+  expr1 g*cos(b)
+  expr2 g*sin(b)
+  name polar_to_cartesian
+  xpos 400
+  ypos -34
+  disable {{!parent.LCh}}
+ }
+ Multiply {
+  channels rgb
+  value 100
+  name Multiply2
+  xpos 400
+  ypos 15
+  disable {{!parent.normalize}}
+ }
+ Expression {
+  temp_name0 Yref
+  temp_expr0 pow(r/100,1/p)
+  expr0 pow(g/430+pow(Yref,p),1/p)
+  expr1 Yref
+  expr2 pow(pow(Yref,p)-b/170,1/p)
+  name InvLab
+  xpos 400
+  ypos 87
+  addUserKnob {20 Params}
+  addUserKnob {35 presets l surround M {surround/dark "knobs this \{p 3.5\}" surround/dim "knobs this \{p 2.9\}" surround/average "knobs this \{p 2.3\}"}}
+  addUserKnob {7 p R 0 4}
+  p {{parent.Lab.p}}
+ }
+ ColorMatrix {
+  matrix {
+      {1.9569 -1.1882 0.2313}
+      {0.3612 0.6388 0}
+      {0 0 1}
+    }
+  invert true
+  name XYZref1
+  label "R Matrix"
+  xpos 400
+  ypos 128
+ }
+ Expression {
+  temp_name0 Ynp
+  temp_expr0 pow(Yn,1/3)
+  temp_name1 pL
+  temp_expr1 (1+Ynp+LMSnE.0)/(1+Ynp+1/LMSnE.0)
+  temp_name2 pM
+  temp_expr2 (1+Ynp+LMSnE.1)/(1+Ynp+1/LMSnE.1)
+  temp_name3 pS
+  temp_expr3 (1+Ynp+LMSnE.2)/(1+Ynp+1/LMSnE.2)
+  expr0 r/((pL+D*(1-pL))/LMSn.0)
+  expr1 g/((pM+D*(1-pM))/LMSn.1)
+  expr2 b/((pS+D*(1-pS))/LMSn.2)
+  name vonKries_Adaptation_Coefficients1
+  label "A Matrix"
+  xpos 400
+  ypos 177
+  addUserKnob {20 Params}
+  addUserKnob {78 LMSn n 3}
+  LMSn {{"\[sample XYZn_to_LMSn r 1 1]"} {"\[sample XYZn_to_LMSn g 1 1]"} {"\[sample XYZn_to_LMSn b 1 1]"}}
+  addUserKnob {78 LMSnE n 3}
+  LMSnE {{3*LMSn.0/(LMSn.0+LMSn.1+LMSn.2)} {3*LMSn.1/(LMSn.0+LMSn.1+LMSn.2)} {3*LMSn.2/(LMSn.0+LMSn.1+LMSn.2)}}
+  addUserKnob {7 Yn t "absolute adapting luminance" R 0 100}
+  Yn 100
+  addUserKnob {7 D}
+  D 0.5
+ }
+ ColorMatrix {
+  matrix {
+      {0.3897 0.689 -0.0787}
+      {-0.2298 1.1834 0.0464}
+      {0 0 1}
+    }
+  invert true
+  name XYZ_to_LMS1
+  label "M Matrix"
+  xpos 400
+  ypos 224
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.RGB_to_XYZ.ColorMatrix.matrix} {parent.RGB_to_XYZ.ColorMatrix.matrix} {parent.RGB_to_XYZ.ColorMatrix.matrix}}
+      {{parent.RGB_to_XYZ.ColorMatrix.matrix} {parent.RGB_to_XYZ.ColorMatrix.matrix} {parent.RGB_to_XYZ.ColorMatrix.matrix}}
+      {{parent.RGB_to_XYZ.ColorMatrix.matrix} {parent.RGB_to_XYZ.ColorMatrix.matrix} {parent.RGB_to_XYZ.ColorMatrix.matrix}}
+    }
+  invert true
+  name XYZ_to_RGB
+  xpos 400
+  ypos 278
+ }
+push $N34290100
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name SwitchDirection
+  xpos 290
+  ypos 399
+ }
+ Output {
+  name Output
+  xpos 290
+  ypos 542
+ }
+push $N3436a400
+ Reformat {
+  type "to box"
+  box_width 4
+  box_height 4
+  box_fixed true
+  name Reformat1
+  xpos -40
+  ypos -57
+ }
+ Fill {
+  color {{curve(illuminant) 0.3457 0.33243 0.32168 0.3127} {curve(illuminant) 0.3585 0.34744 0.33767 0.329} 1 1}
+  name ILLUMINANT
+  label D65
+  xpos -40
+  ypos -16
+  addUserKnob {20 User}
+  addUserKnob {4 illuminant M {D50 D55 D60 D65}}
+  illuminant D65
+ }
+ Expression {
+  expr0 r*b/g
+  expr1 b
+  expr2 (1-r-g)*b/g
+  name xyY_to_XYZ1
+  xpos -40
+  ypos 38
+ }
+ ColorMatrix {
+  matrix {
+      {0.3897 0.689 -0.0787}
+      {-0.2298 1.1834 0.0464}
+      {0 0 1}
+    }
+  name XYZn_to_LMSn
+  label "M Matrix"
+  xpos -40
+  ypos 80
+ }
+end_group
