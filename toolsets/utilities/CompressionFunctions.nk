@@ -21,22 +21,16 @@ Group {
  }
  Dot {
   name Dot6
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
   xpos -6
   ypos -510
  }
-set Nd21feb20 [stack 0]
+set N241c6400 [stack 0]
  Dot {
   name Dot5
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
   xpos 654
   ypos -510
  }
-set N1f8d5490 [stack 0]
+set N241c5d00 [stack 0]
  Expression {
   expr0 "r < t ? r : t+(l-t)*log((1+(r/(l-t)-t/(l-t)))/(1-(r/(l-t)-t/(l-t))))/2"
   expr1 "g < t ? g : t+(l-t)*log((1+(g/(l-t)-t/(l-t)))/(1-(g/(l-t)-t/(l-t))))/2"
@@ -50,7 +44,7 @@ set N1f8d5490 [stack 0]
   addUserKnob {7 l R 1 2}
   l {{max(this.t,parent.limit)}}
  }
-push $N1f8d5490
+push $N241c5d00
  Expression {
   temp_name0 pi
   temp_expr0 3.14159265359
@@ -66,7 +60,7 @@ push $N1f8d5490
   addUserKnob {7 l R 1 2}
   l {{max(this.t,parent.limit)}}
  }
-push $N1f8d5490
+push $N241c5d00
  Expression {
   expr0 "r < t ? r : -log( (r-l)/(t-l))*(-t+l)/s+t"
   expr1 "g < t ? g : -log( (g-l)/(t-l))*(-t+l)/s+t"
@@ -82,7 +76,7 @@ push $N1f8d5490
   addUserKnob {7 s}
   s 1
  }
-push $N1f8d5490
+push $N241c5d00
  Expression {
   expr0 r<t?r:t+(l-t)*pow(-pow((r-t)/(l-t),p)/(pow((r-t)/(l-t),p)-1),1/p)
   expr1 g<t?g:t+(l-t)*pow(-pow((g-t)/(l-t),p)/(pow((g-t)/(l-t),p)-1),1/p)
@@ -98,7 +92,7 @@ push $N1f8d5490
   addUserKnob {7 p R 1 5}
   p {{parent.power}}
  }
-push $N1f8d5490
+push $N241c5d00
  Expression {
   expr0 "r < t ? r : t+1/(1/(r-t)-1/(l-t))"
   expr1 "g < t ? g : t+1/(1/(g-t)-1/(l-t))"
@@ -112,7 +106,7 @@ push $N1f8d5490
   addUserKnob {7 l R 1 2}
   l {{parent.limit}}
  }
-push $N1f8d5490
+push $N241c5d00
  Expression {
   expr0 r<t?r:exp((r-t+t*log(1-l)-l*t*log(1-l))/(t*(1-l)))*t+l*t
   expr1 "g<t?g:exp((g-t+t*log(1-l)-l*t*log(1-l))/(t*(1-l)))*t+l*t\n"
@@ -135,13 +129,10 @@ push $N1f8d5490
  }
  Dot {
   name Dot2
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xff
   xpos 654
   ypos -198
  }
-push $Nd21feb20
+push $N241c6400
  Expression {
   expr0 "r < t ? r : t+(l-t)*tanh( ( (r-t)/( l-t)))"
   expr1 "g < t ? g : t+(l-t)*tanh( ( (g-t)/( l-t)))"
@@ -155,7 +146,7 @@ push $Nd21feb20
   addUserKnob {7 l R 1 2}
   l {{max(this.t,parent.limit)}}
  }
-push $Nd21feb20
+push $N241c6400
  Expression {
   temp_name0 pi
   temp_expr0 3.14159265359
@@ -171,7 +162,7 @@ push $Nd21feb20
   addUserKnob {7 l R 1 2}
   l {{max(this.t,parent.limit)}}
  }
-push $Nd21feb20
+push $N241c6400
  Expression {
   expr0 "r < t ? r : l-(l-t)*exp(-(((r-t)*((s*l)/(l-t))/l)))"
   expr1 "g < t ? g :  l-(l-t)*exp(-(((g-t)*((s*l)/(l-t))/l)))"
@@ -187,14 +178,14 @@ push $Nd21feb20
   addUserKnob {7 s}
   s 1
  }
-push $Nd21feb20
+push $N241c6400
  Expression {
   expr0 r<t?r:t+((r-t)*(l-t))/pow(pow((l-t),p)+pow((r-t),p),1/p)
   expr1 g<t?g:t+((g-t)*(l-t))/pow(pow((l-t),p)+pow((g-t),p),1/p)
   expr2 b<t?b:t+((b-t)*(l-t))/pow(pow((l-t),p)+pow((b-t),p),1/p)
   name compress_power
   xpos 180
-  ypos -442
+  ypos -443
   addUserKnob {20 Params_tab l Params}
   addUserKnob {7 t}
   t {{parent.threshold}}
@@ -203,7 +194,7 @@ push $Nd21feb20
   addUserKnob {7 p R 1 5}
   p {{parent.power}}
  }
-push $Nd21feb20
+push $N241c6400
  Expression {
   expr0 "r < t ? r : t+1/(1/(r-t)+1/(l-t))"
   expr1 "g < t ? g : t+1/(1/(g-t)+1/(l-t))"
@@ -217,7 +208,7 @@ push $Nd21feb20
   addUserKnob {7 l R 1 2}
   l {{parent.limit}}
  }
-push $Nd21feb20
+push $N241c6400
  Expression {
   expr0 r<t?r:t*log(r/t-l)-l*t*log(r/t-l)+t-t*log(1-l)+l*t*log(1-l)
   expr1 g<t?g:t*log(g/t-l)-l*t*log(g/t-l)+t-t*log(1-l)+l*t*log(1-l)
@@ -249,5 +240,114 @@ push $Nd21feb20
   name Output
   xpos -40
   ypos -106
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote2
+  tile_color 0x272727ff
+  label "<left>Parabolic Compression Function with (x0, y0) intersection constraint\nhttps://www.desmos.com/calculator/gmlrixjsil"
+  note_font Helvetica
+  note_font_size 8
+  note_font_color 0xa8a8a8ff
+  xpos 1711
+  ypos -496
+ }
+ Expression {
+  inputs 0
+  temp_name0 d
+  temp_expr0 s*s/4
+  expr0 r<t0?r:pow(r-t0+s*sqrt(d),2)/(s*s)-d+t0
+  expr1 g<t0?g:pow(g-t0+s*sqrt(d),2)/(s*s)-d+t0
+  expr2 b<t0?b:pow(b-t0+s*sqrt(d),2)/(s*s)-d+t0
+  maskChannelMask rgba.red
+  name uncompress_parabolic
+  xpos 1830
+  ypos -442
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t0 t "threshold to start compression\n" R 0 2}
+  t0 0.3
+  addUserKnob {7 x0 t "x coordinate to compress to" R 0 2}
+  x0 0.7
+  addUserKnob {7 y0 t "y coordinate to compress to" R 0 2}
+  y0 0.5
+  addUserKnob {7 s}
+  s {{(y0-t0)/sqrt(x0-y0)}}
+ }
+ Expression {
+  inputs 0
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 r<th?r:s*((r-th)/s)/pow(1+pow((r-th)/s,p),1/p)+th
+  expr1 g<th?g:s*((g-th)/s)/pow(1+pow((g-th)/s,p),1/p)+th
+  expr2 b<th?b:s*((b-th)/s)/pow(1+pow((b-th)/s,p),1/p)+th
+  maskChannelMask rgba.red
+  name compress_hyperbolic_power
+  xpos 1390
+  ypos -442
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 th t "threshold to start compression\n" R 0 2}
+  th 0.5
+  addUserKnob {7 x0 t "x coordinate to compress to" R 0 2}
+  x0 2
+  addUserKnob {7 y0 t "y coordinate to compress to" R 0 2}
+  y0 0.825
+  addUserKnob {7 p R 1 2}
+  p 1.2
+  addUserKnob {7 s}
+  s {{(x0-th)/pow(pow((y0-th)/(x0-th),-p)-1,1/p)}}
+ }
+ Expression {
+  inputs 0
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 r<th?r:s*pow(-pow((r-th)/s,p)/(pow((r-th)/s,p)-1),1/p)+th
+  expr1 g<th?g:s*pow(-pow((g-th)/s,p)/(pow((g-th)/s,p)-1),1/p)+th
+  expr2 b<th?b:s*pow(-pow((b-th)/s,p)/(pow((b-th)/s,p)-1),1/p)+th
+  maskChannelMask rgba.red
+  name uncompress_hyperbolic_power
+  xpos 1500
+  ypos -442
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 th t "threshold to start compression\n" R 0 2}
+  th 0.5
+  addUserKnob {7 x0 t "x coordinate to compress to" R 0 2}
+  x0 2
+  addUserKnob {7 y0 t "y coordinate to compress to" R 0 2}
+  y0 0.825
+  addUserKnob {7 p R 1 2}
+  p 1.2
+  addUserKnob {7 s}
+  s {{(x0-th)/pow(pow((y0-th)/(x0-th),-p)-1,1/p)}}
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x272727ff
+  label "<left>Hyperbolic Power Compression Function with (x0, y0) intersection constraint\nhttps://www.desmos.com/calculator/ht27poixiw"
+  note_font Helvetica
+  note_font_size 8
+  note_font_color 0xa8a8a8ff
+  xpos 1387
+  ypos -496
+ }
+ Expression {
+  inputs 0
+  temp_name0 d
+  temp_expr0 s*s/4
+  expr0 r<t0?r:s*sqrt(r-t0+d)-s*sqrt(d)+t0
+  expr1 g<t0?g:s*sqrt(g-t0+d)-s*sqrt(d)+t0
+  expr2 b<t0?b:s*sqrt(b-t0+d)-s*sqrt(d)+t0
+  maskChannelMask rgba.red
+  name compress_parabolic
+  selected true
+  xpos 1720
+  ypos -442
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t0 t "threshold to start compression\n" R 0 2}
+  t0 0.3
+  addUserKnob {7 x0 t "x coordinate to compress to" R 0 2}
+  x0 0.7
+  addUserKnob {7 y0 t "y coordinate to compress to" R 0 2}
+  y0 0.5
+  addUserKnob {7 s}
+  s {{(y0-t0)/sqrt(x0-y0)}}
  }
 end_group
