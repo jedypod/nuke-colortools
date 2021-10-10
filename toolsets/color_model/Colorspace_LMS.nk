@@ -1,99 +1,361 @@
 set cut_paste_input [stack 0]
 push $cut_paste_input
 Group {
- name XYZtoLMS1
- label "direction : \[value direction]"
- selected true
- xpos 400
- ypos 926
- addUserKnob {20 XYZtoLMS}
+ name Colorspace_LMS
+ addUserKnob {20 Colorspace_LMS l "Colorspace LMS"}
+ addUserKnob {41 gamut l "in gamut" T RGB_to_XYZ.gamut}
+ addUserKnob {4 model M {vonKries Bradford CIECAM97 CIECAM02 CIECAM16 BaseLMS TruelightLMS "Stockman & Sharpe (2000)"}}
+ model Bradford
  addUserKnob {4 direction M {forward inverse}}
- direction inverse
 }
  Input {
   inputs 0
   name Input
   xpos -40
-  ypos -10
+  ypos -250
  }
- Dot {
-  name Dot1
-  label " "
-  note_font "Helvetica Bold"
-  note_font_size 24
-  note_font_color 0xa5a5a501
-  xpos -6
-  ypos 42
- }
-set N31275000 [stack 0]
+set Ne48b0f00 [stack 0]
  ColorMatrix {
   matrix {
-      {0.41478972 0.579999 0.014648}
-      {-0.20151 1.120649 0.0531008}
-      {-0.0166008 0.2648 0.6684799}
+      {{parent.XYZ_to_LMS.matrix} {parent.XYZ_to_LMS.matrix} {parent.XYZ_to_LMS.matrix}}
+      {{parent.XYZ_to_LMS.matrix} {parent.XYZ_to_LMS.matrix} {parent.XYZ_to_LMS.matrix}}
+      {{parent.XYZ_to_LMS.matrix} {parent.XYZ_to_LMS.matrix} {parent.XYZ_to_LMS.matrix}}
     }
   invert true
-  name ColorMatrix1
-  label "LMS\nto\nX'Y'Z (D65)"
-  note_font "Bitstream Vera Sans"
-  xpos 70
-  ypos 92
- }
- Expression {
-  temp_name2 Xd65
-  temp_expr2 (r+(cb-1)*b)/cb
-  expr0 Xd65
-  expr1 (g+(cg-1)*Xd65)/cg
-  expr2 b
-  name Expression47
-  label "X'Y'Z (D65)\nto\nXYZ (D65)"
-  note_font "Bitstream Vera Sans"
-  xpos 70
-  ypos 188
-  addUserKnob {20 User}
-  addUserKnob {7 cb R 0 2}
-  cb 1.15
-  addUserKnob {7 cg}
-  cg 0.66
- }
-push $N31275000
- Expression {
-  expr0 "(cb*r) - ((cb-1)*b)"
-  expr1 "(cg*g) - ((cg-1)*r)"
-  expr2 b
-  name Expression4
-  label "XYZ (D65)\nto\nX'Y'Z (D65)"
-  note_font "Bitstream Vera Sans"
-  xpos -150
-  ypos 91
-  addUserKnob {20 User}
-  addUserKnob {7 cb R 0 2}
-  cb 1.15
-  addUserKnob {7 cg}
-  cg 0.66
+  name LMS_to_XYZ
+  xpos -260
+  ypos -154
  }
  ColorMatrix {
   matrix {
-      {0.41478972 0.579999 0.014648}
-      {-0.20151 1.120649 0.0531008}
-      {-0.0166008 0.2648 0.6684799}
+      {{parent.RGB_to_XYZ.ColorMatrix.matrix} {parent.RGB_to_XYZ.ColorMatrix.matrix} {parent.RGB_to_XYZ.ColorMatrix.matrix}}
+      {{parent.RGB_to_XYZ.ColorMatrix.matrix} {parent.RGB_to_XYZ.ColorMatrix.matrix} {parent.RGB_to_XYZ.ColorMatrix.matrix}}
+      {{parent.RGB_to_XYZ.ColorMatrix.matrix} {parent.RGB_to_XYZ.ColorMatrix.matrix} {parent.RGB_to_XYZ.ColorMatrix.matrix}}
     }
-  name ColorMatrix8
-  label "X'Y'Z (D65)\nto\nLMS"
-  note_font "Bitstream Vera Sans"
-  xpos -150
-  ypos 188
+  invert true
+  name XYZ_to_RGB
+  selected true
+  xpos -260
+  ypos 38
+ }
+push $Ne48b0f00
+ Group {
+  name RGB_to_XYZ
+  tile_color 0x429940ff
+  xpos -40
+  ypos -154
+  addUserKnob {20 InputGamut_to_XYZ_tab l InputGamut_to_XYZ}
+  addUserKnob {4 gamut l "in gamut" M {ACES ACEScg P3D65 Rec.2020 Rec.709 "Alexa WideGamut" "Red WideGamutRGB" "Sony SGamut3" "Filmlight E-Gamut" "DaVinci Wide Gamut" "" "" ""}}
+  gamut ACEScg
+  addUserKnob {41 matrix T ColorMatrix.matrix}
+  addUserKnob {41 invert -STARTLINE T ColorMatrix.invert}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos 290
+   ypos -610
+  }
+  Dot {
+   name Dot1
+   xpos 324
+   ypos -546
+  }
+set Ne4883900 [stack 0]
+  ColorMatrix {
+   matrix {
+       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+     }
+   name ColorMatrix
+   xpos 290
+   ypos -370
+  }
+  Output {
+   name Output
+   xpos 290
+   ypos -250
+  }
+push $Ne4883900
+  Dot {
+   name Dot391
+   label " *RGB to XYZ D65 CAT: XYZ Scaling"
+   xpos 434
+   ypos -546
+  }
+set Ne4882400 [stack 0]
+  ColorMatrix {
+   matrix {
+       {0.7006223202 0.1487748027 0.101058729}
+       {0.2741184831 0.8736317754 -0.1477504224}
+       {-0.09896290302 -0.1378953159 1.325916052}
+     }
+   name ColorMatrix30
+   label "DaVinci WG to XYZ D65"
+   xpos 1390
+   ypos -466
+  }
+push $Ne4882400
+  ColorMatrix {
+   matrix {
+       {0.705396831 0.1640413404 0.08101775497}
+       {0.2801307142 0.8202067018 -0.1003373787}
+       {-0.1037815139 -0.07290726155 1.265746593}
+     }
+   name ColorMatrix29
+   label "Filmlight E-Gamut to XYZ D65"
+   xpos 1280
+   ypos -466
+  }
+push $Ne4882400
+  ColorMatrix {
+   matrix {
+       {0.5990839005 0.2489254922 0.1024464965}
+       {0.2150758207 0.8850684166 -0.1001443192}
+       {-0.03206584975 -0.02765838802 1.148782015}
+     }
+   name ColorMatrix31
+   label "SonySGamut3 to XYZ D65"
+   xpos 1170
+   ypos -465
+  }
+push $Ne4882400
+  ColorMatrix {
+   matrix {
+       {0.735275209 0.06860940903 0.1465712786}
+       {0.2866940796 0.8429790735 -0.1296732426}
+       {-0.07968084514 -0.3473432064 1.516081929}
+     }
+   name ColorMatrix22
+   label "REDWideGamutRGB to XYZ D65"
+   xpos 1060
+   ypos -466
+  }
+push $Ne4882400
+  ColorMatrix {
+   matrix {
+       {0.6380076408 0.2147038132 0.09774445742}
+       {0.2919537723 0.8238408566 -0.1157948226}
+       {0.002798279049 -0.06703422219 1.153293848}
+     }
+   name ColorMatrix21
+   label "Arri AlexaWideGamut to XYZ D65"
+   xpos 950
+   ypos -466
+  }
+push $Ne4882400
+  ColorMatrix {
+   matrix {
+       {0.4123909175 0.3575843573 0.1804807931}
+       {0.2126390785 0.7151687145 0.07219231129}
+       {0.01933082566 0.1191947833 0.9505321383}
+     }
+   name ColorMatrix18
+   label "Rec709 to XYZ D65"
+   xpos 840
+   ypos -466
+  }
+push $Ne4882400
+  ColorMatrix {
+   matrix {
+       {0.6369581223 0.1446169168 0.1688809693}
+       {0.2627002299 0.6779981256 0.05930171534}
+       {4.99410725e-17 0.02807269618 1.060985088}
+     }
+   name ColorMatrix17
+   label "Rec2020 to XYZ D65"
+   xpos 730
+   ypos -466
+  }
+push $Ne4882400
+  ColorMatrix {
+   matrix {
+       {0.4865711331 0.2656677067 0.1982173175}
+       {0.2289746404 0.6917386055 0.07928691804}
+       {-3.972076965e-17 0.04511338845 1.043944478}
+     }
+   name ColorMatrix16
+   label "P3D65 to XYZ D65"
+   xpos 620
+   ypos -466
+  }
+push $Ne4882400
+  ColorMatrix {
+   matrix {
+       {0.6609312296 0.1336961389 0.1558285803}
+       {0.2722287476 0.6740817428 0.05368950963}
+       {-0.006018006243 0.004383686464 1.090692043}
+     }
+   name ColorMatrix1
+   label "ACEScg to XYZ D65"
+   xpos 510
+   ypos -466
+  }
+push $Ne4882400
+  ColorMatrix {
+   matrix {
+       {0.9503623843 0 9.346324805e-05}
+       {0.3439664543 0.728166163 -0.07213254273}
+       {0 0 1.089057803}
+     }
+   name ColorMatrix2
+   label "ACES to XYZ D65"
+   xpos 400
+   ypos -466
+  }
+  Switch {
+   inputs 10
+   which {{gamut}}
+   name SwitchGamut
+   xpos 400
+   ypos -370
+  }
+ end_group
+ Dot {
+  name Dot1
+  xpos -6
+  ypos -102
+ }
+set Ne4844f00 [stack 0]
+ ColorMatrix {
+  matrix {
+      {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+      {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+      {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+    }
+  name XYZ_to_LMS
+  xpos -40
+  ypos 38
  }
  Switch {
   inputs 2
-  which {{parent.direction}}
-  name Switch1
+  which {{direction}}
+  name SwitchDirection
   xpos -40
-  ypos 350
+  ypos 135
  }
  Output {
   name Output
   xpos -40
-  ypos 446
+  ypos 230
+ }
+push $Ne4844f00
+ ColorMatrix {
+  matrix {
+      {0.210576 0.855098 -0.0396983}
+      {-0.417076 1.17726 0.0786283}
+      {0 0 0.516835}
+    }
+  name ColorMatrix37
+  label "XYZ to Stockman & Sharpe (2000) LMS\nhttps://en.wikipedia.org/wiki/LMS_color_space#Stockman_&_Sharpe_(2000)"
+  xpos 950
+  ypos -69
+ }
+push $Ne4844f00
+ ColorMatrix {
+  matrix {
+      {0.257085 0.859943 -0.031061}
+      {-0.394427 1.1758 0.106423}
+      {0.064856 -0.07625 0.559067}
+    }
+  name XYZ_to_tlms
+  label "\"Chromaticity Coordinates for Graphic Arts Based on CIE 2006 LMS with Even Spacing of Munsell Colours\" by Richard Kirk\n    https://doi.org/10.2352/issn.2169-2629.2019.27.38"
+  xpos 840
+  ypos -70
+ }
+set Ne481b900 [stack 0]
+push $Ne4844f00
+ ColorMatrix {
+  matrix {
+      {0.9 0.45 -0.15}
+      {-0.6 1.5 0.1}
+      {0 0 1}
+    }
+  name ColorMatrix19
+  label "XYZ to BaseLMS\netc/colourspaces/BaseLMS.flspace"
+  xpos 730
+  ypos -69
+ }
+push $Ne4844f00
+ ColorMatrix {
+  matrix {
+      {0.401288 0.650173 -0.051461}
+      {-0.250268 1.204414 0.045854}
+      {-0.002079 0.048952 0.953127}
+    }
+  name ColorMatrix39
+  label "XYZ to CIECAM16 LMS\nhttps://en.wikipedia.org/wiki/LMS_color_space"
+  xpos 620
+  ypos -69
+ }
+push $Ne4844f00
+ ColorMatrix {
+  matrix {
+      {0.7328 0.4296 -0.1624}
+      {-0.7036 1.6975 0.0061}
+      {0.003 0.0136 0.9834}
+    }
+  name ColorMatrix38
+  label "XYZ to CIECAM02 LMS\nhttps://en.wikipedia.org/wiki/LMS_color_space"
+  xpos 510
+  ypos -69
+ }
+push $Ne4844f00
+ ColorMatrix {
+  matrix {
+      {0.8562 0.3372 -0.1934}
+      {-0.836 1.8327 0.0033}
+      {0.0357 -0.0469 1.0112}
+    }
+  name ColorMatrix40
+  label "XYZ to CIECAM97 LMS\nhttps://en.wikipedia.org/wiki/LMS_color_space"
+  xpos 400
+  ypos -69
+ }
+push $Ne4844f00
+ ColorMatrix {
+  matrix {
+      {0.8951 0.2664 -0.1614}
+      {-0.7502 1.7135 0.0367}
+      {0.0389 -0.0685 1.0296}
+    }
+  name ColorMatrix30
+  label "XYZ to Bradford LMS\nhttps://en.wikipedia.org/wiki/LMS_color_space"
+  xpos 290
+  ypos -69
+ }
+push $Ne4844f00
+ ColorMatrix {
+  matrix {
+      {0.40024 0.7076 -0.08081}
+      {-0.2263 1.16532 0.0457}
+      {0 0 0.91822}
+    }
+  name ColorMatrix35
+  label "XYZ to vonKries LMS\nhttp://www.brucelindbloom.com/index.html?Eqn_ChromAdapt.html"
+  xpos 180
+  ypos -69
+ }
+ Switch {
+  inputs 8
+  which {{model}}
+  name SwitchGamut
+  xpos 180
+  ypos 38
+ }
+push $Ne481b900
+ Expression {
+  expr0 r/w.0
+  expr1 g/w.1
+  expr2 b/w.2
+  name Normalize
+  xpos 840
+  ypos 14
+  disable true
+  addUserKnob {20 Params}
+  addUserKnob {35 presets l "" +STARTLINE M {presets/D50 "knobs this \{w \{1.08221 0.883260 0.447579\}\}" presets/D55 "knobs this \{w \{1.07730 0.896467 0.500927\}\}" presets/D60 "knobs this \{w \{1.07344 0.907523 0.549381\}\}" presets/D65 "knobs this \{w \{1.07046 0.916817 0.594251\}\}" presets/D75 "knobs this \{w \{1.06600 0.931715 0.670839\}\}" presets/D93 "knobs this \{w \{1.06098 0.950462 0.776150\}\}"}}
+  addUserKnob {78 w n 3}
+  w {1.07046 0.916817 0.594251}
  }
 end_group
