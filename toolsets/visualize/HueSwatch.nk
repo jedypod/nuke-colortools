@@ -2,66 +2,172 @@ set cut_paste_input [stack 0]
 Group {
  inputs 0
  name HueSwatch
- label "\[value value]"
  postage_stamp true
- addUserKnob {20 User}
- addUserKnob {41 value l color T Multiply17.value}
- addUserKnob {41 saturation T Saturation1.saturation}
+ addUserKnob {20 HueSwatch}
+ addUserKnob {26 swatch_label l " " T <b>swatch</b>}
  addUserKnob {3 size}
- size 1024
+ size 256
+ addUserKnob {7 ar l aspect R 1 2}
+ ar 2
+ addUserKnob {6 enable_samples_x l "" +STARTLINE +STARTLINE}
+ enable_samples_x true
+ addUserKnob {6 enable_samples l "" -STARTLINE}
+ addUserKnob {3 samples_x l samples -STARTLINE}
+ samples_x 12
+ addUserKnob {3 samples l "" -STARTLINE}
+ samples 12
+ addUserKnob {41 p l power T Power.p}
+ addUserKnob {26 ""}
+ addUserKnob {26 hue_label l " " T <b>hue</b>}
+ addUserKnob {41 minus l - T HueRotate.minus}
+ addUserKnob {41 plus l + -STARTLINE T HueRotate.plus}
+ addUserKnob {41 rotate T HueRotate.rotate}
 }
  Constant {
   inputs 0
   format "512 512 0 0 512 512 1 square_512"
   name Constant13
-  note_font Helvetica
-  xpos 1155
-  ypos 666
+  xpos 1170
+  ypos 501
   postage_stamp false
  }
  Reformat {
   type "to box"
   box_width {{parent.size}}
+  box_height {{box_width/parent.ar}}
+  box_fixed true
   name Reformat1
-  note_font Helvetica
-  xpos 1155
-  ypos 689
+  xpos 1170
+  ypos 531
  }
+ Dot {
+  name Dot1
+  xpos 1204
+  ypos 594
+ }
+set N5bf32400 [stack 0]
+ Dot {
+  name Dot2
+  xpos 1094
+  ypos 594
+ }
+ Expression {
+  channel0 {rgba.red -rgba.green -rgba.blue none}
+  expr0 y/height
+  expr3 y/height
+  name Chrominance
+  xpos 1060
+  ypos 657
+ }
+ Expression {
+  expr0 rint(r*s+0.5001)/s
+  expr1 rint(g*s+0.5001)/s
+  expr2 rint(b*s+0.5001)/s
+  expr3 rint(a*s+0.5001)/s
+  name Quantize2
+  xpos 1060
+  ypos 681
+  disable {{!parent.enable_samples}}
+  addUserKnob {20 Quantize}
+  addUserKnob {3 s l samples}
+  s {{parent.samples}}
+ }
+ Dot {
+  name Dot3
+  xpos 1094
+  ypos 744
+ }
+push $N5bf32400
  Expression {
   channel0 rgba
   expr0 x/width
-  name Expression14
-  note_font Helvetica
-  xpos 1155
-  ypos 719
- }
- Multiply {
-  channels rgba
-  value {0 0 1 1}
-  name Multiply17
-  note_font Helvetica
-  xpos 1155
-  ypos 755
+  expr3 x/width
+  name Luminance
+  xpos 1170
+  ypos 657
  }
  Expression {
-  channel0 {none none none rgba.alpha}
-  expr0 y/height
-  name Expression15
-  note_font Helvetica
-  xpos 1155
-  ypos 785
+  expr0 rint(r*s+0.5001)/s
+  expr1 rint(g*s+0.5001)/s
+  expr2 rint(b*s+0.5001)/s
+  expr3 rint(a*s+0.5001)/s
+  name Quantize1
+  xpos 1170
+  ypos 681
+  disable {{!parent.enable_samples_x}}
+  addUserKnob {20 Quantize}
+  addUserKnob {3 s l samples}
+  s {{parent.samples_x}}
  }
- Saturation {
-  mode Maximum
-  maskChannelInput rgba.alpha
-  name Saturation1
-  note_font Helvetica
-  xpos 1155
-  ypos 822
+ MergeExpression {
+  inputs 2
+  expr0 (1-r)*Ar+r
+  expr1 (1-g)*Ag+g
+  expr2 (1-b)*Ab+b
+  expr3 (1-a)*Aa+a
+  name MergeExpression2
+  xpos 1170
+  ypos 741
+ }
+ Group {
+  name HueRotate
+  xpos 1170
+  ypos 806
+  addUserKnob {20 HueRotate_tab l HueRotate}
+  addUserKnob {22 minus l - T "n = nuke.thisNode()\nrot = n\['rotate']\nrot.setValue(rot.getValue()-30)" +STARTLINE}
+  addUserKnob {22 plus l + -STARTLINE T "n = nuke.thisNode()\nrot = n\['rotate']\nrot.setValue(rot.getValue()+30)"}
+  addUserKnob {7 rotate t "hue angle in degrees to rotate input colors" R 0 360}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos -40
+   ypos 14
+  }
+  Expression {
+   temp_name0 M
+   temp_expr0 max(r,g,b)
+   temp_name1 C
+   temp_expr1 M-min(r,g,b)
+   temp_name2 H
+   temp_expr2 ((C==0?0:r==M?((g-b)/C+6)%6:g==M?(b-r)/C+2:b==M?(r-g)/C+4:0)+shift)%6
+   temp_name3 X
+   temp_expr3 C*(1-fabs(H%2-1))
+   expr0 (H<1?C:H<2?X:H<3?0:H<4?0:H<5?X:C)+min(r,g,b)
+   expr1 (H<1?X:H<2?C:H<3?C:H<4?X:H<5?0:0)+min(r,g,b)
+   expr2 (H<1?0:H<2?0:H<3?X:H<4?C:H<5?C:X)+min(r,g,b)
+   expr3 H
+   name HueRotate_2
+    xpos -40
+   ypos 63
+   addUserKnob {20 HueRotate_tab l HueRotate}
+   addUserKnob {7 shift R 0 6}
+   shift {{rotate/60}}
+  }
+  Output {
+   name Output
+   xpos -40
+   ypos 110
+  }
+ end_group
+ Expression {
+  temp_name0 mx
+  temp_expr0 max(r,g,b)
+  temp_name1 pmx
+  temp_expr1 mx==0?0:pow(mx,p)/mx
+  expr0 r*pmx
+  expr1 g*pmx
+  expr2 b*pmx
+  name Power
+  xpos 1170
+  ypos 855
+  addUserKnob {20 User}
+  addUserKnob {7 p R 0 4}
+  p 1
  }
  Output {
-  name Output1
-  xpos 1155
-  ypos 891
+  name Output
+  xpos 1170
+  ypos 890
  }
 end_group
