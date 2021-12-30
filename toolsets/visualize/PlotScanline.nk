@@ -1,0 +1,63 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name PlotScanline
+ addUserKnob {20 Params}
+ addUserKnob {41 p l pos T PlotScanline_.p}
+ addUserKnob {41 mx l max T PlotScanline_.mx}
+ addUserKnob {41 mn l min T PlotScanline_.mn}
+ addUserKnob {7 os l oversample t "antialias by scaling up then scaling down (slower)" R 1 2}
+ os 1
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 180
+  ypos 614
+ }
+ Reformat {
+  type scale
+  scale {{os}}
+  filter notch
+  name ReformatUp
+   xpos 180
+  ypos 663
+ }
+ Expression {
+  temp_name0 h
+  temp_expr0 height/(mx-mn)
+  expr0 y==floor((r(x,p)-mn)*h)?1:y==floor(h*-mn)&&!(x%12)?4:y==floor(h-h*mn)&&!(x%12)?4:0
+  expr1 y==floor((g(x,p)-mn)*h)?1:0
+  expr2 y==floor((b(x,p)-mn)*h)?1:0
+  name PlotScanline_
+   xpos 180
+  ypos 687
+  addUserKnob {20 Params}
+  addUserKnob {7 p l pos R 0 2048}
+  p 1
+  addUserKnob {7 mx l max R 1 4}
+  mx 1.05
+  addUserKnob {7 mn l min R -0.2 0}
+  mn -0.05
+ }
+ Reformat {
+  type scale
+  scale {{1/parent.ReformatUp.scale}}
+  filter notch
+  name ReformatDown
+   xpos 180
+  ypos 711
+ }
+ Blur {
+  channels rgba
+  size {{1.6-(os-1)*1.6}}
+  name Blur1
+   xpos 180
+  ypos 735
+ }
+ Output {
+  name Output
+  xpos 180
+  ypos 782
+ }
+end_group
