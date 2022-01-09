@@ -1,0 +1,289 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name EOTF
+ addUserKnob {20 EOTF_tab l EOTF}
+ addUserKnob {4 eotf l EOTF t "Choose the inverse EOTF to apply for the target display device.\n\n<b>Note</b>:\n\"sRGB Encoding\" is the inverse of the ~2.2 power piecewise sRGB encoding function specified in the sRGB specification.\n\"sRGB Display\" is the 2.2 power function display EOTF specified in the sRGB specification." M {None "sRGB Encoding" "sRGB Display" BT.1886 "Gamma 2.6" PQ HLG "" "" ""}}
+ eotf "sRGB Encoding"
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 400
+  ypos -130
+ }
+set Nb0dcdd00 [stack 0]
+ Expression {
+  expr0 r<=0.5?r*r/3:(exp((r-_c)/_a)+_b)/12
+  expr1 g<=0.5?g*g/3:(exp((g-_c)/_a)+_b)/12
+  expr2 b<=0.5?b*b/3:(exp((b-_c)/_a)+_b)/12
+  name HLG_InverseOETF
+  xpos 1060
+  ypos -58
+  addUserKnob {20 CONSTANTS_tab l CONSTANTS}
+  addUserKnob {7 _a t alpha}
+  _a 0.17883277
+  addUserKnob {7 _b t beta}
+  _b {{1-4*_a}}
+  addUserKnob {7 _c}
+  _c {{0.5-_a*log(4*_a)}}
+ }
+ Expression {
+  temp_name0 Ys
+  temp_expr0 0.2627*r+0.6780*g+0.0593*b
+  expr0 pow(Ys,_g-1)*r
+  expr1 pow(Ys,_g-1)*g
+  expr2 pow(Ys,_g-1)*b
+  name HLG_OOTF
+  xpos 1060
+  ypos -34
+  addUserKnob {20 CONSTANTS_tab l CONSTANTS}
+  addUserKnob {7 _g t "Gamma: Extended model for gamma variation according to peak display luminance and surround luminance: BT.2390-8 p32" R 0 2}
+  _g {{1.2*pow(1.111,log(Lw/1000)/log(2))*pow(0.98,log(max(1e-6,Lamb)/5)/log(2))}}
+  addUserKnob {7 Lw R 600 4000}
+  Lw 1000
+  addUserKnob {7 Lb}
+  addUserKnob {7 Lamb t "ambient luminance level in nits" R 0 200}
+  Lamb 5
+ }
+push $Nb0dcdd00
+ Expression {
+  temp_name0 rp
+  temp_expr0 pow(r,1/m_2)
+  temp_name1 gp
+  temp_expr1 pow(g,1/m_2)
+  temp_name2 bp
+  temp_expr2 pow(b,1/m_2)
+  expr0 pow((rp-c_1)/(c_2-c_3*rp),1/m_1)
+  expr1 pow((gp-c_1)/(c_2-c_3*gp),1/m_1)
+  expr2 pow((bp-c_1)/(c_2-c_3*bp),1/m_1)
+  name ST2084_EOTF
+  xpos 950
+  ypos -58
+  addUserKnob {20 CONSTANTS_tab l CONSTANTS}
+  addUserKnob {7 m_1}
+  m_1 {{2610/4096*(1/4)}}
+  addUserKnob {7 m_2}
+  m_2 {{2523/4096*128}}
+  addUserKnob {7 c_1}
+  c_1 {{107/128}}
+  addUserKnob {7 c_2}
+  c_2 {{2413/128}}
+  addUserKnob {7 c_3}
+  c_3 {{2392/128}}
+ }
+push $Nb0dcdd00
+ Expression {
+  expr0 r**p
+  expr1 g**p
+  expr2 b**p
+  name Power2
+  label "\[value p]"
+  xpos 840
+  ypos -64
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 p l power R 0.2 2}
+  p 2.6
+ }
+push $Nb0dcdd00
+ Expression {
+  expr0 r**p
+  expr1 g**p
+  expr2 b**p
+  name Power1
+  label "\[value p]"
+  xpos 730
+  ypos -64
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 p l power R 0.2 2}
+  p 2.4
+ }
+push $Nb0dcdd00
+ Expression {
+  expr0 r**p
+  expr1 g**p
+  expr2 b**p
+  name Power
+  label "\[value p]"
+  xpos 620
+  ypos -64
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 p l power R 0.2 2}
+  p 2.2
+ }
+push $Nb0dcdd00
+ Expression {
+  temp_name0 c
+  temp_expr0 0.04045
+  temp_name1 p
+  temp_expr1 2.4
+  temp_name2 o
+  temp_expr2 0.055
+  temp_name3 m
+  temp_expr3 12.92
+  expr0 r>c?((r+o)/(1+o))**p:r/m
+  expr1 g>c?((g+o)/(1+o))**p:g/m
+  expr2 b>c?((b+o)/(1+o))**p:b/m
+  expr3 c
+  name Inv_sRGB_Encoding
+  note_font Helvetica
+  xpos 510
+  ypos -57
+ }
+push $Nb0dcdd00
+ Switch {
+  inputs 7
+  which {{eotf}}
+  name SwitchInverseEOTF
+  xpos 400
+  ypos 62
+ }
+ Output {
+  name Output
+  xpos 400
+  ypos 134
+ }
+end_group
+push $cut_paste_input
+Group {
+ name InverseEOTF
+ addUserKnob {20 EOTF_tab l EOTF}
+ addUserKnob {4 eotf t "Choose the inverse EOTF to apply for the target display device.\n\n<b>Note</b>:\n\"sRGB Encoding\" is the ~2.2 power piecewise sRGB encoding function specified in the sRGB specification.\n\"sRGB Display\" is the 2.2 power function display EOTF specified in the sRGB specification." M {None "sRGB Encoding" "sRGB Display" BT.1886 "Gamma 2.6" PQ HLG "" ""}}
+ eotf "sRGB Encoding"
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 400
+  ypos -130
+ }
+set Nb2056400 [stack 0]
+ Expression {
+  temp_name0 Yd
+  temp_expr0 0.2627*r+0.6780*g+0.0593*b
+  expr0 r*pow(Yd,(1-_g)/_g)
+  expr1 g*pow(Yd,(1-_g)/_g)
+  expr2 b*pow(Yd,(1-_g)/_g)
+  name HLG_InverseOOTF
+  xpos 1060
+  ypos -58
+  addUserKnob {20 CONSTANTS_tab l CONSTANTS}
+  addUserKnob {7 _g t "Gamma: Extended model for gamma variation according to peak display luminance and surround luminance: BT.2390-8 p32" R 0 2}
+  _g {{1.2*pow(1.111,log(Lw/1000)/log(2))*pow(0.98,log(max(1e-6,Lamb)/5)/log(2))}}
+  addUserKnob {7 Lw R 600 4000}
+  Lw 1000
+  addUserKnob {7 Lamb t "ambient luminance level in nits" R 0 200}
+  Lamb 5
+ }
+ Expression {
+  expr0 r<=1/12?sqrt(3*r):_a*log(12*r-_b)+_c
+  expr1 g<=1/12?sqrt(3*g):_a*log(12*g-_b)+_c
+  expr2 b<=1/12?sqrt(3*b):_a*log(12*b-_b)+_c
+  name HLG_OETF
+  xpos 1060
+  ypos -34
+  addUserKnob {20 CONSTANTS_tab l CONSTANTS}
+  addUserKnob {7 _a t alpha}
+  _a 0.17883277
+  addUserKnob {7 _b t beta}
+  _b {{1-4*_a}}
+  addUserKnob {7 _c}
+  _c {{0.5-_a*log(4*_a)}}
+ }
+push $Nb2056400
+ Expression {
+  temp_name0 rp
+  temp_expr0 pow(r,m_1)
+  temp_name1 gp
+  temp_expr1 pow(g,m_1)
+  temp_name2 bp
+  temp_expr2 pow(b,m_1)
+  expr0 pow((c_1+c_2*rp)/(1+c_3*rp),m_2)
+  expr1 pow((c_1+c_2*gp)/(1+c_3*gp),m_2)
+  expr2 pow((c_1+c_2*bp)/(1+c_3*bp),m_2)
+  name ST2084_InverseEOTF
+  xpos 950
+  ypos -58
+  addUserKnob {20 CONSTANTS_tab l CONSTANTS}
+  addUserKnob {7 m_1}
+  m_1 {{2610/4096*(1/4)}}
+  addUserKnob {7 m_2}
+  m_2 {{2523/4096*128}}
+  addUserKnob {7 c_1}
+  c_1 {{107/128}}
+  addUserKnob {7 c_2}
+  c_2 {{2413/128}}
+  addUserKnob {7 c_3}
+  c_3 {{2392/128}}
+ }
+push $Nb2056400
+ Expression {
+  expr0 r**(1/p)
+  expr1 g**(1/p)
+  expr2 b**(1/p)
+  name power2
+  label "\[value p]"
+  xpos 840
+  ypos -64
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 p l power R 0.2 2}
+  p 2.6
+ }
+push $Nb2056400
+ Expression {
+  expr0 r**(1/p)
+  expr1 g**(1/p)
+  expr2 b**(1/p)
+  name power1
+  label "\[value p]"
+  xpos 730
+  ypos -64
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 p l power R 0.2 2}
+  p 2.4
+ }
+push $Nb2056400
+ Expression {
+  expr0 r**(1/p)
+  expr1 g**(1/p)
+  expr2 b**(1/p)
+  name power
+  label "\[value p]"
+  xpos 620
+  ypos -64
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 p l power R 0.2 2}
+  p 2.2
+ }
+push $Nb2056400
+ Expression {
+  temp_name0 c
+  temp_expr0 0.0031308
+  temp_name1 p
+  temp_expr1 2.4
+  temp_name2 o
+  temp_expr2 0.055
+  temp_name3 m
+  temp_expr3 12.92
+  expr0 r>c?(1+o)*r**(1/p)-o:m*r
+  expr1 g>c?(1+o)*g**(1/p)-o:m*g
+  expr2 b>c?(1+o)*b**(1/p)-o:m*b
+  name sRGB_Encoding2
+  note_font Helvetica
+  xpos 510
+  ypos -57
+ }
+push $Nb2056400
+ Switch {
+  inputs 7
+  which {{eotf}}
+  name SwitchInverseEOTF
+  xpos 400
+  ypos 110
+ }
+ Output {
+  name Output
+  xpos 400
+  ypos 182
+ }
+end_group
