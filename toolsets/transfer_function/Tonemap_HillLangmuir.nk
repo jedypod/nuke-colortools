@@ -1,0 +1,26 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Expression {
+ temp_name0 mx
+ temp_expr0 max(r,g,b)
+ temp_name1 s
+ temp_expr1 invert?((s0*mx/(s1-mx))**(1/n))/mx:(s1*mx**n/(mx**n+s0))/mx
+ expr0 r*s
+ expr1 g*s
+ expr2 b*s
+ name expr_Tonemap
+ addUserKnob {20 Params}
+ addUserKnob {7 g0 R 0 0.2}
+ g0 0.2
+ addUserKnob {7 g1 R 0 0.2}
+ g1 0.1
+ addUserKnob {7 m0 R 10 100}
+ m0 30
+ addUserKnob {7 n R 1 10}
+ n 1.2
+ addUserKnob {7 s0 R -2 2}
+ s0 {{g0**n*(s1-g1)/g1}}
+ addUserKnob {7 s1 R -2 2}
+ s1 {{g1*(g0**n-m0**n)/(g0**n-g1*m0**n)}}
+ addUserKnob {6 invert +STARTLINE}
+}
