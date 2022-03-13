@@ -24,13 +24,13 @@ Group {
   xpos -6
   ypos -510
  }
-set Nf66dcf00 [stack 0]
+set Nb798f200 [stack 0]
  Dot {
   name Dot5
   xpos 654
   ypos -510
  }
-set Nf66dc800 [stack 0]
+set Nb798eb00 [stack 0]
  Expression {
   expr0 "r < t ? r : t+(l-t)*log((1+(r/(l-t)-t/(l-t)))/(1-(r/(l-t)-t/(l-t))))/2"
   expr1 "g < t ? g : t+(l-t)*log((1+(g/(l-t)-t/(l-t)))/(1-(g/(l-t)-t/(l-t))))/2"
@@ -44,7 +44,7 @@ set Nf66dc800 [stack 0]
   addUserKnob {7 l R 1 2}
   l {{max(th,parent.limit)}}
  }
-push $Nf66dc800
+push $Nb798eb00
  Expression {
   temp_name0 pi
   temp_expr0 3.14159265359
@@ -60,7 +60,7 @@ push $Nf66dc800
   addUserKnob {7 l R 1 2}
   l {{max(th,parent.limit)}}
  }
-push $Nf66dc800
+push $Nb798eb00
  Expression {
   expr0 r<th?r:-log((r-lm)/(th-lm))*(-th+lm)/sc+th
   expr1 g<th?g:-log((g-lm)/(th-lm))*(-th+lm)/sc+th
@@ -76,7 +76,7 @@ push $Nf66dc800
   addUserKnob {7 sc}
   sc 1
  }
-push $Nf66dc800
+push $Nb798eb00
  Expression {
   expr0 r<th?r:th+(lm-th)*pow(-pow((r-th)/(lm-th),p)/(pow((r-th)/(lm-th),p)-1),1/p)
   expr1 g<th?g:th+(lm-th)*pow(-pow((g-th)/(lm-th),p)/(pow((g-th)/(lm-th),p)-1),1/p)
@@ -92,7 +92,7 @@ push $Nf66dc800
   addUserKnob {7 p R 1 5}
   p {{parent.power}}
  }
-push $Nf66dc800
+push $Nb798eb00
  Expression {
   expr0 r<th?r:th+1/(1/(r-th)-1/(lm-th))
   expr1 g<th?g:th+1/(1/(g-th)-1/(lm-th))
@@ -106,7 +106,7 @@ push $Nf66dc800
   addUserKnob {7 lm R 1 2}
   lm {{parent.limit}}
  }
-push $Nf66dc800
+push $Nb798eb00
  Expression {
   expr0 r<th?r:exp((r-th+th*log(1-lm)-lm*th*log(1-lm))/(th*(1-lm)))*th+lm*th
   expr1 g<th?g:exp((g-th+th*log(1-lm)-lm*th*log(1-lm))/(th*(1-lm)))*th+lm*th
@@ -132,7 +132,7 @@ push $Nf66dc800
   xpos 654
   ypos -198
  }
-push $Nf66dcf00
+push $Nb798f200
  Expression {
   expr0 "r < t ? r : t+(l-t)*tanh( ( (r-t)/( l-t)))"
   expr1 "g < t ? g : t+(l-t)*tanh( ( (g-t)/( l-t)))"
@@ -146,7 +146,7 @@ push $Nf66dcf00
   addUserKnob {7 l R 1 2}
   l {{max(th,parent.limit)}}
  }
-push $Nf66dcf00
+push $Nb798f200
  Expression {
   temp_name0 pi
   temp_expr0 3.14159265359
@@ -162,7 +162,7 @@ push $Nf66dcf00
   addUserKnob {7 l R 1 2}
   l {{max(th,parent.limit)}}
  }
-push $Nf66dcf00
+push $Nb798f200
  Expression {
   expr0 r<th?r:lm-(lm-th)*exp(-(((r-th)*((sc*lm)/(lm-th))/lm)))
   expr1 g<th?g:lm-(lm-th)*exp(-(((g-th)*((sc*lm)/(lm-th))/lm)))
@@ -178,7 +178,7 @@ push $Nf66dcf00
   addUserKnob {7 sc}
   sc 1
  }
-push $Nf66dcf00
+push $Nb798f200
  Expression {
   expr0 r<th?r:th+((r-th)*(lm-th))/pow(pow((lm-th),p)+pow((r-th),p),1/p)
   expr1 g<th?g:th+((g-th)*(lm-th))/pow(pow((lm-th),p)+pow((g-th),p),1/p)
@@ -194,7 +194,7 @@ push $Nf66dcf00
   addUserKnob {7 p R 1 5}
   p {{parent.power}}
  }
-push $Nf66dcf00
+push $Nb798f200
  Expression {
   expr0 r<th?r:th+1/(1/(r-th)+1/(lm-th))
   expr1 g<th?g:th+1/(1/(g-th)+1/(lm-th))
@@ -208,7 +208,7 @@ push $Nf66dcf00
   addUserKnob {7 lm R 1 2}
   lm {{parent.limit}}
  }
-push $Nf66dcf00
+push $Nb798f200
  Expression {
   expr0 r<th?r:th*log(r/th-lm)-lm*th*log(r/th-lm)+th-th*log(1-lm)+lm*th*log(1-lm)
   expr1 g<th?g:th*log(g/th-lm)-lm*th*log(g/th-lm)+th-th*log(1-lm)+lm*th*log(1-lm)
@@ -385,6 +385,34 @@ push $Nf66dcf00
   addUserKnob {7 oy R -2 2}
   oy {{t0-sc*sqrt(sc*sc/4)}}
  }
+ Expression {
+  inputs 0
+  temp_name0 n
+  temp_expr0 max(r,g,b)
+  temp_name1 s
+  temp_expr1 n<t0?1:invert?(_b-_a/(n-s1))/n:(_a/(_b-n)+s1)/n
+  expr0 r*s
+  expr1 g*s
+  expr2 b*s
+  expr3 a*s
+  name HyperbolicCompression
+  xpos 2490
+  ypos -442
+  addUserKnob {20 Params}
+  addUserKnob {7 t0}
+  t0 0.18
+  addUserKnob {7 w0 t "input x" R 0 20}
+  w0 4
+  addUserKnob {7 w1 t "output y" R 0 4}
+  w1 1
+  addUserKnob {7 s1 R 0 4}
+  s1 {{(w0*w1-t0*(2*w1-t0))/(w0-w1)}}
+  addUserKnob {7 _a R 0 4}
+  _a {{(t0-s1)**2}}
+  addUserKnob {7 _b R 0 4}
+  _b {{2*t0-s1}}
+  addUserKnob {6 invert +STARTLINE}
+ }
  StickyNote {
   inputs 0
   name StickyNote3
@@ -392,8 +420,17 @@ push $Nf66dcf00
   label "<left>Parabolic Toe Compression Function with (x0, 0) intersection constraint\nhttps://www.desmos.com/calculator/wfw5rzrv5x"
   note_font_size 8
   note_font_color 0xa8a8a8ff
-  selected true
-  xpos 2026
-  ypos -496
+  xpos 2033
+  ypos -502
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote4
+  tile_color 0x272727ff
+  label "<left>Simpler hyperbolic compression function\nhttps://www.desmos.com/calculator/e4ik6xh0tz"
+  note_font_size 8
+  note_font_color 0xa8a8a8ff
+  xpos 2440
+  ypos -509
  }
 end_group
