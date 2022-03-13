@@ -1,0 +1,83 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Expression {
+ temp_name0 sr
+ temp_expr0 ((r*s0<t0?r*s0:(_a/(_b-r*s0)+s1))**p)
+ temp_name1 sg
+ temp_expr1 ((g*s0<t0?g*s0:(_a/(_b-g*s0)+s1))**p)
+ temp_name2 sb
+ temp_expr2 ((b*s0<t0?b*s0:(_a/(_b-b*s0)+s1))**p)
+ expr0 invert?((r**(1/p)<t0?r**(1/p):(_b-_a/(r**(1/p)-s1)))/s0):sr
+ expr1 invert?((g**(1/p)<t0?g**(1/p):(_b-_a/(g**(1/p)-s1)))/s0):sg
+ expr2 invert?((b**(1/p)<t0?b**(1/p):(_b-_a/(b**(1/p)-s1)))/s0):sb
+ name Tonescale_LinearHyperbolic_9
+ label per-channel
+ selected true
+ xpos -14450
+ ypos -2512
+ addUserKnob {20 Params}
+ addUserKnob {7 p t "post tonemap power function" R 1 1.2}
+ p 1
+ addUserKnob {7 t0 t "linear section end point"}
+ t0 0.18
+ addUserKnob {7 w0 t "scene-linear value to compress to w1" R 10 40}
+ w0 20
+ addUserKnob {7 w1 R 0 4}
+ w1 1
+ addUserKnob {7 g0 t "grey in"}
+ g0 0.18
+ addUserKnob {7 g1 t "grey out" R 0 0.5}
+ g1 0.1
+ addUserKnob {26 ""}
+ addUserKnob {7 s1 R 1 1.2}
+ s1 {{(w1**(1/p)*(2*t0-w0*s0)-t0*t0)/(w1**(1/p)-w0*s0)}}
+ addUserKnob {7 s0 R 0 4}
+ s0 {{(g1**(1/p))/g0}}
+ addUserKnob {7 _a R 0 4}
+ _a {{(t0-s1)**2}}
+ addUserKnob {7 _b R 0 4}
+ _b {{2*t0-s1}}
+ addUserKnob {6 invert +STARTLINE}
+}
+Expression {
+ inputs 0
+ temp_name0 n
+ temp_expr0 max(r,g,b)
+ temp_name1 sf
+ temp_expr1 ((n*s0<t0?n*s0:(_a/(_b-n*s0)+s1))**p)/n
+ temp_name2 si
+ temp_expr2 ((n**(1/p)<t0?n**(1/p):(_b-_a/(n**(1/p)-s1)))/s0)/n
+ temp_name3 s
+ temp_expr3 invert?si:sf
+ expr0 r*s
+ expr1 g*s
+ expr2 b*s
+ name Tonescale_LinearHyperbolic_6
+ label "chromaticity preserving"
+ selected true
+ xpos -14560
+ ypos -2512
+ addUserKnob {20 Params}
+ addUserKnob {7 p t "post tonemap power function" R 1 1.2}
+ p 1
+ addUserKnob {7 t0 t "linear section end point"}
+ t0 0.18
+ addUserKnob {7 w0 t "scene-linear value to compress to w1" R 10 40}
+ w0 20
+ addUserKnob {7 w1 R 0 4}
+ w1 1
+ addUserKnob {7 g0 t "grey in"}
+ g0 0.18
+ addUserKnob {7 g1 t "grey out" R 0 0.5}
+ g1 0.1
+ addUserKnob {26 ""}
+ addUserKnob {7 s1 R 1 1.2}
+ s1 {{(w1**(1/p)*(2*t0-w0*s0)-t0*t0)/(w1**(1/p)-w0*s0)}}
+ addUserKnob {7 s0 R 0 4}
+ s0 {{(g1**(1/p))/g0}}
+ addUserKnob {7 _a R 0 4}
+ _a {{(t0-s1)**2}}
+ addUserKnob {7 _b R 0 4}
+ _b {{2*t0-s1}}
+ addUserKnob {6 invert +STARTLINE}
+}
