@@ -5,129 +5,108 @@ Group {
  addUserKnob {20 CanonLog_tab l CanonLog}
  addUserKnob {4 operation M {log2lin lin2log}}
  operation lin2log
- addUserKnob {4 type M {CLog3 CLog2 CLog}}
+ addUserKnob {4 type M {CLog CLog2 CLog3}}
+ type CLog2
 }
  Input {
   inputs 0
   name Input
   xpos -40
-  ypos -10
+  ypos 62
  }
  Dot {
   name Dot2
   xpos -6
   ypos 114
  }
-set N9f731d00 [stack 0]
- Dot {
-  name Dot1
-  xpos 234
-  ypos 114
- }
-set N9f731600 [stack 0]
- Dot {
-  name Dot3
-  xpos 474
-  ypos 114
- }
-set N9f730f00 [stack 0]
+set N648e6400 [stack 0]
  Expression {
-  expr0 ((r/0.9)<0?-(0.529136*(log10(-(r/0.9)*10.1596+1))-0.0730597):0.529136*log10(10.1596*(r/0.9)+1)+0.0730597)*(940/1023-64/1023)+64/1023
-  expr1 ((g/0.9)<0?-(0.529136*(log10(-(g/0.9)*10.1596+1))-0.0730597):0.529136*log10(10.1596*(g/0.9)+1)+0.0730597)*(940/1023-64/1023)+64/1023
-  expr2 ((b/0.9)<0?-(0.529136*(log10(-(b/0.9)*10.1596+1))-0.0730597):0.529136*log10(10.1596*(b/0.9)+1)+0.0730597)*(940/1023-64/1023)+64/1023
+  expr0 invert?r<sp1?-(pow(10,(c2-r)/c0)-1)/c1:r<=sp2?(r-c4)/c3:(pow(10,(r-c5)/c0)-1)/c1:r<-sp0?-c0*log10(1-c1*r)+c2:r<=sp0?c3*r+c4:c0*log10(c1*r+1)+c5
+  expr1 invert?g<sp1?-(pow(10,(c2-g)/c0)-1)/c1:g<=sp2?(g-c4)/c3:(pow(10,(g-c5)/c0)-1)/c1:g<-sp0?-c0*log10(1-c1*g)+c2:g<=sp0?c3*g+c4:c0*log10(c1*g+1)+c5
+  expr2 invert?b<sp1?-(pow(10,(c2-b)/c0)-1)/c1:b<=sp2?(b-c4)/c3:(pow(10,(b-c5)/c0)-1)/c1:b<-sp0?-c0*log10(1-c1*b)+c2:b<=sp0?c3*b+c4:c0*log10(c1*b+1)+c5
   channel3 none
-  name lin2log1
-  label CLog1
-  xpos 440
-  ypos 148
+  name canon_clog3
+  xpos 180
+  ypos 158
+  addUserKnob {20 Params}
+  addUserKnob {7 sp0}
+  sp0 0.014
+  addUserKnob {7 sp1}
+  sp1 0.09746547
+  addUserKnob {7 sp2}
+  sp2 0.15277891
+  addUserKnob {7 c0 R 0 4}
+  c0 0.36726845
+  addUserKnob {7 c1 R 0 4}
+  c1 14.98325
+  addUserKnob {7 c2 R 0 4}
+  c2 0.12783901
+  addUserKnob {7 c3 R 0 4}
+  c3 1.9754798
+  addUserKnob {7 c4 R 0 4}
+  c4 0.12512219
+  addUserKnob {7 c5 R 0 4}
+  c5 0.12240537
+  addUserKnob {6 invert l log2lin +STARTLINE}
+  invert {{!operation}}
  }
-push $N9f730f00
+push $N648e6400
  Expression {
-  expr0 (((r-64/1023)/(940/1023-64/1023))<0.0730597?-(pow(10,((0.0730597-((r-64/1023)/(940/1023-64/1023)))/0.529136))-1)/10.1596:(pow(10,((((r-64/1023)/(940/1023-64/1023))-0.0730597)/0.529136))-1)/10.1596)*0.9
-  expr1 (((g-64/1023)/(940/1023-64/1023))<0.0730597?-(pow(10,((0.0730597-((g-64/1023)/(940/1023-64/1023)))/0.529136))-1)/10.1596:(pow(10,((((g-64/1023)/(940/1023-64/1023))-0.0730597)/0.529136))-1)/10.1596)*0.9
-  expr2 (((b-64/1023)/(940/1023-64/1023))<0.0730597?-(pow(10,((0.0730597-((b-64/1023)/(940/1023-64/1023)))/0.529136))-1)/10.1596:(pow(10,((((b-64/1023)/(940/1023-64/1023))-0.0730597)/0.529136))-1)/10.1596)*0.9
+  expr0 invert?r<0?-c1*log10(1-c2*r)+c0:c1*log10(c2*r+1)+c0:r<c0?-(pow(10,(c0-r)/c1)-1)/c2:(pow(10,(r-c0)/c1)-1)/c2
   channel3 none
-  name log2lin1
-  label CLog1
-  xpos 320
-  ypos 144
+  name canon_clog2_
+  xpos 70
+  ypos 158
+  addUserKnob {20 Params}
+  addUserKnob {7 c0 R 0 4}
+  c0 0.092864125
+  addUserKnob {7 c1 R 0 4}
+  c1 0.24136077
+  addUserKnob {7 c2 R 0 4}
+  c2 87.099375
+  addUserKnob {6 invert l log2lin +STARTLINE}
+  invert {{!operation}}
  }
- Switch {
-  inputs 2
-  which {{parent.operation}}
-  name Operation2
-  xpos 440
-  ypos 230
- }
-push $N9f731600
+push $N648e6400
  Expression {
-  expr0 ((r/0.9)<0?-(0.281863093*(log10(-(r/0.9)*87.09937546+1))-0.035388128):0.281863093*log10((r/0.9)*87.09937546+1)+0.035388128)*(940/1023-64/1023)+64/1023
-  expr1 ((g/0.9)<0?-(0.281863093*(log10(-(g/0.9)*87.09937546+1))-0.035388128):0.281863093*log10((g/0.9)*87.09937546+1)+0.035388128)*(940/1023-64/1023)+64/1023
-  expr2 ((b/0.9)<0?-(0.281863093*(log10(-(b/0.9)*87.09937546+1))-0.035388128):0.281863093*log10((b/0.9)*87.09937546+1)+0.035388128)*(940/1023-64/1023)+64/1023
+  expr0 invert?r<0?-c1*log10(1-c2*r)+c0:c1*log10(c2*r+1)+c0:r<c0?-(pow(10,(c0-r)/c1)-1)/c2:(pow(10,(r-c0)/c1)-1)/c2
+  expr1 invert?g<0?-c1*log10(1-c2*g)+c0:c1*log10(c2*g+1)+c0:g<c0?-(pow(10,(c0-g)/c1)-1)/c2:(pow(10,(g-c0)/c1)-1)/c2
+  expr2 invert?b<0?-c1*log10(1-c2*b)+c0:c1*log10(c2*b+1)+c0:b<c0?-(pow(10,(c0-b)/c1)-1)/c2:(pow(10,(b-c0)/c1)-1)/c2
   channel3 none
-  name lin2log2
-  label CLog2
-  selected true
-  xpos 200
-  ypos 143
- }
-push $N9f731600
- Expression {
-  expr0 (((r-64/1023)/(940/1023-64/1023))<0.035388128?-(pow(10,((0.035388128-((r-64/1023)/(940/1023-64/1023)))/0.281863093))-1)/87.09937546:(pow(10,((((r-64/1023)/(940/1023-64/1023))-0.035388128)/0.281863093))-1)/87.09937546)*0.9
-  expr1 (((g-64/1023)/(940/1023-64/1023))<0.035388128?-(pow(10,((0.035388128-((g-64/1023)/(940/1023-64/1023)))/0.281863093))-1)/87.09937546:(pow(10,((((g-64/1023)/(940/1023-64/1023))-0.035388128)/0.281863093))-1)/87.09937546)*0.9
-  expr2 (((b-64/1023)/(940/1023-64/1023))<0.035388128?-(pow(10,((0.035388128-((b-64/1023)/(940/1023-64/1023)))/0.281863093))-1)/87.09937546:(pow(10,((((b-64/1023)/(940/1023-64/1023))-0.035388128)/0.281863093))-1)/87.09937546)*0.9
-  channel3 none
-  name log2lin2
-  label CLog2
-  xpos 79
-  ypos 145
- }
- Switch {
-  inputs 2
-  which {{parent.operation}}
-  name Operation3
-  xpos 200
-  ypos 230
- }
-push $N9f731d00
- Expression {
-  expr0 ((r/0.9)<-0.014?-0.42889912*log10(-(r/0.9)*14.98325+1)+0.07623209:(r/0.9)<=0.014?2.3069815*(r/0.9)+0.073059361:0.42889912*log10((r/0.9)*14.98325+1)+0.069886632)*(940/1023-64/1023)+64/1023
-  expr1 ((g/0.9)<-0.014?-0.42889912*log10(-(g/0.9)*14.98325+1)+0.07623209:(g/0.9)<=0.014?2.3069815*(g/0.9)+0.073059361:0.42889912*log10((g/0.9)*14.98325+1)+0.069886632)*(940/1023-64/1023)+64/1023
-  expr2 ((b/0.9)<-0.014?-0.42889912*log10(-(b/0.9)*14.98325+1)+0.07623209:(b/0.9)<=0.014?2.3069815*(b/0.9)+0.073059361:0.42889912*log10((b/0.9)*14.98325+1)+0.069886632)*(940/1023-64/1023)+64/1023
-  channel3 none
-  name lin2log3
-  label CLog3
+  name canon_clog
   xpos -40
-  ypos 144
- }
-push $N9f731d00
- Expression {
-  expr0 (((r-64/1023)/(940/1023-64/1023))<0.04076162?-(pow(10,((0.07623209-((r-64/1023)/(940/1023-64/1023)))/0.42889912))-1)/14.98325:((r-64/1023)/(940/1023-64/1023))<=0.105357102?(((r-64/1023)/(940/1023-64/1023))-0.073059361)/2.3069815:(pow(10,((((r-64/1023)/(940/1023-64/1023))-0.069886632)/0.42889912))-1)/14.98325)*0.9
-  expr1 (((g-64/1023)/(940/1023-64/1023))<0.04076162?-(pow(10,((0.07623209-((g-64/1023)/(940/1023-64/1023)))/0.42889912))-1)/14.98325:((g-64/1023)/(940/1023-64/1023))<=0.105357102?(((g-64/1023)/(940/1023-64/1023))-0.073059361)/2.3069815:(pow(10,((((g-64/1023)/(940/1023-64/1023))-0.069886632)/0.42889912))-1)/14.98325)*0.9
-  expr2 (((b-64/1023)/(940/1023-64/1023))<0.04076162?-(pow(10,((0.07623209-((b-64/1023)/(940/1023-64/1023)))/0.42889912))-1)/14.98325:((b-64/1023)/(940/1023-64/1023))<=0.105357102?(((b-64/1023)/(940/1023-64/1023))-0.073059361)/2.3069815:(pow(10,((((b-64/1023)/(940/1023-64/1023))-0.069886632)/0.42889912))-1)/14.98325)*0.9
-  channel3 none
-  name log2lin3
-  label CLog3
-  xpos -160
-  ypos 144
- }
- Switch {
-  inputs 2
-  which {{parent.operation}}
-  name Operation1
-  xpos -40
-  ypos 230
+  ypos 158
+  addUserKnob {20 Params}
+  addUserKnob {7 c0 R 0 4}
+  c0 0.12512248
+  addUserKnob {7 c1 R 0 4}
+  c1 0.45310179
+  addUserKnob {7 c2 R 0 4}
+  c2 10.1596
+  addUserKnob {6 invert l log2lin +STARTLINE}
+  invert {{!operation}}
  }
  Switch {
   inputs 3
   which {{parent.type}}
   name Type
   xpos -40
-  ypos 310
+  ypos 230
  }
  Output {
   name Output
   xpos -40
-  ypos 430
+  ypos 302
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x272727ff
+  label "<left><pre>\nCLog3 is an updated version of CLog\nCLog2 is intended for grading workflows and should probably be used in most cases.\n\nhttps://downloads.canon.com/nw/learn/white-papers/cinema-eos/white-paper-canon-log-gamma-curves.pdf\n\nThese transfer functions match the 1D LUTs available in the \"Canon lookup table Version 201911\" download available here\nhttps://www.usa.canon.com/internet/portal/us/home/support/details/cameras/cinema-eos/cinema-eos-c500-mark-ii?tab=drivers_downloads"
+  note_font Helvetica
+  note_font_size 14
+  note_font_color 0xa8a8a8ff
+  xpos -260
+  ypos -92
  }
 end_group
