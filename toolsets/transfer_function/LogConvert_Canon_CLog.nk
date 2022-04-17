@@ -8,18 +8,38 @@ Group {
  addUserKnob {4 type M {CLog CLog2 CLog3}}
  type CLog2
 }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x272727ff
+  label "<left><pre>\nCLog3 is an updated version of CLog\nCLog2 is intended for grading workflows and should probably be used in most cases.\n\nhttps://downloads.canon.com/nw/learn/white-papers/cinema-eos/white-paper-canon-log-gamma-curves.pdf\n\nThe log transfer functions match the 1D LUTs available in the \"Canon lookup table Version 201911\" download available here\nhttps://www.usa.canon.com/internet/portal/us/home/support/details/cameras/cinema-eos/cinema-eos-c500-mark-ii?tab=drivers_downloads\n\nHowever in the official provided ctl ACES IDT provided in the \"Input Transform Version 202007 for EOS C500 Mark II\" \nfile at the same url, there is an additional 0.9 multiplication on the scene-linear values."
+  note_font Helvetica
+  note_font_size 14
+  note_font_color 0xa8a8a8ff
+  xpos -277
+  ypos -147
+ }
  Input {
   inputs 0
   name Input
   xpos -40
-  ypos 62
+  ypos 38
+ }
+ Multiply {
+  channels rgb
+  value 1.111111111
+  name Multiply2
+  note_font Helvetica
+  xpos -40
+  ypos 90
+  disable {{!operation}}
  }
  Dot {
   name Dot2
   xpos -6
   ypos 114
  }
-set N648e6400 [stack 0]
+set Naf18a400 [stack 0]
  Expression {
   expr0 invert?r<sp1?-(pow(10,(c2-r)/c0)-1)/c1:r<=sp2?(r-c4)/c3:(pow(10,(r-c5)/c0)-1)/c1:r<-sp0?-c0*log10(1-c1*r)+c2:r<=sp0?c3*r+c4:c0*log10(c1*r+1)+c5
   expr1 invert?g<sp1?-(pow(10,(c2-g)/c0)-1)/c1:g<=sp2?(g-c4)/c3:(pow(10,(g-c5)/c0)-1)/c1:g<-sp0?-c0*log10(1-c1*g)+c2:g<=sp0?c3*g+c4:c0*log10(c1*g+1)+c5
@@ -50,9 +70,11 @@ set N648e6400 [stack 0]
   addUserKnob {6 invert l log2lin +STARTLINE}
   invert {{!operation}}
  }
-push $N648e6400
+push $Naf18a400
  Expression {
-  expr0 invert?r<0?-c1*log10(1-c2*r)+c0:c1*log10(c2*r+1)+c0:r<c0?-(pow(10,(c0-r)/c1)-1)/c2:(pow(10,(r-c0)/c1)-1)/c2
+  expr0 invert?r<c0?-(pow(10,(c0-r)/c1)-1)/c2:(pow(10,(r-c0)/c1)-1)/c2:r<0?-c1*log10(1-c2*r)+c0:c1*log10(c2*r+1)+c0
+  expr1 invert?g<c0?-(pow(10,(c0-g)/c1)-1)/c2:(pow(10,(g-c0)/c1)-1)/c2:g<0?-c1*log10(1-c2*g)+c0:c1*log10(c2*g+1)+c0
+  expr2 invert?b<c0?-(pow(10,(c0-b)/c1)-1)/c2:(pow(10,(b-c0)/c1)-1)/c2:b<0?-c1*log10(1-c2*b)+c0:c1*log10(c2*b+1)+c0
   channel3 none
   name canon_clog2_
   xpos 70
@@ -67,11 +89,11 @@ push $N648e6400
   addUserKnob {6 invert l log2lin +STARTLINE}
   invert {{!operation}}
  }
-push $N648e6400
+push $Naf18a400
  Expression {
-  expr0 invert?r<0?-c1*log10(1-c2*r)+c0:c1*log10(c2*r+1)+c0:r<c0?-(pow(10,(c0-r)/c1)-1)/c2:(pow(10,(r-c0)/c1)-1)/c2
-  expr1 invert?g<0?-c1*log10(1-c2*g)+c0:c1*log10(c2*g+1)+c0:g<c0?-(pow(10,(c0-g)/c1)-1)/c2:(pow(10,(g-c0)/c1)-1)/c2
-  expr2 invert?b<0?-c1*log10(1-c2*b)+c0:c1*log10(c2*b+1)+c0:b<c0?-(pow(10,(c0-b)/c1)-1)/c2:(pow(10,(b-c0)/c1)-1)/c2
+  expr0 invert?r<c0?-(pow(10,(c0-r)/c1)-1)/c2:(pow(10,(r-c0)/c1)-1)/c2:r<0?-c1*log10(1-c2*r)+c0:c1*log10(c2*r+1)+c0
+  expr1 invert?g<c0?-(pow(10,(c0-g)/c1)-1)/c2:(pow(10,(g-c0)/c1)-1)/c2:g<0?-c1*log10(1-c2*g)+c0:c1*log10(c2*g+1)+c0
+  expr2 invert?b<c0?-(pow(10,(c0-b)/c1)-1)/c2:(pow(10,(b-c0)/c1)-1)/c2:b<0?-c1*log10(1-c2*b)+c0:c1*log10(c2*b+1)+c0
   channel3 none
   name canon_clog
   xpos -40
@@ -93,20 +115,18 @@ push $N648e6400
   xpos -40
   ypos 230
  }
+ Multiply {
+  channels rgb
+  value 0.9
+  name Multiply1
+  note_font Helvetica
+  xpos -40
+  ypos 272
+  disable {{operation}}
+ }
  Output {
   name Output
   xpos -40
-  ypos 302
- }
- StickyNote {
-  inputs 0
-  name StickyNote1
-  tile_color 0x272727ff
-  label "<left><pre>\nCLog3 is an updated version of CLog\nCLog2 is intended for grading workflows and should probably be used in most cases.\n\nhttps://downloads.canon.com/nw/learn/white-papers/cinema-eos/white-paper-canon-log-gamma-curves.pdf\n\nThese transfer functions match the 1D LUTs available in the \"Canon lookup table Version 201911\" download available here\nhttps://www.usa.canon.com/internet/portal/us/home/support/details/cameras/cinema-eos/cinema-eos-c500-mark-ii?tab=drivers_downloads"
-  note_font Helvetica
-  note_font_size 14
-  note_font_color 0xa8a8a8ff
-  xpos -260
-  ypos -92
+  ypos 315
  }
 end_group
