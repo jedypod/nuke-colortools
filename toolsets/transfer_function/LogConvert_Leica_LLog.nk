@@ -1,0 +1,47 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_Leica_LLog
+ addUserKnob {20 Params}
+ addUserKnob {41 operation T Leica_LLog.operation}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 1170
+  ypos -706
+ }
+ Expression {
+  expr0 operation?r<c1?(r-_b)/_a:(10**((r-_f)/_c)-_e)/_d:r<c0?_a*r+_b:_c*log10(_d*r+_e)+_f
+  expr1 operation?g<c1?(g-_b)/_a:(10**((g-_f)/_c)-_e)/_d:g<c0?_a*g+_b:_c*log10(_d*g+_e)+_f
+  expr2 operation?b<c1?(b-_b)/_a:(10**((b-_f)/_c)-_e)/_d:b<c0?_a*b+_b:_c*log10(_d*b+_e)+_f
+  channel3 none
+  name Leica_LLog
+  xpos 1170
+  ypos -658
+  addUserKnob {20 Params}
+  addUserKnob {4 operation M {log2lin lin2log}}
+  operation lin2log
+  addUserKnob {7 _a R 0 4}
+  _a 8
+  addUserKnob {7 _b R 0 4}
+  _b 0.09
+  addUserKnob {7 _c R 0 4}
+  _c 0.27
+  addUserKnob {7 _d R 0 4}
+  _d 1.3
+  addUserKnob {7 _e R 0 4}
+  _e 0.0115
+  addUserKnob {7 _f R 0 4}
+  _f 0.6
+  addUserKnob {7 c0 R 0 4}
+  c0 0.006
+  addUserKnob {7 c1 R 0 4}
+  c1 0.138
+ }
+ Output {
+  name Output
+  xpos 1170
+  ypos -609
+ }
+end_group
