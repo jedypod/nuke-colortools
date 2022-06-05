@@ -1,0 +1,42 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_ArriLogC4_
+ addUserKnob {20 Params}
+ addUserKnob {4 operation M {log2lin lin2log}}
+ operation lin2log
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos 62
+ }
+ Expression {
+  expr0 invert?r<_t?r*_s+_t:(2**(14*(r-_c)/_b+6)-64)/_a:r<_t?(r-_t)/_s:(1/log(2)*log(_a*r+64)-6)/14*_b+_c
+  expr1 invert?g<_t?g*_s+_t:(2**(14*(g-_c)/_b+6)-64)/_a:g<_t?(g-_t)/_s:(1/log(2)*log(_a*g+64)-6)/14*_b+_c
+  expr2 invert?b<_t?b*_s+_t:(2**(14*(b-_c)/_b+6)-64)/_a:b<_t?(b-_t)/_s:(1/log(2)*log(_a*b+64)-6)/14*_b+_c
+  name ArriLogC4
+  xpos -40
+  ypos 113
+  label "https://www.arri.com/resource/blob/278790/bea879ac0d041a925bed27a096ab3ec2/2022-05-arri-logc4-specification-data.pdf"
+  addUserKnob {20 Params}
+  addUserKnob {7 _a R 0 4}
+  _a {{(2**18-16)/117.45}}
+  addUserKnob {7 _b R 0 4}
+  _b {{(1023-95)/1023}}
+  addUserKnob {7 _c R 0 4}
+  _c {{95/1023}}
+  addUserKnob {7 _s R 0 4}
+  _s {{(7*log(2)*2**(7-14*_c/_b))/(_a*_b)}}
+  addUserKnob {7 _t R 0 4}
+  _t {{(2**(14*(-_c/_b)+6)-64)/_a}}
+  addUserKnob {6 invert +STARTLINE}
+  invert {{operation}}
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 158
+ }
+end_group
