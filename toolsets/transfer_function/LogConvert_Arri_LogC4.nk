@@ -32,7 +32,7 @@ Group {
   addUserKnob {7 _t R 0 4}
   _t {{(2**(14*(-_c/_b)+6)-64)/_a}}
   addUserKnob {6 invert +STARTLINE}
-  invert {{operation}}
+  invert {{!operation}}
  }
  Output {
   name Output
