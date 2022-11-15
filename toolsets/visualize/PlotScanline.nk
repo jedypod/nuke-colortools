@@ -3,6 +3,7 @@ push $cut_paste_input
 Group {
  name PlotScanline
  addUserKnob {20 Params}
+ addUserKnob {41 vt l vertical T PlotScanline_.vt}
  addUserKnob {41 p l pos T PlotScanline_.p}
  addUserKnob {41 mx l max T PlotScanline_.mx}
  addUserKnob {41 mn l min T PlotScanline_.mn}
@@ -26,15 +27,16 @@ Group {
  Expression {
   temp_name0 h
   temp_expr0 height/(mx-mn)
-  expr0 y==floor((r(x,p)-mn)*h)?1:y==floor(h*-mn)&&!(x%12)?4:y==floor(h-h*mn)&&!(x%12)?4:0
-  expr1 y==floor((g(x,p)-mn)*h)?1:0
-  expr2 y==floor((b(x,p)-mn)*h)?1:0
+  expr0 vt?x==floor((r(p,y)-mn)*h)?1:0:y==floor((r(x,p)-mn)*h)?1:y==floor(h*-mn)&&!(x%12)?4:y==floor(h-h*mn)&&!(x%12)?4:0
+  expr1 vt?x==floor((g(p,y)-mn)*h)?1:0:y==floor((g(x,p)-mn)*h)?1:0
+  expr2 vt?x==floor((b(p,y)-mn)*h)?1:0:y==floor((b(x,p)-mn)*h)?1:0
   name PlotScanline_
    xpos 180
   ypos 687
   addUserKnob {20 Params}
+  addUserKnob {6 vt l vertical t "vertical scanline instead of horizontal" +STARTLINE}
   addUserKnob {7 p l pos R 0 2048}
-  p 1
+  p 10
   addUserKnob {7 mx l max R 1 4}
   mx 1.05
   addUserKnob {7 mn l min R -0.2 0}
