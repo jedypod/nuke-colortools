@@ -172,7 +172,7 @@ local:
     MAX_LUM_SDR = 48.0;
     MIN_LUM_RRT = 0.0001;
     MAX_LUM_RRT = 10000.0;
-    // Monomial to basis function (Note: this is transposed compared to the AMPAS CTL)
+    // Monomial to basis function
     float Marray[] = {0.5, -1.0, 0.5, 
                       -1.0, 1.0, 0.0, 
                       0.5, 0.5, 0.0};
@@ -259,7 +259,7 @@ local:
     float KNOT_Y_LOW[ 4];
     for (int i = 0; i < N_KNOTS_LOW; i = i+1) {
       KNOT_Y_LOW[ i] = ( coefsLow[i] + coefsLow[i+1]) / 2.;
-    };
+    }
     // Setting array length to 4 manually as a workaround...
     float KNOT_Y_HIGH[ 4];
     for (int i = 0; i < N_KNOTS_HIGH; i = i+1) {
@@ -330,12 +330,10 @@ local:
   }
 
   void process() {
-
-    if (invert == 1 ) {
-      dst() = float4(inv_ssts(src().x), inv_ssts(src().y), inv_ssts(src().z), src().w);
-    }
-    else {
-      dst() = float4(ssts(src().x), ssts(src().y), ssts(src().z), src().w);
-    }
+    SampleType(src) rgba = src();
+    if (invert == 1) 
+      dst() = float4(inv_ssts(rgba.x), inv_ssts(rgba.y), inv_ssts(rgba.z), rgba.w);
+    else 
+      dst() = float4(ssts(rgba.x), ssts(rgba.y), ssts(rgba.z), rgba.w);
   }
 };
