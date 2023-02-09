@@ -1,0 +1,90 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name CompressParabolic
+ addUserKnob {20 CompressParabolic_tab l CompressParabolic}
+ addUserKnob {41 th T compress.th}
+ addUserKnob {41 x0 T compress.x0}
+ addUserKnob {41 y0 T compress.y0}
+ addUserKnob {26 label_1 l " " T "compress values from x0 to y0, starting at th"}
+ addUserKnob {4 direction M {forward inverse}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -1140
+  ypos 581
+ }
+ Dot {
+  name Dot1
+  xpos -1106
+  ypos 684
+ }
+set N41753a70 [stack 0]
+ Expression {
+  expr0 r<th.r?r:pow(r-th.r+sc.r*sqrt(sc.r*sc.r/4),2)/(sc.r*sc.r)-sc.r*sc.r/4+th.r
+  expr1 g<th.g?g:pow(g-th.g+sc.g*sqrt(sc.g*sc.g/4),2)/(sc.g*sc.g)-sc.g*sc.g/4+th.g
+  expr2 b<th.b?b:pow(b-th.b+sc.b*sqrt(sc.b*sc.b/4),2)/(sc.b*sc.b)-sc.b*sc.b/4+th.b
+  name uncompress
+  xpos -1030
+  ypos 740
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {18 th R 0 5}
+  th {{parent.compress.th} {parent.compress.th} {parent.compress.th}}
+  addUserKnob {6 th_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 x0 R 0 5}
+  x0 {{parent.compress.x0} {parent.compress.x0} {parent.compress.x0}}
+  addUserKnob {6 x0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 y0 R 0 5}
+  y0 {{parent.compress.y0} {parent.compress.y0} {parent.compress.y0}}
+  addUserKnob {6 y0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 sc}
+  sc {{parent.compress.sc} {parent.compress.sc} {parent.compress.sc}}
+  addUserKnob {6 sc_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ }
+push $N41753a70
+ Expression {
+  expr0 r<th.r?r:sc.r*sqrt(r-th.r+sc.r*sc.r/4)-sc.r*sqrt(sc.r*sc.r/4)+th.r
+  expr1 g<th.g?g:sc.g*sqrt(g-th.g+sc.g*sc.g/4)-sc.g*sqrt(sc.g*sc.g/4)+th.g
+  expr2 b<th.b?b:sc.b*sqrt(b-th.b+sc.b*sc.b/4)-sc.b*sqrt(sc.b*sc.b/4)+th.b
+  name compress
+  xpos -1250
+  ypos 740
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {18 th R 0 5}
+  th 0.5
+  addUserKnob {6 th_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 x0 R 0 5}
+  x0 1.5
+  addUserKnob {6 x0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 y0 R 0 5}
+  y0 1
+  addUserKnob {6 y0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 sc}
+  sc {{(y0-th)/sqrt(x0-1)} {(y0-th)/sqrt(x0-1)} {(y0-th)/sqrt(x0-1)}}
+  addUserKnob {6 sc_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name SwitchDirection
+  xpos -1140
+  ypos 830
+ }
+ Output {
+  name Output
+  xpos -1140
+  ypos 920
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x272727ff
+  label "<left>Parabolic Compression Function with Inverse\nhttps://www.desmos.com/calculator/ninvt8bmqc"
+  note_font Helvetica
+  note_font_size 14
+  note_font_color 0xa8a8a8ff
+  xpos -1235
+  ypos 622
+ }
+end_group
