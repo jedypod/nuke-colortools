@@ -7,11 +7,11 @@ Expression {
  name CompressHyperbolic
  label https://www.desmos.com/calculator/mbbbwoqprr
  addUserKnob {20 Params}
- addUserKnob {7 t0 t "linear section end point"}
+ addUserKnob {7 t0 t "compression begins at t0, linear below"}
  t0 0.18
- addUserKnob {7 w0 t "scene-linear value to compress to w1" R 10 40}
+ addUserKnob {7 w0 t "input w0 is compressed to output w1" R 1 50}
  w0 20
- addUserKnob {7 w1 R 0 4}
+ addUserKnob {7 w1 R 1 50}
  w1 1
  addUserKnob {26 ""}
  addUserKnob {7 s1 R 1 1.2}
