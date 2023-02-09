@@ -1,0 +1,24 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Expression {
+ expr0 r<t0?r:invert?r<s1?_b-_a/(r-s1):1e4:_a/(_b-r)+s1
+ expr1 g<t0?g:invert?g<s1?_b-_a/(g-s1):1e4:_a/(_b-g)+s1
+ expr2 b<t0?b:invert?b<s1?_b-_a/(b-s1):1e4:_a/(_b-b)+s1
+ name CompressHyperbolic
+ label https://www.desmos.com/calculator/mbbbwoqprr
+ addUserKnob {20 Params}
+ addUserKnob {7 t0 t "linear section end point"}
+ t0 0.18
+ addUserKnob {7 w0 t "scene-linear value to compress to w1" R 10 40}
+ w0 20
+ addUserKnob {7 w1 R 0 4}
+ w1 1
+ addUserKnob {26 ""}
+ addUserKnob {7 s1 R 1 1.2}
+ s1 {{(w0*w1-t0*(2*w1-t0))/(w0-w1)}}
+ addUserKnob {7 _a R 0 4}
+ _a {{(t0-s1)**2}}
+ addUserKnob {7 _b R 0 4}
+ _b {{2*t0-s1}}
+ addUserKnob {6 invert +STARTLINE}
+}
