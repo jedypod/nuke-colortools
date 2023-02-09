@@ -1,0 +1,51 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name GamutCompressCLin
+ help "<b>Chromaticity Linear Gamut Compression</b>\n\nCompress gamut in a straight line from source chromaticity towards achromatic, according to the quadratic compression function which compresses out of gamut chroma value x0 to the gamut boundary, distributed over a range from t0 to 1."
+ addUserKnob {20 Params}
+ addUserKnob {41 t0 t "threshold chroma value to begin compression. 0 is achromatic, 1 is gamut boundary. " T Expression.t0}
+ addUserKnob {41 x0 t "out of gamut chroma value to compress to the gamut boundary." T Expression.x0}
+ addUserKnob {41 invert T Expression.invert}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -480
+  ypos -442
+ }
+ Expression {
+  temp_name0 m
+  temp_expr0 max(r,g,b)
+  temp_name1 c
+  temp_expr1 m==0?0:(m-min(r,g,b))/m
+  temp_name2 f
+  temp_expr2 c==0?0:(c<t0?c:invert?pow((oy-c)/s,2)+ox:s*sqrt(c-ox)+oy)/c
+  expr0 m*(1-f)+r*f
+  expr1 m*(1-f)+g*f
+  expr2 m*(1-f)+b*f
+  maskChannelMask rgba.red
+  name Expression
+  xpos -480
+  ypos -394
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {7 t0 l threshold}
+  t0 0.8
+  addUserKnob {7 x0 l distance R 1 2}
+  x0 1.4
+  addUserKnob {7 y0 R 0 2}
+  y0 1
+  addUserKnob {7 s}
+  s {{(y0-t0)/sqrt(x0-y0)}}
+  addUserKnob {7 ox R -2 2}
+  ox {{t0-s*s/4}}
+  addUserKnob {7 oy R -2 2}
+  oy {{t0-s*sqrt(s*s/4)}}
+  addUserKnob {6 invert +STARTLINE}
+ }
+ Output {
+  name Output
+  xpos -480
+  ypos -346
+ }
+end_group
