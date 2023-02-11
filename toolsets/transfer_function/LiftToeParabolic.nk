@@ -1,0 +1,82 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LiftToeParabolic
+ addUserKnob {20 LiftToeParabolic_tab l LiftToeParabolic}
+ addUserKnob {41 th l thresh T compress.th}
+ addUserKnob {41 lim T compress.x0}
+ addUserKnob {4 direction M {forward inverse}}
+}
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x272727ff
+  label "<left>Parabolic Toe Compression Function with Inverse\nhttps://www.desmos.com/calculator/fm062gzpfn\nFull derivation\nhttps://www.desmos.com/calculator/cupaxlxtzd"
+  note_font_size 14
+  note_font_color 0xa8a8a8ff
+  xpos -922
+  ypos 704
+ }
+ Input {
+  inputs 0
+  name Input
+  xpos -1140
+  ypos 614
+ }
+ Dot {
+  name Dot1
+  xpos -1106
+  ypos 690
+ }
+set N16b80800 [stack 0]
+ Expression {
+  expr0 r>th.r?r:-pow(r-th.r-sc.r*sqrt(sc.r*sc.r/4),2)/(sc.r*sc.r)+sc.r*sc.r/4+th.r
+  expr1 g>th.g?g:-pow(g-th.g-sc.g*sqrt(sc.g*sc.g/4),2)/(sc.g*sc.g)+sc.g*sc.g/4+th.g
+  expr2 b>th.b?b:-pow(b-th.b-sc.b*sqrt(sc.b*sc.b/4),2)/(sc.b*sc.b)+sc.b*sc.b/4+th.b
+  name uncompress
+  xpos -1030
+  ypos 734
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {18 th R 0 5}
+  th {{parent.compress.th} {parent.compress.th} {parent.compress.th}}
+  addUserKnob {6 th_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 x0 R 0 5}
+  x0 {{parent.compress.x0} {parent.compress.x0} {parent.compress.x0}}
+  addUserKnob {6 x0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 y0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 sc}
+  sc {{parent.compress.sc} {parent.compress.sc} {parent.compress.sc}}
+  addUserKnob {6 sc_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ }
+push $N16b80800
+ Expression {
+  expr0 r>th.r?r:-sc.r*sqrt(-r+th.r+sc.r*sc.r/4)+sc.r*sqrt(sc.r*sc.r/4)+th.r
+  expr1 g>th.g?g:-sc.g*sqrt(-g+th.g+sc.g*sc.g/4)+sc.g*sqrt(sc.g*sc.g/4)+th.g
+  expr2 b>th.b?b:-sc.b*sqrt(-b+th.b+sc.b*sc.b/4)+sc.b*sqrt(sc.b*sc.b/4)+th.b
+  name compress
+  xpos -1250
+  ypos 734
+  addUserKnob {20 Params_tab l Params}
+  addUserKnob {18 th t "threshold: values above th will not be affected"}
+  th 0.285
+  addUserKnob {6 th_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 x0 t "-x0 is the y=0 intersection for the compression curve"}
+  x0 1
+  addUserKnob {6 x0_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {18 sc}
+  sc {{th/sqrt(max(1e-4,x0))}}
+  addUserKnob {6 sc_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ }
+ Switch {
+  inputs 2
+  which {{parent.direction}}
+  name SwitchDirection
+  xpos -1140
+  ypos 782
+ }
+ Output {
+  name Output
+  xpos -1140
+  ypos 878
+ }
+end_group
