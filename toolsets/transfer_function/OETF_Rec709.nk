@@ -1,0 +1,46 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name OETF_Rec709
+ addUserKnob {20 OETF_Rec709_tab l OETF_Rec709}
+ addUserKnob {6 invert +STARTLINE}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos -10
+ }
+set Nb23add0 [stack 0]
+ Expression {
+  expr0 r<0.081?r/4.5:((r+0.099)/1.099)**(1/0.45)
+  expr1 g<0.081?g/4.5:((g+0.099)/1.099)**(1/0.45)
+  expr2 b<0.081?b/4.5:((b+0.099)/1.099)**(1/0.45)
+  name Expression2
+  label "Rec709 Inverse OETF "
+  xpos 24
+  ypos 43
+ }
+push $Nb23add0
+ Expression {
+  expr0 r<0.018?4.5*r:1.099*r**0.45-0.099
+  expr1 g<0.018?4.5*g:1.099*g**0.45-0.099
+  expr2 b<0.018?4.5*b:1.099*b**0.45-0.099
+  name Expression1
+  label "Rec709 OETF "
+  xpos -109
+  ypos 46
+ }
+ Switch {
+  inputs 2
+  which {{invert}}
+  name Switch1
+  xpos -40
+  ypos 111
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 172
+ }
+end_group
