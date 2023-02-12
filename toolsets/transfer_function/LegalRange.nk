@@ -1,0 +1,26 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Expression {
+ temp_name0 bl
+ temp_expr0 64/1023
+ temp_name1 wh
+ temp_expr1 940/1023
+ expr0 (bl-r)/(bl-wh)
+ expr1 (bl-g)/(bl-wh)
+ expr2 (bl-b)/(bl-wh)
+ name legal_to_full
+ xpos -1703
+ ypos -402
+}
+Expression {
+ temp_name0 bl
+ temp_expr0 64/1023
+ temp_name1 wh
+ temp_expr1 940/1023
+ expr0 r*(wh-bl)+bl
+ expr1 g*(wh-bl)+bl
+ expr2 b*(wh-bl)+bl
+ name full_to_legal
+ xpos -1703
+ ypos -355
+}
