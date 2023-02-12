@@ -5,8 +5,7 @@ Group {
  addUserKnob {20 Saturation_tab l Saturation}
  addUserKnob {4 m l method M {weighted maximum average}}
  addUserKnob {4 gamut t "If using weighted m, select gamut for appropriate luminance weights." -STARTLINE M {ACEScg Rec.2020 P3D65 Rec.709}}
- addUserKnob {7 s l saturation R 0 2}
- s 1
+ addUserKnob {41 sa l saturation T Expression1.sa}
 }
  Input {
   inputs 0
@@ -17,15 +16,17 @@ Group {
  Expression {
   temp_name3 L
   temp_expr3 m==0?w.0*r+w.1*g+w.2*b:m==1?max(r,g,b):m==2?(r+g+b)/3:0
-  expr0 L*(1-s)+r*s
-  expr1 L*(1-s)+g*s
-  expr2 L*(1-s)+b*s
+  expr0 L*(1-sa)+r*sa
+  expr1 L*(1-sa)+g*sa
+  expr2 L*(1-sa)+b*sa
   expr3 L
-  name Expression
+  name Expression1
   xpos 290
   ypos 681
   addUserKnob {20 Params}
-  addUserKnob {78 w l weights t "luminance weights for selected gamut" -STARTLINE n 3}
+  addUserKnob {7 sa l saturation R 0 2}
+  sa 1
+  addUserKnob {78 w l weights t "luminance weights for selected gamut" n 3}
   w {{curve(gamut) 0.272229 0.2627 0.228975 0.212639} {curve(gamut) 0.674082 0.677998 0.691739 0.715169} {curve(gamut) 0.0536895 0.0593017 0.0792869 0.0721923}}
  }
  Output {
