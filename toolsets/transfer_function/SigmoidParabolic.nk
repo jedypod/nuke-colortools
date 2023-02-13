@@ -1,0 +1,14 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Expression {
+ expr0 r<t0.r?t0.r*(r/t0.r)**p.r:1+(t0.r-1)*((r-1)/(t0.r-1))**p.r
+ expr1 g<t0.g?t0.g*(g/t0.g)**p.g:1+(t0.g-1)*((g-1)/(t0.g-1))**p.g
+ expr2 b<t0.b?t0.b*(b/t0.b)**p.b:1+(t0.b-1)*((b-1)/(t0.b-1))**p.b
+ name SigmoidParabolic
+ label https://www.desmos.com/calculator/kpnisib1ak
+ addUserKnob {20 Params_t l Params}
+ addUserKnob {18 t0}
+ t0 0.5
+ addUserKnob {18 p R 0 4}
+ p 2
+}
