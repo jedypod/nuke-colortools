@@ -1,0 +1,93 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name MatrixMultiply
+ xpos -1470
+ ypos -327
+ addUserKnob {20 MatrixMultiply}
+ addUserKnob {41 sm l "src mtx" T mtx_src.matrix}
+ addUserKnob {18 m l multiply R 0 4}
+ m {1 1 1}
+ addUserKnob {6 m_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {41 matrix T mtx_dst.matrix}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos 14
+ }
+ ColorMatrix {
+  matrix {
+      {{m.0*sm.0} {m.0*sm.1} {m.0*sm.2}}
+      {{m.1*sm.3} {m.1*sm.4} {m.1*sm.5}}
+      {{m.2*sm.6} {m.2*sm.7} {m.2*sm.8}}
+    }
+  name mtx_dst
+  xpos -40
+  ypos 63
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 134
+ }
+ ColorMatrix {
+  inputs 0
+  matrix {
+      {1 0 0}
+      {0 1 0}
+      {0 0 1}
+    }
+  name mtx_src
+  xpos -150
+  ypos 63
+ }
+end_group
+push $cut_paste_input
+Group {
+ name MultiplyMatrix
+ xpos -1580
+ ypos -327
+ addUserKnob {20 MultiplyMatrix}
+ addUserKnob {18 m l multiply R 0 4}
+ m {1 1 1}
+ addUserKnob {6 m_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {41 sm l "src mtx" T mtx_src.matrix}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {41 matrix T mtx_dst.matrix}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos 14
+ }
+ ColorMatrix {
+  matrix {
+      {{sm.0*m.r} {sm.1*m.g} {sm.2*m.b}}
+      {{sm.3*m.r} {sm.4*m.g} {sm.5*m.b}}
+      {{sm.6*m.r} {sm.7*m.g} {sm.8*m.b}}
+    }
+  name mtx_dst
+  xpos -40
+  ypos 63
+ }
+ Output {
+  name Output1
+  xpos -40
+  ypos 134
+ }
+ ColorMatrix {
+  inputs 0
+  matrix {
+      {1 0 0}
+      {0 1 0}
+      {0 0 1}
+    }
+  name mtx_src
+  xpos -150
+  ypos 63
+ }
+end_group
