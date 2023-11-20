@@ -1,0 +1,53 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_AppleLog
+ addUserKnob {20 Params}
+ addUserKnob {4 operation M {log2lin lin2log}}
+}
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x272727ff
+  label "<left><pre>\n<b>Apple Log</b>\nOfficial links to whitepaper and LUTs (behind an Apple Developer paywall D: )\nhttps://download.developer.apple.com/Developer_Tools/Apple_Log_profile/Apple_Log_Profile_White_Paper.pdf\nhttps://download.developer.apple.com/Developer_Tools/Apple_Log_profile/AppleLogLUTsv1.zip\n\nSomeone posted them both on this forum thread though:\nhttps://discussions.apple.com/thread/255147293?page=2\nhttps://netorg5834184-my.sharepoint.com/:f:/g/personal/scot_infilmsdesign_com/EmKSceiQwv1FoXrPFqmQCAIB0iIDSq_ARks4BrkN5uRJAw?e=VLjSdE"
+  note_font Helvetica
+  note_font_size 14
+  note_font_color 0xa8a8a8ff
+  xpos 74
+  ypos 70
+ }
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos 62
+ }
+ Expression {
+  expr0 invert?r>=P_t?2**((r-_d)/_g)-_b:r>=0?sqrt(r/_c)+R_0:R_0:r>=R_t?_g*log(r+_b)/log(2)+_d:r>=R_0?_c*(r-R_0)**2:0
+  name AppleLog
+  xpos -40
+  ypos 110
+  addUserKnob {20 Params}
+  addUserKnob {7 R_0 R 0 4}
+  R_0 -0.05641088
+  addUserKnob {7 R_t R 0 4}
+  R_t 0.01
+  addUserKnob {7 _c R 0 4}
+  _c 47.28711236
+  addUserKnob {7 _b R 0 4}
+  _b 0.00964052
+  addUserKnob {7 _g R 0 4}
+  _g 0.08550479
+  addUserKnob {7 _d R 0 4}
+  _d 0.69336945
+  addUserKnob {7 P_t R 0 4}
+  P_t {{"_c*(R_t - R_0)**2"}}
+  addUserKnob {6 invert +STARTLINE}
+  invert {{!operation}}
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 158
+ }
+end_group
