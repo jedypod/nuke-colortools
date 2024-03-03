@@ -3,35 +3,52 @@ push $cut_paste_input
 Group {
  name Saturation
  addUserKnob {20 Saturation_tab l Saturation}
- addUserKnob {4 m l method M {weighted maximum average}}
- addUserKnob {4 gamut t "If using weighted m, select gamut for appropriate luminance weights." -STARTLINE M {ACEScg Rec.2020 P3D65 Rec.709}}
- addUserKnob {41 sa l saturation T Expression1.sa}
+ addUserKnob {41 m l mode T Expression.m}
+ addUserKnob {41 preset -STARTLINE T Expression.preset}
+ addUserKnob {41 sa l saturation T Expression.sa}
+ addUserKnob {41 wr l "red weight" T Expression.wr}
+ addUserKnob {41 wb l "blue weight" T Expression.wb}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {41 maskChannelMask l mask -STARTLINE T Expression.maskChannelMask}
+ addUserKnob {41 invert_mask l invert -STARTLINE T Expression.invert_mask}
+ addUserKnob {41 mix T Expression.mix}
 }
+ Input {
+  inputs 0
+  name Inputmask
+  xpos 400
+  ypos 687
+  number 1
+ }
  Input {
   inputs 0
   name Input
   xpos 290
-  ypos 620
+  ypos 638
  }
  Expression {
-  temp_name3 L
-  temp_expr3 m==0?w.0*r+w.1*g+w.2*b:m==1?max(r,g,b):m==2?(r+g+b)/3:0
-  expr0 L*(1-sa)+r*sa
-  expr1 L*(1-sa)+g*sa
-  expr2 L*(1-sa)+b*sa
-  expr3 L
-  name Expression1
+  inputs 1+1
+  temp_name3 n
+  temp_expr3 m==0?wr*r+(1-(wr+wb))*g+wb*b:m==1?max(r,g,b):m==2?(r+g+b)/3:0
+  expr0 n*(1-sa)+r*sa
+  expr1 n*(1-sa)+g*sa
+  expr2 n*(1-sa)+b*sa
+  name Expression
   xpos 290
-  ypos 681
+  ypos 686
   addUserKnob {20 Params}
+  addUserKnob {4 m l mode M {"weighted sum" maximum average}}
+  addUserKnob {35 preset t "preset weights for common gamuts" -STARTLINE M {weights/Rec.709 "knobs this \{ wr 0.212639 wb 0.0721923\}" weights/P3D65 "knobs this \{ wr 0.228975 wb 0.0792869\}" weights/Rec.2020 "knobs this \{ wr 0.2627 wb 0.0593017\}" weights/ACEScg "knobs this \{ wr 0.272229 wb 0.0536895\}"}}
   addUserKnob {7 sa l saturation R 0 2}
   sa 1
-  addUserKnob {78 w l weights t "luminance weights for selected gamut" n 3}
-  w {{curve(gamut) 0.272229 0.2627 0.228975 0.212639} {curve(gamut) 0.674082 0.677998 0.691739 0.715169} {curve(gamut) 0.0536895 0.0593017 0.0792869 0.0721923}}
+  addUserKnob {7 wr l "red weight" R 0 0.5}
+  wr 0.22
+  addUserKnob {7 wb l "blue weight" R 0 0.5}
+  wb 0.08
  }
  Output {
   name Output
   xpos 290
-  ypos 740
+  ypos 734
  }
 end_group
