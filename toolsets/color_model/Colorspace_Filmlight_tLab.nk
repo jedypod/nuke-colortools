@@ -1,0 +1,352 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name Filmlight_tLab
+ addUserKnob {20 Params}
+ addUserKnob {41 gamut l "in gamut" T InGamut_to_XYZ.gamut}
+ addUserKnob {4 mode M {Yrg tLab tLCh}}
+ addUserKnob {4 direction M {forward inverse}}
+}
+ Input {
+  inputs 0
+  name Input
+  xpos 180
+  ypos -34
+ }
+ Dot {
+  name Dot1
+  xpos 214
+  ypos 18
+ }
+set Nee44c880 [stack 0]
+ Dot {
+  name Dot2
+  xpos 434
+  ypos 18
+ }
+ Expression {
+  expr0 r
+  expr1 g*cos(b)
+  expr2 g*sin(b)
+  name tLCh_to_tLab
+  xpos 400
+  ypos 64
+  disable {{parent.tLab_to_tLCh.disable}}
+ }
+ Expression {
+  temp_name0 L0
+  temp_expr0 (100*r+16)/116
+  temp_name1 Y
+  temp_expr1 L0>0.206861672?L0**3:(L0-0.1379)/7.787
+  expr0 Y
+  expr1 (g+4*b*b0)/(8*r)
+  expr2 -(g-4*b*b0)/(8*r)
+  name tLab_to_Yrg
+  xpos 400
+  ypos 90
+  disable {{parent.Yrg_to_tLab.disable}}
+  addUserKnob {20 User}
+  addUserKnob {7 b0}
+  b0 {{parent.Yrg_to_tLab.b0}}
+ }
+ Add {
+  channels rgb
+  value {0 {parent.tLMS_to_Yrg.r0} {parent.tLMS_to_Yrg.g0} 0}
+  name WhiteOffset
+  xpos 400
+  ypos 121
+ }
+ Expression {
+  temp_name0 l
+  temp_expr0 0.95*g+0.38*b
+  temp_name1 m
+  temp_expr1 0.02*g+0.59*b
+  temp_name2 _d
+  temp_expr2 (0.68990272*l+0.34832189*m)
+  temp_name3 _a
+  temp_expr3 _d==0?0:r/_d
+  expr0 l*_a
+  expr1 m*_a
+  expr2 (1-l-m)*_a
+  name Yrg_to_tRGB2
+  xpos 400
+  ypos 145
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.XYZ_to_tLMS.matrix} {parent.XYZ_to_tLMS.matrix} {parent.XYZ_to_tLMS.matrix}}
+      {{parent.XYZ_to_tLMS.matrix} {parent.XYZ_to_tLMS.matrix} {parent.XYZ_to_tLMS.matrix}}
+      {{parent.XYZ_to_tLMS.matrix} {parent.XYZ_to_tLMS.matrix} {parent.XYZ_to_tLMS.matrix}}
+    }
+  invert true
+  name tLMS_to_XYZ
+  xpos 400
+  ypos 184
+ }
+ ColorMatrix {
+  matrix {
+      {{parent.InGamut_to_XYZ.ColorMatrix.matrix} {parent.InGamut_to_XYZ.ColorMatrix.matrix} {parent.InGamut_to_XYZ.ColorMatrix.matrix}}
+      {{parent.InGamut_to_XYZ.ColorMatrix.matrix} {parent.InGamut_to_XYZ.ColorMatrix.matrix} {parent.InGamut_to_XYZ.ColorMatrix.matrix}}
+      {{parent.InGamut_to_XYZ.ColorMatrix.matrix} {parent.InGamut_to_XYZ.ColorMatrix.matrix} {parent.InGamut_to_XYZ.ColorMatrix.matrix}}
+    }
+  invert true
+  name XYZ_to_InGamut
+  xpos 400
+  ypos 206
+ }
+push $Nee44c880
+ Group {
+  name InGamut_to_XYZ
+  tile_color 0x429940ff
+  xpos 180
+  ypos 38
+  addUserKnob {20 InputGamut_to_XYZ_tab l InputGamut_to_XYZ}
+  addUserKnob {4 gamut l "in gamut" M {ACES ACEScg P3D65 Rec.2020 Rec.709 "Alexa WideGamut" "Red WideGamutRGB" "Sony SGamut3" "Filmlight E-Gamut" "DaVinci Wide Gamut" "" "" ""}}
+  gamut "Filmlight E-Gamut"
+  addUserKnob {41 matrix T ColorMatrix.matrix}
+  addUserKnob {41 invert -STARTLINE T ColorMatrix.invert}
+ }
+  Input {
+   inputs 0
+   name Input
+   xpos 290
+   ypos -610
+  }
+  Dot {
+   name Dot1
+   xpos 324
+   ypos -546
+  }
+set N75aaf300 [stack 0]
+  ColorMatrix {
+   matrix {
+       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+     }
+   name ColorMatrix
+   xpos 290
+   ypos -370
+  }
+  Output {
+   name Output
+   xpos 290
+   ypos -250
+  }
+push $N75aaf300
+  Dot {
+   name Dot391
+   label " *RGB to XYZ D65 CAT: XYZ Scaling"
+   xpos 434
+   ypos -546
+  }
+set N7be840d0 [stack 0]
+  ColorMatrix {
+   matrix {
+       {0.7006223202 0.1487748027 0.101058729}
+       {0.2741184831 0.8736317754 -0.1477504224}
+       {-0.09896290302 -0.1378953159 1.325916052}
+     }
+   name ColorMatrix30
+   label "DaVinci WG to XYZ D65"
+   xpos 1390
+   ypos -466
+  }
+push $N7be840d0
+  ColorMatrix {
+   matrix {
+       {0.705396831 0.1640413404 0.08101775497}
+       {0.2801307142 0.8202067018 -0.1003373787}
+       {-0.1037815139 -0.07290726155 1.265746593}
+     }
+   name ColorMatrix29
+   label "Filmlight E-Gamut to XYZ D65"
+   xpos 1280
+   ypos -466
+  }
+push $N7be840d0
+  ColorMatrix {
+   matrix {
+       {0.5990839005 0.2489254922 0.1024464965}
+       {0.2150758207 0.8850684166 -0.1001443192}
+       {-0.03206584975 -0.02765838802 1.148782015}
+     }
+   name ColorMatrix31
+   label "SonySGamut3 to XYZ D65"
+   xpos 1170
+   ypos -465
+  }
+push $N7be840d0
+  ColorMatrix {
+   matrix {
+       {0.735275209 0.06860940903 0.1465712786}
+       {0.2866940796 0.8429790735 -0.1296732426}
+       {-0.07968084514 -0.3473432064 1.516081929}
+     }
+   name ColorMatrix22
+   label "REDWideGamutRGB to XYZ D65"
+   xpos 1060
+   ypos -466
+  }
+push $N7be840d0
+  ColorMatrix {
+   matrix {
+       {0.6380076408 0.2147038132 0.09774445742}
+       {0.2919537723 0.8238408566 -0.1157948226}
+       {0.002798279049 -0.06703422219 1.153293848}
+     }
+   name ColorMatrix21
+   label "Arri AlexaWideGamut to XYZ D65"
+   xpos 950
+   ypos -466
+  }
+push $N7be840d0
+  ColorMatrix {
+   matrix {
+       {0.4123909175 0.3575843573 0.1804807931}
+       {0.2126390785 0.7151687145 0.07219231129}
+       {0.01933082566 0.1191947833 0.9505321383}
+     }
+   name ColorMatrix18
+   label "Rec709 to XYZ D65"
+   xpos 840
+   ypos -466
+  }
+push $N7be840d0
+  ColorMatrix {
+   matrix {
+       {0.6369581223 0.1446169168 0.1688809693}
+       {0.2627002299 0.6779981256 0.05930171534}
+       {4.99410725e-17 0.02807269618 1.060985088}
+     }
+   name ColorMatrix17
+   label "Rec2020 to XYZ D65"
+   xpos 730
+   ypos -466
+  }
+push $N7be840d0
+  ColorMatrix {
+   matrix {
+       {0.4865711331 0.2656677067 0.1982173175}
+       {0.2289746404 0.6917386055 0.07928691804}
+       {-3.972076965e-17 0.04511338845 1.043944478}
+     }
+   name ColorMatrix16
+   label "P3D65 to XYZ D65"
+   xpos 620
+   ypos -466
+  }
+push $N7be840d0
+  ColorMatrix {
+   matrix {
+       {0.6609312296 0.1336961389 0.1558285803}
+       {0.2722287476 0.6740817428 0.05368950963}
+       {-0.006018006243 0.004383686464 1.090692043}
+     }
+   name ColorMatrix1
+   label "ACEScg to XYZ D65"
+   xpos 510
+   ypos -466
+  }
+push $N7be840d0
+  ColorMatrix {
+   matrix {
+       {0.9503623843 0 9.346324805e-05}
+       {0.3439664543 0.728166163 -0.07213254273}
+       {0 0 1.089057803}
+     }
+   name ColorMatrix2
+   label "ACES to XYZ D65"
+   xpos 400
+   ypos -466
+  }
+  Switch {
+   inputs 10
+   which {{gamut}}
+   name SwitchGamut
+   xpos 400
+   ypos -370
+  }
+ end_group
+ ColorMatrix {
+  matrix {
+      {0.257085 0.859943 -0.031061}
+      {-0.394427 1.1758 0.106423}
+      {0.064856 -0.07625 0.559067}
+    }
+  name XYZ_to_tLMS
+  xpos 180
+  ypos 87
+ }
+ Expression {
+  temp_name0 L
+  temp_expr0 r
+  temp_name1 M
+  temp_expr1 g
+  temp_name2 sum
+  temp_expr2 r+g+b==0?1:r+g+b
+  expr0 0.68990272*L+0.34832189*M
+  expr1 (1.0671*L-0.6873*M)/sum-r0
+  expr2 (1.7182*M-0.0362*L)/sum-g0
+  name tLMS_to_Yrg
+  xpos 180
+  ypos 107
+  addUserKnob {20 Params}
+  addUserKnob {35 presets l "" +STARTLINE M {presets/D65 "knobs this \{r0 0.198396 g0 0.595198 b0 \{1-r0-g0\}\}" presets/D60 "knobs this \{r0 0.206187 g0 0.600888 b0 \{1-r0-g0\}\}" presets/D55 "knobs this \{r0 0.215559 g0 0.606667 b0 \{1-r0-g0\}\}" presets/D50 "knobs this \{r0 0.227001 g0 0.612686 b0 \{1-r0-g0\}\}" "" ""}}
+  addUserKnob {7 r0}
+  r0 0.198396
+  addUserKnob {7 g0}
+  g0 0.595198
+  addUserKnob {7 b0}
+  b0 {{1-r0-g0}}
+ }
+ Expression {
+  temp_name0 L
+  temp_expr0 (116*(r>0.008856?pow(r,1/3):7.787*r+0.1379)-16)/100
+  temp_name1 rw
+  temp_expr1 g
+  temp_name2 gw
+  temp_expr2 b
+  expr0 L
+  expr1 L*(rw-gw)/0.25
+  expr2 L*(rw+gw)/b0
+  name Yrg_to_tLab
+  xpos 180
+  ypos 133
+  disable {{!(mode>=1)}}
+  addUserKnob {20 User}
+  addUserKnob {7 b0}
+  b0 {{parent.tLMS_to_Yrg.b0}}
+ }
+ Expression {
+  expr0 r
+  expr1 hypot(g,b)
+  expr2 atan2(b,g)
+  name tLab_to_tLCh
+  xpos 180
+  ypos 159
+  disable {{!(mode>=2)}}
+ }
+ Switch {
+  inputs 2
+  which {{direction}}
+  name SwitchDirection
+  xpos 180
+  ypos 278
+ }
+ Output {
+  name Output
+  xpos 180
+  ypos 326
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x272727ff
+  label "<left><pre>\n<b>Filmlight tLab</b>\n\"Triangle RGB\" or \"tRGB\" from the Filmlight Colour Book p.80\ntLab from the Filmlight Colour Book p.86\nhttps://www.filmlight.ltd.uk/support/documents/colourbook/colourbook.php\n\nMatrix for conversion from CIE 1931 XYZ tristumulus to CIE 2006 LMS or \"Truelight LMS\", described in:\n \"Chromaticity Coordinates for Graphic Arts Based on CIE 2006 LMS with Even Spacing of Munsell Colours\" \nby Richard Kirk - https://doi.org/10.2352/issn.2169-2629.2019.27.38"
+  note_font_size 14
+  note_font_color 0xa8a8a8ff
+  xpos 584
+  ypos -1
+ }
+end_group
