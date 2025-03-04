@@ -317,7 +317,7 @@ push $N81ec44a0
   matrix {
       {0.3333333333 0.3333333333 0.3333333333}
       {0.5 -0.25 -0.25}
-      {0 {sqrt(3/4)} {-sqrt(3/4)}}
+      {0 {sqrt(3)/4} {-sqrt(3)/4}}
     }
   name RGB_to_Yab
   label "RGB to Yab"
