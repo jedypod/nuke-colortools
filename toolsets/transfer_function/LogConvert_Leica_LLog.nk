@@ -12,9 +12,9 @@ Group {
   ypos -706
  }
  Expression {
-  expr0 operation?r<c1?(r-_b)/_a:(10**((r-_f)/_c)-_e)/_d:r<c0?_a*r+_b:_c*log10(_d*r+_e)+_f
-  expr1 operation?g<c1?(g-_b)/_a:(10**((g-_f)/_c)-_e)/_d:g<c0?_a*g+_b:_c*log10(_d*g+_e)+_f
-  expr2 operation?b<c1?(b-_b)/_a:(10**((b-_f)/_c)-_e)/_d:b<c0?_a*b+_b:_c*log10(_d*b+_e)+_f
+  expr0 operation?r<c0?_a*r+_b:_c*log10(_d*r+_e)+_f:r<c1?(r-_b)/_a:(10**((r-_f)/_c)-_e)/_d
+  expr1 operation?g<c0?_a*g+_b:_c*log10(_d*g+_e)+_f:g<c1?(g-_b)/_a:(10**((g-_f)/_c)-_e)/_d
+  expr2 operation?b<c0?_a*b+_b:_c*log10(_d*b+_e)+_f:b<c1?(b-_b)/_a:(10**((b-_f)/_c)-_e)/_d
   channel3 none
   name Leica_LLog
   xpos 1170
