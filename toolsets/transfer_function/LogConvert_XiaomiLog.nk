@@ -1,0 +1,56 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_XiaomiLog
+ addUserKnob {20 Params}
+ addUserKnob {4 operation M {log2lin lin2log}}
+ operation lin2log
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos 62
+ }
+ Expression {
+  expr0 invert?r<R0?0:r<Rt?_c*((r-R0)**2):_a*log(r+_b)/log(2)+_g:r<0?R0:r<Pt?sqrt(r/_c)+R0:2**((r-_g)/_a)-_b
+  expr1 invert?g<R0?0:g<Rt?_c*((g-R0)**2):_a*log(g+_b)/log(2)+_g:g<0?R0:g<Pt?sqrt(g/_c)+R0:2**((g-_g)/_a)-_b
+  expr2 invert?b<R0?0:b<Rt?_c*((b-R0)**2):_a*log(b+_b)/log(2)+_g:b<0?R0:b<Pt?sqrt(b/_c)+R0:2**((b-_g)/_a)-_b
+  name XiaomiLog
+  xpos -40
+  ypos 110
+  addUserKnob {20 Params}
+  addUserKnob {7 R0}
+  R0 -0.09023729
+  addUserKnob {7 Rt}
+  Rt 0.01974185
+  addUserKnob {7 _a}
+  _a 0.09271529
+  addUserKnob {7 _b}
+  _b 0.01384578
+  addUserKnob {7 _g}
+  _g 0.6729185
+  addUserKnob {7 _c}
+  _c 18.10531998
+  addUserKnob {7 Pt}
+  Pt {{_c*((Rt-R0)**2)}}
+  addUserKnob {6 invert +STARTLINE}
+  invert {{!operation}}
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 158
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x272727ff
+  label "<left><pre>\n<b>Xiaomi Log</b>\n      Whitepaper available here: https://www.mi.com/global/product/aces/"
+  note_font Helvetica
+  note_font_size 14
+  note_font_color 0xa8a8a8ff
+  xpos 99
+  ypos 72
+ }
+end_group
