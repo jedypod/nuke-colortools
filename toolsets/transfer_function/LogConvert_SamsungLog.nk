@@ -1,0 +1,60 @@
+set cut_paste_input [stack 0]
+push $cut_paste_input
+Group {
+ name LogConvert_SamsungLog
+ addUserKnob {20 Params}
+ addUserKnob {4 operation M {log2lin lin2log}}
+ operation lin2log
+}
+ Input {
+  inputs 0
+  name Input
+  xpos -40
+  ypos 62
+ }
+ Expression {
+  expr0 invert?r<0?x0:r<yt?-pow(10,(r-y2)/a2)+b2:pow(10,(r-y1)/a1)-b1:r<x0?0:r<xt?a2*log10(b2-r)+y2:a1*log10(r+b1)+y1
+  expr1 invert?g<0?x0:g<yt?-pow(10,(g-y2)/a2)+b2:pow(10,(g-y1)/a1)-b1:g<x0?0:g<xt?a2*log10(b2-g)+y2:a1*log10(g+b1)+y1
+  expr2 invert?b<0?x0:b<yt?-pow(10,(b-y2)/a2)+b2:pow(10,(b-y1)/a1)-b1:b<x0?0:b<xt?a2*log10(b2-b)+y2:a1*log10(b+b1)+y1
+  name SamsungLog
+  xpos -40
+  ypos 111
+  addUserKnob {20 Params}
+  addUserKnob {7 x0 R 0 4}
+  x0 -0.05
+  addUserKnob {7 xt R 0 4}
+  xt 0.01
+  addUserKnob {7 a1 R 0 4}
+  a1 0.258984868
+  addUserKnob {7 b1 R 0 4}
+  b1 0.0003645
+  addUserKnob {7 y1 R 0 4}
+  y1 0.720504856
+  addUserKnob {7 a2 R 0 4}
+  a2 -0.20942
+  addUserKnob {7 b2 R 0 4}
+  b2 0.016904
+  addUserKnob {7 y2 R 0 4}
+  y2 -0.24597
+  addUserKnob {7 yt R 0 4}
+  yt 0.206561909
+  addUserKnob {6 invert +STARTLINE}
+  invert {{!operation}}
+ }
+ Output {
+  name Output
+  xpos -40
+  ypos 158
+ }
+ StickyNote {
+  inputs 0
+  name StickyNote1
+  tile_color 0x272727ff
+  label "<left><pre>\n<b>Samsung Log</b>\n      Whitepaper available here (behind registration wall) https://developer.samsung.com/mobile/samsung-log-video.html\n      https://www.desmos.com/calculator/buvy7krazo"
+  note_font Helvetica
+  note_font_size 14
+  note_font_color 0xa8a8a8ff
+  xpos 88
+  ypos 76
+ }
+end_group
