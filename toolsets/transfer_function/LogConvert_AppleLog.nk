@@ -24,6 +24,8 @@ Group {
  }
  Expression {
   expr0 invert?r>=P_t?2**((r-_d)/_g)-_b:r>=0?sqrt(r/_c)+R_0:R_0:r>=R_t?_g*log(r+_b)/log(2)+_d:r>=R_0?_c*(r-R_0)**2:0
+  expr1 invert?g>=P_t?2**((g-_d)/_g)-_b:g>=0?sqrt(g/_c)+R_0:R_0:g>=R_t?_g*log(g+_b)/log(2)+_d:g>=R_0?_c*(g-R_0)**2:0
+  expr2 invert?b>=P_t?2**((b-_d)/_g)-_b:b>=0?sqrt(b/_c)+R_0:R_0:b>=R_t?_g*log(b+_b)/log(2)+_d:b>=R_0?_c*(b-R_0)**2:0
   name AppleLog
   xpos -40
   ypos 110
@@ -41,7 +43,7 @@ Group {
   addUserKnob {7 _d R 0 4}
   _d 0.69336945
   addUserKnob {7 P_t R 0 4}
-  P_t {{"_c*(R_t - R_0)**2"}}
+  P_t {{_c*(R_t-R_0)**2}}
   addUserKnob {6 invert +STARTLINE}
   invert {{!operation}}
  }
