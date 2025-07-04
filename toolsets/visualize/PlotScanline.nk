@@ -2,64 +2,121 @@ set cut_paste_input [stack 0]
 push $cut_paste_input
 Group {
  name PlotScanline
- addUserKnob {20 Params}
- addUserKnob {41 vt l vertical T PlotScanline_.vt}
- addUserKnob {41 p l pos T PlotScanline_.p}
- addUserKnob {41 mx l max T PlotScanline_.mx}
- addUserKnob {41 mn l min T PlotScanline_.mn}
- addUserKnob {7 os l oversample t "antialias by scaling up then scaling down (slower)" R 1 2}
- os 1
+ addUserKnob {20 PlotScanline_tab l PlotScanline}
+ addUserKnob {6 overlay +STARTLINE}
+ overlay true
+ addUserKnob {6 vertical -STARTLINE}
+ addUserKnob {7 scanline R 0 2048}
+ scanline 5
+ addUserKnob {7 mx l "max value" R 1 10}
+ mx 1
+ addUserKnob {7 mn l "min value" R -0.2 0}
 }
  Input {
   inputs 0
   name Input
-  xpos 180
-  ypos 614
+  xpos -1556
+  ypos 809
  }
- Reformat {
-  type scale
-  scale {{os}}
-  filter notch
-  name ReformatUp
-   xpos 180
-  ypos 663
+set N29fe3770 [stack 0]
+ Dot {
+  name PlotScanlineIN
+  tile_color 0x666666ff
+  xpos -1522
+  ypos 852
  }
- Expression {
-  temp_name0 h
-  temp_expr0 height/(mx-mn)
-  expr0 vt?x==floor((r(p,y)-mn)*h)?1:0:y==floor((r(x,p)-mn)*h)?1:y==floor(h*-mn)&&!(x%12)?4:y==floor(h-h*mn)&&!(x%12)?4:0
-  expr1 vt?x==floor((g(p,y)-mn)*h)?1:0:y==floor((g(x,p)-mn)*h)?1:0
-  expr2 vt?x==floor((b(p,y)-mn)*h)?1:0:y==floor((b(x,p)-mn)*h)?1:0
-  name PlotScanline_
-   xpos 180
-  ypos 687
+set N3df1b820 [stack 0]
+ Crop {
+  box {{line} 0 {line+1} 1080}
+  reformat true
+  crop false
+  name Crop1
+  xpos -1459
+  ypos 880
   addUserKnob {20 Params}
-  addUserKnob {6 vt l vertical t "vertical scanline instead of horizontal" +STARTLINE}
-  addUserKnob {7 p l pos R 0 2048}
-  p 10
-  addUserKnob {7 mx l max R 1 4}
-  mx 1.05
-  addUserKnob {7 mn l min R -0.2 0}
-  mn -0.05
+  addUserKnob {3 line}
+  line {{parent.scanline}}
  }
  Reformat {
-  type scale
-  scale {{1/parent.ReformatUp.scale}}
-  filter notch
-  name ReformatDown
-   xpos 180
-  ypos 711
+  type "to box"
+  box_width {{PlotScanlineIN.width}}
+  box_height {{PlotScanlineIN.height}}
+  box_fixed true
+  box_pixel_aspect {{PlotScanlineIN.pixel_aspect}}
+  resize distort
+  name Reformat2
+  xpos -1459
+  ypos 922
  }
- Blur {
-  channels rgba
-  size {{1.6-(os-1)*1.6}}
-  name Blur1
-   xpos 180
-  ypos 735
+push $N3df1b820
+ Crop {
+  box {0 {line} {width} {line+1}}
+  reformat true
+  crop false
+  name Crop3
+  xpos -1556
+  ypos 882
+  addUserKnob {20 Params}
+  addUserKnob {3 line}
+  line {{parent.scanline}}
+ }
+ Reformat {
+  type "to box"
+  box_width {{PlotScanlineIN.width}}
+  box_height {{PlotScanlineIN.height}}
+  box_fixed true
+  box_pixel_aspect {{PlotScanlineIN.pixel_aspect}}
+  resize distort
+  name Reformat1
+  xpos -1556
+  ypos 923
+ }
+ Switch {
+  inputs 2
+  which {{parent.vertical}}
+  name SwitchVertical
+  xpos -1556
+  ypos 953
+ }
+ BlinkScript {
+  kernelSourceFile /work/dev/tool/nuke/jedsmith/blink/plot_scanline/PlotScanline.cpp
+  recompileCount 41
+  ProgramGroup 1
+  KernelDescription "3 \"PlotScanline\" iterate pixelWise 7d7e0a65f7751d06d14c49b452f42d0e578cb609f273186b0723d35382f2f764 2 \"in\" Read Point \"out\" Write Point 4 \"vertical\" Bool 1 AA== \"mx\" Float 1 AAAAAA== \"mn\" Float 1 AAAAAA== \"w0\" Float 1 AAAAAA== 4 \"vertical\" 1 1 Default \"mx\" 1 1 Default \"mn\" 1 1 Default \"w0\" 1 1 Default 0"
+  kernelSource "kernel PlotScanline : public ImageComputationKernel<ePixelWise>\n\{\n  // Image<eRead, eAccessPoint, eEdgeClamped> in;\n  Image<eRead, eAccessPoint, eEdgeClamped> in;\n  Image<eWrite, eAccessPoint> out;\n\n\n  param:\n    bool vertical;\n    float mx;\n    float mn;\n    float w0;\n\n  float scale(float x) \{ return in.bounds.height()*(x-mn)/(mx-mn); \}\n  \n  void process(int2 p) \{\n    float pos = float(vertical?p.x:p.y);\n    int2 res = int2(in.bounds.width(), in.bounds.height());\n    SampleType(in) sl = in();\n    float3 crv = float3(pos-scale(sl.x), pos-scale(sl.y), pos-scale(sl.z));\n    crv.x = exp(-crv.x*crv.x/(w0*2.0f));\n    crv.y = exp(-crv.y*crv.y/(w0*2.0f));\n    crv.z = exp(-crv.z*crv.z/(w0*2.0f));\n   \n    out() = float4(crv.x, crv.y, crv.z, 1.0f);\n  \}\n\};"
+  rebuild ""
+  PlotScanline_in rgb
+  PlotScanline_vertical {{parent.vertical}}
+  PlotScanline_mx {{parent.mx}}
+  PlotScanline_mn {{parent.mn}}
+  PlotScanline_w0 1
+  rebuild_finalise ""
+  name PlotScanline2
+  xpos -1556
+  ypos 985
+ }
+set N23cab870 [stack 0]
+push $N29fe3770
+ MergeExpression {
+  inputs 2
+  expr0 Br*(1-Ar)+Ar
+  expr1 Bg*(1-Ag)+Ag
+  expr2 Bb*(1-Ab)+Ab
+  name MergeExpression1
+  xpos -1457
+  ypos 1011
+ }
+push $N23cab870
+ Switch {
+  inputs 2
+  which {{parent.overlay}}
+  name SwitchOverlay
+  xpos -1556
+  ypos 1044
  }
  Output {
-  name Output
-  xpos 180
-  ypos 782
+  name Output1
+  xpos -1556
+  ypos 1081
  }
 end_group
