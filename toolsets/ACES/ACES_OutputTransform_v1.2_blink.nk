@@ -5,7 +5,7 @@ Group {
  tile_color 0xa57aaaff
  label Rec.709
  addUserKnob {20 ACES_OutputTransform_tab l "ACES OutputTransform"}
- addUserKnob {41 gamut l "input gamut" T InGamut_to_XYZ.gamut}
+ addUserKnob {41 gamut l "input gamut" T InGamut_to_AP0.gamut}
  addUserKnob {26 ""}
  addUserKnob {35 presets t "display output presets." M {display/sRGB "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 0 limiting_pri 0 eotf 0 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 1 legal_range 0 label \"sRGB\"\}" "display/sRGB D60 sim." "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 0 limiting_pri 0 eotf 0 stretch_black 0 d60_sim 1 force_d65_cat 0 dark_to_dim 1 legal_range 0 label \"sRGB D60 sim.\"\}" display/Rec.709 "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 0 limiting_pri 0 eotf 1 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 1 legal_range 0 label \"Rec.709\"\}" "display/Rec.709 D60 sim." "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 0 limiting_pri 0 eotf 1 stretch_black 0 d60_sim 1 force_d65_cat 0 dark_to_dim 1 legal_range 0 label \"Rec.709 D60 sim.\"\}" display/Rec.2020 "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 1 limiting_pri 1 eotf 1 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 1 legal_range 0 label \"Rec.2020\"\}" display/P3D60 "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 4 limiting_pri 4 eotf 4 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D60\"\}" display/P3D65 "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 2 limiting_pri 2 eotf 4 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D65\"\}" "display/P3D65 D60 sim." "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 2 limiting_pri 2 eotf 4 stretch_black 0 d60_sim 1 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D65 D60 sim.\"\}" display/P3DCI "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 3 limiting_pri 3 eotf 4 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3DCI\"\}" "display/P3DCI D60 sim." "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 3 limiting_pri 3 eotf 4 stretch_black 0 d60_sim 1 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3DCI D60 sim.\"\}" "display/P3DCI D65 sim." "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 3 limiting_pri 3 eotf 4 stretch_black 0 d60_sim 0 force_d65_cat 1 dark_to_dim 0 legal_range 0 label \"P3DCI D65 sim.\"\}" display/DCDM "knobs this \{lum \{0.02 4.8 48\} override_ssts_params 0 use_c9 1 display_pri 7 limiting_pri 7 eotf 5 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"DCDM\"\}" "display/P3D65 ST2084 108nits 7.2nits" "knobs this \{lum \{0.0001 7.2 108\} override_ssts_params 0 use_c9 0 display_pri 2 limiting_pri 2 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D65 ST2084 108nits 7.2nits\"\}" "display/P3D65 ST2084 1000nits 15nits" "knobs this \{lum \{0.0001 15 1000\} override_ssts_params 0 use_c9 0 display_pri 2 limiting_pri 2 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D65 ST2084 1000nits 15nits\"\}" "display/P3D65 ST2084 2000nits 15nits" "knobs this \{lum \{0.0001 15 2000\} override_ssts_params 0 use_c9 0 display_pri 2 limiting_pri 2 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D65 ST2084 2000nits 15nits\"\}" "display/P3D65 ST2084 2000nits 15nits" "knobs this \{lum \{0.0001 15 2000\} override_ssts_params 0 use_c9 0 display_pri 2 limiting_pri 2 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D65 ST2084 2000nits 15nits\"\}" "display/P3D65 ST2084 4000nits 15nits" "knobs this \{lum \{0.0001 15 4000\} override_ssts_params 0 use_c9 0 display_pri 2 limiting_pri 2 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"P3D65 ST2084 4000nits 15nits\"\}" display/Rec2020_HLG_1000nits_15nits "knobs this \{lum \{0.0001 15 1000\} override_ssts_params 0 use_c9 0 display_pri 1 limiting_pri 1 eotf 7 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"Rec2020_HLG_1000nits_15nits\"\}" display/Rec2020_ST2084_1000nits_15nits "knobs this \{lum \{0.0001 15 1000\} override_ssts_params 0 use_c9 0 display_pri 1 limiting_pri 1 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"Rec2020_ST2084_1000nits_15nits\"\}" display/Rec2020_ST2084_2000nits_15nits "knobs this \{lum \{0.0001 15 2000\} override_ssts_params 0 use_c9 0 display_pri 1 limiting_pri 1 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"Rec2020_ST2084_2000nits_15nits\"\}" display/Rec2020_ST2084_4000nits_15nits "knobs this \{lum \{0.0001 15 4000\} override_ssts_params 0 use_c9 0 display_pri 1 limiting_pri 1 eotf 6 stretch_black 1 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"Rec2020_ST2084_4000nits_15nits\"\}" display/OCES "knobs this \{lum \{0.0001 4.8 10000\} override_ssts_params 0 use_c9 0 display_pri 6 limiting_pri 6 eotf 9 stretch_black 0 d60_sim 0 force_d65_cat 0 dark_to_dim 0 legal_range 0 label \"OCES\"\}" "" ""}}
  addUserKnob {26 display_label l " " T "<b>Display Settings</b>"}
@@ -235,12 +235,12 @@ Group {
   ypos -1415
  }
  Group {
-  name InGamut_to_XYZ
+  name InGamut_to_AP0
   tile_color 0x429940ff
   xpos -1250
-  ypos -1389
+  ypos -1378
   addUserKnob {20 InputGamutn_to_XYZ_tab l InputGamutn_to_XYZ}
-  addUserKnob {4 gamut l "in gamut" M {ACES ACEScg P3D65 Rec.2020 Rec.709 "Arri WideGamut 3" "Arri WideGamut 4" "Red WideGamutRGB" "Sony SGamut3" "Filmlight E-Gamut" "Filmlight E-Gamut2" "DaVinci Wide Gamut"}}
+  addUserKnob {4 gamut l "in gamut" M {ACES ACEScg P3D65 Rec.2020 Rec.709 "Arri WideGamut 3" "Arri WideGamut 4" "Red WideGamutRGB" "Sony SGamut3" "Sony SGamut3.Cine" "Filmlight E-Gamut" "Filmlight E-Gamut2" "DaVinci Wide Gamut" ""}}
   gamut ACEScg
   addUserKnob {41 matrix T ColorMatrix.matrix}
   addUserKnob {41 invert -STARTLINE T ColorMatrix.invert}
@@ -256,13 +256,13 @@ Group {
    xpos 324
    ypos -534
   }
-set Nf544c700 [stack 0]
+ set Nd8c1df10 [stack 0]
   ColorMatrix {
    matrix {
-       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
-       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
-       {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
-     }
+        {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+        {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+        {{"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"} {"SwitchGamut.input\[value SwitchGamut.which].matrix"}}
+   }
    name ColorMatrix
    xpos 290
    ypos -370
@@ -272,176 +272,177 @@ set Nf544c700 [stack 0]
    xpos 290
    ypos -250
   }
-push $Nf544c700
+ push $Nd8c1df10
   Dot {
    name Dot391
-   label " *RGB to XYZ D65 CAT: XYZ Scaling"
-   xpos 434
+   label " *RGB to ACES 2065-1\n  CAT: CAT02"
+   xpos 441
    ypos -534
   }
-set Nf546b4d0 [stack 0]
+ set N2ae8fd40 [stack 0]
   ColorMatrix {
    matrix {
-       {0.7006223202 0.1487748027 0.101058729}
-       {0.2741184831 0.8736317754 -0.1477504224}
-       {-0.09896290302 -0.1378953159 1.325916052}
-     }
-   name ColorMatrix30
-   label "DaVinci WG to XYZ D65"
-   xpos 1610
-   ypos -473
+        {0.7482702903 0.1676946596 0.08403505017}
+        {0.02084212347 1.111904743 -0.1327468662}
+        {-0.09151225742 -0.1277467128 1.21925897}
+   }
+   name ColorMatrix15
+   label "DaVinci Wide Gamut to ACES AP0"
+   xpos 1727
+   ypos -479
   }
-push $Nf546b4d0
+ push $N2ae8fd40
   ColorMatrix {
    matrix {
-       {0.7364777002 0.1307396511 0.08323857578}
-       {0.2750699844 0.8280177902 -0.1030877746}
-       {-0.1242251542 -0.08715976739 1.300442672}
-     }
-   name ColorMatrix169
-   label "Filmlight E-Gamut2 to XYZ D65"
-   xpos 1500
-   ypos -472
+        {0.7867905159 0.1473061961 0.06590328798}
+        {0.002154678369 1.062853384 -0.06500806228}
+        {-0.1147531083 -0.08104354894 1.195796657}
+   }
+   name ColorMatrix14
+   label "Filmlight E-Gamut2 to ACES AP0"
+   xpos 1617
+   ypos -479
   }
-push $Nf546b4d0
+ push $N2ae8fd40
   ColorMatrix {
    matrix {
-       {0.705396831 0.1640413404 0.08101775497}
-       {0.2801307142 0.8202067018 -0.1003373787}
-       {-0.1037815139 -0.07290726155 1.265746593}
-     }
-   name ColorMatrix29
-   label "Filmlight E-Gamut to XYZ D65"
-   xpos 1390
-   ypos -472
+        {0.7534733146 0.1823817145 0.0641449709}
+        {0.02629202452 1.036981606 -0.06327363006}
+        {-0.09595064794 -0.06794183955 1.163892487}
+   }
+   name ColorMatrix13
+   label "Filmlight E-Gamut to ACES AP0"
+   xpos 1507
+   ypos -479
   }
-push $Nf546b4d0
+ push $N2ae8fd40
   ColorMatrix {
    matrix {
-       {0.5990839005 0.2489254922 0.1024464965}
-       {0.2150758207 0.8850684166 -0.1001443192}
-       {-0.03206584975 -0.02765838802 1.148782015}
-     }
-   name ColorMatrix31
-   label "SonySGamut3 to XYZ D65"
-   xpos 1280
-   ypos -472
+        {0.6742570921 0.2205717359 0.105171172}
+        {-0.009313606079 1.105958861 -0.09664525535}
+        {-0.0382090673 -0.0179383766 1.056147444}
+   }
+   name ColorMatrix12
+   label "Sony Venice SGamut3.Cine to ACES AP0"
+   xpos 1397
+   ypos -479
   }
-push $Nf546b4d0
+ push $N2ae8fd40
   ColorMatrix {
    matrix {
-       {0.735275209 0.06860940903 0.1465712786}
-       {0.2866940796 0.8429790735 -0.1296732426}
-       {-0.07968084514 -0.3473432064 1.516081929}
-     }
-   name ColorMatrix22
-   label "REDWideGamutRGB to XYZ D65"
-   xpos 1170
-   ypos -472
+        {0.7529825954 0.1433702162 0.1036471884}
+        {0.02170769744 1.015318836 -0.03702653295}
+        {-0.00941605275 0.003370417859 1.006045635}
+   }
+   name ColorMatrix11
+   label "Sony SGamut3 to ACES AP0"
+   xpos 1287
+   ypos -479
   }
-push $Nf546b4d0
+ push $N2ae8fd40
   ColorMatrix {
    matrix {
-       {0.7048583204 0.1297602952 0.1158373115}
-       {0.2545241764 0.7814777327 -0.03600190912}
-       {0 0 1.089057751}
-     }
-   name ColorMatrix170
-   label "Arri Wide Gamut 4 to XYZ D65"
-   xpos 1060
-   ypos -471
+        {0.7848688722 0.08576047452 0.1293706533}
+        {0.02270964412 1.09055684 -0.1132664841}
+        {-0.07380763606 -0.3202690623 1.394076698}
+   }
+   name ColorMatrix10
+   label "RED Wide Gamut RGB to ACES AP0"
+   xpos 1177
+   ypos -479
   }
-push $Nf546b4d0
+ push $N2ae8fd40
   ColorMatrix {
    matrix {
-       {0.6380076408 0.2147038132 0.09774445742}
-       {0.2919537723 0.8238408566 -0.1157948226}
-       {0.002798279049 -0.06703422219 1.153293848}
-     }
-   name ColorMatrix21
-   label "Arri AlexaWideGamut to XYZ D65"
-   xpos 950
-   ypos -472
+        {0.7509573628 0.1444227867 0.1046198505}
+        {0.0008218370794 1.007397585 -0.008219421964}
+        {-0.0004999521435 -0.0008541772314 1.001354129}
+   }
+   name ColorMatrix9
+   label "Arri Wide Gamut 4 to ACES AP0"
+   xpos 1067
+   ypos -479
   }
-push $Nf546b4d0
+ push $N2ae8fd40
   ColorMatrix {
    matrix {
-       {0.4123909175 0.3575843573 0.1804807931}
-       {0.2126390785 0.7151687145 0.07219231129}
-       {0.01933082566 0.1191947833 0.9505321383}
-     }
-   name ColorMatrix18
-   label "Rec709 to XYZ D65"
-   xpos 840
-   ypos -472
+        {0.6802055051 0.2361366016 0.08365789329}
+        {0.08541497974 1.017470879 -0.1028858583}
+        {0.002056521669 -0.06256250038 1.060505979}
+   }
+   name ColorMatrix8
+   label "Arri Wide Gamut to ACES AP0"
+   xpos 957
+   ypos -479
   }
-push $Nf546b4d0
+ push $N2ae8fd40
   ColorMatrix {
    matrix {
-       {0.6369581223 0.1446169168 0.1688809693}
-       {0.2627002299 0.6779981256 0.05930171534}
-       {4.99410725e-17 0.02807269618 1.060985088}
-     }
-   name ColorMatrix17
-   label "Rec2020 to XYZ D65"
-   xpos 730
-   ypos -472
+        {0.4395756842 0.3839125893 0.1765117265}
+        {0.08960038292 0.8147141542 0.09568546286}
+        {0.01741548273 0.1087343522 0.873850165}
+   }
+   name ColorMatrix7
+   label "Rec709 to ACES AP0"
+   xpos 847
+   ypos -479
   }
-push $Nf546b4d0
+ push $N2ae8fd40
   ColorMatrix {
    matrix {
-       {0.4865711331 0.2656677067 0.1982173175}
-       {0.2289746404 0.6917386055 0.07928691804}
-       {-3.972076965e-17 0.04511338845 1.043944478}
-     }
-   name ColorMatrix16
-   label "P3D65 to XYZ D65"
-   xpos 620
-   ypos -472
+        {0.6788911506 0.1588684224 0.162240427}
+        {0.04557083092 0.860712772 0.09371639704}
+        {-0.0004857103518 0.02506019574 0.9754255146}
+   }
+   name ColorMatrix6
+   label "Rec2020 to ACES AP0"
+   xpos 737
+   ypos -479
   }
-push $Nf546b4d0
+ push $N2ae8fd40
   ColorMatrix {
    matrix {
-       {0.6609312296 0.1336961389 0.1558285803}
-       {0.2722287476 0.6740817428 0.05368950963}
-       {-0.006018006243 0.004383686464 1.090692043}
-     }
-   name ColorMatrix1
-   label "ACEScg to XYZ D65"
-   xpos 510
-   ypos -472
+        {0.5188414631 0.2873003677 0.1938581693}
+        {0.07361168406 0.8212994982 0.1050888178}
+        {-0.0004003915627 0.04067382483 0.9597265667}
+   }
+   name ColorMatrix5
+   label "P3D65 to ACES AP0"
+   xpos 627
+   ypos -479
   }
-push $Nf546b4d0
+ push $N2ae8fd40
   ColorMatrix {
    matrix {
-       {0.9503623843 0 9.346324805e-05}
-       {0.3439664543 0.728166163 -0.07213254273}
-       {0 0 1.089057803}
-     }
+        {0.6954522414 0.1406786965 0.1638690622}
+        {0.04479456337 0.8596711185 0.09553431817}
+        {-0.005525882558 0.004025210306 1.001500672}
+   }
+   name ColorMatrix4
+   label "ACES AP1 to ACES AP0"
+   xpos 517
+   ypos -479
+  }
+ push $N2ae8fd40
+  ColorMatrix {
+   matrix {
+        {1 0 0}
+        {0 1 0}
+        {0 0 1}
+   }
    name ColorMatrix2
-   label "ACES to XYZ D65"
-   xpos 400
-   ypos -472
+   label "ACES AP0 to ACES AP0"
+   xpos 407
+   ypos -480
   }
   Switch {
-   inputs 12
+   inputs 13
    which {{gamut}}
    name SwitchGamut
-   xpos 400
-   ypos -370
+   xpos 407
+   ypos -368
   }
  end_group
- ColorMatrix {
-  matrix {
-      {1.062366107 0.008406953654 -0.01665578963}
-      {-0.4939413716 1.371109525 0.09031658697}
-      {-0.0003346685774 -0.001037458272 0.9194696473}
-    }
-  name ColorMatrix13
-  label "XYZ D65 to ACES AP0"
-  xpos -1250
-  ypos -1346
- }
  Dot {
   name Dot7
   label " ACES 2065-1 IN"
